@@ -28,16 +28,16 @@ case "$1" in
     "compile")
         compile
         exit
-        ;;
+    ;;
     "compileTests")
         compileTests
         exit
-        ;;
+    ;;
     "runTests"| "test")
         compileTests
         runTests
         exit
-        ;;
+    ;;
     *)
-    compile && run
+        compile && run
 esac
