@@ -8,12 +8,6 @@ public class LabyrinthModel1D implements InterfaceLabyrinthModel {
     private int start; // The index of the entrance
     private int end; // The index of the exit
 
-    public LabyrinthModel1D(boolean[] board, int start, int end) {
-        this.board = board;
-        this.start = start;
-        this.end = end;
-    }
-
     public LabyrinthModel1D(int length) {
         initBoard(length);
         start = 0;
