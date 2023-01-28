@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth;
 
-public interface InterfaceLabyrinthView {
+public interface LabyrinthView {
 
     void update();
 
