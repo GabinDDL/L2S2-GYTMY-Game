@@ -2,16 +2,27 @@ package com.gytmy.labyrinth;
 
 import java.util.Arrays;
 
+/* 
+    Class representing the Model of a 1-Dimensional Labyrinth
+
+    An array of dimension 1 containing booleans is used to reprensent it
+    because it can be considered the same as a segmentend segment
+ */
 public class LabyrinthModel1D implements InterfaceLabyrinthModel {
 
     private boolean[] board; // 1D Board is represented by a segment
-    private int start; // The index of the entrance
-    private int end; // The index of the exit
 
-    public LabyrinthModel1D(int length) {
+    /**
+     * @param length of the 1D Labyrinth
+     * @throws IllegalArgumentException
+     */
+    public LabyrinthModel1D(int length) throws IllegalArgumentException {
+
+        if (length <= 0) {
+            throw new IllegalArgumentException("Cannot initialize a labyrinth of size <= 0");
+        }
+
         initBoard(length);
-        start = 0;
-        end = length - 1;
     }
 
     /**
@@ -20,7 +31,7 @@ public class LabyrinthModel1D implements InterfaceLabyrinthModel {
      * 
      * @param length of the labyrinth
      */
-    public void initBoard(int length) {
+    private void initBoard(int length) {
         board = new boolean[length];
         Arrays.fill(board, true);
     }
