@@ -22,7 +22,7 @@ public class LabyrinthModel1D implements InterfaceLabyrinthModel {
 
     /**
      * Initializes the 1-Dimensional board with the given length
-     * by filling with `true` as it is a line without walls
+     * by filling it with `true` as it is a line without walls
      * 
      * @param length of the labyrinth
      */
