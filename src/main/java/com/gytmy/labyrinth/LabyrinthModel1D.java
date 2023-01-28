@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth;
 
-public class LabyrinthModel1D implements LabyrinthModel {
+public class LabyrinthModel1D implements InterfaceLabyrinthModel {
 
     @Override
     public boolean[] getBoard() {

@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth;
 
-public interface LabyrinthModel {
+public interface InterfaceLabyrinthModel {
 
     Object getBoard();
 
