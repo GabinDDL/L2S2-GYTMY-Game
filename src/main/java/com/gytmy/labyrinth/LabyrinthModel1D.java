@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class LabyrinthModel1D implements InterfaceLabyrinthModel {
 
-    private boolean board[]; // 1D Board is represented by a segment
+    private boolean[] board; // 1D Board is represented by a segment
     private int start; // The index of the entrance
     private int end; // The index of the exit
 
