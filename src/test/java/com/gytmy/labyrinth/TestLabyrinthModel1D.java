@@ -1,8 +1,10 @@
 package com.gytmy.labyrinth;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
@@ -16,11 +18,11 @@ public class TestLabyrinthModel1D {
         // Test labyrinth invalid length exceptions
 
         Exception exceptionZero = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModel1D(0));
+                () -> new LabyrinthModel1D(0, null));
         assertEquals("Cannot initialize a labyrinth of size <= 0", exceptionZero.getMessage());
 
         Exception exceptionNegative = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModel1D(-1));
+                () -> new LabyrinthModel1D(-1, null));
         assertEquals("Cannot initialize a labyrinth of size <= 0", exceptionNegative.getMessage());
 
     }
@@ -41,9 +43,49 @@ public class TestLabyrinthModel1D {
      * @param length must be >= 1
      */
     private void assertValidBoard(int length) {
-        LabyrinthModel1D laby = new LabyrinthModel1D(length);
-        boolean[] arr = new boolean[length];
-        Arrays.fill(arr, true);
+
+        LabyrinthModel1D laby = new LabyrinthModel1D(length, null);
+
+        boolean[][] arr = new boolean[3][length];
+
+        for (int line = 0; line < arr.length; line++) {
+            // The borders
+            if (line != 0 && line != arr.length - 1) {
+                Arrays.fill(arr[line], true);
+            } else
+                Arrays.fill(arr[line], false); // The walkable path
+        }
+
         assertArrayEquals(laby.getBoard(), arr);
     }
+
+    @Test
+    void testIsPlayerAtExit() {
+
+        assertIsPlayerAtExit(1);
+        assertIsPlayerAtExit(50);
+        assertIsPlayerAtExit(100);
+
+    }
+
+    /**
+     * Asserts if the function {@link LabyrinthModel1D#isPlayerAtExit(Player)}
+     * works well for a labyrinth of the given length according to
+     * the definition
+     * 
+     * @param labyrinthLength must be >= 1
+     */
+    private void assertIsPlayerAtExit(int labyrinthLength) {
+        LabyrinthModel1D laby = new LabyrinthModel1D(labyrinthLength, null);
+
+        for (int position = 0; position < labyrinthLength; position++) {
+            Player p = new Player1D(position);
+
+            if (position == labyrinthLength - 1) {
+                assertTrue(laby.isPlayerAtExit(p));
+            } else
+                assertFalse(laby.isPlayerAtExit(p));
+        }
+    }
+
 }
