@@ -68,6 +68,7 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testIsMoveValid() {
+        // TODO: Split into multiple sub-tests
         // Multi-Cell Labyrinth
         LabyrinthModel1D labyLong = new LabyrinthModel1D(20, null);
         // 1st cell
@@ -103,6 +104,7 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testMovePlayer() {
+        // TODO: Split into multiple sub-tests
         // Single Cell Labyrinth
         LabyrinthModel1D labyShort = new LabyrinthModel1D(2, null);
 
@@ -195,7 +197,7 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testIsGameOver() {
-
+        // TODO: Split into multiple sub-tests
         LabyrinthModel1D labyNoPlayers = new LabyrinthModel1D(5, null);
         assertFalse(labyNoPlayers.isGameOver());
 
