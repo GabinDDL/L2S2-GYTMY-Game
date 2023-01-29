@@ -91,7 +91,7 @@ public class TestLabyrinthModel1D {
     void testIsGameOver() {
 
         LabyrinthModel1D labyNoPlayers = new LabyrinthModel1D(5, null);
-        assertEquals(false, labyNoPlayers.isGameOver());
+        assertFalse(labyNoPlayers.isGameOver());
 
         Player a = new Player1D(4);
         Player b = new Player1D(4);
