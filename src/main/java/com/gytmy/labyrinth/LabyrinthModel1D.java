@@ -5,30 +5,39 @@ import java.util.Arrays;
 /* 
     Class representing the Model of a 1-Dimensional Labyrinth
 
-    An array of dimension 2 containing booleans is used to reprensent it.
+    The Labyrinth is associated with an array of players.
+
+    A Labyrinth of dimension 1 is reprensented as a segment
+    without obstacles by using a 2-dimensional array of booleans,
+    of height 3 and length length.
+     
+    true reprensents a walkable path
+    false represents a wall
    
-    As it can be considered as a segment without obstacles,
-    we implement it as a 2D Array of booleans of height 3
+    Remark: 
+    We implement it as a 2D Array of booleans of height 3
     where the first and last line are filled with false 
-    to represent the borders and the middle line is filled with true
-    to represent a walkable path
+    to represent the borders (which are walls) and 
+    the middle line is filled with true to represent a walkable path
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
     private boolean[][] board;
-    private Player[] players; // list of players
+    private Player[] players; // array of players
 
     /**
      * @param length of the 1D Labyrinth
      * @throws IllegalArgumentException
      */
-    public LabyrinthModel1D(int length) throws IllegalArgumentException {
+    public LabyrinthModel1D(int length, Player[] players)
+            throws IllegalArgumentException {
 
         if (length <= 0) {
             throw new IllegalArgumentException(
                     "Cannot initialize a labyrinth of size <= 0");
         }
 
+        this.players = players;
         initBoard(length);
     }
 
