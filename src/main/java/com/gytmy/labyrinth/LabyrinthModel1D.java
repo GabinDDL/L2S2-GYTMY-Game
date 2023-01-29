@@ -76,30 +76,6 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         return result;
     }
 
-    // TODO: Unnecessary with the new definition, marked for deletion.
-    /**
-     * Checks if the given player will end up outside of the labyrinth
-     * if he makes the move with the given direction
-     * 
-     * Here the board is represented as a horizontal segment
-     * so it is possible to move horizontally
-     * but moving vertically isn't because there are borders which are walls
-     * 
-     * @param player
-     * @param direction
-     * @return true if
-     */
-    private boolean isGoingOutside(Player player, Direction direction) {
-        switch (direction) {
-            case LEFT:
-                return player.getCoordinates()[0] <= 0;
-            case RIGHT:
-                return player.getCoordinates()[0] >= board[0].length - 1;
-            default:
-                return false;
-        }
-    }
-
     /**
      * @param position
      * @return true if there is a wall on position;
@@ -136,8 +112,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
     @Override
     public boolean isMoveValid(Player player, Direction direction) {
-        return !isGoingOutside(player, direction) &&
-                !isGoingIntoWall(player, direction);
+        return !isGoingIntoWall(player, direction);
     }
 
     @Override
