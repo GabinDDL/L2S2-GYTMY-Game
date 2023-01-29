@@ -2,8 +2,8 @@ package com.gytmy.labyrinth;
 
 public enum Direction {
 
-    UP(1),
-    DOWN(-1),
+    UP(-1),
+    DOWN(1),
     LEFT(-1),
     RIGHT(1);
 
