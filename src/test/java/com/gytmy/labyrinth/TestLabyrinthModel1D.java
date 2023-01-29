@@ -85,7 +85,31 @@ public class TestLabyrinthModel1D {
                 assertTrue(laby.isPlayerAtExit(p));
             } else
                 assertFalse(laby.isPlayerAtExit(p));
+
         }
+    }
+
+    @Test
+    void testIsGameOver() {
+
+        LabyrinthModel1D labyNoPlayers = new LabyrinthModel1D(5, null);
+        assertEquals(false, labyNoPlayers.isGameOver());
+
+        Player a = new Player1D(4);
+        Player b = new Player1D(4);
+        Player c = new Player1D(4);
+
+        Player[] arrPlayersA = { a, b, c };
+        LabyrinthModel1D labyPlayersA = new LabyrinthModel1D(5, arrPlayersA);
+        assertTrue(labyPlayersA.isGameOver());
+
+        Player d = new Player1D(2);
+        Player e = new Player1D(0);
+        Player f = new Player1D(4);
+
+        Player[] arrPlayersB = { d, e, f };
+        LabyrinthModel1D labyPlayersB = new LabyrinthModel1D(5, arrPlayersB);
+        assertFalse(labyPlayersB.isGameOver());
     }
 
 }
