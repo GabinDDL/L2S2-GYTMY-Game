@@ -3,10 +3,11 @@ package com.gytmy.labyrinth;
 import java.util.Arrays;
 
 /* 
+    TODO: 1D IS 2D IN REALITY
     Class representing the Model of a 1-Dimensional Labyrinth
 
     An array of dimension 1 containing booleans is used to reprensent it
-    because it can be considered the same as a segmentend segment
+    because it can be considered the same as a segmentend horizontal segment
  */
 public class LabyrinthModel1D implements LabyrinthModel {
 
@@ -42,10 +43,15 @@ public class LabyrinthModel1D implements LabyrinthModel {
         return board;
     }
 
-    // TODO: Adapt the functions by using the walls" booleans instead of using
-    // coordinates
-    @Override
-    public boolean isMoveValid(Player player, Direction direction) {
+    /**
+     * Checks if the given player will end up outside of the labyrinth
+     * if he makes the move with the given direction
+     * 
+     * @param player
+     * @param direction
+     * @return true i
+     */
+    private boolean isGoingOutside(Player player, Direction direction) {
         switch (direction) {
             case LEFT:
                 return player.getCoordinates()[0] > 0;
@@ -54,6 +60,38 @@ public class LabyrinthModel1D implements LabyrinthModel {
             default:
                 return false;
         }
+    }
+
+    /**
+     * Checks if the given player will end up in a wall
+     * if he makes the move with the given direction
+     * 
+     * Here the board is represented as a horizontal segment
+     * so the only moves available are LEFT and RIGHT
+     * 
+     * @param player
+     * @param direction
+     * @return true
+     */
+    private boolean isGoingIntoWall(Player player, Direction direction) {
+        int position = player.getCoordinates()[0];
+
+        switch (direction) {
+            case LEFT:
+            case RIGHT:
+                return board[position + direction.getStep()];
+            default:
+                return true;
+        }
+    }
+
+    // TODO: Adapt the functions by using the walls" booleans instead of using
+    // coordinates
+    @Override
+    public boolean isMoveValid(Player player, Direction direction) {
+        if (isGoingOutside(player, direction))
+            return false;
+
     }
 
     @Override
