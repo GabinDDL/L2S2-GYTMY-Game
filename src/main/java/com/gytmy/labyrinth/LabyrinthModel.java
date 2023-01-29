@@ -18,12 +18,14 @@ public interface LabyrinthModel {
      * Checks if the given move is valid for the given player
      * depending on its position on the board
      * 
+     * The criteria:
      * A move is valid when the future position of the player,
-     * after the move, won't be a wall or outside the limits of the board
+     * after the move, won't be outside of the board
+     * and won't be a wall
      * 
      * @param player
      * @param direction of the move
-     * @return true if the criteria are met;
+     * @return true if the move is valid according to the criteria;
      *         false otherwise
      */
     boolean isMoveValid(Player player, Direction direction);
@@ -46,9 +48,9 @@ public interface LabyrinthModel {
     boolean isPlayerAtExit(Player player);
 
     /**
-     * Checks if all the players have made it to the exit
+     * Checks if the game is over
      * 
-     * @return true if all the players are at the exit;
+     * @return true if the game has ended;
      *         false otherwise
      */
     boolean isGameOver();
