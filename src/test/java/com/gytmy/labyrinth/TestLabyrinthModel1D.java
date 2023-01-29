@@ -19,18 +19,22 @@ public class TestLabyrinthModel1D {
 
         Exception exceptionZero = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModel1D(0, null));
-        assertEquals("Cannot initialize a labyrinth of size <= 0", exceptionZero.getMessage());
+        assertEquals("Cannot initialize a labyrinth of size <= 1", exceptionZero.getMessage());
+
+        Exception exceptionOne = assertThrows(IllegalArgumentException.class,
+                () -> new LabyrinthModel1D(1, null));
+        assertEquals("Cannot initialize a labyrinth of size <= 1", exceptionOne.getMessage());
 
         Exception exceptionNegative = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModel1D(-1, null));
-        assertEquals("Cannot initialize a labyrinth of size <= 0", exceptionNegative.getMessage());
+        assertEquals("Cannot initialize a labyrinth of size <= 1", exceptionNegative.getMessage());
 
     }
 
     @Test
     void testConstructorValidLength() {
 
-        assertValidBoard(1);
+        assertValidBoard(2);
         assertValidBoard(50);
         assertValidBoard(100);
 
@@ -46,14 +50,17 @@ public class TestLabyrinthModel1D {
 
         LabyrinthModel1D laby = new LabyrinthModel1D(length, null);
 
-        boolean[][] arr = new boolean[3][length];
+        // Do not forget the left and right borders
+        boolean[][] arr = new boolean[3][length + 2];
 
         for (int line = 0; line < arr.length; line++) {
-            // The borders
-            if (line != 0 && line != arr.length - 1) {
+            // The walkable path with the first and last cells being walls
+            if (line == 1) {
                 Arrays.fill(arr[line], true);
+                arr[line][0] = false;
+                arr[line][arr.length - 1] = false;
             } else
-                Arrays.fill(arr[line], false); // The walkable path
+                Arrays.fill(arr[line], false); // Top and Bottom walls
         }
 
         assertArrayEquals(laby.getBoard(), arr);

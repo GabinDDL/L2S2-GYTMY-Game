@@ -9,7 +9,7 @@ import java.util.Arrays;
 
     A Labyrinth of dimension 1 is reprensented as a segment
     without obstacles by using a 2-dimensional array of booleans,
-    of height 3 and length length.
+    of height 3 and length length + 2 (walls for the leftmost and rightmost cells).
      
     true reprensents a walkable path
     false represents a wall
@@ -17,8 +17,9 @@ import java.util.Arrays;
     Remark: 
     We implement it as a 2D Array of booleans of height 3
     where the first and last line are filled with false 
-    to represent the borders (which are walls) and 
-    the middle line is filled with true to represent a walkable path
+    to represent the top and bottom borders (which are walls) and 
+    the middle line is filled with true except in the first and last cells
+    to represent a walkable path
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
@@ -32,9 +33,9 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     public LabyrinthModel1D(int length, Player[] players)
             throws IllegalArgumentException {
 
-        if (length <= 0) {
+        if (length <= 1) {
             throw new IllegalArgumentException(
-                    "Cannot initialize a labyrinth of size <= 0");
+                    "Cannot initialize a labyrinth of size <= 1");
         }
 
         this.players = players;
@@ -47,14 +48,17 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      * @param length of the labyrinth
      */
     private void initBoard(int length) {
-        board = new boolean[3][length];
+        // Do not forget the left and right borders
+        board = new boolean[3][length + 2];
 
         for (int line = 0; line < board.length; line++) {
-            // The borders
-            if (line != 0 && line != board.length - 1) {
+            // The walkable path with the first and last cells being walls
+            if (line == 1) {
                 Arrays.fill(board[line], true);
+                board[line][0] = false;
+                board[line][board.length - 1] = false;
             } else
-                Arrays.fill(board[line], false); // The walkable path
+                Arrays.fill(board[line], false); // Top and Bottom walls
         }
     }
 
@@ -72,6 +76,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         return result;
     }
 
+    // TODO: Unnecessary with the new definition, marked for deletion.
     /**
      * Checks if the given player will end up outside of the labyrinth
      * if he makes the move with the given direction
@@ -96,6 +101,15 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     }
 
     /**
+     * @param position
+     * @return true if there is a wall on position;
+     *         false otherwise
+     */
+    public boolean isWall(int position) {
+        return !board[1][position];
+    }
+
+    /**
      * Checks if the given player will end up in a wall
      * if he makes the move with the given direction
      * 
@@ -114,7 +128,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         switch (direction) {
             case LEFT:
             case RIGHT:
-                return !board[1][newPosition];
+                return isWall(newPosition);
             default:
                 return true;
         }
@@ -137,7 +151,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     @Override
     public boolean isPlayerAtExit(Player player) {
         int position = player.getCoordinates()[0];
-        return position == getBoard()[1].length - 1;
+        return position == getBoard()[1].length - 2;
     }
 
     /*
@@ -147,6 +161,8 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      * 
      * Here, the game is considered over when
      * all the players have made it to the exit
+     * 
+     * May be modified to fit the definition of a game
      */
     @Override
     public boolean isGameOver() {
