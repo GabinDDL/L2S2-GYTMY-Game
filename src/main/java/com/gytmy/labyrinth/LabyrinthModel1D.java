@@ -149,6 +149,10 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      */
     @Override
     public boolean isGameOver() {
+        if (players == null) {
+            return false;
+        }
+
         for (Player player : players) {
             if (!isPlayerAtExit(player))
                 return false;
