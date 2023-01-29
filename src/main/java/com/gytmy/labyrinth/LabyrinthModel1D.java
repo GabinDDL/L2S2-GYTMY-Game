@@ -56,7 +56,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
             if (line == 1) {
                 Arrays.fill(board[line], true);
                 board[line][0] = false;
-                board[line][board.length - 1] = false;
+                board[line][board[1].length - 1] = false;
             } else
                 Arrays.fill(board[line], false); // Top and Bottom walls
         }
@@ -77,12 +77,13 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     }
 
     /**
-     * @param position
-     * @return true if there is a wall on position;
+     * @param x
+     * @param y
+     * @return true if there is a wall at the given coordinates;
      *         false otherwise
      */
-    public boolean isWall(int position) {
-        return !board[1][position];
+    public boolean isWall(int x, int y) {
+        return !board[y][x];
     }
 
     /**
@@ -98,16 +99,23 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      * @return true if newPosition is a wall;
      *         false otherwise
      */
-    private boolean isGoingIntoWall(Player player, Direction direction) {
-        int newPosition = player.getCoordinates()[0] + direction.getStep();
-
+    private boolean isGoingIntoWall(Player player, Direction direction)
+            throws IllegalArgumentException {
+        int newX = player.getX();
+        int newY = player.getY();
         switch (direction) {
+            case UP:
+            case DOWN:
+                newY = player.getY() + direction.getStep();
+                break;
             case LEFT:
             case RIGHT:
-                return isWall(newPosition);
+                newX = player.getX() + direction.getStep();
+                break;
             default:
-                return true;
+                throw new IllegalArgumentException("Direction " + direction + " is not supported");
         }
+        return isWall(newX, newY);
     }
 
     @Override
@@ -126,7 +134,8 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     @Override
     public boolean isPlayerAtExit(Player player) {
         int position = player.getCoordinates()[0];
-        return position == getBoard()[1].length - 2;
+        int labyrinthLength = getBoard()[1].length - 2;
+        return position == labyrinthLength;
     }
 
     /*
