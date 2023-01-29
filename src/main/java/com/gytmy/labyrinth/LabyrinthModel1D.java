@@ -89,7 +89,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
             case LEFT:
                 return player.getCoordinates()[0] <= 0;
             case RIGHT:
-                return player.getCoordinates()[0] >= board.length - 1;
+                return player.getCoordinates()[0] >= board[0].length - 1;
             default:
                 return false;
         }
@@ -105,7 +105,8 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      * 
      * @param player
      * @param direction
-     * @return true
+     * @return true if newPosition is a wall;
+     *         false otherwise
      */
     private boolean isGoingIntoWall(Player player, Direction direction) {
         int newPosition = player.getCoordinates()[0] + direction.getStep();
@@ -113,7 +114,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         switch (direction) {
             case LEFT:
             case RIGHT:
-                return board[1][newPosition];
+                return !board[1][newPosition];
             default:
                 return true;
         }
