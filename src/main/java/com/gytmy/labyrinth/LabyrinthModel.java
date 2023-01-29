@@ -3,12 +3,7 @@ package com.gytmy.labyrinth;
 public interface LabyrinthModel {
 
     /**
-     * Gets the board representing the Labyrinth,
-     * If the board is 2-Dimensional, it returns a 2D Array of booleans
-     * If the board is 1-Dimensional, it returns a 1D Array of booleans
-     * 
-     * true reprensents a walkable path
-     * false represents a wall
+     * Gets the copy of the board representing the Labyrinth,
      * 
      * @return the Board according to its Dimension
      */
