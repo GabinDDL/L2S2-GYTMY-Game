@@ -43,8 +43,6 @@ public interface LabyrinthModel {
     boolean isPlayerAtExit(Player player);
 
     /**
-     * Checks if the game is over
-     * 
      * @return true if the game has ended;
      *         false otherwise
      */
