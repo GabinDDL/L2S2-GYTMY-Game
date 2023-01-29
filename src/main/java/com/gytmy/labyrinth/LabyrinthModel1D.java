@@ -3,15 +3,19 @@ package com.gytmy.labyrinth;
 import java.util.Arrays;
 
 /* 
-    TODO: 1D IS 2D IN REALITY
     Class representing the Model of a 1-Dimensional Labyrinth
 
-    An array of dimension 1 containing booleans is used to reprensent it
-    because it can be considered the same as a segmentend horizontal segment
+    An array of dimension 2 containing booleans is used to reprensent it.
+   
+    As it can be considered as a segment without obstacles,
+    we implement it as a 2D Array of booleans of height 3
+    where the first and last line are filled with false 
+    to represent the borders and the middle line is filled with true
+    to represent a walkable path
  */
-public class LabyrinthModel1D implements LabyrinthModel {
+public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
-    private boolean[] board; // 1D Board is represented by a segment
+    private boolean[][] board;
     private Player[] players; // list of players
 
     /**
@@ -21,42 +25,62 @@ public class LabyrinthModel1D implements LabyrinthModel {
     public LabyrinthModel1D(int length) throws IllegalArgumentException {
 
         if (length <= 0) {
-            throw new IllegalArgumentException("Cannot initialize a labyrinth of size <= 0");
+            throw new IllegalArgumentException(
+                    "Cannot initialize a labyrinth of size <= 0");
         }
 
         initBoard(length);
     }
 
     /**
-     * Initializes the 1-Dimensional board with the given length
-     * by filling it with `true` as it is a line without walls
+     * Initializes the 1-Dimensional labyrinth of the given length
      * 
      * @param length of the labyrinth
      */
     private void initBoard(int length) {
-        board = new boolean[length];
-        Arrays.fill(board, true);
+        board = new boolean[3][length];
+
+        for (int line = 0; line < board.length; line++) {
+            // The borders
+            if (line != 0 && line != board.length - 1) {
+                Arrays.fill(board[line], true);
+            } else
+                Arrays.fill(board[line], false); // The walkable path
+        }
     }
 
     @Override
-    public boolean[] getBoard() {
-        return board;
+    public boolean[][] getBoard() {
+        if (board == null) {
+            return null;
+        }
+
+        boolean[][] result = new boolean[board.length][];
+        for (int i = 0; i < board.length; i++) {
+            result[i] = Arrays.copyOf(board[i], board[i].length);
+        }
+
+        return result;
     }
 
     /**
      * Checks if the given player will end up outside of the labyrinth
      * if he makes the move with the given direction
      * 
+     * Here the board is represented as a horizontal segment
+     * so it is possible to move horizontally
+     * but moving vertically isn't because there are borders which are walls
+     * 
      * @param player
      * @param direction
-     * @return true i
+     * @return true if
      */
     private boolean isGoingOutside(Player player, Direction direction) {
         switch (direction) {
             case LEFT:
-                return player.getCoordinates()[0] > 0;
+                return player.getCoordinates()[0] <= 0;
             case RIGHT:
-                return player.getCoordinates()[0] < board.length - 1;
+                return player.getCoordinates()[0] >= board.length - 1;
             default:
                 return false;
         }
@@ -67,31 +91,29 @@ public class LabyrinthModel1D implements LabyrinthModel {
      * if he makes the move with the given direction
      * 
      * Here the board is represented as a horizontal segment
-     * so the only moves available are LEFT and RIGHT
+     * so it is possible to move horizontally
+     * but moving vertically isn't because there are borders which are walls
      * 
      * @param player
      * @param direction
      * @return true
      */
     private boolean isGoingIntoWall(Player player, Direction direction) {
-        int position = player.getCoordinates()[0];
+        int newPosition = player.getCoordinates()[0] + direction.getStep();
 
         switch (direction) {
             case LEFT:
             case RIGHT:
-                return board[position + direction.getStep()];
+                return board[1][newPosition];
             default:
                 return true;
         }
     }
 
-    // TODO: Adapt the functions by using the walls" booleans instead of using
-    // coordinates
     @Override
     public boolean isMoveValid(Player player, Direction direction) {
-        if (isGoingOutside(player, direction))
-            return false;
-
+        return !isGoingOutside(player, direction) &&
+                !isGoingIntoWall(player, direction);
     }
 
     @Override
@@ -105,9 +127,17 @@ public class LabyrinthModel1D implements LabyrinthModel {
     @Override
     public boolean isPlayerAtExit(Player player) {
         int position = player.getCoordinates()[0];
-        return position == getBoard().length - 1;
+        return position == getBoard()[1].length - 1;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gytmy.labyrinth.LabyrinthModel#isGameOver()
+     * 
+     * Here, the game is considered over when
+     * all the players have made it to the exit
+     */
     @Override
     public boolean isGameOver() {
         for (Player player : players) {
