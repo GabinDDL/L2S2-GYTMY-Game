@@ -61,26 +61,110 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testIsMoveValid() {
-
+        // Single Cell Labyrinth
         LabyrinthModel1D labyShort = new LabyrinthModel1D(1, null);
-        Player1D playerA = new Player1D(0);
-
+        Player1D playerA = new Player1D(0); // Only position available
+        assertUpDownIsMoveValidFalse(labyShort, playerA);
         assertFalse(labyShort.isMoveValid(playerA, Direction.LEFT));
         assertFalse(labyShort.isMoveValid(playerA, Direction.RIGHT));
 
+        // Multi-Cell Labyrinth
         LabyrinthModel1D labyLong = new LabyrinthModel1D(20, null);
-
+        // 1st cell
         Player1D playerB = new Player1D(0);
+        assertUpDownIsMoveValidFalse(labyShort, playerB);
         assertFalse(labyLong.isMoveValid(playerB, Direction.LEFT));
         assertTrue(labyLong.isMoveValid(playerB, Direction.RIGHT));
 
+        // Last cell
         Player1D playerC = new Player1D(19);
+        assertUpDownIsMoveValidFalse(labyShort, playerC);
         assertTrue(labyLong.isMoveValid(playerC, Direction.LEFT));
         assertFalse(labyLong.isMoveValid(playerC, Direction.RIGHT));
 
-        Player1D playerD = new Player1D(15);
+        // Mid cells
+        Player1D playerD = new Player1D(10);
+        assertUpDownIsMoveValidFalse(labyShort, playerD);
         assertTrue(labyLong.isMoveValid(playerD, Direction.LEFT));
         assertTrue(labyLong.isMoveValid(playerD, Direction.RIGHT));
+    }
+
+    /**
+     * Asserts that the given player cannot move UP or DOWN
+     * in the given labyrinth
+     * 
+     * @param labyrinth
+     * @param player
+     */
+    private void assertUpDownIsMoveValidFalse(LabyrinthModel1D labyrinth, Player player) {
+        assertFalse(labyrinth.isMoveValid(player, Direction.UP));
+        assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
+    }
+
+    @Test
+    void testMovePlayer() {
+        // Single Cell Labyrinth
+        LabyrinthModel1D labyShort = new LabyrinthModel1D(1, null);
+
+        assertPlayerWillNotMove(0, Direction.UP, labyShort);
+        assertPlayerWillNotMove(0, Direction.DOWN, labyShort);
+        assertPlayerWillNotMove(0, Direction.LEFT, labyShort);
+        assertPlayerWillNotMove(0, Direction.RIGHT, labyShort);
+
+        // Multi-Cell Labyrinth
+        LabyrinthModel1D labyLong = new LabyrinthModel1D(20, null);
+
+        // 1st Cell
+        assertPlayerWillNotMove(0, Direction.UP, labyLong);
+        assertPlayerWillNotMove(0, Direction.DOWN, labyLong);
+        assertPlayerWillNotMove(0, Direction.LEFT, labyLong);
+        assertPlayerWillMoveCorrectly(0, Direction.RIGHT, labyLong);
+
+        // Any Cell in between
+        assertPlayerWillNotMove(8, Direction.UP, labyLong);
+        assertPlayerWillNotMove(8, Direction.DOWN, labyLong);
+        assertPlayerWillMoveCorrectly(8, Direction.LEFT, labyLong);
+        assertPlayerWillMoveCorrectly(8, Direction.RIGHT, labyLong);
+
+        // Last Cell
+        assertPlayerWillNotMove(19, Direction.UP, labyLong);
+        assertPlayerWillNotMove(19, Direction.DOWN, labyLong);
+        assertPlayerWillMoveCorrectly(19, Direction.LEFT, labyLong);
+        assertPlayerWillNotMove(19, Direction.RIGHT, labyLong);
+
+    }
+
+    /**
+     * Asserts that a player will not move in
+     * the given direction in the labyrinth
+     * 
+     * @param labyrinth
+     * @param player
+     */
+    private void assertPlayerWillNotMove(
+            int initPosition, Direction direction,
+            LabyrinthModel1D labyrinth) {
+
+        Player1D player = new Player1D(initPosition);
+        labyrinth.movePlayer(player, direction);
+        int endPosition = player.getCoordinates()[0];
+        assertEquals(initPosition, endPosition);
+    }
+
+    /**
+     * Asserts that a player will move correctly in
+     * the given direction in the given labyrinth
+     * 
+     * @param labyrinth
+     * @param player
+     */
+    private void assertPlayerWillMoveCorrectly(int initPosition,
+            Direction direction, LabyrinthModel1D labyrinth) {
+
+        Player1D player = new Player1D(initPosition);
+        int endPosition = player.getCoordinates()[0] + direction.getStep();
+        labyrinth.movePlayer(player, direction);
+        assertEquals(endPosition, player.getCoordinates()[0]);
     }
 
     @Test
