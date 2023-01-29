@@ -58,7 +58,7 @@ public class TestLabyrinthModel1D {
             if (line == 1) {
                 Arrays.fill(arr[line], true);
                 arr[line][0] = false;
-                arr[line][arr.length - 1] = false;
+                arr[line][arr[1].length - 1] = false;
             } else
                 Arrays.fill(arr[line], false); // Top and Bottom walls
         }
@@ -68,32 +68,25 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testIsMoveValid() {
-        // Single Cell Labyrinth
-        LabyrinthModel1D labyShort = new LabyrinthModel1D(1, null);
-        Player1D playerA = new Player1D(0); // Only position available
-        assertUpDownIsMoveValidFalse(labyShort, playerA);
-        assertFalse(labyShort.isMoveValid(playerA, Direction.LEFT));
-        assertFalse(labyShort.isMoveValid(playerA, Direction.RIGHT));
-
         // Multi-Cell Labyrinth
         LabyrinthModel1D labyLong = new LabyrinthModel1D(20, null);
         // 1st cell
-        Player1D playerB = new Player1D(0);
-        assertUpDownIsMoveValidFalse(labyShort, playerB);
-        assertFalse(labyLong.isMoveValid(playerB, Direction.LEFT));
-        assertTrue(labyLong.isMoveValid(playerB, Direction.RIGHT));
+        PlayerImplementation playerA = new PlayerImplementation(1);
+        assertUpDownIsMoveValidFalse(labyLong, playerA);
+        assertFalse(labyLong.isMoveValid(playerA, Direction.LEFT));
+        assertTrue(labyLong.isMoveValid(playerA, Direction.RIGHT));
 
         // Last cell
-        Player1D playerC = new Player1D(19);
-        assertUpDownIsMoveValidFalse(labyShort, playerC);
-        assertTrue(labyLong.isMoveValid(playerC, Direction.LEFT));
-        assertFalse(labyLong.isMoveValid(playerC, Direction.RIGHT));
+        PlayerImplementation playerB = new PlayerImplementation(20);
+        assertUpDownIsMoveValidFalse(labyLong, playerB);
+        assertTrue(labyLong.isMoveValid(playerB, Direction.LEFT));
+        assertFalse(labyLong.isMoveValid(playerB, Direction.RIGHT));
 
         // Mid cells
-        Player1D playerD = new Player1D(10);
-        assertUpDownIsMoveValidFalse(labyShort, playerD);
-        assertTrue(labyLong.isMoveValid(playerD, Direction.LEFT));
-        assertTrue(labyLong.isMoveValid(playerD, Direction.RIGHT));
+        PlayerImplementation playerC = new PlayerImplementation(10);
+        assertUpDownIsMoveValidFalse(labyLong, playerC);
+        assertTrue(labyLong.isMoveValid(playerC, Direction.LEFT));
+        assertTrue(labyLong.isMoveValid(playerC, Direction.RIGHT));
     }
 
     /**
@@ -104,28 +97,28 @@ public class TestLabyrinthModel1D {
      * @param player
      */
     private void assertUpDownIsMoveValidFalse(LabyrinthModel1D labyrinth, Player player) {
-        assertFalse(labyrinth.isMoveValid(player, Direction.UP));
-        assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
+        assertEquals(false, labyrinth.isMoveValid(player, Direction.UP));
+        assertEquals(false, labyrinth.isMoveValid(player, Direction.DOWN));
     }
 
     @Test
     void testMovePlayer() {
         // Single Cell Labyrinth
-        LabyrinthModel1D labyShort = new LabyrinthModel1D(1, null);
+        LabyrinthModel1D labyShort = new LabyrinthModel1D(2, null);
 
-        assertPlayerWillNotMove(0, Direction.UP, labyShort);
-        assertPlayerWillNotMove(0, Direction.DOWN, labyShort);
-        assertPlayerWillNotMove(0, Direction.LEFT, labyShort);
-        assertPlayerWillNotMove(0, Direction.RIGHT, labyShort);
+        assertPlayerWillMoveCorrectly(1, Direction.RIGHT, labyShort);
+        assertPlayerWillMoveCorrectly(2, Direction.LEFT, labyShort);
+        assertPlayerWillNotMove(1, Direction.LEFT, labyShort);
+        assertPlayerWillNotMove(2, Direction.RIGHT, labyShort);
 
         // Multi-Cell Labyrinth
         LabyrinthModel1D labyLong = new LabyrinthModel1D(20, null);
 
         // 1st Cell
-        assertPlayerWillNotMove(0, Direction.UP, labyLong);
-        assertPlayerWillNotMove(0, Direction.DOWN, labyLong);
-        assertPlayerWillNotMove(0, Direction.LEFT, labyLong);
-        assertPlayerWillMoveCorrectly(0, Direction.RIGHT, labyLong);
+        assertPlayerWillNotMove(1, Direction.UP, labyLong);
+        assertPlayerWillNotMove(1, Direction.DOWN, labyLong);
+        assertPlayerWillNotMove(1, Direction.LEFT, labyLong);
+        assertPlayerWillMoveCorrectly(1, Direction.RIGHT, labyLong);
 
         // Any Cell in between
         assertPlayerWillNotMove(8, Direction.UP, labyLong);
@@ -134,27 +127,25 @@ public class TestLabyrinthModel1D {
         assertPlayerWillMoveCorrectly(8, Direction.RIGHT, labyLong);
 
         // Last Cell
-        assertPlayerWillNotMove(19, Direction.UP, labyLong);
-        assertPlayerWillNotMove(19, Direction.DOWN, labyLong);
-        assertPlayerWillMoveCorrectly(19, Direction.LEFT, labyLong);
-        assertPlayerWillNotMove(19, Direction.RIGHT, labyLong);
+        assertPlayerWillNotMove(20, Direction.UP, labyLong);
+        assertPlayerWillNotMove(20, Direction.DOWN, labyLong);
+        assertPlayerWillMoveCorrectly(20, Direction.LEFT, labyLong);
+        assertPlayerWillNotMove(20, Direction.RIGHT, labyLong);
 
     }
 
     /**
-     * Asserts that a player will not move in
-     * the given direction in the labyrinth
-     * 
+     * @param initPosition
+     * @param direction
      * @param labyrinth
-     * @param player
      */
     private void assertPlayerWillNotMove(
             int initPosition, Direction direction,
             LabyrinthModel1D labyrinth) {
 
-        Player1D player = new Player1D(initPosition);
+        PlayerImplementation player = new PlayerImplementation(initPosition);
         labyrinth.movePlayer(player, direction);
-        int endPosition = player.getCoordinates()[0];
+        int endPosition = player.getX();
         assertEquals(initPosition, endPosition);
     }
 
@@ -168,16 +159,16 @@ public class TestLabyrinthModel1D {
     private void assertPlayerWillMoveCorrectly(int initPosition,
             Direction direction, LabyrinthModel1D labyrinth) {
 
-        Player1D player = new Player1D(initPosition);
-        int endPosition = player.getCoordinates()[0] + direction.getStep();
+        PlayerImplementation player = new PlayerImplementation(initPosition);
+        int endPosition = player.getX() + direction.getStep();
         labyrinth.movePlayer(player, direction);
-        assertEquals(endPosition, player.getCoordinates()[0]);
+        assertEquals(endPosition, player.getX());
     }
 
     @Test
     void testIsPlayerAtExit() {
 
-        assertIsPlayerAtExit(1);
+        assertIsPlayerAtExit(2);
         assertIsPlayerAtExit(50);
         assertIsPlayerAtExit(100);
 
@@ -194,9 +185,9 @@ public class TestLabyrinthModel1D {
         LabyrinthModel1D laby = new LabyrinthModel1D(labyrinthLength, null);
 
         for (int position = 0; position < labyrinthLength; position++) {
-            Player p = new Player1D(position);
+            Player p = new PlayerImplementation(position);
 
-            assertEquals(position == labyrinthLength - 1,
+            assertEquals(position == labyrinthLength,
                     laby.isPlayerAtExit(p));
 
         }
@@ -208,17 +199,17 @@ public class TestLabyrinthModel1D {
         LabyrinthModel1D labyNoPlayers = new LabyrinthModel1D(5, null);
         assertFalse(labyNoPlayers.isGameOver());
 
-        Player a = new Player1D(4);
-        Player b = new Player1D(4);
-        Player c = new Player1D(4);
+        Player a = new PlayerImplementation(5);
+        Player b = new PlayerImplementation(5);
+        Player c = new PlayerImplementation(5);
 
         Player[] arrPlayersA = { a, b, c };
         LabyrinthModel1D labyPlayersA = new LabyrinthModel1D(5, arrPlayersA);
         assertTrue(labyPlayersA.isGameOver());
 
-        Player d = new Player1D(2);
-        Player e = new Player1D(0);
-        Player f = new Player1D(4);
+        Player d = new PlayerImplementation(5);
+        Player e = new PlayerImplementation(0);
+        Player f = new PlayerImplementation(3);
 
         Player[] arrPlayersB = { d, e, f };
         LabyrinthModel1D labyPlayersB = new LabyrinthModel1D(5, arrPlayersB);
