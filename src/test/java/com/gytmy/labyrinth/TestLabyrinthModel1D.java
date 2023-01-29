@@ -81,10 +81,8 @@ public class TestLabyrinthModel1D {
         for (int position = 0; position < labyrinthLength; position++) {
             Player p = new Player1D(position);
 
-            if (position == labyrinthLength - 1) {
-                assertTrue(laby.isPlayerAtExit(p));
-            } else
-                assertFalse(laby.isPlayerAtExit(p));
+            assertEquals(position == labyrinthLength - 1,
+                    laby.isPlayerAtExit(p));
 
         }
     }
