@@ -60,6 +60,30 @@ public class TestLabyrinthModel1D {
     }
 
     @Test
+    void testIsMoveValid() {
+
+        LabyrinthModel1D labyShort = new LabyrinthModel1D(1, null);
+        Player1D playerA = new Player1D(0);
+
+        assertFalse(labyShort.isMoveValid(playerA, Direction.LEFT));
+        assertFalse(labyShort.isMoveValid(playerA, Direction.RIGHT));
+
+        LabyrinthModel1D labyLong = new LabyrinthModel1D(20, null);
+
+        Player1D playerB = new Player1D(0);
+        assertFalse(labyLong.isMoveValid(playerB, Direction.LEFT));
+        assertTrue(labyLong.isMoveValid(playerB, Direction.RIGHT));
+
+        Player1D playerC = new Player1D(19);
+        assertTrue(labyLong.isMoveValid(playerC, Direction.LEFT));
+        assertFalse(labyLong.isMoveValid(playerC, Direction.RIGHT));
+
+        Player1D playerD = new Player1D(15);
+        assertTrue(labyLong.isMoveValid(playerD, Direction.LEFT));
+        assertTrue(labyLong.isMoveValid(playerD, Direction.RIGHT));
+    }
+
+    @Test
     void testIsPlayerAtExit() {
 
         assertIsPlayerAtExit(1);
