@@ -14,12 +14,15 @@ import java.util.Arrays;
     true reprensents a walkable path
     false represents a wall
    
-    Remark: 
+    Remarks: 
     We implement it as a 2D Array of booleans of height 3
     where the first and last line are filled with false 
     to represent the top and bottom borders (which are walls) and 
     the middle line is filled with true except in the first cell
     to represent a walkable path
+    
+    The entrance is board[1][1]
+    The exit is board[1][length - 1]
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
