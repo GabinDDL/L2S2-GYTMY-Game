@@ -15,8 +15,6 @@ public class TestLabyrinthModel1D {
     @Test
     void testConstructorInvalidLength() {
 
-        // Test labyrinth invalid length exceptions
-
         Exception exceptionZero = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModel1D(0, null));
         assertEquals("Cannot initialize a labyrinth of size <= 1", exceptionZero.getMessage());
