@@ -215,26 +215,51 @@ public class TestLabyrinthModel1D {
     }
 
     @Test
-    void testIsGameOver() {
-        // TODO: Split into multiple sub-tests
-        LabyrinthModel1D labyNoPlayers = new LabyrinthModel1D(5, null);
-        assertFalse(labyNoPlayers.isGameOver());
+    void testAllPlayersAtExitMeansGameOver() {
+        for (int lengthPath = 2; lengthPath < 102; lengthPath++) {
+            Player playerA = new PlayerImplementation(lengthPath);
+            Player playerB = new PlayerImplementation(lengthPath);
+            Player playerC = new PlayerImplementation(lengthPath);
+            Player playerD = new PlayerImplementation(lengthPath);
 
-        Player a = new PlayerImplementation(5);
-        Player b = new PlayerImplementation(5);
-        Player c = new PlayerImplementation(5);
+            Player[] players = {
+                    playerA,
+                    playerB,
+                    playerC,
+                    playerD
+            };
 
-        Player[] arrPlayersA = { a, b, c };
-        LabyrinthModel1D labyPlayersA = new LabyrinthModel1D(5, arrPlayersA);
-        assertTrue(labyPlayersA.isGameOver());
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, players);
+            assertTrue(labyrinth.isGameOver());
+        }
+    }
 
-        Player d = new PlayerImplementation(5);
-        Player e = new PlayerImplementation(0);
-        Player f = new PlayerImplementation(3);
+    @Test
+    void testNotAllPlayersAtExitMeansNoGameOver() {
+        for (int lengthPath = 2; lengthPath < 102; lengthPath++) {
+            Player playerA = new PlayerImplementation(lengthPath);
+            Player playerB = new PlayerImplementation(1);
+            Player playerC = new PlayerImplementation(2);
+            Player playerD = new PlayerImplementation(1);
 
-        Player[] arrPlayersB = { d, e, f };
-        LabyrinthModel1D labyPlayersB = new LabyrinthModel1D(5, arrPlayersB);
-        assertFalse(labyPlayersB.isGameOver());
+            Player[] players = {
+                    playerA,
+                    playerB,
+                    playerC,
+                    playerD
+            };
+
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, players);
+            assertFalse(labyrinth.isGameOver());
+        }
+    }
+
+    @Test
+    void testNoPlayersMeansNoGameOver() {
+        for (int lengthPath = 2; lengthPath < 102; lengthPath++) {
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
+            assertFalse(labyrinth.isGameOver());
+        }
     }
 
 }
