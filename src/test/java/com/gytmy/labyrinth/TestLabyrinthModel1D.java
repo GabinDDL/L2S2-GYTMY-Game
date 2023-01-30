@@ -52,7 +52,7 @@ public class TestLabyrinthModel1D {
         boolean[][] arr = new boolean[3][length + 1];
 
         for (int line = 0; line < arr.length; line++) {
-            // The walkable path with the first and last cells being walls
+            // The walkable path with the first cell being a wall
             if (line == 1) {
                 Arrays.fill(arr[line], true);
                 arr[line][0] = false;
@@ -90,7 +90,6 @@ public class TestLabyrinthModel1D {
         }
     }
 
-    // FIXME: fix test
     @Test
     void testValidityOfMovesLastCell() {
         for (int length = 2; length <= 100; length++) {
