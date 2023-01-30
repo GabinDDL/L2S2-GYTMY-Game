@@ -9,7 +9,7 @@ import java.util.Arrays;
 
     A Labyrinth of dimension 1 is reprensented as a segment
     without obstacles by using a 2-dimensional array of booleans,
-    of height 3 and length length + 2 (walls for the leftmost and rightmost cells).
+    of height 3 and length (length + 1) (walls for the leftmost and rightmost cells).
      
     true reprensents a walkable path
     false represents a wall
@@ -18,7 +18,7 @@ import java.util.Arrays;
     We implement it as a 2D Array of booleans of height 3
     where the first and last line are filled with false 
     to represent the top and bottom borders (which are walls) and 
-    the middle line is filled with true except in the first and last cells
+    the middle line is filled with true except in the first cell
     to represent a walkable path
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
@@ -49,14 +49,13 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      */
     private void initBoard(int length) {
         // Do not forget the left and right borders
-        board = new boolean[3][length + 2];
+        board = new boolean[3][length + 1];
 
         for (int line = 0; line < board.length; line++) {
-            // The walkable path with the first and last cells being walls
+            // The walkable path with the first cells being a wall
             if (line == 1) {
                 Arrays.fill(board[line], true);
                 board[line][0] = false;
-                board[line][board[1].length - 1] = false;
             } else
                 Arrays.fill(board[line], false); // Top and Bottom walls
         }
@@ -134,7 +133,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     @Override
     public boolean isPlayerAtExit(Player player) {
         int position = player.getCoordinates()[0];
-        int labyrinthLength = getBoard()[1].length - 2;
+        int labyrinthLength = getBoard()[1].length - 1;
         return position == labyrinthLength;
     }
 

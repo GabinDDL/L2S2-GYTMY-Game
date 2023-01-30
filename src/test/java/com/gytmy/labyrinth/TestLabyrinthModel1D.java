@@ -51,14 +51,13 @@ public class TestLabyrinthModel1D {
         LabyrinthModel1D laby = new LabyrinthModel1D(length, null);
 
         // Do not forget the left and right borders
-        boolean[][] arr = new boolean[3][length + 2];
+        boolean[][] arr = new boolean[3][length + 1];
 
         for (int line = 0; line < arr.length; line++) {
             // The walkable path with the first and last cells being walls
             if (line == 1) {
                 Arrays.fill(arr[line], true);
                 arr[line][0] = false;
-                arr[line][arr[1].length - 1] = false;
             } else
                 Arrays.fill(arr[line], false); // Top and Bottom walls
         }
@@ -189,7 +188,7 @@ public class TestLabyrinthModel1D {
         for (int position = 0; position < labyrinthLength; position++) {
             Player p = new PlayerImplementation(position);
 
-            assertEquals(position == labyrinthLength,
+            assertEquals(position == laby.getBoard()[1].length - 1,
                     laby.isPlayerAtExit(p));
 
         }
