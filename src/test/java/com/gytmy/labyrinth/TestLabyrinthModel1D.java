@@ -239,7 +239,7 @@ public class TestLabyrinthModel1D {
         for (int lengthPath = 2; lengthPath < 102; lengthPath++) {
             Player playerA = new PlayerImplementation(lengthPath);
             Player playerB = new PlayerImplementation(1);
-            Player playerC = new PlayerImplementation(2);
+            Player playerC = new PlayerImplementation(1);
             Player playerD = new PlayerImplementation(1);
 
             Player[] players = {
