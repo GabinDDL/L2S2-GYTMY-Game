@@ -9,40 +9,42 @@ import java.util.Arrays;
 
     A Labyrinth of dimension 1 is reprensented as a segment
     without obstacles by using a 2-dimensional array of booleans,
-    of height 3 and length (length + 1) (walls for the leftmost and rightmost cells).
-     
+    of height 3 and length (lengthPath + 1)
+    
     true reprensents a walkable path
     false represents a wall
    
     Remarks: 
-    We implement it as a 2D Array of booleans of height 3
-    where the first and last line are filled with false 
-    to represent the top and bottom borders (which are walls) and 
+    We implement it as a 2D Array of booleans of height 3 where 
+    the first and last line are filled with false to represent
+    the top and bottom borders (which are walls) and 
     the middle line is filled with true except in the first cell
     to represent a walkable path
     
     The entrance is board[1][1]
-    The exit is board[1][length - 1]
+    The exit is board[1][lengthPath]
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
+    private int lengthPath; // Length of the walkable path
     private boolean[][] board;
     private Player[] players; // array of players
 
     /**
-     * @param length of the 1D Labyrinth
+     * @param lengthPath of the 1D Labyrinth
      * @throws IllegalArgumentException
      */
-    public LabyrinthModel1D(int length, Player[] players)
+    public LabyrinthModel1D(int lengthPath, Player[] players)
             throws IllegalArgumentException {
 
-        if (length <= 1) {
+        if (lengthPath <= 1) {
             throw new IllegalArgumentException(
                     "Cannot initialize a labyrinth of size <= 1");
         }
 
+        this.lengthPath = lengthPath;
         this.players = players;
-        initBoard(length);
+        initBoard(lengthPath);
     }
 
     /**
@@ -62,6 +64,10 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
             } else
                 Arrays.fill(board[line], false); // Top and Bottom walls
         }
+    }
+
+    public int getLengthPath() {
+        return lengthPath;
     }
 
     @Override
@@ -163,9 +169,8 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
     @Override
     public boolean isPlayerAtExit(Player player) {
-        int position = player.getCoordinates()[0];
-        int labyrinthLength = getBoard()[1].length - 1;
-        return position == labyrinthLength;
+        int position = player.getX();
+        return position == lengthPath;
     }
 
     /*
