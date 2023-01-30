@@ -16,9 +16,9 @@ import java.util.Arrays;
    
     Remarks: 
     We implement it as a 2D Array of booleans of height 3 where 
-    the first and last line are filled with false to represent
+    the first and last row are filled with false to represent
     the top and bottom borders (which are walls) and 
-    the middle line is filled with true except in the first cell
+    the middle row is filled with true except in the first cell
     to represent a walkable path
     
     The entrance is board[1][1]
@@ -56,13 +56,13 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         // Do not forget the left and right borders
         board = new boolean[3][length + 1];
 
-        for (int line = 0; line < board.length; line++) {
+        for (int row = 0; row < board.length; ++row) {
             // The walkable path with the first cells being a wall
-            if (line == 1) {
-                Arrays.fill(board[line], true);
-                board[line][0] = false;
+            if (row == 1) {
+                Arrays.fill(board[row], true);
+                board[row][0] = false;
             } else
-                Arrays.fill(board[line], false); // Top and Bottom walls
+                Arrays.fill(board[row], false); // Top and Bottom walls
         }
     }
 
@@ -77,8 +77,8 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         }
 
         boolean[][] result = new boolean[board.length][];
-        for (int i = 0; i < board.length; i++) {
-            result[i] = Arrays.copyOf(board[i], board[i].length);
+        for (int row = 0; row < board.length; ++row) {
+            result[row] = Arrays.copyOf(board[row], board[row].length);
         }
 
         return result;

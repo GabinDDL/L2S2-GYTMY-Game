@@ -49,24 +49,24 @@ public class TestLabyrinthModel1D {
         LabyrinthModel1D laby = new LabyrinthModel1D(length, null);
 
         // Do not forget the left and right borders
-        boolean[][] arr = new boolean[3][length + 1];
+        boolean[][] array = new boolean[3][length + 1];
 
-        for (int line = 0; line < arr.length; line++) {
+        for (int row = 0; row < array.length; ++row) {
             // The walkable path with the first cell being a wall
-            if (line == 1) {
-                Arrays.fill(arr[line], true);
-                arr[line][0] = false;
+            if (row == 1) {
+                Arrays.fill(array[row], true);
+                array[row][0] = false;
             } else
-                Arrays.fill(arr[line], false); // Top and Bottom walls
+                Arrays.fill(array[row], false); // Top and Bottom walls
         }
 
-        assertArrayEquals(laby.getBoard(), arr);
+        assertArrayEquals(laby.getBoard(), array);
     }
 
     @Test
     void testValidityOfMovesFirstCell() {
 
-        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
             int firstCell = 1;
@@ -82,10 +82,10 @@ public class TestLabyrinthModel1D {
     @Test
     void testValidityOfMovesCellsInBetween() {
 
-        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
-            for (int position = 2; position < lengthPath; position++) {
+            for (int position = 2; position < lengthPath; ++position) {
                 PlayerImplementation player = new PlayerImplementation(position);
 
                 assertFalse(labyrinth.isMoveValid(player, Direction.UP));
@@ -99,7 +99,7 @@ public class TestLabyrinthModel1D {
     @Test
     void testValidityOfMovesLastCell() {
 
-        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
             int lastCell = labyrinth.getLengthPath();
@@ -115,7 +115,7 @@ public class TestLabyrinthModel1D {
     @Test
     void testPlayerMovesFirstCell() {
 
-        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
             int firstCell = 1;
 
@@ -129,10 +129,10 @@ public class TestLabyrinthModel1D {
     @Test
     void testPlayerMovesCellsInBetween() {
 
-        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
-            for (int position = 2; position < lengthPath; position++) {
+            for (int position = 2; position < lengthPath; ++position) {
                 assertPlayerWillNotMove(position, Direction.UP, labyrinth);
                 assertPlayerWillNotMove(position, Direction.DOWN, labyrinth);
                 assertPlayerWillMoveCorrectly(position, Direction.LEFT, labyrinth);
@@ -144,7 +144,7 @@ public class TestLabyrinthModel1D {
     @Test
     void testPlayerMovesLastCell() {
 
-        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
             int lastCell = labyrinth.getLengthPath();
 
@@ -205,7 +205,7 @@ public class TestLabyrinthModel1D {
     private void assertIsPlayerAtExit(int labyrinthLength) {
         LabyrinthModel1D laby = new LabyrinthModel1D(labyrinthLength, null);
 
-        for (int position = 0; position < labyrinthLength; position++) {
+        for (int position = 0; position < labyrinthLength; ++position) {
             Player player = new PlayerImplementation(position);
 
             assertEquals(position == laby.getLengthPath(),
@@ -216,7 +216,7 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testAllPlayersAtExitMeansGameOver() {
-        for (int lengthPath = 2; lengthPath < 102; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             Player playerA = new PlayerImplementation(lengthPath);
             Player playerB = new PlayerImplementation(lengthPath);
             Player playerC = new PlayerImplementation(lengthPath);
@@ -236,7 +236,7 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testNotAllPlayersAtExitMeansNoGameOver() {
-        for (int lengthPath = 2; lengthPath < 102; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             Player playerA = new PlayerImplementation(lengthPath);
             Player playerB = new PlayerImplementation(1);
             Player playerC = new PlayerImplementation(1);
@@ -256,7 +256,7 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testNoPlayersMeansNoGameOver() {
-        for (int lengthPath = 2; lengthPath < 102; lengthPath++) {
+        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
             assertFalse(labyrinth.isGameOver());
         }
