@@ -65,11 +65,15 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testValidityOfMovesFirstCell() {
-        for (int length = 2; length <= 100; length++) {
-            LabyrinthModel1D labyrinth = new LabyrinthModel1D(length, null);
-            PlayerImplementation player = new PlayerImplementation(1);
 
-            assertUnableToMoveUpAndDown(labyrinth, player);
+        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
+
+            int firstCell = 1;
+            PlayerImplementation player = new PlayerImplementation(firstCell);
+
+            assertFalse(labyrinth.isMoveValid(player, Direction.UP));
+            assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
             assertFalse(labyrinth.isMoveValid(player, Direction.LEFT));
             assertTrue(labyrinth.isMoveValid(player, Direction.RIGHT));
         }
@@ -77,13 +81,15 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testValidityOfMovesCellsInBetween() {
-        for (int length = 2; length <= 100; length++) {
-            LabyrinthModel1D labyrinth = new LabyrinthModel1D(length, null);
 
-            for (int position = 2; position < length; position++) {
+        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
+
+            for (int position = 2; position < lengthPath; position++) {
                 PlayerImplementation player = new PlayerImplementation(position);
 
-                assertUnableToMoveUpAndDown(labyrinth, player);
+                assertFalse(labyrinth.isMoveValid(player, Direction.UP));
+                assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
                 assertTrue(labyrinth.isMoveValid(player, Direction.LEFT));
                 assertTrue(labyrinth.isMoveValid(player, Direction.RIGHT));
             }
@@ -92,60 +98,61 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testValidityOfMovesLastCell() {
-        for (int length = 2; length <= 100; length++) {
-            LabyrinthModel1D labyrinth = new LabyrinthModel1D(length, null);
-            PlayerImplementation player = new PlayerImplementation(length);
 
-            assertUnableToMoveUpAndDown(labyrinth, player);
+        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
+
+            int lastCell = labyrinth.getLengthPath();
+            PlayerImplementation player = new PlayerImplementation(lastCell);
+
+            assertFalse(labyrinth.isMoveValid(player, Direction.UP));
+            assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
             assertTrue(labyrinth.isMoveValid(player, Direction.LEFT));
             assertFalse(labyrinth.isMoveValid(player, Direction.RIGHT));
         }
     }
 
-    /**
-     * Asserts that the given player cannot move UP or DOWN
-     * in the given labyrinth
-     * 
-     * @param labyrinth
-     * @param player
-     */
-    private void assertUnableToMoveUpAndDown(LabyrinthModel1D labyrinth, Player player) {
-        assertEquals(false, labyrinth.isMoveValid(player, Direction.UP));
-        assertEquals(false, labyrinth.isMoveValid(player, Direction.DOWN));
+    @Test
+    void testPlayerMovesFirstCell() {
+
+        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
+            int firstCell = 1;
+
+            assertPlayerWillNotMove(firstCell, Direction.UP, labyrinth);
+            assertPlayerWillNotMove(firstCell, Direction.DOWN, labyrinth);
+            assertPlayerWillNotMove(firstCell, Direction.LEFT, labyrinth);
+            assertPlayerWillMoveCorrectly(firstCell, Direction.RIGHT, labyrinth);
+        }
     }
 
     @Test
-    void testMovePlayer() {
-        // TODO: Split into multiple sub-tests
-        // Single Cell Labyrinth
-        LabyrinthModel1D shortLabyrinth = new LabyrinthModel1D(2, null);
+    void testPlayerMovesCellsInBetween() {
 
-        assertPlayerWillMoveCorrectly(1, Direction.RIGHT, shortLabyrinth);
-        assertPlayerWillMoveCorrectly(2, Direction.LEFT, shortLabyrinth);
-        assertPlayerWillNotMove(1, Direction.LEFT, shortLabyrinth);
-        assertPlayerWillNotMove(2, Direction.RIGHT, shortLabyrinth);
+        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
-        // Multi-Cell Labyrinth
-        LabyrinthModel1D longLabyrinth = new LabyrinthModel1D(20, null);
+            for (int position = 2; position < lengthPath; position++) {
+                assertPlayerWillNotMove(position, Direction.UP, labyrinth);
+                assertPlayerWillNotMove(position, Direction.DOWN, labyrinth);
+                assertPlayerWillMoveCorrectly(position, Direction.LEFT, labyrinth);
+                assertPlayerWillMoveCorrectly(position, Direction.RIGHT, labyrinth);
+            }
+        }
+    }
 
-        // 1st Cell
-        assertPlayerWillNotMove(1, Direction.UP, longLabyrinth);
-        assertPlayerWillNotMove(1, Direction.DOWN, longLabyrinth);
-        assertPlayerWillNotMove(1, Direction.LEFT, longLabyrinth);
-        assertPlayerWillMoveCorrectly(1, Direction.RIGHT, longLabyrinth);
+    @Test
+    void testPlayerMovesLastCell() {
 
-        // Any Cell in between
-        assertPlayerWillNotMove(8, Direction.UP, longLabyrinth);
-        assertPlayerWillNotMove(8, Direction.DOWN, longLabyrinth);
-        assertPlayerWillMoveCorrectly(8, Direction.LEFT, longLabyrinth);
-        assertPlayerWillMoveCorrectly(8, Direction.RIGHT, longLabyrinth);
+        for (int lengthPath = 2; lengthPath <= 100; lengthPath++) {
+            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
+            int lastCell = labyrinth.getLengthPath();
 
-        // Last Cell
-        assertPlayerWillNotMove(20, Direction.UP, longLabyrinth);
-        assertPlayerWillNotMove(20, Direction.DOWN, longLabyrinth);
-        assertPlayerWillMoveCorrectly(20, Direction.LEFT, longLabyrinth);
-        assertPlayerWillNotMove(20, Direction.RIGHT, longLabyrinth);
-
+            assertPlayerWillNotMove(lastCell, Direction.UP, labyrinth);
+            assertPlayerWillNotMove(lastCell, Direction.DOWN, labyrinth);
+            assertPlayerWillMoveCorrectly(lastCell, Direction.LEFT, labyrinth);
+            assertPlayerWillNotMove(lastCell, Direction.RIGHT, labyrinth);
+        }
     }
 
     /**
@@ -199,10 +206,10 @@ public class TestLabyrinthModel1D {
         LabyrinthModel1D laby = new LabyrinthModel1D(labyrinthLength, null);
 
         for (int position = 0; position < labyrinthLength; position++) {
-            Player p = new PlayerImplementation(position);
+            Player player = new PlayerImplementation(position);
 
-            assertEquals(position == laby.getBoard()[1].length - 1,
-                    laby.isPlayerAtExit(p));
+            assertEquals(position == laby.getLengthPath(),
+                    laby.isPlayerAtExit(player));
 
         }
     }
