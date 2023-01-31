@@ -97,7 +97,7 @@ public class TestLabyrinthModel1D {
 
         for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
-            int lastCell = labyrinth.getLengthPath();
+            int lastCell = labyrinth.getExitCell()[0];
 
             assertPlayerWillNotMove(lastCell, Direction.UP, labyrinth);
             assertPlayerWillNotMove(lastCell, Direction.DOWN, labyrinth);
@@ -176,7 +176,7 @@ public class TestLabyrinthModel1D {
         for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
-            int lastCell = labyrinth.getLengthPath();
+            int lastCell = labyrinth.getExitCell()[0];
             PlayerImplementation player = new PlayerImplementation(lastCell);
 
             assertFalse(labyrinth.isMoveValid(player, Direction.UP));
@@ -256,7 +256,7 @@ public class TestLabyrinthModel1D {
         for (int position = 0; position < labyrinthLength; ++position) {
             Player player = new PlayerImplementation(position);
 
-            assertEquals(position == laby.getLengthPath(),
+            assertEquals(position == laby.getExitCell()[0],
                     laby.isPlayerAtExit(player));
 
         }

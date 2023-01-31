@@ -22,11 +22,11 @@ import java.util.Arrays;
     to represent a walkable path
     
     The entrance is board[1][1]
-    The exit is board[1][lengthPath]
+    The exit is exitCell
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
-    private int lengthPath; // Length of the walkable path
+    private int[] exitCell;
     private boolean[][] board;
     private Player[] players; // array of players
 
@@ -42,7 +42,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
                     "Cannot initialize a labyrinth of size <= 1");
         }
 
-        this.lengthPath = lengthPath;
+        this.exitCell = new int[] { lengthPath, 1 };
         this.players = players;
         initBoard(lengthPath);
     }
@@ -66,8 +66,8 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         }
     }
 
-    public int getLengthPath() {
-        return lengthPath;
+    public int[] getExitCell() {
+        return exitCell;
     }
 
     @Override
@@ -194,7 +194,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     @Override
     public boolean isPlayerAtExit(Player player) {
         int position = player.getX();
-        return position == lengthPath;
+        return position == exitCell[0];
     }
 
 }
