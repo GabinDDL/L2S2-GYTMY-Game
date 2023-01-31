@@ -90,7 +90,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      * @return true if there is a wall at the given coordinates;
      *         false otherwise
      */
-    public boolean isWall(int x, int y) {
+    private boolean isWall(int x, int y) {
         return !board[y][x];
     }
 
