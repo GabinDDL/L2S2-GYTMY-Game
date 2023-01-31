@@ -84,14 +84,45 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         return result;
     }
 
+    @Override
+    public void movePlayer(Player player, Direction direction) {
+        if (!isMoveValid(player, direction))
+            return;
+
+        player.move(direction);
+    }
+
+    @Override
+    public boolean isMoveValid(Player player, Direction direction) {
+        return !isGoingOutside(player, direction) &&
+                !isGoingIntoWall(player, direction);
+    }
+
     /**
-     * @param x
-     * @param y
-     * @return true if there is a wall at the given coordinates;
-     *         false otherwise
+     * Checks if the given player will end up outside of the labyrinth
+     * if he makes the move with the given direction
+     * 
+     * Here the board is represented as a horizontal segment
+     * so it is possible to move horizontally
+     * but moving vertically isn't because there are borders which are walls
+     * 
+     * @param player
+     * @param direction
+     * @return true if
      */
-    private boolean isWall(int x, int y) {
-        return !board[y][x];
+    private boolean isGoingOutside(Player player, Direction direction) {
+        switch (direction) {
+            case UP:
+                return player.getY() <= 0;
+            case DOWN:
+                return player.getY() >= board.length - 1;
+            case LEFT:
+                return player.getX() <= 0;
+            case RIGHT:
+                return player.getX() >= board[1].length - 1;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -127,50 +158,13 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     }
 
     /**
-     * Checks if the given player will end up outside of the labyrinth
-     * if he makes the move with the given direction
-     * 
-     * Here the board is represented as a horizontal segment
-     * so it is possible to move horizontally
-     * but moving vertically isn't because there are borders which are walls
-     * 
-     * @param player
-     * @param direction
-     * @return true if
+     * @param x
+     * @param y
+     * @return true if there is a wall at the given coordinates;
+     *         false otherwise
      */
-    private boolean isGoingOutside(Player player, Direction direction) {
-        switch (direction) {
-            case UP:
-                return player.getY() <= 0;
-            case DOWN:
-                return player.getY() >= board.length - 1;
-            case LEFT:
-                return player.getX() <= 0;
-            case RIGHT:
-                return player.getX() >= board[1].length - 1;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    public boolean isMoveValid(Player player, Direction direction) {
-        return !isGoingOutside(player, direction) &&
-                !isGoingIntoWall(player, direction);
-    }
-
-    @Override
-    public void movePlayer(Player player, Direction direction) {
-        if (!isMoveValid(player, direction))
-            return;
-
-        player.move(direction);
-    }
-
-    @Override
-    public boolean isPlayerAtExit(Player player) {
-        int position = player.getX();
-        return position == lengthPath;
+    private boolean isWall(int x, int y) {
+        return !board[y][x];
     }
 
     /*
@@ -195,6 +189,12 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean isPlayerAtExit(Player player) {
+        int position = player.getX();
+        return position == lengthPath;
     }
 
 }
