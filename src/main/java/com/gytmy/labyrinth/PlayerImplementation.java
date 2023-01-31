@@ -12,15 +12,6 @@ public class PlayerImplementation implements Player {
         this.y = y;
     }
 
-    /**
-     * Constructor for the player in 1 Dimension
-     * 
-     * @param x
-     */
-    public PlayerImplementation(int x) {
-        this(x, 1);
-    }
-
     @Override
     public int getX() {
         return x;

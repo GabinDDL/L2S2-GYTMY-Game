@@ -115,7 +115,7 @@ public class TestLabyrinthModel1D {
             int initPosition, Direction direction,
             LabyrinthModel1D labyrinth) {
 
-        PlayerImplementation player = new PlayerImplementation(initPosition);
+        PlayerImplementation player = new PlayerImplementation(initPosition, 1);
         labyrinth.movePlayer(player, direction);
         int endPosition = player.getX();
         assertEquals(initPosition, endPosition);
@@ -131,7 +131,7 @@ public class TestLabyrinthModel1D {
     private void assertPlayerWillMoveCorrectly(int initPosition,
             Direction direction, LabyrinthModel1D labyrinth) {
 
-        PlayerImplementation player = new PlayerImplementation(initPosition);
+        PlayerImplementation player = new PlayerImplementation(initPosition, 1);
         int endPosition = player.getX() + direction.getStep();
         labyrinth.movePlayer(player, direction);
         assertEquals(endPosition, player.getX());
@@ -144,7 +144,7 @@ public class TestLabyrinthModel1D {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
             int firstCell = 1;
-            PlayerImplementation player = new PlayerImplementation(firstCell);
+            PlayerImplementation player = new PlayerImplementation(firstCell, 1);
 
             assertFalse(labyrinth.isMoveValid(player, Direction.UP));
             assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
@@ -160,7 +160,7 @@ public class TestLabyrinthModel1D {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
             for (int position = 2; position < lengthPath; ++position) {
-                PlayerImplementation player = new PlayerImplementation(position);
+                PlayerImplementation player = new PlayerImplementation(position, 1);
 
                 assertFalse(labyrinth.isMoveValid(player, Direction.UP));
                 assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
@@ -177,7 +177,7 @@ public class TestLabyrinthModel1D {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
 
             int lastCell = labyrinth.getExitCell()[0];
-            PlayerImplementation player = new PlayerImplementation(lastCell);
+            PlayerImplementation player = new PlayerImplementation(lastCell, 1);
 
             assertFalse(labyrinth.isMoveValid(player, Direction.UP));
             assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
@@ -197,10 +197,10 @@ public class TestLabyrinthModel1D {
     @Test
     void testAllPlayersAtExitMeansGameOver() {
         for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
-            Player playerA = new PlayerImplementation(lengthPath);
-            Player playerB = new PlayerImplementation(lengthPath);
-            Player playerC = new PlayerImplementation(lengthPath);
-            Player playerD = new PlayerImplementation(lengthPath);
+            Player playerA = new PlayerImplementation(lengthPath, 1);
+            Player playerB = new PlayerImplementation(lengthPath, 1);
+            Player playerC = new PlayerImplementation(lengthPath, 1);
+            Player playerD = new PlayerImplementation(lengthPath, 1);
 
             Player[] players = {
                     playerA,
@@ -217,10 +217,10 @@ public class TestLabyrinthModel1D {
     @Test
     void testNotAllPlayersAtExitMeansNoGameOver() {
         for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
-            Player playerA = new PlayerImplementation(lengthPath);
-            Player playerB = new PlayerImplementation(1);
-            Player playerC = new PlayerImplementation(1);
-            Player playerD = new PlayerImplementation(1);
+            Player playerA = new PlayerImplementation(lengthPath, 1);
+            Player playerB = new PlayerImplementation(1, 1);
+            Player playerC = new PlayerImplementation(1, 1);
+            Player playerD = new PlayerImplementation(1, 1);
 
             Player[] players = {
                     playerA,
@@ -254,7 +254,7 @@ public class TestLabyrinthModel1D {
         LabyrinthModel1D laby = new LabyrinthModel1D(labyrinthLength, null);
 
         for (int position = 0; position < labyrinthLength; ++position) {
-            Player player = new PlayerImplementation(position);
+            Player player = new PlayerImplementation(position, 1);
 
             assertEquals(position == laby.getExitCell()[0],
                     laby.isPlayerAtExit(player));
