@@ -108,7 +108,8 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
      * 
      * @param player
      * @param direction
-     * @return true if
+     * @return true if the move will move the player outside;
+     *         otherwise false
      */
     private boolean isGoingOutside(Player player, Direction direction) {
         switch (direction) {
