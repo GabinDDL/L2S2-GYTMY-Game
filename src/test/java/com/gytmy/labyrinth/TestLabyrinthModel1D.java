@@ -187,10 +187,10 @@ public class TestLabyrinthModel1D {
     }
 
     @Test
-    void testNoPlayersMeansNoGameOver() {
+    void testNoPlayersMeansGameOver() {
         for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
-            assertFalse(labyrinth.isGameOver());
+            assertTrue(labyrinth.isGameOver());
         }
     }
 
