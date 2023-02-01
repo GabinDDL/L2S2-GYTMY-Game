@@ -46,7 +46,7 @@ public class TestLabyrinthModel1D {
      */
     private void assertValidBoard(int length) {
 
-        LabyrinthModel1D laby = new LabyrinthModel1D(length, null);
+        LabyrinthModel1D labyrinth = new LabyrinthModel1D(length, null);
 
         // Do not forget the left and right borders
         boolean[][] array = new boolean[3][length + 1];
@@ -60,7 +60,7 @@ public class TestLabyrinthModel1D {
                 Arrays.fill(array[row], false); // Top and Bottom walls
         }
 
-        assertArrayEquals(laby.getBoard(), array);
+        assertArrayEquals(labyrinth.getBoard(), array);
     }
 
     @Test
@@ -251,13 +251,13 @@ public class TestLabyrinthModel1D {
      * @param labyrinthLength must be >= 1
      */
     private void assertIsPlayerAtExit(int labyrinthLength) {
-        LabyrinthModel1D laby = new LabyrinthModel1D(labyrinthLength, null);
+        LabyrinthModel1D labyrinth = new LabyrinthModel1D(labyrinthLength, null);
 
         for (int position = 0; position < labyrinthLength; ++position) {
             Player player = new PlayerImplementation(position, 1);
 
-            assertEquals(position == laby.getExitCell()[0],
-                    laby.isPlayerAtExit(player));
+            assertEquals(position == labyrinth.getExitCell()[0],
+                    labyrinth.isPlayerAtExit(player));
 
         }
     }
