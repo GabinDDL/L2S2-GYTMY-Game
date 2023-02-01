@@ -86,10 +86,9 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
     @Override
     public void movePlayer(Player player, Direction direction) {
-        if (!isMoveValid(player, direction))
-            return;
-
-        player.move(direction);
+        if (isMoveValid(player, direction)) {
+            player.move(direction);
+        }
     }
 
     @Override
