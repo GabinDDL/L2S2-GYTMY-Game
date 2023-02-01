@@ -7,11 +7,11 @@ import java.util.Arrays;
 
     The Labyrinth is associated with an array of players.
 
-    A Labyrinth of dimension 1 is reprensented as a segment
+    A Labyrinth of dimension 1 is represented as a segment
     without obstacles by using a 2-dimensional array of booleans,
     of height 3 and length (lengthPath + 1)
     
-    true reprensents a walkable path
+    true represents a walkable path
     false represents a wall
    
     Remarks: 
