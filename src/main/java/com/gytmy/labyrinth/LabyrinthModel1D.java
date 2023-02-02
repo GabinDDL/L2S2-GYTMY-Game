@@ -57,7 +57,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         board = new boolean[3][length + 1];
 
         for (int row = 0; row < board.length; ++row) {
-            // The walkable path with the first cells being a wall
+            // The walkable path with the first cell being a wall
             if (row == 1) {
                 Arrays.fill(board[row], true);
                 board[row][0] = false;
@@ -73,7 +73,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     @Override
     public boolean[][] getBoard() {
         if (board == null) {
-            return null;
+            return new boolean[0][0];
         }
 
         boolean[][] result = new boolean[board.length][];
