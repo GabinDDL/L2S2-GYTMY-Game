@@ -1,12 +1,21 @@
 package com.gytmy.utils;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
 import org.junit.Test;
 
 public class TestArrayOperations {
+
+    @Test
+    public void testCopyNull() {
+        Exception exceptionZero = assertThrows(IllegalArgumentException.class,
+                () -> ArrayOperations.booleanCopy2D(null));
+        assertEquals("Array cannot be null", exceptionZero.getMessage());
+    }
 
     @Test
     public void testCopyEmpty() {

@@ -14,6 +14,9 @@ public class ArrayOperations {
      * @return
      */
     public static boolean[][] booleanCopy2D(boolean[][] array) {
+        if (array == null) {
+            throw new IllegalArgumentException("Array cannot be null");
+        }
         boolean[][] result = new boolean[array.length][];
         for (int row = 0; row < array.length; ++row) {
             result[row] = Arrays.copyOf(array[row], array[row].length);
