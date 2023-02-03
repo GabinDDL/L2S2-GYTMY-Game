@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth;
 
+import com.gytmy.labyrinth.generators.BoardGenerator;
 import com.gytmy.utils.ArrayOperations;
 import com.gytmy.utils.Vector2;
 
@@ -20,6 +21,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         this.exitCell = exitCell;
 
         this.players = players;
+    }
+
+    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 size, Vector2 initialCell, Vector2 exitCell,
+            Player[] players) {
+        this(generator.generate(size.getX(), size.getY()), initialCell, exitCell, players);
     }
 
     private void handleNullArguments(boolean[][] board, Vector2 initialCell, Vector2 exitCell) {
