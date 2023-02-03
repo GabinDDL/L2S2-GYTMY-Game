@@ -1,9 +1,9 @@
 package com.gytmy.labyrinth;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.Test;
 
@@ -242,6 +242,70 @@ public class TestLabyrinthImplementation {
         board[3][3] = true;
         board[3][5] = true;
         return new LabyrinthModelImplementation(board, new Vector2(1, 3), new Vector2(5, 3), null);
+    }
+
+    @Test
+    public void testNoPlayersMeansGameOver() {
+        LabyrinthModel1D labyrinth = new LabyrinthModel1D(5, null);
+        assertTrue(labyrinth.isGameOver());
+    }
+
+    @Test
+    public void testAllPlayersAtExitMeansGameOver() {
+        Player playerA = new PlayerImplementation(4, 1);
+        Player playerB = new PlayerImplementation(4, 1);
+        Player playerC = new PlayerImplementation(4, 1);
+        Player playerD = new PlayerImplementation(4, 1);
+
+        Player[] players = {
+                playerA,
+                playerB,
+                playerC,
+                playerD
+        };
+
+        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth(5, players);
+        assertTrue(labyrinth.isGameOver());
+    }
+
+    @Test
+    public void testNotAllPlayersAtExitMeansNoGameOver() {
+
+        Player playerA = new PlayerImplementation(4, 1);
+        Player playerB = new PlayerImplementation(4, 1);
+        Player playerC = new PlayerImplementation(4, 1);
+        Player playerD = new PlayerImplementation(1, 1);
+
+        Player[] players = {
+                playerA,
+                playerB,
+                playerC,
+                playerD
+        };
+
+        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth(5, players);
+        assertFalse(labyrinth.isGameOver());
+
+        playerC.setCoordinates(new Vector2(1, 1));
+        assertFalse(labyrinth.isGameOver());
+
+        playerB.setCoordinates(new Vector2(1, 1));
+        assertFalse(labyrinth.isGameOver());
+
+        playerA.setCoordinates(new Vector2(1, 1));
+        assertFalse(labyrinth.isGameOver());
+    }
+
+    private LabyrinthModelImplementation createEmptyLabyrinth(int n, Player[] players) {
+        // Empty board
+        boolean[][] board = new boolean[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] = true;
+            }
+        }
+        return new LabyrinthModelImplementation(board,
+                new Vector2(1, 1), new Vector2(n - 1, 1), players);
     }
 
 }
