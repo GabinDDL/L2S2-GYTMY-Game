@@ -98,11 +98,11 @@ public class TestLabyrinthImplementation {
     private void assertWasCorrectlyConstructed(BoardGenerator generator) {
         Vector2 size = new Vector2(10, 10);
         Vector2 initialCell = new Vector2(1, 1);
-        Vector2 exitCell = new Vector2(1, 1);
+        Vector2 exitCell = new Vector2(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
                 generator, size, initialCell, exitCell, null);
 
-        assertArrayEquals(labyrinth.getBoard(), new EmptyBoardGenerator().generate(size.getX(), size.getY()));
+        assertArrayEquals(labyrinth.getBoard(), generator.generate(size.getX(), size.getY()));
     }
 
     @Test
