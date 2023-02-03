@@ -189,4 +189,59 @@ public class TestLabyrinthImplementation {
                 new Vector2(1, 1), new Vector2(3, 2), null);
     }
 
+    @Test
+    public void testMovePlayerValidMovement() {
+        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
+
+        Player player = new PlayerImplementation(new Vector2(1, 1));
+
+        assertTrue(labyrinth.isMoveValid(player, Direction.UP));
+        assertTrue(labyrinth.isMoveValid(player, Direction.LEFT));
+        assertTrue(labyrinth.isMoveValid(player, Direction.DOWN));
+        assertTrue(labyrinth.isMoveValid(player, Direction.RIGHT));
+
+        labyrinth.movePlayer(player, Direction.UP);
+        assertEquals(new Vector2(1, 0), player.getCoordinates());
+        labyrinth.movePlayer(player, Direction.LEFT);
+        assertEquals(new Vector2(0, 0), player.getCoordinates());
+        labyrinth.movePlayer(player, Direction.DOWN);
+        assertEquals(new Vector2(0, 1), player.getCoordinates());
+        labyrinth.movePlayer(player, Direction.RIGHT);
+        assertEquals(new Vector2(1, 1), player.getCoordinates());
+    }
+
+    @Test
+    public void testMovePlayerInvalidMovement() {
+        LabyrinthModelImplementation labyrinth = createLabyrinthWithWalls();
+
+        Player player = new PlayerImplementation(new Vector2(3, 3));
+
+        assertFalse(labyrinth.isMoveValid(player, Direction.UP));
+        assertFalse(labyrinth.isMoveValid(player, Direction.LEFT));
+        assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
+        assertFalse(labyrinth.isMoveValid(player, Direction.RIGHT));
+
+        labyrinth.movePlayer(player, Direction.UP);
+        assertEquals(new Vector2(3, 3), player.getCoordinates());
+        labyrinth.movePlayer(player, Direction.LEFT);
+        assertEquals(new Vector2(3, 3), player.getCoordinates());
+        labyrinth.movePlayer(player, Direction.DOWN);
+        assertEquals(new Vector2(3, 3), player.getCoordinates());
+        labyrinth.movePlayer(player, Direction.RIGHT);
+        assertEquals(new Vector2(3, 3), player.getCoordinates());
+    }
+
+    /**
+     * 
+     * @return A 7x7 labyrinth with walls. Only he center and the exit and the
+     *         entrance are empty.
+     */
+    private LabyrinthModelImplementation createLabyrinthWithWalls() {
+        boolean[][] board = new boolean[7][7];
+        board[3][1] = true;
+        board[3][3] = true;
+        board[3][5] = true;
+        return new LabyrinthModelImplementation(board, new Vector2(1, 3), new Vector2(5, 3), null);
+    }
+
 }
