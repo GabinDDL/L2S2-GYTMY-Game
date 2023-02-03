@@ -9,7 +9,7 @@ public class TestBorderLabyrinthGenerator {
 
     @Test
     public void testGenerate() {
-        BoardGenerator generator = new BorderLabyrinthGenerator();
+        BoardGenerator generator = new BorderBoardGenerator();
         boolean[][] board = generator.generate(10, 10);
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {

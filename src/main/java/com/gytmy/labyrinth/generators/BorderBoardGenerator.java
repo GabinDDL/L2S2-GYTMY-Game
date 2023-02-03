@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth.generators;
 
-public class BorderLabyrinthGenerator implements BoardGenerator {
+public class BorderBoardGenerator implements BoardGenerator {
 
     @Override
     public boolean[][] generate(int width, int height) {
