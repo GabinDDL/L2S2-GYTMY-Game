@@ -16,5 +16,10 @@ public interface Player {
 
     public void setCoordinates(Vector2 coordinates);
 
+    /**
+     * Moves the player in the given direction
+     * 
+     * @param direction
+     */
     public void move(Direction direction);
 }
