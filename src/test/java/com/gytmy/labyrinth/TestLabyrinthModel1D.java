@@ -210,7 +210,7 @@ public class TestLabyrinthModel1D {
             };
 
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, players);
-            assertTrue(labyrinth.isGameOver());
+            assertTrue(labyrinth.isGameOver(), "Labyrinth length: " + lengthPath);
         }
     }
 
@@ -230,7 +230,7 @@ public class TestLabyrinthModel1D {
             };
 
             LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, players);
-            assertFalse(labyrinth.isGameOver());
+            assertTrue(!labyrinth.isGameOver(), "Labyrinth length: " + lengthPath);
         }
     }
 
