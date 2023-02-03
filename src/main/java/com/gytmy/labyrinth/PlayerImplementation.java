@@ -1,7 +1,8 @@
 package com.gytmy.labyrinth;
 
 public class PlayerImplementation implements Player {
-    private int x, y;
+    private int x;
+    private int y;
 
     public PlayerImplementation(int[] coordinates) {
         this(coordinates[0], coordinates[1]);
