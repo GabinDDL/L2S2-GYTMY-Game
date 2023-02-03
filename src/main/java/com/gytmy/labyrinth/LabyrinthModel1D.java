@@ -2,6 +2,7 @@ package com.gytmy.labyrinth;
 
 import java.util.Arrays;
 
+import com.gytmy.utils.ArrayOperations;
 import com.gytmy.utils.Vector2;
 
 /* 
@@ -77,13 +78,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         if (board == null) {
             return new boolean[0][0];
         }
-
-        boolean[][] result = new boolean[board.length][];
-        for (int row = 0; row < board.length; ++row) {
-            result[row] = Arrays.copyOf(board[row], board[row].length);
-        }
-
-        return result;
+        return ArrayOperations.booleanCopy2D(board);
     }
 
     @Override
