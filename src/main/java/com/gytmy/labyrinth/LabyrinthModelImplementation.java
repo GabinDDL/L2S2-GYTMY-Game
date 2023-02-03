@@ -63,7 +63,6 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         if (initialCell.equals(exitCell)) {
             throw new IllegalArgumentException("Initial and exit cells cannot be the same");
         }
-
     }
 
     private boolean isOutsideBounds(Vector2 cell) {
