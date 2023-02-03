@@ -308,4 +308,25 @@ public class TestLabyrinthImplementation {
                 new Vector2(1, 1), new Vector2(n - 1, 1), players);
     }
 
+    @Test
+    public void isPlayerAtExit() {
+        Player playerA = new PlayerImplementation(1, 1);
+        Player playerB = new PlayerImplementation(4, 2);
+        Player playerC = new PlayerImplementation(3, 3);
+        Player playerD = new PlayerImplementation(4, 1);
+
+        Player[] players = {
+                playerA,
+                playerB,
+                playerC,
+                playerD
+        };
+
+        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth(5, players);
+        assertFalse(labyrinth.isPlayerAtExit(playerA));
+        assertFalse(labyrinth.isPlayerAtExit(playerB));
+        assertFalse(labyrinth.isPlayerAtExit(playerC));
+        assertTrue(labyrinth.isPlayerAtExit(playerD));
+    }
+
 }
