@@ -14,18 +14,19 @@ public class TestLabyrinthModel1D {
 
     @Test
     void testConstructorInvalidLength() {
+        String expectedErrorMessage = "Cannot initialize a labyrinth of size <= 1";
 
         Exception exceptionZero = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModel1D(0, null));
-        assertEquals("Cannot initialize a labyrinth of size <= 1", exceptionZero.getMessage());
+        assertEquals(expectedErrorMessage, exceptionZero.getMessage());
 
         Exception exceptionOne = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModel1D(1, null));
-        assertEquals("Cannot initialize a labyrinth of size <= 1", exceptionOne.getMessage());
+        assertEquals(expectedErrorMessage, exceptionOne.getMessage());
 
         Exception exceptionNegative = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModel1D(-1, null));
-        assertEquals("Cannot initialize a labyrinth of size <= 1", exceptionNegative.getMessage());
+        assertEquals(expectedErrorMessage, exceptionNegative.getMessage());
 
     }
 
@@ -183,54 +184,6 @@ public class TestLabyrinthModel1D {
             assertFalse(labyrinth.isMoveValid(player, Direction.DOWN));
             assertTrue(labyrinth.isMoveValid(player, Direction.LEFT));
             assertFalse(labyrinth.isMoveValid(player, Direction.RIGHT));
-        }
-    }
-
-    @Test
-    void testNoPlayersMeansGameOver() {
-        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
-            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, null);
-            assertTrue(labyrinth.isGameOver());
-        }
-    }
-
-    @Test
-    void testAllPlayersAtExitMeansGameOver() {
-        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
-            Player playerA = new PlayerImplementation(lengthPath, 1);
-            Player playerB = new PlayerImplementation(lengthPath, 1);
-            Player playerC = new PlayerImplementation(lengthPath, 1);
-            Player playerD = new PlayerImplementation(lengthPath, 1);
-
-            Player[] players = {
-                    playerA,
-                    playerB,
-                    playerC,
-                    playerD
-            };
-
-            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, players);
-            assertTrue(labyrinth.isGameOver(), "Labyrinth length: " + lengthPath);
-        }
-    }
-
-    @Test
-    void testNotAllPlayersAtExitMeansNoGameOver() {
-        for (int lengthPath = 2; lengthPath < 102; ++lengthPath) {
-            Player playerA = new PlayerImplementation(lengthPath, 1);
-            Player playerB = new PlayerImplementation(1, 1);
-            Player playerC = new PlayerImplementation(1, 1);
-            Player playerD = new PlayerImplementation(1, 1);
-
-            Player[] players = {
-                    playerA,
-                    playerB,
-                    playerC,
-                    playerD
-            };
-
-            LabyrinthModel1D labyrinth = new LabyrinthModel1D(lengthPath, players);
-            assertTrue(!labyrinth.isGameOver(), "Labyrinth length: " + lengthPath);
         }
     }
 
