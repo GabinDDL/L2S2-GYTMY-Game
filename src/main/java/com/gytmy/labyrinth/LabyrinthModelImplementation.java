@@ -11,15 +11,18 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     protected Player[] players;
 
     public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
-        handleNullArguments(board, initialCell, exitCell, players);
-        handleSmallBoards(board);
+        handleNullArguments(board, initialCell, exitCell);
+        handleSmallBoard(board);
         this.board = ArrayOperations.booleanCopy2D(board);
+
+        handleInvalidCells(initialCell, exitCell);
         this.initialCell = initialCell;
         this.exitCell = exitCell;
+
         this.players = players;
     }
 
-    private void handleNullArguments(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
+    private void handleNullArguments(boolean[][] board, Vector2 initialCell, Vector2 exitCell) {
         if (board == null) {
             throw new IllegalArgumentException("Board cannot be null");
         }
@@ -31,13 +34,41 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         }
     }
 
-    private void handleSmallBoards(boolean[][] board) {
+    private void handleSmallBoard(boolean[][] board) {
         if (board.length < 3) {
             throw new IllegalArgumentException("Board must have at least 3 rows");
         }
         if (board[0].length < 3) {
             throw new IllegalArgumentException("Board must have at least 3 columns");
         }
+    }
+
+    private void handleInvalidCells(Vector2 initialCell, Vector2 exitCell) {
+        if (isOutsideBounds(initialCell)) {
+            throw new IllegalArgumentException("Initial cell is outside the board");
+        }
+
+        if (isOutsideBounds(exitCell)) {
+            throw new IllegalArgumentException("Exit cell is outside the board");
+        }
+
+        if (!board[(int) initialCell.getY()][(int) initialCell.getX()]) {
+            throw new IllegalArgumentException("Initial cell is a wall");
+        }
+
+        if (!board[(int) exitCell.getY()][(int) exitCell.getX()]) {
+            throw new IllegalArgumentException("Exit cell is a wall");
+        }
+
+        if (initialCell.equals(exitCell)) {
+            throw new IllegalArgumentException("Initial and exit cells cannot be the same");
+        }
+
+    }
+
+    private boolean isOutsideBounds(Vector2 cell) {
+        return cell.getX() < 0 || cell.getX() >= board[0].length ||
+                cell.getY() < 0 || cell.getY() >= board.length;
     }
 
     @Override
