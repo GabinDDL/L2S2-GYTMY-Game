@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.Test;
 
+import com.gytmy.labyrinth.generators.BoardGenerator;
+import com.gytmy.labyrinth.generators.BorderBoardGenerator;
+import com.gytmy.labyrinth.generators.EmptyBoardGenerator;
 import com.gytmy.utils.Vector2;
 
 public class TestLabyrinthImplementation {
@@ -79,6 +83,26 @@ public class TestLabyrinthImplementation {
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(1, 1), null));
         assertEquals("Initial and exit cells cannot be the same", exception.getMessage());
+    }
+
+    @Test
+    public void testConstructorEmptyBoard() {
+        assertWasCorrectlyConstructed(new EmptyBoardGenerator());
+    }
+
+    @Test
+    public void testConstructorBorderBoard() {
+        assertWasCorrectlyConstructed(new BorderBoardGenerator());
+    }
+
+    private void assertWasCorrectlyConstructed(BoardGenerator generator) {
+        Vector2 size = new Vector2(10, 10);
+        Vector2 initialCell = new Vector2(1, 1);
+        Vector2 exitCell = new Vector2(1, 1);
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
+                generator, size, initialCell, exitCell, null);
+
+        assertArrayEquals(labyrinth.getBoard(), new EmptyBoardGenerator().generate(size.getX(), size.getY()));
     }
 
     @Test
