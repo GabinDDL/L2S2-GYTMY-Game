@@ -7,7 +7,7 @@ public interface LabyrinthModel {
      * 
      * @return the Board according to its Dimension
      */
-    Object getBoard();
+    boolean[][] getBoard();
 
     /**
      * Checks if the given move is valid for the given player
