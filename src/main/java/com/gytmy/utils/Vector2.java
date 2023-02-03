@@ -1,5 +1,7 @@
 package com.gytmy.utils;
 
+import java.util.Objects;
+
 public class Vector2 {
 
     private int x;
@@ -69,6 +71,33 @@ public class Vector2 {
      */
     public double norm() {
         return Math.sqrt((double) (x * x) + y * y);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+
+    /**
+     * @param obj
+     * @return true if the two vectors have the same coordinates
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Vector2 other = (Vector2) obj;
+
+        return this.x == other.x && this.y == other.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
 }
