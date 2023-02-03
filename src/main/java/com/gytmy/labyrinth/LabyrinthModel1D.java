@@ -2,6 +2,8 @@ package com.gytmy.labyrinth;
 
 import java.util.Arrays;
 
+import com.gytmy.utils.Vector2;
+
 /* 
     Class representing the Model of a 1-Dimensional Labyrinth
 
@@ -26,7 +28,7 @@ import java.util.Arrays;
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
-    private int[] exitCell;
+    private Vector2 exitCell;
     private boolean[][] board;
     private Player[] players; // array of players
 
@@ -42,7 +44,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
                     "Cannot initialize a labyrinth of size <= 1");
         }
 
-        this.exitCell = new int[] { lengthPath, 1 };
+        this.exitCell = new Vector2(lengthPath, 1);
         this.players = players;
         initBoard(lengthPath);
     }
@@ -66,7 +68,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
         }
     }
 
-    public int[] getExitCell() {
+    public Vector2 getExitCell() {
         return exitCell;
     }
 
@@ -194,7 +196,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     @Override
     public boolean isPlayerAtExit(Player player) {
         int position = player.getX();
-        return position == exitCell[0];
+        return position == exitCell.getX();
     }
 
 }
