@@ -1,18 +1,20 @@
 package com.gytmy.labyrinth;
 
+import com.gytmy.utils.Vector2;
+
 public interface Player {
 
     public int getX();
 
     public int getY();
 
-    public int[] getCoordinates();
+    public Vector2 getCoordinates();
 
     public void setX(int x);
 
     public void setY(int y);
 
-    public void setCoordinates(int[] coordinates);
+    public void setCoordinates(Vector2 coordinates);
 
     public void move(Direction direction);
 }
