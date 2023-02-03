@@ -215,4 +215,12 @@ public class TestVector2 {
         assertFalse(v4.equals(v3));
     }
 
+    @Test
+    public void testCopy() {
+        Vector2 v1 = new Vector2(1, 2);
+        Vector2 v2 = new Vector2(1, 2);
+        assertEquals(v1, v2);
+
+    }
+
 }
