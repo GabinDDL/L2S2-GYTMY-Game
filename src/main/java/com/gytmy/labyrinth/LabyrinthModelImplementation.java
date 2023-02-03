@@ -4,6 +4,20 @@ import com.gytmy.labyrinth.generators.BoardGenerator;
 import com.gytmy.utils.ArrayOperations;
 import com.gytmy.utils.Vector2;
 
+/**
+ * Implementation of the LabyrinthModel interface. It is used to represent the
+ * labyrinth.
+ * 
+ * In order to create a labyrinth, you can either pass a board to the
+ * constructor or use a BoardGenerator to generate a board. The board is
+ * represented as a 2D array of booleans. A true value means that the cell is
+ * not a wall, a false value means that the cell is a wall.
+ * 
+ * The initial cell is the cell where the players start. The exit cell is the
+ * cell where the players must reach in order to win the game.
+ * 
+ * The players are represented as an array of Player objects.
+ */
 public class LabyrinthModelImplementation implements LabyrinthModel {
 
     protected boolean[][] board;
@@ -28,6 +42,14 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         this(generator.generate(size.getX(), size.getY()), initialCell, exitCell, players);
     }
 
+    /**
+     * Checks if the arguments are null. If they are, it throws an
+     * IllegalArgumentException.
+     * 
+     * @param board
+     * @param initialCell
+     * @param exitCell
+     */
     private void handleNullArguments(boolean[][] board, Vector2 initialCell, Vector2 exitCell) {
         if (board == null) {
             throw new IllegalArgumentException("Board cannot be null");
@@ -40,6 +62,12 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         }
     }
 
+    /**
+     * Checks if the board is too small. If it is, it throws an
+     * IllegalArgumentException.
+     * 
+     * @param board
+     */
     private void handleSmallBoard(boolean[][] board) {
         if (board.length < 3) {
             throw new IllegalArgumentException("Board must have at least 3 rows");
@@ -49,6 +77,13 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         }
     }
 
+    /**
+     * Checks if the initial and exit cells are valid. If they are not, it throws
+     * an IllegalArgumentException.
+     * 
+     * @param initialCell
+     * @param exitCell
+     */
     private void handleInvalidCells(Vector2 initialCell, Vector2 exitCell) {
         if (isOutsideBounds(initialCell)) {
             throw new IllegalArgumentException("Initial cell is outside the board");
@@ -58,11 +93,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
             throw new IllegalArgumentException("Exit cell is outside the board");
         }
 
-        if (!board[(int) initialCell.getY()][(int) initialCell.getX()]) {
+        if (!board[initialCell.getY()][initialCell.getX()]) {
             throw new IllegalArgumentException("Initial cell is a wall");
         }
 
-        if (!board[(int) exitCell.getY()][(int) exitCell.getX()]) {
+        if (!board[exitCell.getY()][exitCell.getX()]) {
             throw new IllegalArgumentException("Exit cell is a wall");
         }
 

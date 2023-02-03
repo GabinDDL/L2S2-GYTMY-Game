@@ -1,5 +1,8 @@
 package com.gytmy.labyrinth.generators;
 
+/**
+ * Generates a board with a one cell border.
+ */
 public class BorderBoardGenerator implements BoardGenerator {
 
     @Override

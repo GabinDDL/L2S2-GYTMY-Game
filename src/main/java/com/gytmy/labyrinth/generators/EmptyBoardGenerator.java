@@ -1,5 +1,8 @@
 package com.gytmy.labyrinth.generators;
 
+/**
+ * Generates an empty board.
+ */
 public class EmptyBoardGenerator implements BoardGenerator {
 
     @Override
