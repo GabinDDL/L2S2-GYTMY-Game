@@ -20,6 +20,14 @@ public class Vector2 {
         return y;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
     /**
      * 
      * @param other
@@ -71,6 +79,13 @@ public class Vector2 {
      */
     public double norm() {
         return Math.sqrt((double) (x * x) + y * y);
+    }
+
+    /**
+     * @return A copy of this vector
+     */
+    public Vector2 copy() {
+        return new Vector2(x, y);
     }
 
     @Override
