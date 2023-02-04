@@ -27,7 +27,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
         handleNullArguments(board, initialCell, exitCell);
-        handleSmallBoard(board);
+        handleInvalidBoardSize(board);
         this.board = ArrayOperations.booleanCopy2D(board);
 
         handleInvalidCells(initialCell, exitCell);
@@ -68,7 +68,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * 
      * @param board
      */
-    private void handleSmallBoard(boolean[][] board) {
+    private void handleInvalidBoardSize(boolean[][] board) {
         if (board.length < 3) {
             throw new IllegalArgumentException("Board must have at least 3 rows");
         }

@@ -37,7 +37,7 @@ public class TestLabyrinthImplementation {
     }
 
     @Test
-    public void testConstructorSmallBoard() {
+    public void testConstructorInvalidBoardSize() {
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> new LabyrinthModelImplementation(new boolean[2][2], new Vector2(0, 0), new Vector2(0, 0), null));
         assertEquals("Board must have at least 3 rows", exception.getMessage());
