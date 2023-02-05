@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class LabyrinthViewImplementation extends JPanel implements LabyrinthView {
     private LabyrinthModel model;
 
-    LabyrinthViewImplementation(LabyrinthModel model) {
+    public LabyrinthViewImplementation(LabyrinthModel model) {
         this.model = model;
     }
 
