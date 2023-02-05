@@ -1,6 +1,7 @@
 compile (){
     echo "Compiling..."
-    javac -cp src:lib -d bin ./src/main/java/com/gytmy/Main.java
+    find src/main/java/com/gytmy -name "*.java"  > sources.txt
+    javac -cp src:lib -d bin @sources.txt
     echo "Done!"
 }
 
