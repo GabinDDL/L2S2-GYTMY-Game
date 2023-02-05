@@ -10,10 +10,10 @@ import javax.swing.JTextField;
 
 public class StartMenu extends JPanel {
     private JFrame frame;
-    private JLabel nbPlayersLabel;
+    private JLabel askNbPlayers;
     private JTextField nbPlayersField;
-    private JPanel topPanel = new JPanel();
-    private JPanel bottomPanel = new JPanel();
+    private JPanel textPanel;
+    private JPanel buttonPanel;
 
     StartMenu(JFrame frame) {
         this.frame = frame;
@@ -21,36 +21,43 @@ public class StartMenu extends JPanel {
     }
 
     private void initMenu() {
-        initTextField();
-        initPlayButton();
-
         GridLayout grid = new GridLayout(2, 1);
         setLayout(grid);
-        add(topPanel);
-        add(bottomPanel);
+        initTextField();
+        initPlayerSettingsButton();
     }
 
     private void initTextField() {
-        nbPlayersLabel = new JLabel("Entrez le nombre de joueurs: ");
-        topPanel.add(nbPlayersLabel);
-        nbPlayersField = new JTextField("");
-        topPanel.add(nbPlayersField);
+        textPanel = new JPanel();
+        askNbPlayers = new JLabel("Entrez le nombre de joueurs: ");
+        textPanel.add(askNbPlayers);
+        nbPlayersField = new JTextField(5);
+        textPanel.add(nbPlayersField);
+        add(textPanel);
     }
 
-    private void initPlayButton() {
-        JButton playButton = new JButton("Play");
-        bottomPanel.add(playButton);
+    private void initPlayerSettingsButton() {
+        buttonPanel = new JPanel();
+        JButton playButton = new JButton("Next");
+        buttonPanel.add(playButton);
         playButton.addActionListener(event -> {
-            if (isValidInput(nbPlayersLabel)) {
-                frame.setContentPane(this);
+            if (isValidInput(nbPlayersField)) {
+                int nbPlayers = Integer.valueOf(nbPlayersField.getText().strip());
+                frame.setContentPane(new Settings(frame, nbPlayers));
                 frame.revalidate();
             }
         });
+        add(buttonPanel);
     }
 
-    private boolean isValidInput(JLabel label) {
-        String strippedString = label.getText().strip();
+    private boolean isValidInput(JTextField field) {
+        String strippedString = field.getText().strip();
+
+        if (strippedString.equals(""))
+            return false;
+
         int value = Integer.valueOf(strippedString);
         return 1 <= value && value <= 4;
     }
+
 }
