@@ -23,7 +23,15 @@ public class ArrayOperations {
         }
 
         return result;
+    }
 
+    public static void printBoolean2DArray(boolean[][] array) {
+        for (int row = 0; row < array.length; ++row) {
+            for (int col = 0; col < array[row].length; ++col) {
+                System.out.print(array[row][col] ? "⬜" : "⬛");
+            }
+            System.out.println();
+        }
     }
 
 }
