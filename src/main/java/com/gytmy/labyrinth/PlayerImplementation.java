@@ -1,46 +1,46 @@
 package com.gytmy.labyrinth;
 
-public class PlayerImplementation implements Player {
-    private int x, y;
+import com.gytmy.utils.Vector2;
 
-    public PlayerImplementation(int[] coordinates) {
-        this(coordinates[0], coordinates[1]);
+public class PlayerImplementation implements Player {
+    private Vector2 coordinates;
+
+    public PlayerImplementation(Vector2 coordinates) {
+        this.coordinates = coordinates.copy();
     }
 
     public PlayerImplementation(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.coordinates = new Vector2(x, y);
     }
 
     @Override
     public int getX() {
-        return x;
+        return coordinates.getX();
     }
 
     @Override
     public int getY() {
-        return y;
+        return coordinates.getY();
     }
 
     @Override
-    public int[] getCoordinates() {
-        return new int[] { x, y };
+    public Vector2 getCoordinates() {
+        return coordinates.copy();
     }
 
     @Override
     public void setX(int x) {
-        this.x = x;
+        coordinates.setX(x);
     }
 
     @Override
     public void setY(int y) {
-        this.y = y;
+        coordinates.setY(y);
     }
 
     @Override
-    public void setCoordinates(int[] coordinates) {
-        this.x = coordinates[0];
-        this.y = coordinates[1];
+    public void setCoordinates(Vector2 coordinates) {
+        this.coordinates = coordinates.copy();
     }
 
     @Override
@@ -49,12 +49,12 @@ public class PlayerImplementation implements Player {
         switch (direction) {
             case LEFT:
             case RIGHT:
-                int newHorizontalPosition = x + direction.getStep();
+                int newHorizontalPosition = getX() + direction.getStep();
                 setX(newHorizontalPosition);
                 break;
             case UP:
             case DOWN:
-                int newVerticalPosition = y + direction.getStep();
+                int newVerticalPosition = getY() + direction.getStep();
                 setY(newVerticalPosition);
                 break;
             default:
