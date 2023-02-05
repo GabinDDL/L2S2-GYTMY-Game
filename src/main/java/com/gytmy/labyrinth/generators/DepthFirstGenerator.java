@@ -1,82 +1,134 @@
 package com.gytmy.labyrinth.generators;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 
 import com.gytmy.utils.Vector2;
-import com.gytmy.utils.ArrayOperations;
 
 /**
  * A generator that uses a random depth-first search to generate a maze.
  */
 public class DepthFirstGenerator implements BoardGenerator {
 
-    Set<Vector2> visited = new HashSet<>();
-    Stack<Vector2> stack = new Stack<>();
-    Vector2 currentPosition = new Vector2(0, 0);
+    boolean[][] board;
+    int[][] maze;
     int width;
     int height;
 
     @Override
     public boolean[][] generate(int width, int height) {
-        boolean[][] board = new boolean[width][height];
-
         this.width = width;
         this.height = height;
 
-        // Start at a random position
-        int x = (int) (Math.random() * width);
-        int y = (int) (Math.random() * height);
+        int[][] maze = generateMaze();
 
-        // Mark the starting position as a cell
-        currentPosition = new Vector2(x, y);
-        stack.add(currentPosition.copy());
+        boolean[][] board = new boolean[height][width];
 
-        while (!stack.isEmpty()) {
-            ArrayOperations.printBoolean2DArray(board);
-            currentPosition = stack.pop();
-
-            List<Vector2> neighbors = getNonVisitedNeighbors();
-            if (neighbors.isEmpty()) {
-                continue;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                board[i][j] = maze[i][j] == 0;
             }
-
-            board[currentPosition.getY()][currentPosition.getX()] = true;
-            stack.push(currentPosition.copy());
-
-            int randomNeighbor = (int) (Math.random() * neighbors.size());
-            Vector2 next = neighbors.get(randomNeighbor);
-
-            board[next.getY()][next.getX()] = true;
-            visited.add(next);
-            stack.push(next);
         }
 
         return board;
     }
 
-    private List<Vector2> getNonVisitedNeighbors() {
-        List<Vector2> neighbors = new ArrayList<>();
-        if (currentPosition.getX() > 0
-                && !visited.contains(new Vector2(currentPosition.getX() - 1, currentPosition.getY()))) {
-            neighbors.add(new Vector2(currentPosition.getX() - 1, currentPosition.getY()));
+    public int[][] generateMaze() {
+
+        maze = new int[height][width];
+        // Initialize
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                maze[i][j] = 1;
+
+        Random rand = new Random();
+        // r for row、c for column
+        // Generate random r
+        int r = rand.nextInt(height);
+        while (r % 2 == 0) {
+            r = rand.nextInt(height);
         }
-        if (currentPosition.getX() < width - 1
-                && !visited.contains(new Vector2(currentPosition.getX() + 1, currentPosition.getY()))) {
-            neighbors.add(new Vector2(currentPosition.getX() + 1, currentPosition.getY()));
+        // Generate random c
+        int c = rand.nextInt(width);
+        while (c % 2 == 0) {
+            c = rand.nextInt(width);
         }
-        if (currentPosition.getY() > 0
-                && !visited.contains(new Vector2(currentPosition.getX(), currentPosition.getY() - 1))) {
-            neighbors.add(new Vector2(currentPosition.getX(), currentPosition.getY() - 1));
-        }
-        if (currentPosition.getY() < height - 1
-                && !visited.contains(new Vector2(currentPosition.getX(), currentPosition.getY() + 1))) {
-            neighbors.add(new Vector2(currentPosition.getX(), currentPosition.getY() + 1));
-        }
-        return neighbors;
+        // Starting cell
+        maze[r][c] = 0;
+
+        // Allocate the maze with recursive method
+        recursion(r, c);
+
+        return maze;
     }
 
+    public void recursion(int r, int c) {
+        // 4 random directions
+        Integer[] randDirs = generateRandomDirections();
+        // Examine each direction
+        for (int i = 0; i < randDirs.length; i++) {
+
+            switch (randDirs[i]) {
+                case 1: // Up
+                    // Whether 2 cells up is out or not
+                    if (r - 2 <= 0)
+                        continue;
+                    if (maze[r - 2][c] != 0) {
+                        maze[r - 2][c] = 0;
+                        maze[r - 1][c] = 0;
+                        recursion(r - 2, c);
+                    }
+                    break;
+                case 2: // Right
+                    // Whether 2 cells to the right is out or not
+                    if (c + 2 >= width - 1)
+                        continue;
+                    if (maze[r][c + 2] != 0) {
+                        maze[r][c + 2] = 0;
+                        maze[r][c + 1] = 0;
+                        recursion(r, c + 2);
+                    }
+                    break;
+                case 3: // Down
+                    // Whether 2 cells down is out or not
+                    if (r + 2 >= height - 1)
+                        continue;
+                    if (maze[r + 2][c] != 0) {
+                        maze[r + 2][c] = 0;
+                        maze[r + 1][c] = 0;
+                        recursion(r + 2, c);
+                    }
+                    break;
+                case 4: // Left
+                    // Whether 2 cells to the left is out or not
+                    if (c - 2 <= 0)
+                        continue;
+                    if (maze[r][c - 2] != 0) {
+                        maze[r][c - 2] = 0;
+                        maze[r][c - 1] = 0;
+                        recursion(r, c - 2);
+                    }
+                    break;
+            }
+        }
+
+    }
+
+    /**
+     * Generate an array with random directions 1-4
+     * 
+     * @return Array containing 4 directions in random order
+     */
+    public Integer[] generateRandomDirections() {
+        ArrayList<Integer> randoms = new ArrayList<>();
+        for (int i = 0; i < 4; i++)
+            randoms.add(i + 1);
+        Collections.shuffle(randoms);
+
+        return randoms.toArray(new Integer[4]);
+    }
 }
