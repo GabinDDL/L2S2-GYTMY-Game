@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
-import com.gytmy.utils.ArrayOperations;
+import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Vector2;
 
 /**
@@ -61,7 +61,6 @@ public class DepthFirstGenerator implements BoardGenerator {
     }
 
     private void initializeVariables() {
-        // Starting cell
         board[start.getY()][start.getX()] = true;
         visited = new boolean[height][width];
         visited[start.getY()][start.getX()] = true;
@@ -79,7 +78,6 @@ public class DepthFirstGenerator implements BoardGenerator {
             }
 
             updateVariables(neighbor);
-
         }
 
     }
@@ -122,38 +120,35 @@ public class DepthFirstGenerator implements BoardGenerator {
 
     private boolean[][] getBorderedBoard() {
         boolean[][] finalBoard = board;
-        if (!ArrayOperations.isRowEmpty(finalBoard, 0)) {
+        if (!Boolean2DArraysOperations.isRowEmpty(finalBoard, 0)) {
             finalBoard = addTopBorder(finalBoard);
         }
-
-        if (!ArrayOperations.isRowEmpty(finalBoard, finalBoard.length - 1)) {
+        if (!Boolean2DArraysOperations.isRowEmpty(finalBoard, finalBoard.length - 1)) {
             finalBoard = addBottomBorder(finalBoard);
         }
-
-        if (!ArrayOperations.isColumnEmpty(finalBoard, 0)) {
+        if (!Boolean2DArraysOperations.isColumnEmpty(finalBoard, 0)) {
             finalBoard = addLeftBorder(finalBoard);
         }
-
-        if (!ArrayOperations.isColumnEmpty(finalBoard, finalBoard[0].length - 1)) {
+        if (!Boolean2DArraysOperations.isColumnEmpty(finalBoard, finalBoard[0].length - 1)) {
             finalBoard = addRightBorder(finalBoard);
         }
         return finalBoard;
     }
 
     private boolean[][] addTopBorder(boolean[][] finalBoard) {
-        return ArrayOperations.addEmptyRow(finalBoard, 0);
+        return Boolean2DArraysOperations.addEmptyRow(finalBoard, 0);
     }
 
     private boolean[][] addBottomBorder(boolean[][] finalBoard) {
-        return ArrayOperations.addEmptyRow(finalBoard, finalBoard.length);
+        return Boolean2DArraysOperations.addEmptyRow(finalBoard, finalBoard.length);
     }
 
     private boolean[][] addLeftBorder(boolean[][] finalBoard) {
-        return ArrayOperations.addEmptyColumn(finalBoard, 0);
+        return Boolean2DArraysOperations.addEmptyColumn(finalBoard, 0);
     }
 
     private boolean[][] addRightBorder(boolean[][] finalBoard) {
-        return ArrayOperations.addEmptyColumn(finalBoard, finalBoard[0].length);
+        return Boolean2DArraysOperations.addEmptyColumn(finalBoard, finalBoard[0].length);
     }
 
 }

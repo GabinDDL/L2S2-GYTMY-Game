@@ -1,7 +1,7 @@
 package com.gytmy.labyrinth;
 
 import com.gytmy.labyrinth.generators.BoardGenerator;
-import com.gytmy.utils.ArrayOperations;
+import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Vector2;
 
 /**
@@ -28,7 +28,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
         handleNullArguments(board, initialCell, exitCell);
         handleInvalidBoardSize(board);
-        this.board = ArrayOperations.booleanCopy2D(board);
+        this.board = Boolean2DArraysOperations.booleanCopy2D(board);
 
         handleInvalidCells(initialCell, exitCell);
         this.initialCell = initialCell;
@@ -116,7 +116,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         if (board == null) {
             return new boolean[0][0];
         }
-        return ArrayOperations.booleanCopy2D(board);
+        return Boolean2DArraysOperations.booleanCopy2D(board);
     }
 
     public Vector2 getExitCell() {

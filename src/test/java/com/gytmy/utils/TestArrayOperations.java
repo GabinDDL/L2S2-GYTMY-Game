@@ -13,7 +13,7 @@ public class TestArrayOperations {
 
     @Test
     public void testCopyNull() {
-        assertCorrectExceptionMessage(() -> ArrayOperations.booleanCopy2D(null));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.booleanCopy2D(null));
     }
 
     private void assertCorrectExceptionMessage(Runnable runner) {
@@ -25,7 +25,7 @@ public class TestArrayOperations {
     @Test
     public void testCopyEmpty() {
         boolean[][] array = new boolean[0][0];
-        boolean[][] result = ArrayOperations.booleanCopy2D(array);
+        boolean[][] result = Boolean2DArraysOperations.booleanCopy2D(array);
 
         assertTrue(Arrays.deepEquals(array, result));
     }
@@ -33,7 +33,7 @@ public class TestArrayOperations {
     @Test
     public void testCopy1D() {
         boolean[][] array = new boolean[][] { { true, false, true } };
-        boolean[][] result = ArrayOperations.booleanCopy2D(array);
+        boolean[][] result = Boolean2DArraysOperations.booleanCopy2D(array);
 
         assertTrue(Arrays.deepEquals(array, result));
     }
@@ -41,19 +41,19 @@ public class TestArrayOperations {
     @Test
     public void testCopy2D() {
         boolean[][] array = new boolean[][] { { true, false, true }, { false, true, false } };
-        boolean[][] result = ArrayOperations.booleanCopy2D(array);
+        boolean[][] result = Boolean2DArraysOperations.booleanCopy2D(array);
 
         assertTrue(Arrays.deepEquals(array, result));
     }
 
     @Test
     public void testPrintNull() {
-        assertCorrectExceptionMessage(() -> ArrayOperations.printBoolean2DArray(null));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.printBoolean2DArray(null));
     }
 
     @Test
     public void testIsColumnEmptyNull() {
-        assertCorrectExceptionMessage(() -> ArrayOperations.isColumnEmpty(null, 0));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.isColumnEmpty(null, 0));
     }
 
     @Test
@@ -61,16 +61,16 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
 
-        assertTrue(ArrayOperations.isColumnEmpty(array, 0));
-        assertFalse(ArrayOperations.isColumnEmpty(array, 1));
-        assertFalse(ArrayOperations.isColumnEmpty(array, 2));
-        assertFalse(ArrayOperations.isColumnEmpty(array, 3));
-        assertFalse(ArrayOperations.isColumnEmpty(array, 4));
+        assertTrue(Boolean2DArraysOperations.isColumnEmpty(array, 0));
+        assertFalse(Boolean2DArraysOperations.isColumnEmpty(array, 1));
+        assertFalse(Boolean2DArraysOperations.isColumnEmpty(array, 2));
+        assertFalse(Boolean2DArraysOperations.isColumnEmpty(array, 3));
+        assertFalse(Boolean2DArraysOperations.isColumnEmpty(array, 4));
     }
 
     @Test
     public void testIsRowEmptyNull() {
-        assertCorrectExceptionMessage(() -> ArrayOperations.isRowEmpty(null, 0));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.isRowEmpty(null, 0));
     }
 
     @Test
@@ -78,15 +78,15 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, false, false, false }, { true, false, true, false, true },
                 { false, false, false, false, true }, { true, true, true, true, true } };
 
-        assertTrue(ArrayOperations.isRowEmpty(array, 0));
-        assertFalse(ArrayOperations.isRowEmpty(array, 1));
-        assertFalse(ArrayOperations.isRowEmpty(array, 2));
-        assertFalse(ArrayOperations.isRowEmpty(array, 3));
+        assertTrue(Boolean2DArraysOperations.isRowEmpty(array, 0));
+        assertFalse(Boolean2DArraysOperations.isRowEmpty(array, 1));
+        assertFalse(Boolean2DArraysOperations.isRowEmpty(array, 2));
+        assertFalse(Boolean2DArraysOperations.isRowEmpty(array, 3));
     }
 
     @Test
     public void testAddEmptyColumnNull() {
-        assertCorrectExceptionMessage(() -> ArrayOperations.addEmptyColumn(null, 0));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.addEmptyColumn(null, 0));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
 
-        boolean[][] result = ArrayOperations.addEmptyColumn(array, 0);
+        boolean[][] result = Boolean2DArraysOperations.addEmptyColumn(array, 0);
         boolean[][] expected = new boolean[][] { { false, false, false, true, false, false },
                 { false, false, false, true, true, true }, { false, false, false, true, false, true },
                 { false, false, true, true, true, true } };
@@ -107,7 +107,7 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
 
-        boolean[][] result = ArrayOperations.addEmptyColumn(array, 1);
+        boolean[][] result = Boolean2DArraysOperations.addEmptyColumn(array, 1);
         boolean[][] expected = new boolean[][] { { false, false, false, true, false, false },
                 { false, false, false, true, true, true },
                 { false, false, false, true, false, true }, { false, false, true, true, true, true } };
@@ -120,7 +120,7 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
 
-        boolean[][] result = ArrayOperations.addEmptyColumn(array, array[0].length);
+        boolean[][] result = Boolean2DArraysOperations.addEmptyColumn(array, array[0].length);
         boolean[][] expected = new boolean[][] { { false, false, true, false, false, false },
                 { false, false, true, true, true, false },
                 { false, false, true, false, true, false }, { false, true, true, true, true, false } };
@@ -129,7 +129,7 @@ public class TestArrayOperations {
 
     @Test
     public void testAddEmptyRowNull() {
-        assertCorrectExceptionMessage(() -> ArrayOperations.addEmptyRow(null, 0));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.addEmptyRow(null, 0));
     }
 
     @Test
@@ -137,7 +137,7 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
 
-        boolean[][] result = ArrayOperations.addEmptyRow(array, 0);
+        boolean[][] result = Boolean2DArraysOperations.addEmptyRow(array, 0);
         boolean[][] expected = new boolean[][] { { false, false, false, false, false },
                 { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
@@ -150,7 +150,7 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
 
-        boolean[][] result = ArrayOperations.addEmptyRow(array, 1);
+        boolean[][] result = Boolean2DArraysOperations.addEmptyRow(array, 1);
         boolean[][] expected = new boolean[][] { { false, false, true, false, false },
                 { false, false, false, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
@@ -163,7 +163,7 @@ public class TestArrayOperations {
         boolean[][] array = new boolean[][] { { false, false, true, false, false }, { false, false, true, true, true },
                 { false, false, true, false, true }, { false, true, true, true, true } };
 
-        boolean[][] result = ArrayOperations.addEmptyRow(array, array.length);
+        boolean[][] result = Boolean2DArraysOperations.addEmptyRow(array, array.length);
         boolean[][] expected = new boolean[][] { { false, false, true, false, false },
                 { false, false, true, true, true }, { false, false, true, false, true },
                 { false, true, true, true, true }, { false, false, false, false, false } };

@@ -1,7 +1,7 @@
 package com.gytmy;
 
 import com.gytmy.labyrinth.generators.DepthFirstGenerator;
-import com.gytmy.utils.ArrayOperations;
+import com.gytmy.utils.Boolean2DArraysOperations;
 
 public class Main {
 
@@ -10,7 +10,7 @@ public class Main {
 
         boolean[][] board = new DepthFirstGenerator(41, 21).generate();
 
-        ArrayOperations.printBoolean2DArray(board);
+        Boolean2DArraysOperations.printBoolean2DArray(board);
     }
 
 }
