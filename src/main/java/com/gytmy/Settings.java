@@ -12,25 +12,39 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.gytmy.labyrinth.Player;
+import com.gytmy.labyrinth.PlayerImplementation;
+import com.gytmy.utils.Vector2;
+
 public class Settings extends JPanel {
     private JFrame frame;
     private int nbPlayers;
+    private Player[] arrayPlayers;
 
     private JPanel playersPanel;
     private JPanel buttonsPanel;
-    private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW };
+    private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
 
     public Settings(JFrame frame, int nbPlayers) {
         this.frame = frame;
         this.nbPlayers = nbPlayers;
+        arrayPlayers = new Player[nbPlayers];
 
         setLayout(new BorderLayout());
 
-        initPlayersPanel(nbPlayers);
+        initPlayersPanel();
         initPlayButtons();
     }
 
-    public void initPlayersPanel(int nbPlayers) {
+    public boolean allPlayersAreReady() {
+        for (Player player : arrayPlayers) {
+            if (player == null || !player.isReady())
+                return false;
+        }
+        return true;
+    }
+
+    public void initPlayersPanel() {
         playersPanel = new JPanel(new GridLayout(1, 4));
 
         for (int playerID = 0; playerID < nbPlayers; ++playerID) {
@@ -98,21 +112,52 @@ public class Settings extends JPanel {
     private void lockPlayerSettings(int playerID) {
         disableNameSection(playerID);
         disableValidateSection(playerID);
+        initPlayer(playerID);
     }
 
     private void disableNameSection(int playerID) {
-        JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
-
-        JPanel nameSection = (JPanel) playerPanel.getComponent(0);
-        JTextField nameField = (JTextField) nameSection.getComponent(1);
+        JTextField nameField = getNameField(playerID);
         nameField.setEnabled(false);
     }
 
-    private void disableValidateSection(int playerID) {
+    private JTextField getNameField(int playerID) {
         JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
+        JPanel nameSection = (JPanel) playerPanel.getComponent(0);
+        JTextField nameField = (JTextField) nameSection.getComponent(1);
 
+        return nameField;
+    }
+
+    private void disableValidateSection(int playerID) {
+
+        JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
         JButton validateButton = (JButton) playerPanel.getComponent(2);
         validateButton.setEnabled(false);
+    }
+
+    public void initPlayer(int playerID) {
+
+        Vector2 coordinates = null;
+        String name = getNameField(playerID).getText();
+        Color color = getPlayerColor(playerID);
+        boolean ready = true;
+
+        Player player = new PlayerImplementation(
+                coordinates,
+                name,
+                color,
+                ready);
+
+        arrayPlayers[playerID] = player;
+    }
+
+    private Color getPlayerColor(int playerID) {
+        JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
+        JPanel colorSection = (JPanel) playerPanel.getComponent(1);
+        JPanel colorPanel = (JPanel) colorSection.getComponent(1);
+        Color color = colorPanel.getBackground();
+
+        return color;
     }
 
     private void initPlayButtons() {
@@ -129,7 +174,9 @@ public class Settings extends JPanel {
         JButton playLabyrinth1DButton = new JButton("Play Labyrinth 1D");
         buttonsPanel.add(playLabyrinth1DButton);
         playLabyrinth1DButton.addActionListener(e -> {
-            initDimensionPickerLabyrinth1D();
+            if (allPlayersAreReady()) {
+                initDimensionPickerLabyrinth1D();
+            }
         });
 
     }
@@ -166,7 +213,6 @@ public class Settings extends JPanel {
     }
 
     private void startGame1D() {
-        // TODO: implement startGame1D
     }
 
     private void initPlayButtonLabyrinth2D() {
@@ -174,7 +220,9 @@ public class Settings extends JPanel {
         JButton playLabyrinth2DButton = new JButton("Play Labyrinth 2D");
         buttonsPanel.add(playLabyrinth2DButton);
         playLabyrinth2DButton.addActionListener(e -> {
-            initDimensionPickerLabyrinth2D();
+            if (allPlayersAreReady()) {
+                initDimensionPickerLabyrinth2D();
+            }
         });
 
     }
@@ -183,16 +231,16 @@ public class Settings extends JPanel {
         JPanel settingsPanel = new JPanel(new BorderLayout());
 
         JPanel textPanel = new JPanel(new GridLayout(2, 2));
-        JTextField heightLabyrinthField = createInputFieldInPanel(
-                textPanel, "Enter the height of the labyrinth: ");
-        JTextField widthLabyrinthField = createInputFieldInPanel(
-                textPanel, "Enter the width of the labyrinth: ");
+        JTextField verticalLengthLabyrinth = createInputFieldInPanel(
+                textPanel, "Enter the vertical length of the labyrinth: ");
+        JTextField horizontalLengthLabyrinth = createInputFieldInPanel(
+                textPanel, "Enter the horizontal length of the labyrinth: ");
         settingsPanel.add(textPanel, BorderLayout.CENTER);
 
         JButton validateButton = new JButton("Validate");
         validateButton.addActionListener(e -> {
-            if (isValidInputDimension(heightLabyrinthField,
-                    widthLabyrinthField))
+            if (isValidInputDimension(verticalLengthLabyrinth,
+                    horizontalLengthLabyrinth))
                 startGame2D();
         });
         settingsPanel.add(validateButton, BorderLayout.SOUTH);
@@ -203,9 +251,9 @@ public class Settings extends JPanel {
         frame.revalidate();
     }
 
-    private boolean isValidInputDimension(JTextField height, JTextField width) {
-        return isValidInput2D(height) &&
-                isValidInput2D(width);
+    private boolean isValidInputDimension(JTextField verticalLength, JTextField horizontalWidth) {
+        return isValidInput2D(verticalLength) &&
+                isValidInput2D(horizontalWidth);
     }
 
     private boolean isValidInput2D(JTextField field) {
@@ -219,7 +267,6 @@ public class Settings extends JPanel {
     }
 
     public void startGame2D() {
-        // TODO: implement startGame2D
     }
 
     private JTextField createInputFieldInPanel(JPanel panel, String instructions) {

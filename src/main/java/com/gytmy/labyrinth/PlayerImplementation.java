@@ -1,16 +1,32 @@
 package com.gytmy.labyrinth;
 
+import java.awt.Color;
+
 import com.gytmy.utils.Vector2;
 
 public class PlayerImplementation implements Player {
     private Vector2 coordinates;
+    private String name;
+    private Color color;
+    private boolean ready;
+
+    public PlayerImplementation(Vector2 coordinates, String name, Color color, boolean ready) {
+        this.coordinates = coordinates;
+        this.name = name;
+        this.color = color;
+        this.ready = ready;
+    }
 
     public PlayerImplementation(Vector2 coordinates) {
-        this.coordinates = coordinates.copy();
+        this(coordinates.copy(), "", Color.MAGENTA, false);
     }
 
     public PlayerImplementation(int x, int y) {
-        this.coordinates = new Vector2(x, y);
+        this(new Vector2(x, y), "", Color.MAGENTA, false);
+    }
+
+    public PlayerImplementation() {
+        this(null, null, null, false);
     }
 
     @Override
@@ -29,6 +45,21 @@ public class PlayerImplementation implements Player {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
+    public boolean isReady() {
+        return ready;
+    }
+
+    @Override
     public void setX(int x) {
         coordinates.setX(x);
     }
@@ -41,6 +72,21 @@ public class PlayerImplementation implements Player {
     @Override
     public void setCoordinates(Vector2 coordinates) {
         this.coordinates = coordinates.copy();
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    @Override
+    public void setReady(boolean ready) {
+        this.ready = ready;
     }
 
     @Override
