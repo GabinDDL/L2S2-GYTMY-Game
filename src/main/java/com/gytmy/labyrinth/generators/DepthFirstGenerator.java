@@ -60,6 +60,12 @@ public class DepthFirstGenerator implements BoardGenerator {
         if (height % 2 == 0) {
             throw new IllegalArgumentException("The height must be odd");
         }
+        if (width < 5) {
+            throw new IllegalArgumentException("The width must be at least 5");
+        }
+        if (height < 5) {
+            throw new IllegalArgumentException("The height must be at least 5");
+        }
     }
 
     @Override
