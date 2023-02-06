@@ -14,9 +14,7 @@ public class ArrayOperations {
      * @return
      */
     public static boolean[][] booleanCopy2D(boolean[][] array) {
-        if (array == null) {
-            throw new IllegalArgumentException("Array cannot be null");
-        }
+        handleNullArray(array);
         boolean[][] result = new boolean[array.length][];
         for (int row = 0; row < array.length; ++row) {
             result[row] = Arrays.copyOf(array[row], array[row].length);
@@ -26,6 +24,7 @@ public class ArrayOperations {
     }
 
     public static void printBoolean2DArray(boolean[][] array) {
+        handleNullArray(array);
         for (int row = 0; row < array.length; ++row) {
             for (int col = 0; col < array[row].length; ++col) {
                 System.out.print(array[row][col] ? "⬜" : "⬛");
@@ -34,18 +33,20 @@ public class ArrayOperations {
         }
     }
 
-    public static boolean isColumnEmpty(boolean[][] array, int i) {
+    public static boolean isColumnEmpty(boolean[][] array, int index) {
+        handleNullArray(array);
         for (int row = 0; row < array.length; ++row) {
-            if (array[row][i]) {
+            if (array[row][index]) {
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean isRowEmpty(boolean[][] array, int i) {
-        for (int col = 0; col < array[i].length; ++col) {
-            if (array[i][col]) {
+    public static boolean isRowEmpty(boolean[][] array, int index) {
+        handleNullArray(array);
+        for (int col = 0; col < array[index].length; ++col) {
+            if (array[index][col]) {
                 return false;
             }
         }
@@ -53,6 +54,7 @@ public class ArrayOperations {
     }
 
     public static boolean[][] addEmptyColumn(boolean[][] array, int index) {
+        handleNullArray(array);
         boolean[][] newArray = new boolean[array.length][array[0].length + 1];
         for (int row = 0; row < array.length; ++row) {
             for (int col = 0; col < array[row].length; ++col) {
@@ -67,6 +69,7 @@ public class ArrayOperations {
     }
 
     public static boolean[][] addEmptyRow(boolean[][] array, int index) {
+        handleNullArray(array);
         boolean[][] newArray = new boolean[array.length + 1][array[0].length];
         for (int row = 0; row < array.length; ++row) {
             for (int col = 0; col < array[row].length; ++col) {
@@ -78,6 +81,12 @@ public class ArrayOperations {
             }
         }
         return newArray;
+    }
+
+    private static void handleNullArray(boolean[][] array) {
+        if (array == null) {
+            throw new IllegalArgumentException("Array cannot be null");
+        }
     }
 
 }
