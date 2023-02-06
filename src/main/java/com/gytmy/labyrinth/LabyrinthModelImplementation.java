@@ -37,9 +37,9 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         this.players = players;
     }
 
-    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 size, Vector2 initialCell, Vector2 exitCell,
+    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 initialCell, Vector2 exitCell,
             Player[] players) {
-        this(generator.generate(size.getX(), size.getY()), initialCell, exitCell, players);
+        this(generator.generate(), initialCell, exitCell, players);
     }
 
     /**
