@@ -57,6 +57,18 @@ public class Settings extends JPanel {
         JLabel nameLabel = new JLabel("Name : ");
         nameSection.add(nameLabel);
         JTextField nameField = new JTextField("Player n°" + (playerID + 1));
+        nameField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                nameField.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (nameField.getText().equals(""))
+                    nameField.setText("Player n°" + (playerID + 1));
+            }
+        });
         nameSection.add(nameField);
 
         playerPanel.add(nameSection);
