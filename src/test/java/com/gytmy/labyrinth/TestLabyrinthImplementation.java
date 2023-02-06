@@ -2,12 +2,12 @@ package com.gytmy.labyrinth;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Test;
 
+import com.gytmy.TestingUtils;
 import com.gytmy.labyrinth.generators.BoardGenerator;
 import com.gytmy.labyrinth.generators.BorderBoardGenerator;
 import com.gytmy.labyrinth.generators.EmptyBoardGenerator;
@@ -17,46 +17,47 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorNullBoard() {
-        boolean board[][] = null;
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(board, null, null, null));
-        assertEquals("Board cannot be null", exception.getMessage());
+        boolean[][] board = null; // Defined to avoid ambiguity
+        TestingUtils.assertArgumentExceptionMessage(() -> new LabyrinthModelImplementation(board, null, null, null),
+                "Board cannot be null");
+
     }
 
     @Test
     public void testConstructorNullInitialCell() {
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(new boolean[3][3], null, null, null));
-        assertEquals("Initial cell cannot be null", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModelImplementation(new boolean[3][3], null, null, null),
+                "Initial cell cannot be null");
     }
 
     @Test
     public void testConstructorNullExitCell() {
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 0), null, null));
-        assertEquals("Exit cell cannot be null", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 0), null, null),
+                "Exit cell cannot be null");
     }
 
     @Test
     public void testConstructorInvalidBoardSize() {
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(new boolean[2][2], new Vector2(0, 0), new Vector2(0, 0), null));
-        assertEquals("Board must have at least 3 rows", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModelImplementation(new boolean[2][2], new Vector2(0, 0), new Vector2(0, 0), null),
+                "Board must have at least 3 rows");
     }
 
     @Test
     public void testConstructorInvalidInitialCell() {
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 0), new Vector2(0, 0), null));
-        assertEquals("Initial cell is a wall", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 0), new Vector2(0, 0), null),
+                "Initial cell is a wall");
 
-        exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 3), new Vector2(0, 0), null));
-        assertEquals("Initial cell is outside the board", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
 
-        exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(3, 0), new Vector2(0, 0), null));
-        assertEquals("Initial cell is outside the board", exception.getMessage());
+                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 3), new Vector2(0, 0), null),
+                "Initial cell is outside the board");
+
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(3, 0), new Vector2(0, 0), null),
+                "Initial cell is outside the board");
     }
 
     @Test
@@ -64,26 +65,29 @@ public class TestLabyrinthImplementation {
 
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(0, 0), null));
-        assertEquals("Exit cell is a wall", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(0, 0), null),
+                "Exit cell is a wall");
 
-        exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(0, 3), null));
-        assertEquals("Exit cell is outside the board", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
 
-        exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(3, 0), null));
-        assertEquals("Exit cell is outside the board", exception.getMessage());
+                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(0, 3), null),
+                "Exit cell is outside the board");
+
+        TestingUtils.assertArgumentExceptionMessage(
+
+                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(3, 0), null),
+                "Exit cell is outside the board");
     }
 
     @Test
     public void testConstructorSameInitialAndExitCell() {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
-        Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(1, 1), null));
-        assertEquals("Initial and exit cells cannot be the same", exception.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
+
+                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(1, 1), null),
+                "Initial and exit cells cannot be the same");
     }
 
     @Test

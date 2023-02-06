@@ -3,12 +3,13 @@ package com.gytmy.labyrinth;
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
+
+import com.gytmy.TestingUtils;
 
 public class TestLabyrinthModel1D {
 
@@ -16,17 +17,16 @@ public class TestLabyrinthModel1D {
     void testConstructorInvalidLength() {
         String expectedErrorMessage = "Cannot initialize a labyrinth of size <= 1";
 
-        Exception exceptionZero = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModel1D(0, null));
-        assertEquals(expectedErrorMessage, exceptionZero.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModel1D(0, null), expectedErrorMessage);
 
-        Exception exceptionOne = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModel1D(1, null));
-        assertEquals(expectedErrorMessage, exceptionOne.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(
 
-        Exception exceptionNegative = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModel1D(-1, null));
-        assertEquals(expectedErrorMessage, exceptionNegative.getMessage());
+                () -> new LabyrinthModel1D(1, null), expectedErrorMessage);
+
+        TestingUtils.assertArgumentExceptionMessage(
+
+                () -> new LabyrinthModel1D(-1, null), expectedErrorMessage);
 
     }
 
