@@ -44,6 +44,8 @@ public class StartMenu extends JPanel {
             if (isValidInput(nbPlayersField)) {
                 int nbPlayers = Integer.valueOf(nbPlayersField.getText().strip());
                 frame.setContentPane(new Settings(frame, nbPlayers));
+                frame.pack();
+                frame.setLocationRelativeTo(null);
                 frame.revalidate();
             }
         });
