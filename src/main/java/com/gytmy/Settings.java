@@ -56,7 +56,7 @@ public class Settings extends JPanel {
 
         JLabel nameLabel = new JLabel("Name : ");
         nameSection.add(nameLabel);
-        JTextField nameField = new JTextField("Player n°" + (playerID + 1));
+        JTextField nameField = new JTextField("Player n°" + (playerID + 1) + "\t");
         nameField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
