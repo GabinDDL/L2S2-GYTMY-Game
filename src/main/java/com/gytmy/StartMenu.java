@@ -1,19 +1,21 @@
 package com.gytmy;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 public class StartMenu extends JPanel {
     private JFrame frame;
     private JLabel askNbPlayers;
     private JTextField nbPlayersField;
     private JPanel textPanel;
-    private JPanel buttonPanel;
 
     StartMenu(JFrame frame) {
         this.frame = frame;
@@ -21,25 +23,25 @@ public class StartMenu extends JPanel {
     }
 
     private void initMenu() {
-        GridLayout grid = new GridLayout(2, 1);
-        setLayout(grid);
+        // BorderLayout layout = new BorderLayout();
+        // layout.setVgap(20);
+        // setLayout(layout);
+        setLayout(new BorderLayout());
         initTextField();
         initPlayerSettingsButton();
     }
 
     private void initTextField() {
-        textPanel = new JPanel();
-        askNbPlayers = new JLabel("Entrez le nombre de joueurs: ");
+        textPanel = new JPanel(new GridLayout(1, 1));
+        askNbPlayers = new JLabel("Enter the number of players: ");
         textPanel.add(askNbPlayers);
         nbPlayersField = new JTextField(5);
         textPanel.add(nbPlayersField);
-        add(textPanel);
+        add(textPanel, BorderLayout.CENTER);
     }
 
     private void initPlayerSettingsButton() {
-        buttonPanel = new JPanel();
         JButton playButton = new JButton("Next");
-        buttonPanel.add(playButton);
         playButton.addActionListener(event -> {
             if (isValidInput(nbPlayersField)) {
                 int nbPlayers = Integer.valueOf(nbPlayersField.getText().strip());
@@ -49,7 +51,7 @@ public class StartMenu extends JPanel {
                 frame.revalidate();
             }
         });
-        add(buttonPanel);
+        add(playButton, BorderLayout.SOUTH);
     }
 
     private boolean isValidInput(JTextField field) {

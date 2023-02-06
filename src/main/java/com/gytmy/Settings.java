@@ -135,22 +135,23 @@ public class Settings extends JPanel {
     }
 
     private void initDimensionPickerLabyrinth1D() {
-        JPanel settingsPanel = new JPanel(new GridLayout(2, 1));
+        JPanel settingsPanel = new JPanel(new BorderLayout());
 
-        JPanel textPanel = new JPanel();
+        JPanel textPanel = new JPanel(new GridLayout(1, 2));
         JTextField lengthPathInputField = createInputFieldInPanel(
                 textPanel, "Enter the length of the path: ");
-        settingsPanel.add(textPanel);
+        settingsPanel.add(textPanel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel();
         JButton validateButton = new JButton("Validate");
         validateButton.addActionListener(e -> {
             if (isValidInput1D(lengthPathInputField))
                 startGame1D();
         });
-        settingsPanel.add(buttonPanel);
+        settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
         frame.setContentPane(settingsPanel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.revalidate();
     }
 
@@ -179,25 +180,26 @@ public class Settings extends JPanel {
     }
 
     private void initDimensionPickerLabyrinth2D() {
-        JPanel settingsPanel = new JPanel(new GridLayout(2, 1));
+        JPanel settingsPanel = new JPanel(new BorderLayout());
 
         JPanel textPanel = new JPanel(new GridLayout(2, 2));
         JTextField heightLabyrinthField = createInputFieldInPanel(
                 textPanel, "Enter the height of the labyrinth: ");
         JTextField widthLabyrinthField = createInputFieldInPanel(
                 textPanel, "Enter the width of the labyrinth: ");
-        settingsPanel.add(textPanel);
+        settingsPanel.add(textPanel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel();
         JButton validateButton = new JButton("Validate");
         validateButton.addActionListener(e -> {
             if (isValidInputDimension(heightLabyrinthField,
                     widthLabyrinthField))
                 startGame2D();
         });
-        settingsPanel.add(buttonPanel);
+        settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
         frame.setContentPane(settingsPanel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.revalidate();
     }
 
