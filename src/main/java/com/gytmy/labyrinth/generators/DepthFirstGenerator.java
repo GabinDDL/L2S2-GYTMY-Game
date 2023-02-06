@@ -31,7 +31,7 @@ public class DepthFirstGenerator implements BoardGenerator {
 
     public DepthFirstGenerator(int width, int height, Vector2 start) {
         // -1 because we want to have a border around the labyrinth
-        handleEvenArguments(width, height);
+        handleInvalidArguments(width, height);
         this.width = width - 1;
         this.height = height - 1;
         this.start = start;
@@ -39,7 +39,7 @@ public class DepthFirstGenerator implements BoardGenerator {
 
     public DepthFirstGenerator(int width, int height) {
         // -1 because we want to have a border around the labyrinth
-        handleEvenArguments(width, height);
+        handleInvalidArguments(width, height);
         this.width = width - 1;
         this.height = height - 1;
 
@@ -53,7 +53,7 @@ public class DepthFirstGenerator implements BoardGenerator {
         return new Vector2(col, row);
     }
 
-    private void handleEvenArguments(int width, int height) {
+    private void handleInvalidArguments(int width, int height) {
         if (width % 2 == 0) {
             throw new IllegalArgumentException("The width must be odd");
         }
