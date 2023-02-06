@@ -17,10 +17,9 @@ public class GraphicalLauncher implements Runnable {
 
         StartMenu menu = new StartMenu(frame);
         frame.add(menu);
-
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setLocationByPlatform(true);
+        frame.revalidate();
         frame.setVisible(true);
         frame.setResizable(false);
     }
