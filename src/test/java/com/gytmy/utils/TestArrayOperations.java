@@ -1,13 +1,13 @@
 package com.gytmy.utils;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.Arrays;
 
 import org.junit.Test;
+
+import com.gytmy.TestingUtils;
 
 public class TestArrayOperations {
 
@@ -17,9 +17,8 @@ public class TestArrayOperations {
     }
 
     private void assertCorrectExceptionMessage(Runnable runner) {
-        Exception exceptionZero = assertThrows(IllegalArgumentException.class,
-                () -> runner.run());
-        assertEquals("Array cannot be null", exceptionZero.getMessage());
+        TestingUtils.assertArgumentExceptionMessage(runner, "Array cannot be null");
+
     }
 
     @Test
