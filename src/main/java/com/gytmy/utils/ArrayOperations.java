@@ -8,7 +8,7 @@ public class ArrayOperations {
     }
 
     /**
-     * Copies a 2D array
+     * Copies a 2D boolean array.
      * 
      * @param array
      * @return
@@ -23,6 +23,11 @@ public class ArrayOperations {
         return result;
     }
 
+    /**
+     * Prints a 2D boolean array.
+     * 
+     * @param array
+     */
     public static void printBoolean2DArray(boolean[][] array) {
         handleNullArray(array);
         for (int row = 0; row < array.length; ++row) {
@@ -33,6 +38,13 @@ public class ArrayOperations {
         }
     }
 
+    /**
+     * Checks if a column is empty.
+     * 
+     * @param array
+     * @param index
+     * @return
+     */
     public static boolean isColumnEmpty(boolean[][] array, int index) {
         handleNullArray(array);
         for (int row = 0; row < array.length; ++row) {
@@ -43,6 +55,13 @@ public class ArrayOperations {
         return true;
     }
 
+    /**
+     * Checks if a row is empty.
+     * 
+     * @param array
+     * @param index
+     * @return
+     */
     public static boolean isRowEmpty(boolean[][] array, int index) {
         handleNullArray(array);
         for (int col = 0; col < array[index].length; ++col) {
@@ -53,6 +72,14 @@ public class ArrayOperations {
         return true;
     }
 
+    /**
+     * Return a copy of a 2D boolean array with an extra empty (false) a column at
+     * the given index.
+     * 
+     * @param array
+     * @param index
+     * @return
+     */
     public static boolean[][] addEmptyColumn(boolean[][] array, int index) {
         handleNullArray(array);
         boolean[][] newArray = new boolean[array.length][array[0].length + 1];
@@ -68,6 +95,14 @@ public class ArrayOperations {
         return newArray;
     }
 
+    /**
+     * Return a copy of a 2D boolean array with an extra empty (false) a row at the
+     * given index.
+     * 
+     * @param array
+     * @param index
+     * @return
+     */
     public static boolean[][] addEmptyRow(boolean[][] array, int index) {
         handleNullArray(array);
         boolean[][] newArray = new boolean[array.length + 1][array[0].length];
