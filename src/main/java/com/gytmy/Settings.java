@@ -1,8 +1,8 @@
 package com.gytmy;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -24,7 +24,7 @@ public class Settings extends JPanel {
         this.frame = frame;
         this.nbPlayers = nbPlayers;
 
-        setLayout(new GridLayout(2, 1));
+        setLayout(new BorderLayout());
 
         initPlayersPanel(nbPlayers);
         initPlayButtons();
@@ -38,7 +38,7 @@ public class Settings extends JPanel {
             playersPanel.add(playerPanel);
         }
 
-        add(playersPanel);
+        add(playersPanel, BorderLayout.CENTER);
     }
 
     public JPanel createPlayerPanel(int playerID) {
@@ -121,7 +121,7 @@ public class Settings extends JPanel {
         initPlayButtonLabyrinth1D();
         initPlayButtonLabyrinth2D();
 
-        add(buttonsPanel);
+        add(buttonsPanel, BorderLayout.SOUTH);
     }
 
     private void initPlayButtonLabyrinth1D() {
