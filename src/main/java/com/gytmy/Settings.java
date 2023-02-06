@@ -2,6 +2,9 @@ package com.gytmy;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,7 +31,6 @@ public class Settings extends JPanel {
     }
 
     public void initPlayersPanel(int nbPlayers) {
-        // FIXME: PlayersPanel is not initialized
         playersPanel = new JPanel(new GridLayout(1, 4));
 
         for (int playerID = 0; playerID < nbPlayers; ++playerID) {
@@ -36,6 +38,7 @@ public class Settings extends JPanel {
             playersPanel.add(playerPanel);
         }
 
+        add(playersPanel);
     }
 
     public JPanel createPlayerPanel(int playerID) {
@@ -96,8 +99,7 @@ public class Settings extends JPanel {
     private void disableValidateSection(int playerID) {
         JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
 
-        JPanel validateSection = (JPanel) playerPanel.getComponent(2);
-        JButton validateButton = (JButton) validateSection.getComponent(0);
+        JButton validateButton = (JButton) playerPanel.getComponent(2);
         validateButton.setEnabled(false);
     }
 
