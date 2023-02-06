@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
 
-        boolean[][] board = new DepthFirstGenerator().generate(41, 20);
+        boolean[][] board = new DepthFirstGenerator(41, 20).generate();
         ArrayOperations.printBoolean2DArray(board);
     }
 

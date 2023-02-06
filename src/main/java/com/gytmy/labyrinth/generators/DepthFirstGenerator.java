@@ -13,10 +13,13 @@ public class DepthFirstGenerator implements BoardGenerator {
     int width;
     int height;
 
-    @Override
-    public boolean[][] generate(int width, int height) {
+    public DepthFirstGenerator(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    @Override
+    public boolean[][] generate() {
 
         board = new boolean[height][width];
 

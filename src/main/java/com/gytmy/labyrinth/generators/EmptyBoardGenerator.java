@@ -5,8 +5,16 @@ package com.gytmy.labyrinth.generators;
  */
 public class EmptyBoardGenerator implements BoardGenerator {
 
+    private int width;
+    private int height;
+
+    public EmptyBoardGenerator(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     @Override
-    public boolean[][] generate(int width, int height) {
+    public boolean[][] generate() {
         boolean[][] board = new boolean[width][height];
 
         for (int row = 0; row < width; row++) {

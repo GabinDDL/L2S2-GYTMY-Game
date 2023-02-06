@@ -17,8 +17,9 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorNullBoard() {
+        boolean board[][] = null;
         Exception exception = assertThrows(IllegalArgumentException.class,
-                () -> new LabyrinthModelImplementation(null, null, null, null));
+                () -> new LabyrinthModelImplementation(board, null, null, null));
         assertEquals("Board cannot be null", exception.getMessage());
     }
 
@@ -87,22 +88,21 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorEmptyBoard() {
-        assertWasCorrectlyConstructed(new EmptyBoardGenerator());
+        assertWasCorrectlyConstructed(new EmptyBoardGenerator(10, 10));
     }
 
     @Test
     public void testConstructorBorderBoard() {
-        assertWasCorrectlyConstructed(new BorderBoardGenerator());
+        assertWasCorrectlyConstructed(new BorderBoardGenerator(10, 10));
     }
 
     private void assertWasCorrectlyConstructed(BoardGenerator generator) {
-        Vector2 size = new Vector2(10, 10);
         Vector2 initialCell = new Vector2(1, 1);
         Vector2 exitCell = new Vector2(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
-                generator, size, initialCell, exitCell, null);
+                generator, initialCell, exitCell, null);
 
-        assertArrayEquals(labyrinth.getBoard(), generator.generate(size.getX(), size.getY()));
+        assertArrayEquals(labyrinth.getBoard(), generator.generate());
     }
 
     @Test
