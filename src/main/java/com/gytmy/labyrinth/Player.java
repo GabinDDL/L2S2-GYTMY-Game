@@ -4,7 +4,7 @@ import com.gytmy.utils.Vector2;
 
 public interface Player {
 
-    // TODO: Add Names and Colors to players
+    // TODO: Add Names, Colors, boolean Ready to players
 
     public int getX();
 
