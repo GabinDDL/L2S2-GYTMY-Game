@@ -2,12 +2,7 @@ package com.gytmy.labyrinth.generators;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
-import java.util.Stack;
-
-import com.gytmy.utils.Vector2;
 
 /**
  * A generator that uses a random depth-first search to generate a maze.
@@ -15,7 +10,6 @@ import com.gytmy.utils.Vector2;
 public class DepthFirstGenerator implements BoardGenerator {
 
     boolean[][] board;
-    int[][] maze;
     int width;
     int height;
 
@@ -24,26 +18,14 @@ public class DepthFirstGenerator implements BoardGenerator {
         this.width = width;
         this.height = height;
 
-        int[][] maze = generateMaze();
+        board = new boolean[height][width];
 
-        boolean[][] board = new boolean[height][width];
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                board[i][j] = maze[i][j] == 0;
-            }
-        }
+        board = generateMaze();
 
         return board;
     }
 
-    public int[][] generateMaze() {
-
-        maze = new int[height][width];
-        // Initialize
-        for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++)
-                maze[i][j] = 1;
+    public boolean[][] generateMaze() {
 
         Random rand = new Random();
         // r for row、c for column
@@ -58,12 +40,12 @@ public class DepthFirstGenerator implements BoardGenerator {
             c = rand.nextInt(width);
         }
         // Starting cell
-        maze[r][c] = 0;
+        board[r][c] = true;
 
         // Allocate the maze with recursive method
         recursion(r, c);
 
-        return maze;
+        return board;
     }
 
     public void recursion(int r, int c) {
@@ -77,9 +59,9 @@ public class DepthFirstGenerator implements BoardGenerator {
                     // Whether 2 cells up is out or not
                     if (r - 2 <= 0)
                         continue;
-                    if (maze[r - 2][c] != 0) {
-                        maze[r - 2][c] = 0;
-                        maze[r - 1][c] = 0;
+                    if (!board[r - 2][c]) {
+                        board[r - 2][c] = true;
+                        board[r - 1][c] = true;
                         recursion(r - 2, c);
                     }
                     break;
@@ -87,9 +69,9 @@ public class DepthFirstGenerator implements BoardGenerator {
                     // Whether 2 cells to the right is out or not
                     if (c + 2 >= width - 1)
                         continue;
-                    if (maze[r][c + 2] != 0) {
-                        maze[r][c + 2] = 0;
-                        maze[r][c + 1] = 0;
+                    if (!board[r][c + 2]) {
+                        board[r][c + 2] = true;
+                        board[r][c + 1] = true;
                         recursion(r, c + 2);
                     }
                     break;
@@ -97,9 +79,9 @@ public class DepthFirstGenerator implements BoardGenerator {
                     // Whether 2 cells down is out or not
                     if (r + 2 >= height - 1)
                         continue;
-                    if (maze[r + 2][c] != 0) {
-                        maze[r + 2][c] = 0;
-                        maze[r + 1][c] = 0;
+                    if (!board[r + 2][c]) {
+                        board[r + 2][c] = true;
+                        board[r + 1][c] = true;
                         recursion(r + 2, c);
                     }
                     break;
@@ -107,9 +89,9 @@ public class DepthFirstGenerator implements BoardGenerator {
                     // Whether 2 cells to the left is out or not
                     if (c - 2 <= 0)
                         continue;
-                    if (maze[r][c - 2] != 0) {
-                        maze[r][c - 2] = 0;
-                        maze[r][c - 1] = 0;
+                    if (!board[r][c - 2]) {
+                        board[r][c - 2] = true;
+                        board[r][c - 1] = true;
                         recursion(r, c - 2);
                     }
                     break;
