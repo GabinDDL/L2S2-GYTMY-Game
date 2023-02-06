@@ -2,9 +2,9 @@ package com.gytmy.utils;
 
 import java.util.Arrays;
 
-public class ArrayOperations {
+public class Boolean2DArraysOperations {
 
-    private ArrayOperations() {
+    private Boolean2DArraysOperations() {
     }
 
     /**
