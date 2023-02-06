@@ -3,13 +3,11 @@ package com.gytmy;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 public class StartMenu extends JPanel {
     private JFrame frame;
@@ -46,6 +44,8 @@ public class StartMenu extends JPanel {
             if (isValidInput(nbPlayersField)) {
                 int nbPlayers = Integer.valueOf(nbPlayersField.getText().strip());
                 frame.setContentPane(new Settings(frame, nbPlayers));
+                // TODO: Refactor frame packing-centering-revalidation in one method in a
+                // tooblox class
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.revalidate();
@@ -54,6 +54,10 @@ public class StartMenu extends JPanel {
         add(playButton, BorderLayout.SOUTH);
     }
 
+    // TODO: Refactor input checker because everytime there is a JTextField
+    // We need to check the input but the range differs
+
+    // TODO: Check if the input contains invalid characters
     private boolean isValidInput(JTextField field) {
         String strippedString = field.getText().strip();
 

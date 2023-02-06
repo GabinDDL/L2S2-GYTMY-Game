@@ -137,6 +137,7 @@ public class Settings extends JPanel {
 
     public void initPlayer(int playerID) {
 
+        // TODO: Instanciate startCell coordinates after instanciation of Labyrinth
         Vector2 coordinates = null;
         String name = getNameField(playerID).getText();
         Color color = getPlayerColor(playerID);
@@ -197,11 +198,17 @@ public class Settings extends JPanel {
         settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
         frame.setContentPane(settingsPanel);
+        // TODO: Refactor frame packing-centering-revalidation in one method in a
+        // tooblox class
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.revalidate();
     }
 
+    // TODO: Refactor input checker because everytime there is a JTextField
+    // We need to check the input but the range differs
+
+    // TODO: Check if the input contains invalid characters
     private boolean isValidInput1D(JTextField field) {
         String strippedString = field.getText().strip();
 
@@ -246,16 +253,26 @@ public class Settings extends JPanel {
         settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
         frame.setContentPane(settingsPanel);
+        // TODO: Refactor frame packing-centering-revalidation in one method in a
+        // tooblox class
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.revalidate();
     }
 
+    // TODO: Refactor input checker because everytime there is a JTextField
+    // We need to check the input but the range differs
+
+    // TODO: Check if the input contains invalid characters
     private boolean isValidInputDimension(JTextField verticalLength, JTextField horizontalWidth) {
         return isValidInput2D(verticalLength) &&
                 isValidInput2D(horizontalWidth);
     }
 
+    // TODO: Refactor input checker because everytime there is a JTextField
+    // We need to check the input but the range differs
+
+    // TODO: Check if the input contains invalid characters
     private boolean isValidInput2D(JTextField field) {
         String strippedString = field.getText().strip();
 
