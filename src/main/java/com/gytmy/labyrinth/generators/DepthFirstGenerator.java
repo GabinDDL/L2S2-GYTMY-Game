@@ -1,21 +1,45 @@
 package com.gytmy.labyrinth.generators;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.Stack;
+
+import com.gytmy.utils.ArrayOperations;
+import com.gytmy.utils.Vector2;
 
 /**
  * A generator that uses a random depth-first search to generate a maze.
  */
 public class DepthFirstGenerator implements BoardGenerator {
 
+    Random rand = new Random();
+    Stack<Vector2> stack = new Stack<>();
     boolean[][] board;
+    boolean[][] visited;
+    Vector2 start;
+    Vector2 current;
     int width;
     int height;
 
     public DepthFirstGenerator(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.width = width - 1;
+        this.height = height - 1;
+
+        start = generateRandomStart();
+    }
+
+    private Vector2 generateRandomStart() {
+        int row = rand.nextInt(height - 2) + 1; // 1 to height-1
+        int col = rand.nextInt(width - 2) + 1; // 1 to width-1
+
+        return new Vector2(col, row);
+    }
+
+    public DepthFirstGenerator(int width, int height, Vector2 start) {
+        this.width = width - 1;
+        this.height = height - 1;
+        this.start = start;
     }
 
     @Override
@@ -28,92 +52,108 @@ public class DepthFirstGenerator implements BoardGenerator {
         return board;
     }
 
-    public boolean[][] generateMaze() {
+    private boolean[][] generateMaze() {
 
-        Random rand = new Random();
-        // r for row、c for column
-        // Generate random r
-        int r = rand.nextInt(height);
-        while (r % 2 == 0) {
-            r = rand.nextInt(height);
-        }
-        // Generate random c
-        int c = rand.nextInt(width);
-        while (c % 2 == 0) {
-            c = rand.nextInt(width);
-        }
-        // Starting cell
-        board[r][c] = true;
+        initializeVariables();
+        generateBoard();
+        return getBorderedBoard();
 
-        // Allocate the maze with recursive method
-        recursion(r, c);
-
-        return board;
     }
 
-    public void recursion(int r, int c) {
-        // 4 random directions
-        Integer[] randDirs = generateRandomDirections();
-        // Examine each direction
-        for (int i = 0; i < randDirs.length; i++) {
+    private void initializeVariables() {
+        // Starting cell
+        board[start.getY()][start.getX()] = true;
+        visited = new boolean[height][width];
+        visited[start.getY()][start.getX()] = true;
+        stack.push(start);
+        current = start;
+    }
 
-            switch (randDirs[i]) {
-                case 1: // Up
-                    // Whether 2 cells up is out or not
-                    if (r - 2 <= 0)
-                        continue;
-                    if (!board[r - 2][c]) {
-                        board[r - 2][c] = true;
-                        board[r - 1][c] = true;
-                        recursion(r - 2, c);
-                    }
-                    break;
-                case 2: // Right
-                    // Whether 2 cells to the right is out or not
-                    if (c + 2 >= width - 1)
-                        continue;
-                    if (!board[r][c + 2]) {
-                        board[r][c + 2] = true;
-                        board[r][c + 1] = true;
-                        recursion(r, c + 2);
-                    }
-                    break;
-                case 3: // Down
-                    // Whether 2 cells down is out or not
-                    if (r + 2 >= height - 1)
-                        continue;
-                    if (!board[r + 2][c]) {
-                        board[r + 2][c] = true;
-                        board[r + 1][c] = true;
-                        recursion(r + 2, c);
-                    }
-                    break;
-                case 4: // Left
-                    // Whether 2 cells to the left is out or not
-                    if (c - 2 <= 0)
-                        continue;
-                    if (!board[r][c - 2]) {
-                        board[r][c - 2] = true;
-                        board[r][c - 1] = true;
-                        recursion(r, c - 2);
-                    }
-                    break;
+    private void generateBoard() {
+        while (!stack.isEmpty()) {
+            current = stack.pop();
+
+            Vector2 neighbor = getRandomNotVisitedNeighbor();
+            if (neighbor == null) {
+                continue;
+            }
+
+            updateVariables(neighbor);
+
+        }
+
+    }
+
+    private Vector2 getRandomNotVisitedNeighbor() {
+        Vector2[] neighbors = new Vector2[4];
+        neighbors[0] = new Vector2(current.getX(), current.getY() - 2);
+        neighbors[1] = new Vector2(current.getX() + 2, current.getY());
+        neighbors[2] = new Vector2(current.getX(), current.getY() + 2);
+        neighbors[3] = new Vector2(current.getX() - 2, current.getY());
+        List<Vector2> notVisitedNeighbors = new ArrayList<>();
+        for (Vector2 v : neighbors) {
+            if (!isOutOfBounds(v) && !isVisited(v)) {
+                notVisitedNeighbors.add(v);
             }
         }
 
+        if (notVisitedNeighbors.isEmpty()) {
+            return null;
+        } else {
+            return notVisitedNeighbors.get((int) (Math.random() * notVisitedNeighbors.size()));
+        }
     }
 
-    /**
-     * Generate an array with random directions 1-4
-     * 
-     * @return Array containing 4 directions in random order
-     */
-    public Integer[] generateRandomDirections() {
-        ArrayList<Integer> randoms = new ArrayList<>();
-        for (int i = 0; i < 4; i++)
-            randoms.add(i + 1);
-        Collections.shuffle(randoms);
-
-        return randoms.toArray(new Integer[4]);
+    private boolean isOutOfBounds(Vector2 v) {
+        return v.getX() < 0 || v.getX() >= width || v.getY() < 0 || v.getY() >= height;
     }
+
+    private boolean isVisited(Vector2 v) {
+        return board[v.getY()][v.getX()];
+    }
+
+    private void updateVariables(Vector2 neighbor) {
+        stack.push(current.copy());
+        board[neighbor.getY()][neighbor.getX()] = true;
+        board[(neighbor.getY() + current.getY()) / 2][(neighbor.getX() + current.getX()) / 2] = true;
+        visited[neighbor.getY()][neighbor.getX()] = true;
+        stack.push(neighbor);
+    }
+
+    private boolean[][] getBorderedBoard() {
+        boolean[][] finalBoard = board;
+        if (!ArrayOperations.isRowEmpty(finalBoard, 0)) {
+            finalBoard = addTopBorder(finalBoard);
+        }
+
+        if (!ArrayOperations.isRowEmpty(finalBoard, finalBoard.length - 1)) {
+            finalBoard = addBottomBorder(finalBoard);
+        }
+
+        if (!ArrayOperations.isColumnEmpty(finalBoard, 0)) {
+            finalBoard = addLeftBorder(finalBoard);
+        }
+
+        if (!ArrayOperations.isColumnEmpty(finalBoard, finalBoard[0].length - 1)) {
+            finalBoard = addRightBorder(finalBoard);
+        }
+        return finalBoard;
+    }
+
+    private boolean[][] addTopBorder(boolean[][] finalBoard) {
+        return ArrayOperations.addEmptyRow(finalBoard, 0);
+    }
+
+    private boolean[][] addBottomBorder(boolean[][] finalBoard) {
+        return ArrayOperations.addEmptyRow(finalBoard, finalBoard.length);
+    }
+
+    private boolean[][] addLeftBorder(boolean[][] finalBoard) {
+        return ArrayOperations.addEmptyColumn(finalBoard, 0);
+    }
+
+    private boolean[][] addRightBorder(boolean[][] finalBoard) {
+        return ArrayOperations.addEmptyColumn(finalBoard, finalBoard[0].length);
+    }
+
 }
