@@ -9,20 +9,37 @@ import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Vector2;
 
 /**
- * A generator that uses a random depth-first search to generate a maze.
+ * A generator that uses a random depth-first search to generate a maze. This
+ * class only handles correctly the case where the maze has an odd number of
+ * rows and columns. If the maze has an even number of rows and columns, the
+ * maze will be generated with up to 2 extra rows and columns.
+ * 
+ * @see <a href=
+ *      "https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_depth-first_search">Wikipedia</a>
  */
 public class DepthFirstGenerator implements BoardGenerator {
-
     Random rand = new Random();
+
+    int width;
+    int height;
+    Vector2 start;
+
     Stack<Vector2> stack = new Stack<>();
     boolean[][] board;
     boolean[][] visited;
-    Vector2 start;
     Vector2 current;
-    int width;
-    int height;
+
+    public DepthFirstGenerator(int width, int height, Vector2 start) {
+        // -1 because we want to have a border around the labyrinth
+        handleEvenArguments(width, height);
+        this.width = width - 1;
+        this.height = height - 1;
+        this.start = start;
+    }
 
     public DepthFirstGenerator(int width, int height) {
+        // -1 because we want to have a border around the labyrinth
+        handleEvenArguments(width, height);
         this.width = width - 1;
         this.height = height - 1;
 
@@ -36,30 +53,42 @@ public class DepthFirstGenerator implements BoardGenerator {
         return new Vector2(col, row);
     }
 
-    public DepthFirstGenerator(int width, int height, Vector2 start) {
-        this.width = width - 1;
-        this.height = height - 1;
-        this.start = start;
+    private void handleEvenArguments(int width, int height) {
+        if (width % 2 == 0) {
+            throw new IllegalArgumentException("The width must be odd");
+        }
+        if (height % 2 == 0) {
+            throw new IllegalArgumentException("The height must be odd");
+        }
     }
 
     @Override
     public boolean[][] generate() {
 
         board = new boolean[height][width];
+        generateBoard();
+        return getBorderedBoard();
+    }
 
-        board = generateMaze();
+    private boolean[][] generateBoard() {
+        initializeVariables();
+
+        while (!stack.isEmpty()) {
+            current = stack.pop();
+            Vector2 neighbor = getRandomNotVisitedNeighbor();
+            if (neighbor == null) {
+                // no neighbor found, go back to the previous cell
+                continue;
+            }
+            updateVariables(neighbor);
+        }
 
         return board;
     }
 
-    private boolean[][] generateMaze() {
-
-        initializeVariables();
-        generateBoard();
-        return getBorderedBoard();
-
-    }
-
+    /**
+     * Initialize the variables to start the generation
+     */
     private void initializeVariables() {
         board[start.getY()][start.getX()] = true;
         visited = new boolean[height][width];
@@ -68,38 +97,54 @@ public class DepthFirstGenerator implements BoardGenerator {
         current = start;
     }
 
-    private void generateBoard() {
-        while (!stack.isEmpty()) {
-            current = stack.pop();
+    /**
+     * 
+     * @return a random neighbor of the current cell that has not been visited yet
+     *         or null if there is no such neighbor
+     */
+    private Vector2 getRandomNotVisitedNeighbor() {
+        Vector2[] neighbors = getPossibleNeighbors();
+        List<Vector2> validNeighbors = getValidNeighbors(neighbors);
 
-            Vector2 neighbor = getRandomNotVisitedNeighbor();
-            if (neighbor == null) {
-                continue;
-            }
-
-            updateVariables(neighbor);
+        if (validNeighbors.isEmpty()) {
+            return null;
+        } else {
+            // Random choice between the valid neighbors
+            return validNeighbors.get(rand.nextInt(validNeighbors.size()));
         }
-
     }
 
-    private Vector2 getRandomNotVisitedNeighbor() {
+    /**
+     * 
+     * @return the 4 possible neighbors of the current cell
+     */
+    private Vector2[] getPossibleNeighbors() {
         Vector2[] neighbors = new Vector2[4];
         neighbors[0] = new Vector2(current.getX(), current.getY() - 2);
         neighbors[1] = new Vector2(current.getX() + 2, current.getY());
         neighbors[2] = new Vector2(current.getX(), current.getY() + 2);
         neighbors[3] = new Vector2(current.getX() - 2, current.getY());
-        List<Vector2> notVisitedNeighbors = new ArrayList<>();
+        return neighbors;
+    }
+
+    /**
+     * 
+     * @param neighbors the 4 possible neighbors of the current cell
+     * @return the neighbors that are not out of bounds and have not been visited
+     *         yet
+     */
+    private List<Vector2> getValidNeighbors(Vector2[] neighbors) {
+        List<Vector2> validNeighbors = new ArrayList<>();
         for (Vector2 v : neighbors) {
-            if (!isOutOfBounds(v) && !isVisited(v)) {
-                notVisitedNeighbors.add(v);
+            if (isValideNeighbor(v)) {
+                validNeighbors.add(v);
             }
         }
+        return validNeighbors;
+    }
 
-        if (notVisitedNeighbors.isEmpty()) {
-            return null;
-        } else {
-            return notVisitedNeighbors.get((int) (Math.random() * notVisitedNeighbors.size()));
-        }
+    private boolean isValideNeighbor(Vector2 v) {
+        return !isOutOfBounds(v) && !isVisited(v);
     }
 
     private boolean isOutOfBounds(Vector2 v) {
@@ -110,14 +155,23 @@ public class DepthFirstGenerator implements BoardGenerator {
         return board[v.getY()][v.getX()];
     }
 
+    /**
+     * Update the variables to prepare the next iteration of the loop
+     * 
+     * @param neighbor the neighbor that has been chosen
+     */
     private void updateVariables(Vector2 neighbor) {
         stack.push(current.copy());
         board[neighbor.getY()][neighbor.getX()] = true;
+        // remove wall between current and neighbor
         board[(neighbor.getY() + current.getY()) / 2][(neighbor.getX() + current.getX()) / 2] = true;
         visited[neighbor.getY()][neighbor.getX()] = true;
         stack.push(neighbor);
     }
 
+    /**
+     * @return a copy of the board with a border around it
+     */
     private boolean[][] getBorderedBoard() {
         boolean[][] finalBoard = board;
         if (!Boolean2DArraysOperations.isRowEmpty(finalBoard, 0)) {
