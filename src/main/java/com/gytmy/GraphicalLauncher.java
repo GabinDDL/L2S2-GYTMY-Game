@@ -24,6 +24,7 @@ public class GraphicalLauncher implements Runnable {
         frame.revalidate();
         frame.setVisible(true);
         frame.setResizable(false);
+        frame.setTitle("Be AMazed (StartMenu)");
     }
 
 }

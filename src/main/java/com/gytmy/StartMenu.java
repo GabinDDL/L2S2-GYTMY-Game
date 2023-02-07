@@ -49,6 +49,7 @@ public class StartMenu extends JPanel {
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.revalidate();
+                frame.setTitle("Be AMazed (Settings)");
             }
         });
         add(playButton, BorderLayout.SOUTH);

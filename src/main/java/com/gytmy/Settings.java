@@ -203,6 +203,7 @@ public class Settings extends JPanel {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.revalidate();
+        frame.setTitle("Be AMazed (Labyrinth1D)");
     }
 
     // TODO: Refactor input checker because everytime there is a JTextField
@@ -258,6 +259,7 @@ public class Settings extends JPanel {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.revalidate();
+        frame.setTitle("Be AMazed (Labyrinth2D)");
     }
 
     // TODO: Refactor input checker because everytime there is a JTextField
