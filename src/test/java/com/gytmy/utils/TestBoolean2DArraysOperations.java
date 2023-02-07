@@ -13,7 +13,7 @@ public class TestBoolean2DArraysOperations {
 
     @Test
     public void testCopyNull() {
-        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.booleanCopy2D(null));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.copy(null));
     }
 
     private void assertCorrectExceptionMessage(Runnable runner) {
@@ -24,7 +24,7 @@ public class TestBoolean2DArraysOperations {
     @Test
     public void testCopyEmpty() {
         boolean[][] array = new boolean[0][0];
-        boolean[][] result = Boolean2DArraysOperations.booleanCopy2D(array);
+        boolean[][] result = Boolean2DArraysOperations.copy(array);
 
         assertTrue(Arrays.deepEquals(array, result));
     }
@@ -32,7 +32,7 @@ public class TestBoolean2DArraysOperations {
     @Test
     public void testCopy1D() {
         boolean[][] array = new boolean[][] { { true, false, true } };
-        boolean[][] result = Boolean2DArraysOperations.booleanCopy2D(array);
+        boolean[][] result = Boolean2DArraysOperations.copy(array);
 
         assertTrue(Arrays.deepEquals(array, result));
     }
@@ -40,14 +40,14 @@ public class TestBoolean2DArraysOperations {
     @Test
     public void testCopy2D() {
         boolean[][] array = new boolean[][] { { true, false, true }, { false, true, false } };
-        boolean[][] result = Boolean2DArraysOperations.booleanCopy2D(array);
+        boolean[][] result = Boolean2DArraysOperations.copy(array);
 
         assertTrue(Arrays.deepEquals(array, result));
     }
 
     @Test
     public void testPrintNull() {
-        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.printBoolean2DArray(null));
+        assertCorrectExceptionMessage(() -> Boolean2DArraysOperations.print(null));
     }
 
     @Test

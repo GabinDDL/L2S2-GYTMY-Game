@@ -13,7 +13,7 @@ public class Boolean2DArraysOperations {
      * @param array
      * @return
      */
-    public static boolean[][] booleanCopy2D(boolean[][] array) {
+    public static boolean[][] copy(boolean[][] array) {
         handleNullArray(array);
         boolean[][] result = new boolean[array.length][];
         for (int row = 0; row < array.length; ++row) {
@@ -28,7 +28,7 @@ public class Boolean2DArraysOperations {
      * 
      * @param array
      */
-    public static void printBoolean2DArray(boolean[][] array) {
+    public static void print(boolean[][] array) {
         handleNullArray(array);
         for (int row = 0; row < array.length; ++row) {
             for (int col = 0; col < array[row].length; ++col) {
