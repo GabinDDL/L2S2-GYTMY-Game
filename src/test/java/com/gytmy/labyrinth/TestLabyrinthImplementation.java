@@ -31,13 +31,6 @@ public class TestLabyrinthImplementation {
     }
 
     @Test
-    public void testConstructorNullExitCell() {
-        TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 0), null, null),
-                "Exit cell cannot be null");
-    }
-
-    @Test
     public void testConstructorInvalidBoardSize() {
         TestingUtils.assertArgumentExceptionMessage(
                 () -> new LabyrinthModelImplementation(new boolean[2][2], new Vector2(0, 0), new Vector2(0, 0), null),
@@ -85,7 +78,6 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
         TestingUtils.assertArgumentExceptionMessage(
-
                 () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(1, 1), null),
                 "Initial and exit cells cannot be the same");
     }

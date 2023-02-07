@@ -9,7 +9,6 @@ import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Vector2;
 
 /**
- * A generator that uses a random depth-first search to generate a maze. This
  * class only handles correctly the case where the maze has an odd number of
  * rows and columns. If the maze has an even number of rows and columns, the
  * maze will be generated with up to 2 extra rows and columns.
@@ -30,8 +29,8 @@ public class DepthFirstGenerator implements BoardGenerator {
     Vector2 current;
 
     public DepthFirstGenerator(int width, int height, Vector2 start) {
-        // -1 because we want to have a border around the labyrinth
         handleInvalidArguments(width, height);
+        // -1 because we want to have a border around the labyrinth
         this.width = width - 1;
         this.height = height - 1;
         handleInvalidStart(start);
@@ -51,8 +50,8 @@ public class DepthFirstGenerator implements BoardGenerator {
     }
 
     public DepthFirstGenerator(int width, int height) {
-        // -1 because we want to have a border around the labyrinth
         handleInvalidArguments(width, height);
+        // -1 because we want to have a border around the labyrinth
         this.width = width - 1;
         this.height = height - 1;
 
