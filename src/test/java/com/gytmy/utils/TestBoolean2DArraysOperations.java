@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.gytmy.TestingUtils;
 
-public class TestArrayOperations {
+public class TestBoolean2DArraysOperations {
 
     @Test
     public void testCopyNull() {
