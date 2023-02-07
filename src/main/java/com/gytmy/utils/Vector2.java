@@ -7,9 +7,15 @@ public class Vector2 {
     private int x;
     private int y;
 
+    public static final int UNINITIALIZED_COORDINATE = -1;
+
     public Vector2(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vector2() {
+        this(UNINITIALIZED_COORDINATE, UNINITIALIZED_COORDINATE);
     }
 
     public int getX() {
