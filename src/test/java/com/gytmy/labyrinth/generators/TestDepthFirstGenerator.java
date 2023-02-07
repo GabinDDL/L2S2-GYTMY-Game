@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.Test;
 
 import com.gytmy.TestingUtils;
+import com.gytmy.utils.Vector2;
 
 public class TestDepthFirstGenerator {
+
+    // TODO: Test start cell generation
 
     @Test
     public void testConstructorOddNumber() {
@@ -15,7 +18,7 @@ public class TestDepthFirstGenerator {
     }
 
     @Test
-    public void testConstructorSize() {
+    public void testConstructorInvalidSize() {
         TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(-1, 5),
                 "The width must be at least 5");
         TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, -5),
@@ -24,6 +27,26 @@ public class TestDepthFirstGenerator {
                 "The width must be at least 5");
         TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, 3),
                 "The height must be at least 5");
+    }
+
+    @Test
+    public void testConstructorInvalidStart() {
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, 5, null),
+                "The start cannot be null");
+        String expectedErrorMessage = "The start cell must be inside the labyrinth";
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, 5, new Vector2(0, 0)),
+                expectedErrorMessage);
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, 5, new Vector2(4, 4)),
+                expectedErrorMessage);
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, 5, new Vector2(5, 5)),
+                expectedErrorMessage);
+    }
+
+    @Test
+    public void testConstructorValid() {
+        new DepthFirstGenerator(5, 5, new Vector2(1, 1));
+        new DepthFirstGenerator(5, 5, new Vector2(2, 2));
+        new DepthFirstGenerator(5, 5, new Vector2(3, 3));
     }
 
     @Test
