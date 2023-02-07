@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.gytmy.TestingUtils;
 import com.gytmy.labyrinth.generators.BoardGenerator;
 import com.gytmy.labyrinth.generators.BorderBoardGenerator;
+import com.gytmy.labyrinth.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.generators.EmptyBoardGenerator;
 import com.gytmy.utils.Vector2;
 
@@ -83,6 +84,13 @@ public class TestLabyrinthImplementation {
     }
 
     @Test
+    public void testConstructorNonEmptyExitCell() {
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(101, 101),
+                new Vector2(1, 1), null, null);
+        assertTrue(labyrinth.getExitCell() != null);
+    }
+
+    @Test
     public void testConstructorEmptyBoard() {
         assertWasCorrectlyConstructed(new EmptyBoardGenerator(10, 10));
     }
@@ -90,6 +98,18 @@ public class TestLabyrinthImplementation {
     @Test
     public void testConstructorBorderBoard() {
         assertWasCorrectlyConstructed(new BorderBoardGenerator(10, 10));
+    }
+
+    @Test
+    public void testConstructorDepthFirstBoard() {
+        Vector2 initialCell = new Vector2(1, 1);
+        Vector2 exitCell = new Vector2(3, 1);
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
+                new DepthFirstGenerator(11, 15), initialCell, exitCell, null);
+
+        assertEquals(exitCell, labyrinth.getExitCell());
+        assertEquals(11, labyrinth.getBoard()[0].length);
+        assertEquals(15, labyrinth.getBoard().length);
     }
 
     private void assertWasCorrectlyConstructed(BoardGenerator generator) {
