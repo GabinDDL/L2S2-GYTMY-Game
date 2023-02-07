@@ -17,7 +17,7 @@ public class GraphicalLauncher implements Runnable {
 
         StartMenu menu = new StartMenu(frame);
         frame.add(menu);
-        // TODO: Refactor frame packing-centering-revalidation in one method in a
+        // TODO: Refactor frame setContentPane -> setTitle one method in a
         // tooblox class
         frame.pack();
         frame.setLocationRelativeTo(null);

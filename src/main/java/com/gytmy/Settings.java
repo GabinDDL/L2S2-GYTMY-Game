@@ -25,6 +25,7 @@ public class Settings extends JPanel {
     private JPanel buttonsPanel;
     private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
 
+    // TODO: Refactor buttons with actionListeners should call controllers
     public Settings(JFrame frame, int nbPlayers) {
         this.frame = frame;
         this.nbPlayers = nbPlayers;
@@ -198,7 +199,7 @@ public class Settings extends JPanel {
         settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
         frame.setContentPane(settingsPanel);
-        // TODO: Refactor frame packing-centering-revalidation in one method in a
+        // TODO: Refactor frame setContentPane -> setTitle one method in a
         // tooblox class
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -206,7 +207,8 @@ public class Settings extends JPanel {
         frame.setTitle("Be AMazed (Labyrinth1D)");
     }
 
-    // TODO: Refactor input checker because everytime there is a JTextField
+    // TODO: Refactor input checker into a class with methods to check inputs
+    // because everytime there is a JTextField
     // We need to check the input but the range differs
 
     // TODO: Check if the input contains invalid characters
@@ -254,7 +256,7 @@ public class Settings extends JPanel {
         settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
         frame.setContentPane(settingsPanel);
-        // TODO: Refactor frame packing-centering-revalidation in one method in a
+        // TODO: Refactor frame setContentPane -> setTitle one method in a
         // tooblox class
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -262,7 +264,8 @@ public class Settings extends JPanel {
         frame.setTitle("Be AMazed (Labyrinth2D)");
     }
 
-    // TODO: Refactor input checker because everytime there is a JTextField
+    // TODO: Refactor input checker into a class with methods to check inputs
+    // because everytime there is a JTextField
     // We need to check the input but the range differs
 
     // TODO: Check if the input contains invalid characters
@@ -271,7 +274,8 @@ public class Settings extends JPanel {
                 isValidInput2D(horizontalWidth);
     }
 
-    // TODO: Refactor input checker because everytime there is a JTextField
+    // TODO: Refactor input checker into a class with methods to check inputs
+    // because everytime there is a JTextField
     // We need to check the input but the range differs
 
     // TODO: Check if the input contains invalid characters

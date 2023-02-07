@@ -44,7 +44,7 @@ public class StartMenu extends JPanel {
             if (isValidInput(nbPlayersField)) {
                 int nbPlayers = Integer.valueOf(nbPlayersField.getText().strip());
                 frame.setContentPane(new Settings(frame, nbPlayers));
-                // TODO: Refactor frame packing-centering-revalidation in one method in a
+                // TODO: Refactor frame setContentPane -> setTitle one method in a
                 // tooblox class
                 frame.pack();
                 frame.setLocationRelativeTo(null);
@@ -55,7 +55,8 @@ public class StartMenu extends JPanel {
         add(playButton, BorderLayout.SOUTH);
     }
 
-    // TODO: Refactor input checker because everytime there is a JTextField
+    // TODO: Refactor input checker into a class with methods to check inputs
+    // because everytime there is a JTextField
     // We need to check the input but the range differs
 
     // TODO: Check if the input contains invalid characters
