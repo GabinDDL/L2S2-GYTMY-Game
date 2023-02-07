@@ -18,15 +18,15 @@ public class PlayerImplementation implements Player {
     }
 
     public PlayerImplementation(Vector2 coordinates) {
-        this(coordinates.copy(), "", Color.MAGENTA, false);
+        this(coordinates.copy(), "NO NAME", Color.MAGENTA, false);
     }
 
     public PlayerImplementation(int x, int y) {
-        this(new Vector2(x, y), "", Color.MAGENTA, false);
+        this(new Vector2(x, y), "NO NAME", Color.MAGENTA, false);
     }
 
     public PlayerImplementation() {
-        this(null, null, null, false);
+        this(new Vector2(), "NO NAME", Color.MAGENTA, false);
     }
 
     @Override
