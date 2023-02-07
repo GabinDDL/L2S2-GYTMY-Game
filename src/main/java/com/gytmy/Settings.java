@@ -37,7 +37,7 @@ public class Settings extends JPanel {
         initPlayButtons();
     }
 
-    public boolean allPlayersAreReady() {
+    private boolean areAllPlayersReady() {
         for (Player player : arrayPlayers) {
             if (player == null || !player.isReady())
                 return false;
@@ -176,7 +176,7 @@ public class Settings extends JPanel {
         JButton playLabyrinth1DButton = new JButton("Play Labyrinth 1D");
         buttonsPanel.add(playLabyrinth1DButton);
         playLabyrinth1DButton.addActionListener(e -> {
-            if (allPlayersAreReady()) {
+            if (areAllPlayersReady()) {
                 initDimensionPickerLabyrinth1D();
             }
         });
@@ -230,7 +230,7 @@ public class Settings extends JPanel {
         JButton playLabyrinth2DButton = new JButton("Play Labyrinth 2D");
         buttonsPanel.add(playLabyrinth2DButton);
         playLabyrinth2DButton.addActionListener(e -> {
-            if (allPlayersAreReady()) {
+            if (areAllPlayersReady()) {
                 initDimensionPickerLabyrinth2D();
             }
         });
