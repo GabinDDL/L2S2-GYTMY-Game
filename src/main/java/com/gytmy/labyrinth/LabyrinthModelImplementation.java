@@ -29,7 +29,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
         handleNullArguments(board, initialCell);
         handleInvalidBoardSize(board);
-        this.board = Boolean2DArraysOperations.booleanCopy2D(board);
+        this.board = Boolean2DArraysOperations.copy(board);
 
         handleInvalidStartCell(initialCell);
         this.initialCell = initialCell;
@@ -129,7 +129,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         if (board == null) {
             return new boolean[0][0];
         }
-        return Boolean2DArraysOperations.booleanCopy2D(board);
+        return Boolean2DArraysOperations.copy(board);
     }
 
     public Vector2 getExitCell() {
