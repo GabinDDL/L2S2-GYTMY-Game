@@ -34,7 +34,20 @@ public class DepthFirstGenerator implements BoardGenerator {
         handleInvalidArguments(width, height);
         this.width = width - 1;
         this.height = height - 1;
+        handleInvalidStart(start);
         this.start = start;
+    }
+
+    private void handleInvalidStart(Vector2 start) {
+        if (start == null) {
+            throw new IllegalArgumentException("The start cannot be null");
+        }
+        if (start.getX() < 1 || start.getX() >= width) {
+            throw new IllegalArgumentException("The start cell must be inside the labyrinth");
+        }
+        if (start.getY() < 1 || start.getY() >= height) {
+            throw new IllegalArgumentException("The start cell must be inside the labyrinth");
+        }
     }
 
     public DepthFirstGenerator(int width, int height) {
