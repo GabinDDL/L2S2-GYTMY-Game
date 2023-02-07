@@ -9,8 +9,6 @@ import com.gytmy.utils.Vector2;
 
 public class TestDepthFirstGenerator {
 
-    // TODO: Test start cell generation
-
     @Test
     public void testConstructorOddNumber() {
         TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(2, 3), "The width must be odd");
