@@ -37,18 +37,6 @@ public class DepthFirstGenerator implements BoardGenerator {
         this.start = start;
     }
 
-    private void handleInvalidStart(Vector2 start) {
-        if (start == null) {
-            throw new IllegalArgumentException("The start cannot be null");
-        }
-        if (start.getX() < 1 || start.getX() >= width) {
-            throw new IllegalArgumentException("The start cell must be inside the labyrinth");
-        }
-        if (start.getY() < 1 || start.getY() >= height) {
-            throw new IllegalArgumentException("The start cell must be inside the labyrinth");
-        }
-    }
-
     public DepthFirstGenerator(int width, int height) {
         handleInvalidArguments(width, height);
         // -1 because we want to have a border around the labyrinth
@@ -56,13 +44,6 @@ public class DepthFirstGenerator implements BoardGenerator {
         this.height = height - 1;
 
         start = generateRandomStart();
-    }
-
-    private Vector2 generateRandomStart() {
-        int row = rand.nextInt(height - 2) + 1; // 1 to height-1
-        int col = rand.nextInt(width - 2) + 1; // 1 to width-1
-
-        return new Vector2(col, row);
     }
 
     private void handleInvalidArguments(int width, int height) {
@@ -78,6 +59,22 @@ public class DepthFirstGenerator implements BoardGenerator {
         if (height < 5) {
             throw new IllegalArgumentException("The height must be at least 5");
         }
+    }
+
+    private void handleInvalidStart(Vector2 start) {
+        if (start == null) {
+            throw new IllegalArgumentException("The start cannot be null");
+        }
+        if (start.getX() < 1 || start.getX() >= width || start.getY() < 1 || start.getY() >= height) {
+            throw new IllegalArgumentException("The start cell must be inside the labyrinth");
+        }
+    }
+
+    private Vector2 generateRandomStart() {
+        int row = rand.nextInt(height - 2) + 1; // 1 to height-1
+        int col = rand.nextInt(width - 2) + 1; // 1 to width-1
+
+        return new Vector2(col, row);
     }
 
     @Override
