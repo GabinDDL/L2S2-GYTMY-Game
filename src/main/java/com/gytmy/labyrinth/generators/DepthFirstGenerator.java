@@ -65,9 +65,13 @@ public class DepthFirstGenerator implements BoardGenerator {
         if (start == null) {
             throw new IllegalArgumentException("The start cannot be null");
         }
-        if (start.getX() < 1 || start.getX() >= width || start.getY() < 1 || start.getY() >= height) {
+        if (!isInsideBorders(start)) {
             throw new IllegalArgumentException("The start cell must be inside the labyrinth");
         }
+    }
+
+    private boolean isInsideBorders(Vector2 start) {
+        return start.getX() >= 1 && start.getX() < width && start.getY() >= 1 && start.getY() < height;
     }
 
     private Vector2 generateRandomStart() {
