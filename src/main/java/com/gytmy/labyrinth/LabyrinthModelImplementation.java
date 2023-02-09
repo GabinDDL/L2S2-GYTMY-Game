@@ -1,7 +1,7 @@
 package com.gytmy.labyrinth;
 
 import com.gytmy.labyrinth.generators.BoardGenerator;
-import com.gytmy.utils.ArrayOperations;
+import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Vector2;
 
 /**
@@ -23,23 +23,30 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     protected boolean[][] board;
     protected Vector2 initialCell;
     protected Vector2 exitCell;
+
     protected Player[] players;
 
     public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
-        handleNullArguments(board, initialCell, exitCell);
+        handleNullArguments(board, initialCell);
         handleInvalidBoardSize(board);
-        this.board = ArrayOperations.booleanCopy2D(board);
+        this.board = Boolean2DArraysOperations.copy(board);
 
-        handleInvalidCells(initialCell, exitCell);
+        handleInvalidStartCell(initialCell);
         this.initialCell = initialCell;
+
+        if (exitCell == null) {
+            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+            exitCell = finder.getFurthestCell(initialCell);
+        }
+        handleInvalidExitCell(exitCell);
         this.exitCell = exitCell;
 
         this.players = players;
     }
 
-    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 size, Vector2 initialCell, Vector2 exitCell,
+    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 initialCell, Vector2 exitCell,
             Player[] players) {
-        this(generator.generate(size.getX(), size.getY()), initialCell, exitCell, players);
+        this(generator.generate(), initialCell, exitCell, players);
     }
 
     /**
@@ -48,17 +55,13 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * 
      * @param board
      * @param initialCell
-     * @param exitCell
      */
-    private void handleNullArguments(boolean[][] board, Vector2 initialCell, Vector2 exitCell) {
+    private void handleNullArguments(boolean[][] board, Vector2 initialCell) {
         if (board == null) {
             throw new IllegalArgumentException("Board cannot be null");
         }
         if (initialCell == null) {
             throw new IllegalArgumentException("Initial cell cannot be null");
-        }
-        if (exitCell == null) {
-            throw new IllegalArgumentException("Exit cell cannot be null");
         }
     }
 
@@ -82,26 +85,36 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * an IllegalArgumentException.
      * 
      * @param initialCell
-     * @param exitCell
      */
-    private void handleInvalidCells(Vector2 initialCell, Vector2 exitCell) {
+    private void handleInvalidStartCell(Vector2 initialCell) {
         if (isOutsideBounds(initialCell)) {
             throw new IllegalArgumentException("Initial cell is outside the board");
-        }
-
-        if (isOutsideBounds(exitCell)) {
-            throw new IllegalArgumentException("Exit cell is outside the board");
         }
 
         if (!board[initialCell.getY()][initialCell.getX()]) {
             throw new IllegalArgumentException("Initial cell is a wall");
         }
 
+        if (initialCell.equals(exitCell)) {
+            throw new IllegalArgumentException("Initial and exit cells cannot be the same");
+        }
+    }
+
+    /**
+     * Checks if the exit cell is valid. If it is not, it throws an
+     * IllegalArgumentException.
+     * 
+     * @param exitCell
+     */
+    private void handleInvalidExitCell(Vector2 exitCell) {
+        if (isOutsideBounds(exitCell)) {
+            throw new IllegalArgumentException("Exit cell is outside the board");
+        }
+
         if (!board[exitCell.getY()][exitCell.getX()]) {
             throw new IllegalArgumentException("Exit cell is a wall");
         }
-
-        if (initialCell.equals(exitCell)) {
+        if (exitCell.equals(initialCell)) {
             throw new IllegalArgumentException("Initial and exit cells cannot be the same");
         }
     }
@@ -116,7 +129,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         if (board == null) {
             return new boolean[0][0];
         }
-        return ArrayOperations.booleanCopy2D(board);
+        return Boolean2DArraysOperations.copy(board);
     }
 
     public Vector2 getExitCell() {

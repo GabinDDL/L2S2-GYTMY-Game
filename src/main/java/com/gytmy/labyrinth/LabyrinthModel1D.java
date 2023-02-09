@@ -15,7 +15,7 @@ import com.gytmy.utils.Vector2;
     
     true represents a walkable path
     false represents a wall
-   
+
     Remarks: 
     We implement it as a 2D Array of booleans of height 3 where 
     the first and last row are filled with false to represent
