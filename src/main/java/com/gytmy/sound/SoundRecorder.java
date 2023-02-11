@@ -7,21 +7,21 @@ import java.io.*;
  * @author Structure : www.codejava.net
  */
 public class SoundRecorder {
-    private static final long RECORD_DURATION = 6; // In seconds
     
-    // We want the format of the file to be WAV
+    // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
- 
-    // The file that will store the recorded sound
-    private File wavFile;
+    
+    private File wavFile; // The file that will store the recorded sound
+    private long RECORD_DURATION; // In milliseconds
  
     // A TargetDataLine represents a mono or multi-channel audio feed 
     // from which audio data can be read.
     private TargetDataLine channel;
 
-    public SoundRecorder(String audioFilePath) {
+    public SoundRecorder(String audioFilePath, long recordDurationSeconds) {
 
         this.wavFile = new File(audioFilePath);
+        this.RECORD_DURATION = recordDurationSeconds * 1000;
 
         // Make sure the file exists
         if (!wavFile.exists()) {
@@ -33,6 +33,10 @@ public class SoundRecorder {
                 System.out.println("Error: File cannot be created");
             }
         }
+    }
+
+    public long getRecordDuration() {
+        return RECORD_DURATION;
     }
  
     /**
@@ -138,14 +142,14 @@ public class SoundRecorder {
      * Entry to run the program
      */
     public static void main(String[] args) {
-        final SoundRecorder recorder = new SoundRecorder("src/VoiceSample/Sample.wav");
+        final SoundRecorder recorder = new SoundRecorder("src/VoiceSample/Sample.wav", 6);
  
         // creates a new thread that waits for a specified
         // of time before stopping
         Thread stopper = new Thread(new Runnable() {
             public void run() {
                 try {
-                    Thread.sleep(RECORD_DURATION * 1000);
+                    Thread.sleep(recorder.getRecordDuration());
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
