@@ -4,20 +4,36 @@ import javax.sound.sampled.*;
 import java.io.*;
  
 /**
- * A sample program is to demonstrate how to record sound in Java
- * author: www.codejava.net
+ * @author Structure : www.codejava.net
  */
 public class SoundRecorder {
     private static final long RECORD_DURATION = 6; // In seconds
- 
-    private String audioFilePath = "src/VoiceSample/RecordedAudio.wav";
-    private File wavFile = new File(audioFilePath);
- 
+    
     // We want the format of the file to be WAV
-    private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
+    private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
  
-    // the line from which audio data is captured
+    // The file that will store the recorded sound
+    private File wavFile;
+ 
+    // A TargetDataLine represents a mono or multi-channel audio feed 
+    // from which audio data can be read.
     private TargetDataLine channel;
+
+    public SoundRecorder(String audioFilePath) {
+
+        this.wavFile = new File(audioFilePath);
+
+        // Make sure the file exists
+        if (!wavFile.exists()) {
+            try {
+                wavFile.createNewFile();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error: File cannot be created");
+            }
+        }
+    }
  
     /**
      * Defines an audio format
@@ -35,7 +51,7 @@ public class SoundRecorder {
     }
  
     /**
-     * 
+     * Opens the channel and starts recording
      */
     private void start() {
         try {
@@ -106,15 +122,15 @@ public class SoundRecorder {
     private void record(AudioInputStream inputStream) throws IOException {
         
         System.out.println("Start recording...");
-        AudioSystem.write(inputStream, fileType, wavFile);
+        AudioSystem.write(inputStream, FILE_TYPE, wavFile);
     }
  
     /**
      * Closes the target data line to finish capturing and recording
      */
-    void finish() {
-        // line.stop();
-        // line.close();
+    private void closeChannel() {
+        channel.stop();
+        channel.close();
         System.out.println("Finished");
     }
  
@@ -122,7 +138,7 @@ public class SoundRecorder {
      * Entry to run the program
      */
     public static void main(String[] args) {
-        final SoundRecorder recorder = new SoundRecorder();
+        final SoundRecorder recorder = new SoundRecorder("src/VoiceSample/Sample.wav");
  
         // creates a new thread that waits for a specified
         // of time before stopping
@@ -133,7 +149,7 @@ public class SoundRecorder {
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
-                recorder.finish();
+                recorder.closeChannel();
             }
         });
  
