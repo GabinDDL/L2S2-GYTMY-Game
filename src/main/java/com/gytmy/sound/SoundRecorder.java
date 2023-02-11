@@ -2,19 +2,22 @@ package com.gytmy.sound;
 
 import javax.sound.sampled.*;
 import java.io.*;
- 
+
 /**
+ * SoundRecorder is a class that records sound from a microphone and saves it
+ * into a WAV file.
+ * 
  * @author Structure : www.codejava.net
  */
 public class SoundRecorder {
-    
+
     // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
-    
+
     private File wavFile; // The file that will store the recorded sound
     private long RECORD_DURATION; // In milliseconds
- 
-    // A TargetDataLine represents a mono or multi-channel audio feed 
+
+    // A TargetDataLine represents a mono or multi-channel audio feed
     // from which audio data can be read.
     private TargetDataLine channel;
 
@@ -38,7 +41,7 @@ public class SoundRecorder {
     public long getRecordDuration() {
         return RECORD_DURATION;
     }
- 
+
     /**
      * Defines an audio format
      * We want the format to be 16kHz, 8-bit and mono
@@ -50,22 +53,22 @@ public class SoundRecorder {
         boolean signed = true;
         boolean bigEndian = true;
         AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
-                                             channels, signed, bigEndian);
+                channels, signed, bigEndian);
         return format;
     }
- 
+
     /**
      * Opens the channel and starts recording
      */
     public void start() {
-        
+
         Thread stopper = createStopper();
- 
+
         try {
             openChannel();
             stopper.start();
             captureAndRecord(channel);
- 
+
         } catch (LineUnavailableException ex) {
             ex.printStackTrace();
             System.out.println("Error: Line Unavailable");
@@ -78,13 +81,14 @@ public class SoundRecorder {
 
     /**
      * Creates a new thread that waits for a specified delay before stopping record
+     * 
      * @return Thread object
      */
     private Thread createStopper() {
         Thread stopper = new Thread(new Runnable() {
             public void run() {
                 try {
-                    Thread.sleep(getRecordDuration());
+                    Thread.sleep(getRecordDuration() + 1000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                     System.out.println("Error: Recording was interrupted");
@@ -112,16 +116,17 @@ public class SoundRecorder {
 
         channel = (TargetDataLine) AudioSystem.getLine(info);
         channel.open(format);
-        channel.start();   // start capturing
+        channel.start(); // start capturing
     }
 
     /**
      * Capture the sound and record it into a WAV file
+     * 
      * @param targetLine
      * @throws IOException
      */
     private void captureAndRecord(TargetDataLine targetLine) throws IOException {
-    
+
         AudioInputStream inputStream = capture(targetLine);
         record(inputStream);
     }
@@ -146,11 +151,11 @@ public class SoundRecorder {
      * @throws IOException If the file is not found
      */
     private void record(AudioInputStream inputStream) throws IOException {
-        
+
         System.out.println("Start recording...");
         AudioSystem.write(inputStream, FILE_TYPE, wavFile);
     }
- 
+
     /**
      * Closes the target data line to finish capturing and recording
      */
