@@ -8,20 +8,20 @@ import java.io.*;
  * author: www.codejava.net
  */
 public class SoundRecorder {
-    // record duration, in seconds
-    static final long RECORD_TIME = 6; // 6 seconds
+    private static final long RECORD_DURATION = 6; // In seconds
  
-    // path of the wav file
-    File wavFile = new File("src/RecordedAudio.wav");
+    private String audioFilePath = "src/VoiceSample/RecordedAudio.wav";
+    private File wavFile = new File(audioFilePath);
  
-    // format of audio file
-    AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
+    // We want the format of the file to be WAV
+    private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
  
     // the line from which audio data is captured
-    TargetDataLine line;
+    private TargetDataLine line;
  
     /**
      * Defines an audio format
+     * We want the format to be 16kHz, 8-bit and mono
      */
     AudioFormat getAudioFormat() {
         float sampleRate = 16000;
@@ -37,7 +37,7 @@ public class SoundRecorder {
     /**
      * Captures the sound and record into a WAV file
      */
-    void start() {
+    private void start() {
         try {
             AudioFormat format = getAudioFormat();
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -51,14 +51,7 @@ public class SoundRecorder {
             line.open(format);
             line.start();   // start capturing
  
-            System.out.println("Start capturing...");
- 
-            AudioInputStream ais = new AudioInputStream(line);
- 
-            System.out.println("Start recording...");
- 
-            // start recording
-            AudioSystem.write(ais, fileType, wavFile);
+            captureAndRecord(line);
  
         } catch (LineUnavailableException ex) {
             ex.printStackTrace();
@@ -66,13 +59,44 @@ public class SoundRecorder {
             ioe.printStackTrace();
         }
     }
+
+    private void captureAndRecord(TargetDataLine targetLine) throws IOException {
+    
+        AudioInputStream inputStream = capture(targetLine);
+        record(inputStream);
+    }
+
+    /**
+     * The act of capture a sound is the process of transform a sound canal into
+     * readable data, which is a audio input stream.
+     * 
+     * @param targetLine Audio Input Stream
+     * @return Audio input stream that reads its data from targetLine
+     */
+    private AudioInputStream capture(TargetDataLine targetLine) {
+
+        System.out.println("Start capturing...");
+        return new AudioInputStream(targetLine);
+    }
+
+    /**
+     * Read the audio input stream and write it into a file
+     * 
+     * @param inputStream Audio input stream
+     * @throws IOException If the file is not found
+     */
+    private void record(AudioInputStream inputStream) throws IOException {
+        
+        System.out.println("Start recording...");
+        AudioSystem.write(inputStream, fileType, wavFile);
+    }
  
     /**
      * Closes the target data line to finish capturing and recording
      */
     void finish() {
-        line.stop();
-        line.close();
+        // line.stop();
+        // line.close();
         System.out.println("Finished");
     }
  
@@ -87,7 +111,7 @@ public class SoundRecorder {
         Thread stopper = new Thread(new Runnable() {
             public void run() {
                 try {
-                    Thread.sleep(RECORD_TIME * 1000);
+                    Thread.sleep(RECORD_DURATION * 1000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
