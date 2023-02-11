@@ -55,8 +55,11 @@ public class SoundRecorder {
  
         } catch (LineUnavailableException ex) {
             ex.printStackTrace();
+            System.out.println("Error: Line Unavailable");
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
+            System.out.println("Error: File was not found");
         }
     }
 
