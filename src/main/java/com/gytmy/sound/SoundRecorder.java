@@ -57,10 +57,13 @@ public class SoundRecorder {
     /**
      * Opens the channel and starts recording
      */
-    private void start() {
+    public void start() {
+        
+        Thread stopper = createStopper();
+ 
         try {
             openChannel();
- 
+            stopper.start();
             captureAndRecord(channel);
  
         } catch (LineUnavailableException ex) {
@@ -71,6 +74,25 @@ public class SoundRecorder {
             ioe.printStackTrace();
             System.out.println("Error: File was not found");
         }
+    }
+
+    /**
+     * Creates a new thread that waits for a specified delay before stopping record
+     * @return Thread object
+     */
+    private Thread createStopper() {
+        Thread stopper = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(getRecordDuration());
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                    System.out.println("Error: Recording was interrupted");
+                }
+                closeChannel();
+            }
+        });
+        return stopper;
     }
 
     /**
@@ -136,30 +158,5 @@ public class SoundRecorder {
         channel.stop();
         channel.close();
         System.out.println("Finished");
-    }
- 
-    /**
-     * Entry to run the program
-     */
-    public static void main(String[] args) {
-        final SoundRecorder recorder = new SoundRecorder("src/VoiceSample/Sample.wav", 6);
- 
-        // creates a new thread that waits for a specified
-        // of time before stopping
-        Thread stopper = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep(recorder.getRecordDuration());
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                recorder.closeChannel();
-            }
-        });
- 
-        stopper.start();
- 
-        // start recording
-        recorder.start();
     }
 }
