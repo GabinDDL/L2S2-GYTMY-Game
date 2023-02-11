@@ -17,13 +17,13 @@ public class SoundRecorder {
     private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
  
     // the line from which audio data is captured
-    private TargetDataLine line;
+    private TargetDataLine channel;
  
     /**
      * Defines an audio format
      * We want the format to be 16kHz, 8-bit and mono
      */
-    AudioFormat getAudioFormat() {
+    private AudioFormat getAudioFormat() {
         float sampleRate = 16000;
         int sampleSizeInBits = 8;
         int channels = 1;
@@ -35,23 +35,13 @@ public class SoundRecorder {
     }
  
     /**
-     * Captures the sound and record into a WAV file
+     * 
      */
     private void start() {
         try {
-            AudioFormat format = getAudioFormat();
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+            openChannel();
  
-            // checks if system supports the data line
-            if (!AudioSystem.isLineSupported(info)) {
-                System.out.println("Line not supported");
-                System.exit(0);
-            }
-            line = (TargetDataLine) AudioSystem.getLine(info);
-            line.open(format);
-            line.start();   // start capturing
- 
-            captureAndRecord(line);
+            captureAndRecord(channel);
  
         } catch (LineUnavailableException ex) {
             ex.printStackTrace();
@@ -63,6 +53,31 @@ public class SoundRecorder {
         }
     }
 
+    /**
+     * Open the channel to capture the sound
+     * 
+     * @throws LineUnavailableException If the channel is not available
+     */
+    private void openChannel() throws LineUnavailableException {
+        AudioFormat format = getAudioFormat();
+        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+
+        // checks if system supports the data line
+        if (!AudioSystem.isLineSupported(info)) {
+            System.out.println("Line not supported");
+            System.exit(0);
+        }
+
+        channel = (TargetDataLine) AudioSystem.getLine(info);
+        channel.open(format);
+        channel.start();   // start capturing
+    }
+
+    /**
+     * Capture the sound and record it into a WAV file
+     * @param targetLine
+     * @throws IOException
+     */
     private void captureAndRecord(TargetDataLine targetLine) throws IOException {
     
         AudioInputStream inputStream = capture(targetLine);
@@ -70,7 +85,7 @@ public class SoundRecorder {
     }
 
     /**
-     * The act of capture a sound is the process of transform a sound canal into
+     * The act of capture a sound is the process of transform a sound channel into
      * readable data, which is a audio input stream.
      * 
      * @param targetLine Audio Input Stream
@@ -78,7 +93,7 @@ public class SoundRecorder {
      */
     private AudioInputStream capture(TargetDataLine targetLine) {
 
-        System.out.println("Start capturing...");
+        System.out.println("Canal is open.");
         return new AudioInputStream(targetLine);
     }
 
