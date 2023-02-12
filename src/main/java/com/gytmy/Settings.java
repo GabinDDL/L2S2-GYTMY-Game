@@ -71,20 +71,21 @@ public class Settings extends JPanel {
 
     JLabel nameLabel = new JLabel("Name : ");
     nameSection.add(nameLabel);
-    JTextField nameField = new JTextField("Player n°" + (playerID + 1) + "\t");
-    nameField.addFocusListener(new FocusListener() {
+    UserInputField nameField = new UserInputField("Player n°" + (playerID + 1));
+    nameField.getTextField().addFocusListener(new FocusListener() {
       @Override
       public void focusGained(FocusEvent e) {
-        nameField.setText("");
+        if (nameField.getText().equals("Player n°" + (playerID + 1)))
+          nameField.setText("");
       }
 
       @Override
       public void focusLost(FocusEvent e) {
-        if (nameField.getText().equals(""))
+        if (nameField.getText().isEmpty())
           nameField.setText("Player n°" + (playerID + 1));
       }
     });
-    nameSection.add(nameField);
+    nameSection.add(nameField.getTextField());
 
     playerPanel.add(nameSection);
   }
@@ -187,34 +188,21 @@ public class Settings extends JPanel {
     JPanel settingsPanel = new JPanel(new BorderLayout());
 
     JPanel textPanel = new JPanel(new GridLayout(1, 2));
-    JTextField lengthPathInputField = createInputFieldInPanel(
-        textPanel, "Enter the length of the path: ");
+
+    UserInputFieldRange inputField1D = new UserInputFieldRange(2, 40);
+    addInputFieldInPanel(inputField1D, textPanel, "Enter the length of the path: ");
+
     settingsPanel.add(textPanel, BorderLayout.CENTER);
 
     JButton validateButton = new JButton("Validate");
     validateButton.addActionListener(e -> {
-      if (isValidInput1D(lengthPathInputField))
+      if (inputField1D.isValidInput())
         startGame1D();
     });
     settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
     frame.setContentPane(settingsPanel);
     Toolbox.frameUpdate(frame, "Be AMazed (Labyrinth1D)");
-  }
-
-  // TODO: Refactor input checker into a class with methods to check inputs
-  // because everytime there is a JTextField
-  // We need to check the input but the range differs
-
-  // TODO: Check if the input contains invalid characters
-  private boolean isValidInput1D(JTextField field) {
-    String strippedString = field.getText().strip();
-
-    if (strippedString.equals(""))
-      return false;
-
-    int value = Integer.valueOf(strippedString);
-    return 2 <= value && value <= 60;
   }
 
   private void startGame1D() {
@@ -236,16 +224,19 @@ public class Settings extends JPanel {
     JPanel settingsPanel = new JPanel(new BorderLayout());
 
     JPanel textPanel = new JPanel(new GridLayout(2, 2));
-    JTextField verticalLengthLabyrinth = createInputFieldInPanel(
-        textPanel, "Enter the vertical length of the labyrinth: ");
-    JTextField horizontalLengthLabyrinth = createInputFieldInPanel(
-        textPanel, "Enter the horizontal length of the labyrinth: ");
+
+    UserInputFieldRange verticalLengthLabyrinth = new UserInputFieldRange(2, 40);
+    addInputFieldInPanel(verticalLengthLabyrinth, textPanel, "Enter the vertical length of the labyrinth: ");
+
+    UserInputFieldRange horizontalLengthLabyrinth = new UserInputFieldRange(2, 40);
+    addInputFieldInPanel(horizontalLengthLabyrinth, textPanel, "Enter the horizontal length of the labyrinth: ");
+
     settingsPanel.add(textPanel, BorderLayout.CENTER);
 
     JButton validateButton = new JButton("Validate");
     validateButton.addActionListener(e -> {
-      if (isValidInputDimension(verticalLengthLabyrinth,
-          horizontalLengthLabyrinth))
+      if (InputField.areAllValidInputs(
+          verticalLengthLabyrinth, horizontalLengthLabyrinth))
         startGame2D();
     });
     settingsPanel.add(validateButton, BorderLayout.SOUTH);
@@ -254,41 +245,15 @@ public class Settings extends JPanel {
     Toolbox.frameUpdate(frame, "Be AMazed (Labyrinth2D)");
   }
 
-  // TODO: Refactor input checker into a class with methods to check inputs
-  // because everytime there is a JTextField
-  // We need to check the input but the range differs
-
-  // TODO: Check if the input contains invalid characters
-  private boolean isValidInputDimension(JTextField verticalLength, JTextField horizontalWidth) {
-    return isValidInput2D(verticalLength) &&
-        isValidInput2D(horizontalWidth);
-  }
-
-  // TODO: Refactor input checker into a class with methods to check inputs
-  // because everytime there is a JTextField
-  // We need to check the input but the range differs
-
-  // TODO: Check if the input contains invalid characters
-  private boolean isValidInput2D(JTextField field) {
-    String strippedString = field.getText().strip();
-
-    if (strippedString.equals(""))
-      return false;
-
-    int value = Integer.valueOf(strippedString);
-    return 4 <= value && value <= 20;
-  }
-
   public void startGame2D() {
   }
 
-  private JTextField createInputFieldInPanel(JPanel panel, String instructions) {
+  private void addInputFieldInPanel(InputField inputField, JPanel panel, String instructions) {
     JLabel label = new JLabel(instructions);
     panel.add(label);
-    JTextField textField = new JTextField(5);
-    panel.add(textField);
 
-    return textField;
+    JTextField textField = inputField.getTextField();
+    panel.add(textField);
   }
 
 }
