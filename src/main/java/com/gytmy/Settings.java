@@ -17,288 +17,278 @@ import com.gytmy.labyrinth.PlayerImplementation;
 import com.gytmy.utils.Vector2;
 
 public class Settings extends JPanel {
-    private JFrame frame;
-    private int nbPlayers;
-    private Player[] arrayPlayers;
+  private JFrame frame;
+  private int nbPlayers;
+  private Player[] arrayPlayers;
 
-    private JPanel playersPanel;
-    private JPanel buttonsPanel;
-    private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
+  private JPanel playersPanel;
+  private JPanel buttonsPanel;
+  private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
 
-    // TODO: Refactor buttons with actionListeners should call controllers
-    public Settings(JFrame frame, int nbPlayers) {
-        this.frame = frame;
-        this.nbPlayers = nbPlayers;
-        arrayPlayers = new Player[nbPlayers];
+  // TODO: Refactor buttons with actionListeners should call controllers
+  public Settings(JFrame frame, int nbPlayers) {
+    this.frame = frame;
+    this.nbPlayers = nbPlayers;
+    arrayPlayers = new Player[nbPlayers];
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-        initPlayersPanel();
-        initPlayButtons();
+    initPlayersPanel();
+    initPlayButtons();
+  }
+
+  private boolean areAllPlayersReady() {
+    for (Player player : arrayPlayers) {
+      if (player == null || !player.isReady())
+        return false;
+    }
+    return true;
+  }
+
+  public void initPlayersPanel() {
+    playersPanel = new JPanel(new GridLayout(1, 4));
+
+    for (int playerID = 0; playerID < nbPlayers; ++playerID) {
+      JPanel playerPanel = createPlayerPanel(playerID);
+      playersPanel.add(playerPanel);
     }
 
-    private boolean areAllPlayersReady() {
-        for (Player player : arrayPlayers) {
-            if (player == null || !player.isReady())
-                return false;
-        }
-        return true;
-    }
+    add(playersPanel, BorderLayout.CENTER);
+  }
 
-    public void initPlayersPanel() {
-        playersPanel = new JPanel(new GridLayout(1, 4));
+  public JPanel createPlayerPanel(int playerID) {
+    JPanel playerPanel = new JPanel(new GridLayout(3, 1));
+    addNameSectionToPanel(playerPanel, playerID);
+    addColorSectionToPanel(playerPanel, playerID);
+    addValidateSectionToPanel(playerPanel, playerID);
 
-        for (int playerID = 0; playerID < nbPlayers; ++playerID) {
-            JPanel playerPanel = createPlayerPanel(playerID);
-            playersPanel.add(playerPanel);
-        }
+    return playerPanel;
+  }
 
-        add(playersPanel, BorderLayout.CENTER);
-    }
+  private void addNameSectionToPanel(JPanel playerPanel, int playerID) {
 
-    public JPanel createPlayerPanel(int playerID) {
-        JPanel playerPanel = new JPanel(new GridLayout(3, 1));
-        addNameSectionToPanel(playerPanel, playerID);
-        addColorSectionToPanel(playerPanel, playerID);
-        addValidateSectionToPanel(playerPanel, playerID);
+    JPanel nameSection = new JPanel(new GridLayout(1, 2));
 
-        return playerPanel;
-    }
+    JLabel nameLabel = new JLabel("Name : ");
+    nameSection.add(nameLabel);
+    JTextField nameField = new JTextField("Player n°" + (playerID + 1) + "\t");
+    nameField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        nameField.setText("");
+      }
 
-    private void addNameSectionToPanel(JPanel playerPanel, int playerID) {
+      @Override
+      public void focusLost(FocusEvent e) {
+        if (nameField.getText().equals(""))
+          nameField.setText("Player n°" + (playerID + 1));
+      }
+    });
+    nameSection.add(nameField);
 
-        JPanel nameSection = new JPanel(new GridLayout(1, 2));
+    playerPanel.add(nameSection);
+  }
 
-        JLabel nameLabel = new JLabel("Name : ");
-        nameSection.add(nameLabel);
-        JTextField nameField = new JTextField("Player n°" + (playerID + 1) + "\t");
-        nameField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                nameField.setText("");
-            }
+  private void addColorSectionToPanel(JPanel playerPanel, int playerID) {
+    JPanel colorSection = new JPanel(new GridLayout(1, 2));
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (nameField.getText().equals(""))
-                    nameField.setText("Player n°" + (playerID + 1));
-            }
-        });
-        nameSection.add(nameField);
+    JLabel colorLabel = new JLabel("Color : ");
+    colorSection.add(colorLabel);
+    JPanel colorTile = new JPanel();
+    colorTile.setBackground(colors[playerID]);
+    colorSection.add(colorTile);
 
-        playerPanel.add(nameSection);
-    }
+    playerPanel.add(colorSection);
+  }
 
-    private void addColorSectionToPanel(JPanel playerPanel, int playerID) {
-        JPanel colorSection = new JPanel(new GridLayout(1, 2));
+  private void addValidateSectionToPanel(JPanel playerPanel, int playerID) {
+    JButton validateButton = new JButton("Validate");
+    playerPanel.add(validateButton);
 
-        JLabel colorLabel = new JLabel("Color : ");
-        colorSection.add(colorLabel);
-        JPanel colorTile = new JPanel();
-        colorTile.setBackground(colors[playerID]);
-        colorSection.add(colorTile);
+    validateButton.addActionListener(event -> {
+      lockPlayerSettings(playerID);
+    });
+  }
 
-        playerPanel.add(colorSection);
-    }
+  private void lockPlayerSettings(int playerID) {
+    disableNameSection(playerID);
+    disableValidateSection(playerID);
+    initPlayer(playerID);
+  }
 
-    private void addValidateSectionToPanel(JPanel playerPanel, int playerID) {
-        JButton validateButton = new JButton("Validate");
-        playerPanel.add(validateButton);
+  private void disableNameSection(int playerID) {
+    JTextField nameField = getNameField(playerID);
+    nameField.setEnabled(false);
+  }
 
-        validateButton.addActionListener(event -> {
-            lockPlayerSettings(playerID);
-        });
-    }
+  private JTextField getNameField(int playerID) {
+    JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
+    JPanel nameSection = (JPanel) playerPanel.getComponent(0);
+    JTextField nameField = (JTextField) nameSection.getComponent(1);
 
-    private void lockPlayerSettings(int playerID) {
-        disableNameSection(playerID);
-        disableValidateSection(playerID);
-        initPlayer(playerID);
-    }
+    return nameField;
+  }
 
-    private void disableNameSection(int playerID) {
-        JTextField nameField = getNameField(playerID);
-        nameField.setEnabled(false);
-    }
+  private void disableValidateSection(int playerID) {
 
-    private JTextField getNameField(int playerID) {
-        JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
-        JPanel nameSection = (JPanel) playerPanel.getComponent(0);
-        JTextField nameField = (JTextField) nameSection.getComponent(1);
+    JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
+    JButton validateButton = (JButton) playerPanel.getComponent(2);
+    validateButton.setEnabled(false);
+  }
 
-        return nameField;
-    }
+  public void initPlayer(int playerID) {
 
-    private void disableValidateSection(int playerID) {
+    // TODO: Instanciate startCell coordinates after instanciation of Labyrinth
+    Vector2 coordinates = null;
+    String name = getNameField(playerID).getText();
+    Color color = getPlayerColor(playerID);
+    boolean ready = true;
 
-        JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
-        JButton validateButton = (JButton) playerPanel.getComponent(2);
-        validateButton.setEnabled(false);
-    }
+    Player player = new PlayerImplementation(
+        coordinates,
+        name,
+        color,
+        ready);
 
-    public void initPlayer(int playerID) {
+    arrayPlayers[playerID] = player;
+  }
 
-        // TODO: Instanciate startCell coordinates after instanciation of Labyrinth
-        Vector2 coordinates = null;
-        String name = getNameField(playerID).getText();
-        Color color = getPlayerColor(playerID);
-        boolean ready = true;
+  private Color getPlayerColor(int playerID) {
+    JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
+    JPanel colorSection = (JPanel) playerPanel.getComponent(1);
+    JPanel colorPanel = (JPanel) colorSection.getComponent(1);
+    Color color = colorPanel.getBackground();
 
-        Player player = new PlayerImplementation(
-                coordinates,
-                name,
-                color,
-                ready);
+    return color;
+  }
 
-        arrayPlayers[playerID] = player;
-    }
+  private void initPlayButtons() {
+    buttonsPanel = new JPanel(new GridLayout(1, 2));
 
-    private Color getPlayerColor(int playerID) {
-        JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
-        JPanel colorSection = (JPanel) playerPanel.getComponent(1);
-        JPanel colorPanel = (JPanel) colorSection.getComponent(1);
-        Color color = colorPanel.getBackground();
+    initPlayButtonLabyrinth1D();
+    initPlayButtonLabyrinth2D();
 
-        return color;
-    }
+    add(buttonsPanel, BorderLayout.SOUTH);
+  }
 
-    private void initPlayButtons() {
-        buttonsPanel = new JPanel(new GridLayout(1, 2));
+  private void initPlayButtonLabyrinth1D() {
 
-        initPlayButtonLabyrinth1D();
-        initPlayButtonLabyrinth2D();
+    JButton playLabyrinth1DButton = new JButton("Play Labyrinth 1D");
+    buttonsPanel.add(playLabyrinth1DButton);
+    playLabyrinth1DButton.addActionListener(e -> {
+      if (areAllPlayersReady()) {
+        initDimensionPickerLabyrinth1D();
+      }
+    });
 
-        add(buttonsPanel, BorderLayout.SOUTH);
-    }
+  }
 
-    private void initPlayButtonLabyrinth1D() {
+  private void initDimensionPickerLabyrinth1D() {
+    JPanel settingsPanel = new JPanel(new BorderLayout());
 
-        JButton playLabyrinth1DButton = new JButton("Play Labyrinth 1D");
-        buttonsPanel.add(playLabyrinth1DButton);
-        playLabyrinth1DButton.addActionListener(e -> {
-            if (areAllPlayersReady()) {
-                initDimensionPickerLabyrinth1D();
-            }
-        });
+    JPanel textPanel = new JPanel(new GridLayout(1, 2));
+    JTextField lengthPathInputField = createInputFieldInPanel(
+        textPanel, "Enter the length of the path: ");
+    settingsPanel.add(textPanel, BorderLayout.CENTER);
 
-    }
+    JButton validateButton = new JButton("Validate");
+    validateButton.addActionListener(e -> {
+      if (isValidInput1D(lengthPathInputField))
+        startGame1D();
+    });
+    settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
-    private void initDimensionPickerLabyrinth1D() {
-        JPanel settingsPanel = new JPanel(new BorderLayout());
+    frame.setContentPane(settingsPanel);
+    Toolbox.frameUpdate(frame, "Be AMazed (Labyrinth1D)");
+  }
 
-        JPanel textPanel = new JPanel(new GridLayout(1, 2));
-        JTextField lengthPathInputField = createInputFieldInPanel(
-                textPanel, "Enter the length of the path: ");
-        settingsPanel.add(textPanel, BorderLayout.CENTER);
+  // TODO: Refactor input checker into a class with methods to check inputs
+  // because everytime there is a JTextField
+  // We need to check the input but the range differs
 
-        JButton validateButton = new JButton("Validate");
-        validateButton.addActionListener(e -> {
-            if (isValidInput1D(lengthPathInputField))
-                startGame1D();
-        });
-        settingsPanel.add(validateButton, BorderLayout.SOUTH);
+  // TODO: Check if the input contains invalid characters
+  private boolean isValidInput1D(JTextField field) {
+    String strippedString = field.getText().strip();
 
-        frame.setContentPane(settingsPanel);
-        // TODO: Refactor frame setContentPane -> setTitle one method in a
-        // tooblox class
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.revalidate();
-        frame.setTitle("Be AMazed (Labyrinth1D)");
-    }
+    if (strippedString.equals(""))
+      return false;
 
-    // TODO: Refactor input checker into a class with methods to check inputs
-    // because everytime there is a JTextField
-    // We need to check the input but the range differs
+    int value = Integer.valueOf(strippedString);
+    return 2 <= value && value <= 60;
+  }
 
-    // TODO: Check if the input contains invalid characters
-    private boolean isValidInput1D(JTextField field) {
-        String strippedString = field.getText().strip();
+  private void startGame1D() {
+  }
 
-        if (strippedString.equals(""))
-            return false;
+  private void initPlayButtonLabyrinth2D() {
 
-        int value = Integer.valueOf(strippedString);
-        return 2 <= value && value <= 60;
-    }
+    JButton playLabyrinth2DButton = new JButton("Play Labyrinth 2D");
+    buttonsPanel.add(playLabyrinth2DButton);
+    playLabyrinth2DButton.addActionListener(e -> {
+      if (areAllPlayersReady()) {
+        initDimensionPickerLabyrinth2D();
+      }
+    });
 
-    private void startGame1D() {
-    }
+  }
 
-    private void initPlayButtonLabyrinth2D() {
+  private void initDimensionPickerLabyrinth2D() {
+    JPanel settingsPanel = new JPanel(new BorderLayout());
 
-        JButton playLabyrinth2DButton = new JButton("Play Labyrinth 2D");
-        buttonsPanel.add(playLabyrinth2DButton);
-        playLabyrinth2DButton.addActionListener(e -> {
-            if (areAllPlayersReady()) {
-                initDimensionPickerLabyrinth2D();
-            }
-        });
+    JPanel textPanel = new JPanel(new GridLayout(2, 2));
+    JTextField verticalLengthLabyrinth = createInputFieldInPanel(
+        textPanel, "Enter the vertical length of the labyrinth: ");
+    JTextField horizontalLengthLabyrinth = createInputFieldInPanel(
+        textPanel, "Enter the horizontal length of the labyrinth: ");
+    settingsPanel.add(textPanel, BorderLayout.CENTER);
 
-    }
+    JButton validateButton = new JButton("Validate");
+    validateButton.addActionListener(e -> {
+      if (isValidInputDimension(verticalLengthLabyrinth,
+          horizontalLengthLabyrinth))
+        startGame2D();
+    });
+    settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
-    private void initDimensionPickerLabyrinth2D() {
-        JPanel settingsPanel = new JPanel(new BorderLayout());
+    frame.setContentPane(settingsPanel);
+    Toolbox.frameUpdate(frame, "Be AMazed (Labyrinth2D)");
+  }
 
-        JPanel textPanel = new JPanel(new GridLayout(2, 2));
-        JTextField verticalLengthLabyrinth = createInputFieldInPanel(
-                textPanel, "Enter the vertical length of the labyrinth: ");
-        JTextField horizontalLengthLabyrinth = createInputFieldInPanel(
-                textPanel, "Enter the horizontal length of the labyrinth: ");
-        settingsPanel.add(textPanel, BorderLayout.CENTER);
+  // TODO: Refactor input checker into a class with methods to check inputs
+  // because everytime there is a JTextField
+  // We need to check the input but the range differs
 
-        JButton validateButton = new JButton("Validate");
-        validateButton.addActionListener(e -> {
-            if (isValidInputDimension(verticalLengthLabyrinth,
-                    horizontalLengthLabyrinth))
-                startGame2D();
-        });
-        settingsPanel.add(validateButton, BorderLayout.SOUTH);
+  // TODO: Check if the input contains invalid characters
+  private boolean isValidInputDimension(JTextField verticalLength, JTextField horizontalWidth) {
+    return isValidInput2D(verticalLength) &&
+        isValidInput2D(horizontalWidth);
+  }
 
-        frame.setContentPane(settingsPanel);
-        // TODO: Refactor frame setContentPane -> setTitle one method in a
-        // tooblox class
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.revalidate();
-        frame.setTitle("Be AMazed (Labyrinth2D)");
-    }
+  // TODO: Refactor input checker into a class with methods to check inputs
+  // because everytime there is a JTextField
+  // We need to check the input but the range differs
 
-    // TODO: Refactor input checker into a class with methods to check inputs
-    // because everytime there is a JTextField
-    // We need to check the input but the range differs
+  // TODO: Check if the input contains invalid characters
+  private boolean isValidInput2D(JTextField field) {
+    String strippedString = field.getText().strip();
 
-    // TODO: Check if the input contains invalid characters
-    private boolean isValidInputDimension(JTextField verticalLength, JTextField horizontalWidth) {
-        return isValidInput2D(verticalLength) &&
-                isValidInput2D(horizontalWidth);
-    }
+    if (strippedString.equals(""))
+      return false;
 
-    // TODO: Refactor input checker into a class with methods to check inputs
-    // because everytime there is a JTextField
-    // We need to check the input but the range differs
+    int value = Integer.valueOf(strippedString);
+    return 4 <= value && value <= 20;
+  }
 
-    // TODO: Check if the input contains invalid characters
-    private boolean isValidInput2D(JTextField field) {
-        String strippedString = field.getText().strip();
+  public void startGame2D() {
+  }
 
-        if (strippedString.equals(""))
-            return false;
+  private JTextField createInputFieldInPanel(JPanel panel, String instructions) {
+    JLabel label = new JLabel(instructions);
+    panel.add(label);
+    JTextField textField = new JTextField(5);
+    panel.add(textField);
 
-        int value = Integer.valueOf(strippedString);
-        return 4 <= value && value <= 20;
-    }
-
-    public void startGame2D() {
-    }
-
-    private JTextField createInputFieldInPanel(JPanel panel, String instructions) {
-        JLabel label = new JLabel(instructions);
-        panel.add(label);
-        JTextField textField = new JTextField(5);
-        panel.add(textField);
-
-        return textField;
-    }
+    return textField;
+  }
 
 }
