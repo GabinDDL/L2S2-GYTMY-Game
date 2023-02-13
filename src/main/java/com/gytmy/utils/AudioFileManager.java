@@ -12,7 +12,8 @@ import com.gytmy.sound.User;
  */
 public class AudioFileManager {
 
-    private static final File directory = new File("src/resources/audioFiles/");
+    private static final String SRC_DIR_PATH = "src/resources/audioFiles/";
+    private static final File SRC_DIRECTORY = new File(SRC_DIR_PATH);
 
     /**
      * Get the number of files valid for a predicate
@@ -31,7 +32,7 @@ public class AudioFileManager {
      * Get the number of users of the global directory
      */
     public static int numberOfUsers() {
-        return numberOfFilesVerifyingPredicate(directory, File::isDirectory);
+        return numberOfFilesVerifyingPredicate(SRC_DIRECTORY, File::isDirectory);
     }
 
     /**
@@ -41,7 +42,7 @@ public class AudioFileManager {
      * @param predicate
      * @return
      */
-    public static ArrayList<File> filesVerifyingPredicate(File directory, Predicate<File> predicate) {
+    public static ArrayList<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
         ArrayList<File> files = new ArrayList<File>();
         for (File file : directory.listFiles()) {
             if (predicate.test(file)) {
@@ -51,17 +52,33 @@ public class AudioFileManager {
         return files;
     }
 
+    public static ArrayList<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
+        ArrayList<User> users = new ArrayList<User>();
+        for (File file : SRC_DIRECTORY.listFiles()) {
+            if (predicate.test(file)) {
+                tryAddingUser(users, file);
+            }
+        }
+        return users;
+    }
+
     /**
      * Get the list of users
      */
     public static ArrayList<User> getUsers() {
-        ArrayList<User> users = new ArrayList<User>();
-        for (File file : directory.listFiles()) {
-            if (file.isDirectory()) {
-                users.add(new User(file.getName()));
-            }
+        return getUsersVerifyingPredicate(File::isDirectory);
+    }
+
+    private static boolean tryAddingUser(ArrayList<User> users, File file) {
+        try {
+            users.add(YamlReader.read(SRC_DIR_PATH + "/" + file.getName() + "/config.yaml"));
+            return true;
+
+        } catch (Exception e) {
+            System.out.print(e);
+            e.printStackTrace();
+            return false;
         }
-        return users;
     }
 
     /**
@@ -79,7 +96,7 @@ public class AudioFileManager {
      * Get the number of audio files for a user
      */
     public static int numberOfAudioFiles(String userName) {
-        File userDirectory = new File(directory + "/" + userName);
+        File userDirectory = new File(SRC_DIR_PATH + "/" + userName);
 
         if (!userDirectory.exists()) {
             return 0;
@@ -95,47 +112,41 @@ public class AudioFileManager {
         return file.isFile() && file.getName().endsWith(".wav");
     }
 
-    public static void addUser(User user) {
+    public static void addUser(User userToAdd) {
 
-        if (new File(directory + "/" + user.getFirstname()).exists()) {
+        if (new File(SRC_DIR_PATH + "/" + userToAdd.getFirstname()).exists()) {
             throw new IllegalArgumentException("User already exists");
         }
 
-        File userDirectory = new File(directory + "/" + user.getFirstname());
+        File userDirectory = new File(SRC_DIR_PATH + "/" + userToAdd.getFirstname());
         userDirectory.mkdir();
 
-        // TO DO: create his yaml file
         try {
-            YamlReader.write(directory.getAbsolutePath() + "/" + user.getFirstname() + "/data.yaml", (User) user,
-                    false);
+            YamlReader.write(User.getYamlConfig(userToAdd), userToAdd, false);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Error while creating the yaml file for the user " + user);
+            System.out.println("Error while creating the yaml file for the user " + userToAdd);
         }
     }
 
+    public static void removeUser(User userToRemove) {
+        ArrayList<User> usersWithSameFirstname = getUsersVerifyingPredicate(
+                (file) -> file.getName().startsWith(userToRemove.getFirstname()));
+
+        for (User user : usersWithSameFirstname) {
+            if (user.equals(user)) {
+                deleteFile(user);
+            }
+        }
+    }
+
+    private static void deleteFile(User user) {
+        File userDirectory = new File(SRC_DIR_PATH + "/" + user.getFirstname());
+        for (File file : userDirectory.listFiles()) {
+            file.delete();
+        }
+        userDirectory.delete();
+    }
+
     public static void main(String[] args) {
-        System.out.println(numberOfUsers());
-        System.out.println(numberOfAudioFiles("GABIN"));
-
-        User yago = new User("Yago", "iglesias-vazquez");
-        User mathusan = new User("MaThusAn", "SILVAKUMAR");
-        User gabin = new User("GABIN", "DudilliEU");
-
-        try {
-            addUser(yago);
-        } catch (IllegalArgumentException e) {
-            System.out.println("User already exists");
-        }
-        try {
-            addUser(mathusan);
-        } catch (IllegalArgumentException e) {
-            System.out.println("User already exists");
-        }
-        try {
-            addUser(gabin);
-        } catch (IllegalArgumentException e) {
-            System.out.println("User already exists");
-        }
     }
 }
