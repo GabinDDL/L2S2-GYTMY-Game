@@ -43,19 +43,10 @@ public class User {
     }
 
     private boolean nameIsInvalid(String name) {
-        if (name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty() || name.isBlank()) {
             return true;
         }
-        return isEntirelySpace(name);
-    }
-
-    private boolean isEntirelySpace(String name) {
-        for (int i = 0; i < name.length(); i++) {
-            if (!Character.isSpaceChar(name.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 
     public String getFirstname() {
@@ -84,6 +75,24 @@ public class User {
 
     public static String getYamlConfig(User user) {
         return PATH + user.getFirstname() + "/config.yaml";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+
+        User user = (User) obj;
+        return user.getFirstname().equals(this.getFirstname())
+                && user.getLastname().equals(this.getLastname())
+                && user.getNumEtu() == this.getNumEtu();
     }
 
     @Override
