@@ -78,4 +78,23 @@ public class LabyrinthCellFinder {
         return !board[position.getY()][position.getX()];
     }
 
+    /**
+     * Returns the closest cell to the top left corner of the board. It is used
+     * to find the entrance cell of the labyrinth. The algorithm prioritizes
+     * rows.
+     *
+     * @return the closes cell to the top left corner of the board
+     */
+
+    public Vector2 getClosestToTopCell() {
+        for (int y = 1; y < board.length - 1; y++) {
+            for (int x = 1; x < board[0].length - 1; x++) {
+                if (!board[y][x]) {
+                    return new Vector2(x, y);
+                }
+            }
+        }
+        return null;
+    }
+
 }

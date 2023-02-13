@@ -1,6 +1,7 @@
 package com.gytmy.labyrinth;
 
 import com.gytmy.labyrinth.generators.BoardGenerator;
+import com.gytmy.labyrinth.generators.DepthFirstGenerator;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Vector2;
 
@@ -13,10 +14,13 @@ import com.gytmy.utils.Vector2;
  * represented as a 2D array of booleans. A true value means that the cell is
  * not a wall, a false value means that the cell is a wall.
  * 
+ * The default strategy to generate the labyrinth is DepthFirstGenerator.
+ * 
  * The initial cell is the cell where the players start. The exit cell is the
  * cell where the players must reach in order to win the game.
  * 
  * The players are represented as an array of Player objects.
+ * 
  */
 public class LabyrinthModelImplementation implements LabyrinthModel {
 
@@ -26,27 +30,32 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     protected Player[] players;
 
-    public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
-        handleNullArguments(board, initialCell);
-        handleInvalidBoardSize(board);
-        this.board = Boolean2DArraysOperations.copy(board);
-
-        handleInvalidStartCell(initialCell);
-        this.initialCell = initialCell;
-
-        if (exitCell == null) {
-            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
-            exitCell = finder.getFurthestCell(initialCell);
-        }
-        handleInvalidExitCell(exitCell);
-        this.exitCell = exitCell;
-
-        this.players = players;
+    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Vector2 initialCell,
+            Vector2 exitCell,
+            Player[] players) {
+        this(generator.generate(width, height, initialCell), initialCell, exitCell, players);
     }
 
-    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 initialCell, Vector2 exitCell,
+    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Vector2 initialCell,
             Player[] players) {
-        this(generator.generate(), initialCell, exitCell, players);
+        this(generator.generate(width, height, initialCell), initialCell, null, players);
+    }
+
+    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Player[] players) {
+        this(generator.generate(width, height), null, null, players);
+    }
+
+    public LabyrinthModelImplementation(int width, int height, Player[] players) {
+        this(new DepthFirstGenerator(), width, height, players);
+    }
+
+    public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
+        handleNullArguments(board);
+        handleInvalidBoardSize(board);
+        this.board = Boolean2DArraysOperations.copy(board);
+        this.initialCell = determineInitialCell(initialCell);
+        this.exitCell = determineExitCell(exitCell);
+        this.players = players;
     }
 
     /**
@@ -54,14 +63,10 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * IllegalArgumentException.
      * 
      * @param board
-     * @param initialCell
      */
-    private void handleNullArguments(boolean[][] board, Vector2 initialCell) {
+    private void handleNullArguments(boolean[][] board) {
         if (board == null) {
             throw new IllegalArgumentException("Board cannot be null");
-        }
-        if (initialCell == null) {
-            throw new IllegalArgumentException("Initial cell cannot be null");
         }
     }
 
@@ -78,6 +83,24 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         if (board[0].length < 3) {
             throw new IllegalArgumentException("Board must have at least 3 columns");
         }
+    }
+
+    /**
+     * Determines the initial cell. If the initial cell is null, it gets a
+     * random non-wall cell. If the initial cell is outside the board or is a
+     * wall, it throws an IllegalArgumentException.
+     * 
+     * @param initialCell
+     * @return the initial cell
+     */
+    private Vector2 determineInitialCell(Vector2 initialCell) {
+        if (initialCell == null) {
+            // Get a random non-wall cell
+            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+            initialCell = finder.getClosestToTopCell();
+        }
+        handleInvalidStartCell(initialCell);
+        return initialCell;
     }
 
     /**
@@ -98,6 +121,22 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         if (initialCell.equals(exitCell)) {
             throw new IllegalArgumentException("Initial and exit cells cannot be the same");
         }
+    }
+
+    /**
+     * Determines the exit cell. If it is null, it will be set to the furthest
+     * cell from the initial cell.
+     * 
+     * @param exitCell\
+     * @return the exit cell
+     */
+    private Vector2 determineExitCell(Vector2 exitCell) {
+        if (exitCell == null) {
+            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+            exitCell = finder.getFurthestCell(initialCell);
+        }
+        handleInvalidExitCell(exitCell);
+        return exitCell;
     }
 
     /**
