@@ -6,6 +6,10 @@ import java.util.function.Predicate;
 
 import com.gytmy.sound.SampledUser;
 
+/**
+ * AudioFileManager is a class that manages the audio files
+ * regarding the user
+ */
 public class AudioFileManager {
 
     private static File directory = new File("src/resources/audioFiles/");
@@ -61,6 +65,17 @@ public class AudioFileManager {
     }
 
     /**
+     * Get the total number of audio files
+     */
+    public static int totalNumberOfAudioFiles() {
+        int totalNumberOfAudioFiles = 0;
+        for (SampledUser user : getUsers()) {
+            totalNumberOfAudioFiles += numberOfAudioFiles(user.getFirstname());
+        }
+        return totalNumberOfAudioFiles;
+    }
+
+    /**
      * Get the number of audio files for a user
      */
     public static int numberOfAudioFiles(String userName) {
@@ -73,6 +88,20 @@ public class AudioFileManager {
      */
     private static boolean isAudioFile(File file) {
         return file.isFile() && file.getName().endsWith(".wav");
+    }
+
+    public static void addUser(String userName, int numEtu) throws IllegalArgumentException {
+        if (new File(directory + "/" + userName).exists()) {
+            throw new IllegalArgumentException("User already exists");
+        }
+
+        File userDirectory = new File(directory + "/" + userName);
+        userDirectory.mkdir();
+
+        // TO DO: create a SampledUser object
+        SampledUser user = new SampledUser(userName, numEtu);
+
+        // TO DO: create his yaml file
     }
 
     public static void main(String[] args) {

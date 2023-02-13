@@ -1,35 +1,23 @@
 package com.gytmy.sound;
 
 import java.io.File;
-import java.util.HashMap;
 
-public class SampledUser {
+public class SampledUser extends User {
 
     private static String PATH = "src/resources/audioFiles/";
 
-    private String name;
-    private HashMap<String, Integer> samples;
-    private File yamlConfig = new File(PATH + "/" + name + "/" + "data.yaml");
+    private File yamlConfig = new File(PATH + "/" + getFirstname() + "/" + "data.yaml");
+
+    public SampledUser(String firstname, String lastname, int numEtu) {
+        super(firstname, lastname, numEtu);
+    }
+
+    public SampledUser(String name, int numEtu) {
+        super(name, "default", numEtu);
+    }
 
     public SampledUser(String name) {
-        this.name = name;
-        this.samples = new HashMap<String, Integer>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public HashMap<String, Integer> getSamples() {
-        return samples;
-    }
-
-    public void setSamples(HashMap<String, Integer> samples) {
-        this.samples = samples;
+        super(name, "default", 0);
     }
 
     public File getYamlConfig() {
