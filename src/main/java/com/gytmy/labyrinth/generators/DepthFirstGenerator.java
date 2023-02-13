@@ -28,22 +28,35 @@ public class DepthFirstGenerator implements BoardGenerator {
     boolean[][] visited;
     Vector2 current;
 
-    public DepthFirstGenerator(int width, int height, Vector2 start) {
-        handleInvalidArguments(width, height);
-        // -1 because we want to have a border around the labyrinth
-        this.width = width - 1;
-        this.height = height - 1;
-        handleInvalidStart(start);
-        this.start = start;
+    @Override
+    public boolean[][] generate(int width, int height) {
+        initArguments(width, height, null);
+        return generate();
     }
 
-    public DepthFirstGenerator(int width, int height) {
+    @Override
+    public boolean[][] generate(int width, int height, Vector2 start) {
+        initArguments(width, height, start);
+        return generate();
+    }
+
+    private boolean[][] generate() {
+        board = new boolean[height][width];
+        generateBoard();
+        return getBorderedBoard();
+    }
+
+    private void initArguments(int width, int height, Vector2 start) {
         handleInvalidArguments(width, height);
         // -1 because we want to have a border around the labyrinth
         this.width = width - 1;
         this.height = height - 1;
-
-        start = generateRandomStart();
+        if (start == null) {
+            this.start = generateRandomStart();
+        } else {
+            handleInvalidStart(start);
+            this.start = start;
+        }
     }
 
     private void handleInvalidArguments(int width, int height) {
@@ -79,14 +92,6 @@ public class DepthFirstGenerator implements BoardGenerator {
         int col = rand.nextInt(width - 2) + 1; // 1 to width-1
 
         return new Vector2(col, row);
-    }
-
-    @Override
-    public boolean[][] generate() {
-
-        board = new boolean[height][width];
-        generateBoard();
-        return getBorderedBoard();
     }
 
     private boolean[][] generateBoard() {

@@ -78,4 +78,19 @@ public class LabyrinthCellFinder {
         return !board[position.getY()][position.getX()];
     }
 
+    public Vector2 getRandomCell() {
+        while (true) {
+            Vector2 randomCell = generateRandomCell();
+            if (!isWall(randomCell)) {
+                return randomCell;
+            }
+        }
+    }
+
+    private Vector2 generateRandomCell() {
+        int x = (int) (Math.random() * board[0].length);
+        int y = (int) (Math.random() * board.length);
+        return new Vector2(x, y);
+    }
+
 }

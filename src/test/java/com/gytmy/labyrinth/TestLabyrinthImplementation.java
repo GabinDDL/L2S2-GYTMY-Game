@@ -25,13 +25,6 @@ public class TestLabyrinthImplementation {
     }
 
     @Test
-    public void testConstructorNullInitialCell() {
-        TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[3][3], null, null, null),
-                "Initial cell cannot be null");
-    }
-
-    @Test
     public void testConstructorInvalidBoardSize() {
         TestingUtils.assertArgumentExceptionMessage(
                 () -> new LabyrinthModelImplementation(new boolean[2][2], new Vector2(0, 0), new Vector2(0, 0), null),
@@ -85,19 +78,29 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorNonEmptyExitCell() {
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(101, 101),
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(),
+                new Vector2(101, 101),
                 new Vector2(1, 1), null, null);
         assertTrue(labyrinth.getExitCell() != null);
     }
 
     @Test
     public void testConstructorEmptyBoard() {
-        assertWasCorrectlyConstructed(new EmptyBoardGenerator(10, 10));
+        assertWasCorrectlyConstructed(new EmptyBoardGenerator(), new Vector2(10, 10));
     }
 
     @Test
     public void testConstructorBorderBoard() {
-        assertWasCorrectlyConstructed(new BorderBoardGenerator(10, 10));
+        assertWasCorrectlyConstructed(new BorderBoardGenerator(), new Vector2(10, 10));
+    }
+
+    private void assertWasCorrectlyConstructed(BoardGenerator generator, Vector2 size) {
+        Vector2 initialCell = new Vector2(1, 1);
+        Vector2 exitCell = new Vector2(3, 1);
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
+                generator, size, initialCell, exitCell, null);
+
+        assertArrayEquals(labyrinth.getBoard(), generator.generate(size.getX(), size.getY()));
     }
 
     @Test
@@ -105,20 +108,11 @@ public class TestLabyrinthImplementation {
         Vector2 initialCell = new Vector2(1, 1);
         Vector2 exitCell = new Vector2(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
-                new DepthFirstGenerator(11, 15), initialCell, exitCell, null);
+                new DepthFirstGenerator(), new Vector2(11, 15), initialCell, exitCell, null);
 
         assertEquals(exitCell, labyrinth.getExitCell());
         assertEquals(11, labyrinth.getBoard()[0].length);
         assertEquals(15, labyrinth.getBoard().length);
-    }
-
-    private void assertWasCorrectlyConstructed(BoardGenerator generator) {
-        Vector2 initialCell = new Vector2(1, 1);
-        Vector2 exitCell = new Vector2(3, 1);
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
-                generator, initialCell, exitCell, null);
-
-        assertArrayEquals(labyrinth.getBoard(), generator.generate());
     }
 
     @Test
