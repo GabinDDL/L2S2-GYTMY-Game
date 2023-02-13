@@ -5,7 +5,6 @@ import com.gytmy.labyrinth.LabyrinthModel1D;
 import com.gytmy.labyrinth.LabyrinthModelImplementation;
 import com.gytmy.labyrinth.LabyrinthView;
 import com.gytmy.labyrinth.LabyrinthViewImplementation;
-import com.gytmy.labyrinth.generators.DepthFirstGenerator;
 import com.gytmy.utils.launcher.GameData;
 
 public class GameController {
@@ -32,13 +31,18 @@ public class GameController {
   }
 
   private void initGame1D() {
-    model = new LabyrinthModel1D(gameData.getHorizontalLengthLabyrinth(),
+    model = new LabyrinthModel1D(
+        gameData.getWidthLabyrinth(),
         gameData.getPlayers());
     view = new LabyrinthViewImplementation(model);
   }
 
   private void initGame2D() {
-    // TODO: Wait bugfix Yago
+    model = new LabyrinthModelImplementation(
+        gameData.getWidthLabyrinth(),
+        gameData.getHeightLabyrinth(),
+        gameData.getPlayers());
+    view = new LabyrinthViewImplementation(model);
   }
 
 }
