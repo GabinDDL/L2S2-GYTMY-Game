@@ -87,7 +87,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         if (initialCell == null) {
             // Get a random non-wall cell
             LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
-            initialCell = finder.getRandomCell();
+            initialCell = finder.getClosestToTopCell();
         }
         handleInvalidStartCell(initialCell);
         return initialCell;
