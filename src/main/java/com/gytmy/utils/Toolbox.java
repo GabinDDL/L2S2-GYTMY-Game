@@ -1,4 +1,4 @@
-package com.gytmy;
+package com.gytmy.utils;
 
 import javax.swing.JFrame;
 
