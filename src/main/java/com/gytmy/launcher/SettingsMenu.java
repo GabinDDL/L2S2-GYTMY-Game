@@ -229,18 +229,18 @@ public class SettingsMenu extends JPanel {
 
     JPanel textPanel = new JPanel(new GridLayout(2, 2));
 
-    UserInputFieldRange verticalLengthLabyrinth = new UserInputFieldRange(2, 40);
-    addInputFieldInPanel(verticalLengthLabyrinth, textPanel, "Enter the vertical length of the labyrinth: ");
+    UserInputFieldRange heightLabyrinth = new UserInputFieldRange(2, 40);
+    addInputFieldInPanel(heightLabyrinth, textPanel, "Enter the vertical length of the labyrinth: ");
 
-    UserInputFieldRange horizontalLengthLabyrinth = new UserInputFieldRange(2, 40);
-    addInputFieldInPanel(horizontalLengthLabyrinth, textPanel, "Enter the horizontal length of the labyrinth: ");
+    UserInputFieldRange widthLabyrinth = new UserInputFieldRange(2, 40);
+    addInputFieldInPanel(widthLabyrinth, textPanel, "Enter the horizontal length of the labyrinth: ");
 
     settingsPanel.add(textPanel, BorderLayout.CENTER);
 
     JButton validateButton = new JButton("Validate");
     validateButton.addActionListener(e -> {
       if (InputField.areAllValidInputs(
-          verticalLengthLabyrinth, horizontalLengthLabyrinth))
+          heightLabyrinth, widthLabyrinth))
         startGame2D();
     });
     settingsPanel.add(validateButton, BorderLayout.SOUTH);

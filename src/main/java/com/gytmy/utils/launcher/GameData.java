@@ -10,25 +10,25 @@ public class GameData {
 
   private final int dimension;
   private Player[] players;
-  private final int verticalLengthLabyrinth;
-  private final int horizontalLengthLabyrinth;
+  private final int heightLabyrinth;
+  private final int widthLabyrinth;
 
-  public GameData(LabyrinthModel model, LabyrinthView view, Player[] players, int horizontalLengthLabyrinth) {
-    this(1, model, view, players, NO_LENGTH, horizontalLengthLabyrinth);
+  public GameData(LabyrinthModel model, LabyrinthView view, Player[] players, int widthLabyrinth) {
+    this(1, model, view, players, NO_LENGTH, widthLabyrinth);
   }
 
-  public GameData(LabyrinthModel model, LabyrinthView view, Player[] players, int verticalLengthLabyrinth,
-      int horizontalLengthLabyrinth) {
-    this(2, model, view, players, verticalLengthLabyrinth, horizontalLengthLabyrinth);
+  public GameData(LabyrinthModel model, LabyrinthView view, Player[] players, int heightLabyrinth,
+      int widthLabyrinth) {
+    this(2, model, view, players, heightLabyrinth, widthLabyrinth);
   }
 
   private GameData(int dimension, LabyrinthModel model, LabyrinthView view, Player[] players,
-      int verticalLengthLabyrinth, int horizontalLengthLabyrinth) {
+      int heightLabyrinth, int widthLabyrinth) {
 
     this.dimension = dimension;
     this.players = players;
-    this.verticalLengthLabyrinth = verticalLengthLabyrinth;
-    this.horizontalLengthLabyrinth = horizontalLengthLabyrinth;
+    this.heightLabyrinth = heightLabyrinth;
+    this.widthLabyrinth = widthLabyrinth;
   }
 
   public int getDimension() {
@@ -39,12 +39,12 @@ public class GameData {
     return players;
   }
 
-  public int getVerticalLengthLabyrinth() {
-    return verticalLengthLabyrinth;
+  public int getHeightLabyrinth() {
+    return heightLabyrinth;
   }
 
-  public int getHorizontalLengthLabyrinth() {
-    return horizontalLengthLabyrinth;
+  public int getWidthLabyrinth() {
+    return widthLabyrinth;
   }
 
 }
