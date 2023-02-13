@@ -6,36 +6,42 @@ import com.gytmy.utils.Vector2;
 
 public interface Player {
 
-    // TODO: Add Names, Colors, boolean Ready to players
+  public int getX();
 
-    public int getX();
+  public int getY();
 
-    public int getY();
+  public Vector2 getCoordinates();
 
-    public Vector2 getCoordinates();
+  public String getName();
 
-    public String getName();
+  public Color getColor();
 
-    public Color getColor();
+  public boolean isReady();
 
-    public boolean isReady();
+  public static boolean areAllPlayersReady(Player... players) {
+    for (Player player : players) {
+      if (player == null || !player.isReady())
+        return false;
+    }
+    return true;
+  }
 
-    public void setX(int x);
+  public void setX(int x);
 
-    public void setY(int y);
+  public void setY(int y);
 
-    public void setCoordinates(Vector2 coordinates);
+  public void setCoordinates(Vector2 coordinates);
 
-    public void setName(String name);
+  public void setName(String name);
 
-    public void setColor(Color color);
+  public void setColor(Color color);
 
-    public void setReady(boolean ready);
+  public void setReady(boolean ready);
 
-    /**
-     * Moves the player in the given direction
-     * 
-     * @param direction
-     */
-    public void move(Direction direction);
+  /**
+   * Moves the player in the given direction
+   * 
+   * @param direction
+   */
+  public void move(Direction direction);
 }
