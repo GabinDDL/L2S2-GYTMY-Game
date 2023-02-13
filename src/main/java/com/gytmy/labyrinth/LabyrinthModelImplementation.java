@@ -1,6 +1,7 @@
 package com.gytmy.labyrinth;
 
 import com.gytmy.labyrinth.generators.BoardGenerator;
+import com.gytmy.labyrinth.generators.DepthFirstGenerator;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Vector2;
 
@@ -13,10 +14,13 @@ import com.gytmy.utils.Vector2;
  * represented as a 2D array of booleans. A true value means that the cell is
  * not a wall, a false value means that the cell is a wall.
  * 
+ * The default strategy to generate the labyrinth is DepthFirstGenerator.
+ * 
  * The initial cell is the cell where the players start. The exit cell is the
  * cell where the players must reach in order to win the game.
  * 
  * The players are represented as an array of Player objects.
+ * 
  */
 public class LabyrinthModelImplementation implements LabyrinthModel {
 
@@ -37,6 +41,10 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     public LabyrinthModelImplementation(BoardGenerator generator, Vector2 size, Player[] players) {
         this(generator.generate(size.getX(), size.getY()), null, null, players);
+    }
+
+    public LabyrinthModelImplementation(Vector2 size, Player[] players) {
+        this(new DepthFirstGenerator(), size, players);
     }
 
     public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
