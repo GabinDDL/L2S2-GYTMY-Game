@@ -1,7 +1,5 @@
 package com.gytmy.utils.launcher;
 
-import com.gytmy.labyrinth.LabyrinthModel;
-import com.gytmy.labyrinth.LabyrinthView;
 import com.gytmy.labyrinth.Player;
 
 public class GameData {
@@ -10,25 +8,26 @@ public class GameData {
 
   private final int dimension;
   private Player[] players;
-  private final int heightLabyrinth;
   private final int widthLabyrinth;
+  private final int heightLabyrinth;
 
-  public GameData(LabyrinthModel model, LabyrinthView view, Player[] players, int widthLabyrinth) {
-    this(1, model, view, players, NO_LENGTH, widthLabyrinth);
-  }
-
-  public GameData(LabyrinthModel model, LabyrinthView view, Player[] players, int heightLabyrinth,
+  public GameData(Player[] players,
       int widthLabyrinth) {
-    this(2, model, view, players, heightLabyrinth, widthLabyrinth);
+    this(1, players, widthLabyrinth, NO_LENGTH);
   }
 
-  private GameData(int dimension, LabyrinthModel model, LabyrinthView view, Player[] players,
-      int heightLabyrinth, int widthLabyrinth) {
+  public GameData(Player[] players,
+      int widthLabyrinth, int heightLabyrinth) {
+    this(2, players, widthLabyrinth, heightLabyrinth);
+  }
+
+  private GameData(int dimension, Player[] players,
+      int widthLabyrinth, int heightLabyrinth) {
 
     this.dimension = dimension;
     this.players = players;
-    this.heightLabyrinth = heightLabyrinth;
     this.widthLabyrinth = widthLabyrinth;
+    this.heightLabyrinth = heightLabyrinth;
   }
 
   public int getDimension() {
@@ -39,12 +38,12 @@ public class GameData {
     return players;
   }
 
-  public int getHeightLabyrinth() {
-    return heightLabyrinth;
-  }
-
   public int getWidthLabyrinth() {
     return widthLabyrinth;
+  }
+
+  public int getHeightLabyrinth() {
+    return heightLabyrinth;
   }
 
 }
