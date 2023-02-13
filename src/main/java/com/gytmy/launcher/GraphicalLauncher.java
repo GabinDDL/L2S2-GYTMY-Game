@@ -1,8 +1,10 @@
-package com.gytmy;
+package com.gytmy.launcher;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
+import com.gytmy.utils.Toolbox;
 
 public class GraphicalLauncher implements Runnable {
 

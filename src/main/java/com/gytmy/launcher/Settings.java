@@ -1,4 +1,4 @@
-package com.gytmy;
+package com.gytmy.launcher;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,7 +14,11 @@ import javax.swing.JTextField;
 
 import com.gytmy.labyrinth.Player;
 import com.gytmy.labyrinth.PlayerImplementation;
+import com.gytmy.utils.Toolbox;
 import com.gytmy.utils.Vector2;
+import com.gytmy.utils.input.InputField;
+import com.gytmy.utils.input.UserInputField;
+import com.gytmy.utils.input.UserInputFieldRange;
 
 public class Settings extends JPanel {
   private JFrame frame;
@@ -142,7 +146,7 @@ public class Settings extends JPanel {
     // TODO: Instanciate startCell coordinates after instanciation of Labyrinth
     Vector2 coordinates = null;
     String name = getNameField(playerID).getText();
-    Color color = getPlayerColor(playerID);
+    Color color = getPlayerColorFromPanel(playerID);
     boolean ready = true;
 
     Player player = new PlayerImplementation(
@@ -154,7 +158,7 @@ public class Settings extends JPanel {
     arrayPlayers[playerID] = player;
   }
 
-  private Color getPlayerColor(int playerID) {
+  private Color getPlayerColorFromPanel(int playerID) {
     JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
     JPanel colorSection = (JPanel) playerPanel.getComponent(1);
     JPanel colorPanel = (JPanel) colorSection.getComponent(1);

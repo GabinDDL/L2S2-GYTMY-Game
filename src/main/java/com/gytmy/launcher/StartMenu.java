@@ -1,4 +1,4 @@
-package com.gytmy;
+package com.gytmy.launcher;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.gytmy.utils.Toolbox;
+import com.gytmy.utils.input.UserInputFieldRange;
 
 public class StartMenu extends JPanel {
   private JFrame frame;
