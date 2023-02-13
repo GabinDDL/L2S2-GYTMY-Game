@@ -4,7 +4,6 @@ import java.io.File;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
 import com.gytmy.sound.User;
 
 public class YamlReader {
@@ -43,7 +42,7 @@ public class YamlReader {
      * @throws Exception
      */
     public static User read(String filePath) throws Exception {
-        handleInvalidFilePath(filePath);
+        handleInvalidFilePath(filePath, true);
 
         File file = new File(filePath);
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
@@ -56,26 +55,26 @@ public class YamlReader {
     /**
      * Write the .yaml config file the user
      */
-    public static void write(String filePath, User user) throws Exception {
-        handleInvalidFilePath(filePath);
+    public static void write(String filePath, User user, boolean shouldExists) throws Exception {
+        handleInvalidFilePath(filePath, shouldExists);
 
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        objectMapper.writeValue(new File(filePath), user);
+        objectMapper.writeValue(new File(filePath), ((User) user));
     }
 
     /**
      * Handle invalid exceptions
      */
-    private static void handleInvalidFilePath(String filePath) {
+    private static void handleInvalidFilePath(String filePath, boolean shouldExists) {
         if (filePath == null || filePath.isEmpty()) {
             throw new IllegalArgumentException("Invalid file path");
         }
 
         if (!filePath.endsWith(".yaml")) {
-            throw new IllegalArgumentException("Invalid file path");
+            throw new IllegalArgumentException("Invalid file extension");
         }
 
-        if (fileDoesNotExists(filePath)) {
+        if (shouldExists && fileDoesNotExists(filePath)) {
             throw new IllegalArgumentException("File does not exists");
         }
     }
@@ -89,7 +88,7 @@ public class YamlReader {
 
     public static void main(String[] args) throws Exception {
 
-        String pathExample = "src/resources/audioFiles/Yago/config.yaml";
+        String pathExample = "src/resources/audioFiles/YAGO/config.yaml";
 
         User user = read(pathExample);
         System.out.println("User's Info :" + user.toString());

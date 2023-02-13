@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-import com.gytmy.sound.SampledUser;
+import com.gytmy.sound.User;
 
 /**
  * AudioFileManager is a class that manages the audio files
@@ -12,7 +12,7 @@ import com.gytmy.sound.SampledUser;
  */
 public class AudioFileManager {
 
-    private static File directory = new File("src/resources/audioFiles/");
+    private static final File directory = new File("src/resources/audioFiles/");
 
     /**
      * Get the number of files valid for a predicate
@@ -54,11 +54,11 @@ public class AudioFileManager {
     /**
      * Get the list of users
      */
-    public static ArrayList<SampledUser> getUsers() {
-        ArrayList<SampledUser> users = new ArrayList<SampledUser>();
+    public static ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<User>();
         for (File file : directory.listFiles()) {
             if (file.isDirectory()) {
-                users.add(new SampledUser(file.getName()));
+                users.add(new User(file.getName()));
             }
         }
         return users;
@@ -69,7 +69,7 @@ public class AudioFileManager {
      */
     public static int totalNumberOfAudioFiles() {
         int totalNumberOfAudioFiles = 0;
-        for (SampledUser user : getUsers()) {
+        for (User user : getUsers()) {
             totalNumberOfAudioFiles += numberOfAudioFiles(user.getFirstname());
         }
         return totalNumberOfAudioFiles;
@@ -80,6 +80,11 @@ public class AudioFileManager {
      */
     public static int numberOfAudioFiles(String userName) {
         File userDirectory = new File(directory + "/" + userName);
+
+        if (!userDirectory.exists()) {
+            return 0;
+        }
+
         return numberOfFilesVerifyingPredicate(userDirectory, ((file) -> isAudioFile(file)));
     }
 
@@ -90,22 +95,47 @@ public class AudioFileManager {
         return file.isFile() && file.getName().endsWith(".wav");
     }
 
-    public static void addUser(String userName, int numEtu) throws IllegalArgumentException {
-        if (new File(directory + "/" + userName).exists()) {
+    public static void addUser(User user) {
+
+        if (new File(directory + "/" + user.getFirstname()).exists()) {
             throw new IllegalArgumentException("User already exists");
         }
 
-        File userDirectory = new File(directory + "/" + userName);
+        File userDirectory = new File(directory + "/" + user.getFirstname());
         userDirectory.mkdir();
 
-        // TO DO: create a SampledUser object
-        SampledUser user = new SampledUser(userName, numEtu);
-
         // TO DO: create his yaml file
+        try {
+            YamlReader.write(directory.getAbsolutePath() + "/" + user.getFirstname() + "/data.yaml", (User) user,
+                    false);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Error while creating the yaml file for the user " + user);
+        }
     }
 
     public static void main(String[] args) {
         System.out.println(numberOfUsers());
-        System.out.println(numberOfAudioFiles("Yago"));
+        System.out.println(numberOfAudioFiles("GABIN"));
+
+        User yago = new User("Yago", "iglesias-vazquez");
+        User mathusan = new User("MaThusAn", "SILVAKUMAR");
+        User gabin = new User("GABIN", "DudilliEU");
+
+        try {
+            addUser(yago);
+        } catch (IllegalArgumentException e) {
+            System.out.println("User already exists");
+        }
+        try {
+            addUser(mathusan);
+        } catch (IllegalArgumentException e) {
+            System.out.println("User already exists");
+        }
+        try {
+            addUser(gabin);
+        } catch (IllegalArgumentException e) {
+            System.out.println("User already exists");
+        }
     }
 }

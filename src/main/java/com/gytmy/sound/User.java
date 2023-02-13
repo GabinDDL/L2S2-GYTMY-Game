@@ -2,6 +2,8 @@ package com.gytmy.sound;
 
 public class User {
 
+    private static final String PATH = "src/resources/audioFiles/";
+
     protected String firstname;
     protected String lastname;
     protected int numEtu;
@@ -9,8 +11,8 @@ public class User {
     public User(String firstname, String lastname, int numEtu) {
         handleInvalidArguments(firstname, lastname, numEtu);
 
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstname = firstname.toUpperCase();
+        this.lastname = lastname.toUpperCase();
         this.numEtu = numEtu;
     }
 
@@ -23,7 +25,7 @@ public class User {
     }
 
     public User() {
-        this("NoName");
+        this("No-name");
     }
 
     private void handleInvalidArguments(String firstname, String lastname, int numEtu) {
@@ -80,8 +82,12 @@ public class User {
         this.numEtu = numEtu;
     }
 
+    public static String getYamlConfig(User user) {
+        return PATH + user.getFirstname() + "/config.yaml";
+    }
+
     @Override
     public String toString() {
-        return "[" + numEtu + "]" + firstname + " " + lastname;
+        return "[" + numEtu + "] " + firstname + " " + lastname;
     }
 }
