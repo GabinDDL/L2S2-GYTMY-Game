@@ -45,7 +45,7 @@ public class StartMenu extends JPanel {
     playButton.addActionListener(event -> {
       if (nbPlayersField.isValidInput()) {
         int nbPlayers = nbPlayersField.getValue();
-        frame.setContentPane(new Settings(frame, nbPlayers));
+        frame.setContentPane(new SettingsMenu(frame, nbPlayers));
         Toolbox.frameUpdate(frame, "Be AMazed (Settings)");
       }
     });

@@ -20,7 +20,7 @@ import com.gytmy.utils.input.InputField;
 import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldRange;
 
-public class Settings extends JPanel {
+public class SettingsMenu extends JPanel {
   private JFrame frame;
   private int nbPlayers;
   private Player[] arrayPlayers;
@@ -30,7 +30,7 @@ public class Settings extends JPanel {
   private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
 
   // TODO: Refactor buttons with actionListeners should call controllers
-  public Settings(JFrame frame, int nbPlayers) {
+  public SettingsMenu(JFrame frame, int nbPlayers) {
     this.frame = frame;
     this.nbPlayers = nbPlayers;
     arrayPlayers = new Player[nbPlayers];
