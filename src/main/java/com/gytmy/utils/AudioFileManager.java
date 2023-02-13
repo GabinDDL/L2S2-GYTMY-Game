@@ -52,6 +52,9 @@ public class AudioFileManager {
         return files;
     }
 
+    /**
+     * Get the list of users verifying a predicate passed as parameter
+     */
     public static ArrayList<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
         ArrayList<User> users = new ArrayList<User>();
         for (File file : SRC_DIRECTORY.listFiles()) {
@@ -112,6 +115,9 @@ public class AudioFileManager {
         return file.isFile() && file.getName().endsWith(".wav");
     }
 
+    /**
+     * Add an user to the directory if it doesn't already exist
+     */
     public static void addUser(User userToAdd) {
 
         if (new File(SRC_DIR_PATH + "/" + userToAdd.getFirstname()).exists()) {
@@ -128,6 +134,9 @@ public class AudioFileManager {
         }
     }
 
+    /**
+     * Remove a user from the directory if it exists
+     */
     public static void removeUser(User userToRemove) {
         ArrayList<User> usersWithSameFirstname = getUsersVerifyingPredicate(
                 (file) -> file.getName().startsWith(userToRemove.getFirstname()));
@@ -139,6 +148,9 @@ public class AudioFileManager {
         }
     }
 
+    /**
+     * Delete the user directory and all the files in it
+     */
     private static void deleteFile(User user) {
         File userDirectory = new File(SRC_DIR_PATH + "/" + user.getFirstname());
         for (File file : userDirectory.listFiles()) {
