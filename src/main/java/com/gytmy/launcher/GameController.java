@@ -15,6 +15,7 @@ public class GameController {
 
   public GameController(GameData gameData) {
     this.gameData = gameData;
+    initGame();
   }
 
   public void initGame() {
@@ -43,6 +44,14 @@ public class GameController {
         gameData.getHeightLabyrinth(),
         gameData.getPlayers());
     view = new LabyrinthViewImplementation(model);
+  }
+
+  public LabyrinthModel getModel() {
+    return model;
+  }
+
+  public LabyrinthView getView() {
+    return view;
   }
 
 }
