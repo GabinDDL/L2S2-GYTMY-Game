@@ -78,8 +78,7 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorNonEmptyExitCell() {
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(),
-                new Vector2(101, 101),
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(), 101, 101,
                 new Vector2(1, 1), null, null);
         assertTrue(labyrinth.getExitCell() != null);
     }
@@ -98,7 +97,7 @@ public class TestLabyrinthImplementation {
         Vector2 initialCell = new Vector2(1, 1);
         Vector2 exitCell = new Vector2(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
-                generator, size, initialCell, exitCell, null);
+                generator, size.getX(), size.getY(), initialCell, exitCell, null);
 
         assertArrayEquals(labyrinth.getBoard(), generator.generate(size.getX(), size.getY()));
     }
@@ -108,7 +107,7 @@ public class TestLabyrinthImplementation {
         Vector2 initialCell = new Vector2(1, 1);
         Vector2 exitCell = new Vector2(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
-                new DepthFirstGenerator(), new Vector2(11, 15), initialCell, exitCell, null);
+                new DepthFirstGenerator(), 11, 15, initialCell, exitCell, null);
 
         assertEquals(exitCell, labyrinth.getExitCell());
         assertEquals(11, labyrinth.getBoard()[0].length);

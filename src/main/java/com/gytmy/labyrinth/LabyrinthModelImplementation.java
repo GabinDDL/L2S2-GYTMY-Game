@@ -30,21 +30,23 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     protected Player[] players;
 
-    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 size, Vector2 initialCell, Vector2 exitCell,
+    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Vector2 initialCell,
+            Vector2 exitCell,
             Player[] players) {
-        this(generator.generate(size.getX(), size.getY(), initialCell), initialCell, exitCell, players);
+        this(generator.generate(width, height, initialCell), initialCell, exitCell, players);
     }
 
-    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 size, Vector2 initialCell, Player[] players) {
-        this(generator.generate(size.getX(), size.getY(), initialCell), initialCell, null, players);
+    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Vector2 initialCell,
+            Player[] players) {
+        this(generator.generate(width, height, initialCell), initialCell, null, players);
     }
 
-    public LabyrinthModelImplementation(BoardGenerator generator, Vector2 size, Player[] players) {
-        this(generator.generate(size.getX(), size.getY()), null, null, players);
+    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Player[] players) {
+        this(generator.generate(width, height), null, null, players);
     }
 
-    public LabyrinthModelImplementation(Vector2 size, Player[] players) {
-        this(new DepthFirstGenerator(), size, players);
+    public LabyrinthModelImplementation(int width, int height, Player[] players) {
+        this(new DepthFirstGenerator(), width, height, players);
     }
 
     public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
