@@ -79,7 +79,7 @@ public class LabyrinthCellFinder {
     }
 
     /**
-     * RReturns the closest cell to the top left corner of the board. It is used
+     * Returns the closest cell to the top left corner of the board. It is used
      * to find the entrance cell of the labyrinth. The algorithm prioritizes
      * rows.
      *
