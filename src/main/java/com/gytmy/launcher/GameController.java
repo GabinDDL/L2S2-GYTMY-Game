@@ -21,22 +21,24 @@ public class GameController {
   public void initGame() {
     switch (gameData.getDimension()) {
       case 1:
-        model = new LabyrinthModel1D(gameData.getHorizontalLengthLabyrinth(),
-            gameData.getPlayers());
-        view = new LabyrinthViewImplementation(model);
+        initGame1D();
         break;
       case 2:
-        DepthFirstGenerator generator = new DepthFirstGenerator(
-            gameData.getHorizontalLengthLabyrinth(),
-            gameData.getVerticalLengthLabyrinth());
-        // TODO: Wait bugfix Yago
-        // model = new LabyrinthModelImplementation(generator, ,
-        // null,gameData.getPlayers());
-        view = new LabyrinthViewImplementation(model);
+        initGame2D();
         break;
       default:
-        return;
+        break;
     }
+  }
+
+  private void initGame1D() {
+    model = new LabyrinthModel1D(gameData.getHorizontalLengthLabyrinth(),
+        gameData.getPlayers());
+    view = new LabyrinthViewImplementation(model);
+  }
+
+  private void initGame2D() {
+    // TODO: Wait bugfix Yago
   }
 
 }
