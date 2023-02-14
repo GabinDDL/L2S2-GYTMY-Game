@@ -12,6 +12,7 @@ public class AudioFileManager {
 
     private static final String SRC_DIR_PATH = "src/resources/audioFiles/";
     private static final File SRC_DIRECTORY = new File(SRC_DIR_PATH);
+    private static final String[] WORDS_TO_RECORD = { "Haut", "Bas", "Gauche", "Droite" };
 
     /**
      * Get the number of files valid for a predicate
@@ -122,8 +123,15 @@ public class AudioFileManager {
             throw new IllegalArgumentException("User already exists");
         }
 
-        File userDirectory = new File(SRC_DIR_PATH + "/" + userToAdd.getFirstname());
+        String userDirPath = SRC_DIR_PATH + "/" + userToAdd.getFirstname();
+
+        File userDirectory = new File(userDirPath);
         userDirectory.mkdir();
+
+        for (String subName : WORDS_TO_RECORD) {
+            File subDirectory = new File(userDirectory + "/" + subName);
+            subDirectory.mkdir();
+        }
 
         try {
             YamlReader.write(User.getYamlConfig(userToAdd), userToAdd, false);
@@ -158,5 +166,9 @@ public class AudioFileManager {
     }
 
     public static void main(String[] args) {
+        User mathusan = new User("mathusan", "selvakumar");
+
+        addUser(mathusan);
+        removeUser(mathusan);
     }
 }
