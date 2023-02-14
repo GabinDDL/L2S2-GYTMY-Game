@@ -4,6 +4,6 @@ public interface LabyrinthView {
 
   void update();
 
-  LabyrinthTilePanel getTilePanel();
+  LabyrinthPanel getTilePanel();
 
 }

@@ -1,10 +1,10 @@
 package com.gytmy.labyrinth;
 
 public class LabyrinthViewImplementation implements LabyrinthView {
-  private LabyrinthTilePanel tilePanel;
+  private LabyrinthPanel tilePanel;
 
   public LabyrinthViewImplementation(LabyrinthModel model) {
-    tilePanel = new LabyrinthTilePanel(model);
+    tilePanel = new LabyrinthPanel(model);
   }
 
   @Override
@@ -13,7 +13,7 @@ public class LabyrinthViewImplementation implements LabyrinthView {
   }
 
   @Override
-  public LabyrinthTilePanel getTilePanel() {
+  public LabyrinthPanel getTilePanel() {
     return tilePanel;
   }
 

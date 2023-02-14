@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.gytmy.labyrinth.LabyrinthController;
-import com.gytmy.labyrinth.LabyrinthTilePanel;
+import com.gytmy.labyrinth.LabyrinthPanel;
 import com.gytmy.labyrinth.LabyrinthView;
 import com.gytmy.labyrinth.Player;
 import com.gytmy.labyrinth.PlayerImplementation;
@@ -218,7 +218,7 @@ public class SettingsMenu extends JPanel {
     gameData = new GameData(arrayPlayers, length);
     labyrinthControllerImplementation = new LabyrinthControllerImplementation(gameData);
     LabyrinthView labyrinthView = labyrinthControllerImplementation.getView();
-    LabyrinthTilePanel tilePanel = labyrinthView.getTilePanel();
+    LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
 
     frame.setContentPane(tilePanel);
     Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth1D)");
@@ -267,7 +267,7 @@ public class SettingsMenu extends JPanel {
     gameData = new GameData(arrayPlayers, width, height);
     labyrinthControllerImplementation = new LabyrinthControllerImplementation(gameData);
     LabyrinthView labyrinthView = labyrinthControllerImplementation.getView();
-    LabyrinthTilePanel tilePanel = labyrinthView.getTilePanel();
+    LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
 
     frame.setContentPane(tilePanel);
     Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth2D)");

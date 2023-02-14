@@ -6,14 +6,14 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-public class LabyrinthTilePanel extends JPanel {
+public class LabyrinthPanel extends JPanel {
 
   private boolean[][] board;
   private int nbRowsBoard;
   private int nbColsBoard;
   private static final int CELL_SIZE = 20;
 
-  public LabyrinthTilePanel(LabyrinthModel model) {
+  public LabyrinthPanel(LabyrinthModel model) {
     board = model.getBoard();
     nbRowsBoard = board.length;
     nbColsBoard = board[0].length;
