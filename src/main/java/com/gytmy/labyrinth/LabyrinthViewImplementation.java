@@ -9,7 +9,7 @@ public class LabyrinthViewImplementation implements LabyrinthView {
 
   @Override
   public void update() {
-    tilePanel.updateTilePanel();
+    tilePanel.updateLabyrinthPanel();
   }
 
   @Override

@@ -18,25 +18,25 @@ public class LabyrinthPanel extends JPanel {
     nbRowsBoard = board.length;
     nbColsBoard = board[0].length;
 
-    updateTilePanel();
+    updateLabyrinthPanel();
     setPreferredSize(new Dimension(nbColsBoard * CELL_SIZE, nbRowsBoard * CELL_SIZE));
   }
 
-  public void updateTilePanel() {
+  public void updateLabyrinthPanel() {
     GridLayout grid = new GridLayout(nbRowsBoard, nbColsBoard);
     setLayout(grid);
-    tileLabyrinth();
+    updateLabyrinthCells();
   }
 
-  private void tileLabyrinth() {
+  private void updateLabyrinthCells() {
     for (int row = 0; row < nbRowsBoard; row++) {
       for (int col = 0; col < nbColsBoard; col++) {
-        tileFloor(row, col);
+        updateCell(row, col);
       }
     }
   }
 
-  private void tileFloor(int row, int col) {
+  private void updateCell(int row, int col) {
     GridLayout cellGrid = new GridLayout(2, 2);
     JPanel cell = new JPanel(cellGrid);
     cell.setSize(CELL_SIZE, CELL_SIZE);
