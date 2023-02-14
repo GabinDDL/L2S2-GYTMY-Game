@@ -32,6 +32,14 @@ public interface Player {
 
   public void setCoordinates(Vector2 coordinates);
 
+  public static void initAllPlayersCoordinates(Vector2 initialCell, Player... players) {
+
+    for (Player player : players) {
+      player.setCoordinates(initialCell);
+    }
+
+  }
+
   public void setName(String name);
 
   public void setColor(Color color);
