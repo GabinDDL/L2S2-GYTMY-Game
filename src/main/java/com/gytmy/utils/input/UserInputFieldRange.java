@@ -4,6 +4,7 @@ public class UserInputFieldRange extends UserInputField {
 
   private int lowerBound;
   private int upperBound;
+  public static final int NO_VALUE = -1;
 
   public UserInputFieldRange(int lowerBound, int upperBound) {
 
@@ -40,9 +41,10 @@ public class UserInputFieldRange extends UserInputField {
   }
 
   public int getValue() {
-    String strippedText = super.getText().strip();
-    int value = Integer.valueOf(strippedText);
-    return value;
+    if (isValidInput()) {
+      return Integer.valueOf(super.getText().strip());
+    }
+    return NO_VALUE;
   }
 
 }
