@@ -39,7 +39,7 @@ public class LabyrinthPanel extends JPanel {
   private void updateCell(int row, int col) {
     GridLayout cellGrid = new GridLayout(2, 2);
     JPanel cell = new JPanel(cellGrid);
-    cell.setSize(CELL_SIZE, CELL_SIZE);
+    cell.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
     if (board[row][col]) {
       cell.setBackground(Color.WHITE);
     } else {
