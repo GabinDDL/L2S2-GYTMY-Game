@@ -1,19 +1,22 @@
 package com.gytmy.launcher;
 
+import com.gytmy.labyrinth.Direction;
+import com.gytmy.labyrinth.LabyrinthController;
 import com.gytmy.labyrinth.LabyrinthModel;
 import com.gytmy.labyrinth.LabyrinthModel1D;
 import com.gytmy.labyrinth.LabyrinthModelImplementation;
 import com.gytmy.labyrinth.LabyrinthView;
 import com.gytmy.labyrinth.LabyrinthViewImplementation;
+import com.gytmy.labyrinth.Player;
 import com.gytmy.utils.launcher.GameData;
 
-public class GameController {
+public class LabyrinthControllerImplementation implements LabyrinthController {
 
   private GameData gameData;
   private LabyrinthModel model;
   private LabyrinthView view;
 
-  public GameController(GameData gameData) {
+  public LabyrinthControllerImplementation(GameData gameData) {
     this.gameData = gameData;
     initGame();
   }
@@ -53,5 +56,19 @@ public class GameController {
   public LabyrinthView getView() {
     return view;
   }
+
+  public void movePlayer(Player player, Direction direction) {
+    model.movePlayer(null, direction);
+    view.update();
+  }
+
+  // TODO: Think about the primitive controls (Keyboard? Click on UI?)
+  // I think I'll go with the Keyboard,
+  // find a way to add a KeyListener to the window ?
+  // Handle inputs
+  // Player selection with numbers
+  // Movements with directional arrows
+
+  // TODO: Create move{Up, Down, Left, Right}
 
 }
