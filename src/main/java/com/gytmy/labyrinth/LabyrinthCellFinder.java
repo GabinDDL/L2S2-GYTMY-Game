@@ -87,10 +87,10 @@ public class LabyrinthCellFinder {
      */
 
     public Vector2 getClosestToTopCell() {
-        for (int y = 1; y < board.length - 1; y++) {
-            for (int x = 1; x < board[0].length - 1; x++) {
-                if (!board[y][x]) {
-                    return new Vector2(x, y);
+        for (int row = 1; row < board.length - 1; row++) {
+            for (int col = 1; col < board[0].length - 1; col++) {
+                if (board[row][col]) {
+                    return new Vector2(col, row);
                 }
             }
         }
