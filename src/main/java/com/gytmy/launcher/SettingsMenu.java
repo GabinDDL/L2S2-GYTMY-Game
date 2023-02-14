@@ -200,6 +200,7 @@ public class SettingsMenu extends JPanel {
       // Is it better to check the inputs in startGame1D ?
       if (lengthLabyrinth.isValidInput()) {
         int length = lengthLabyrinth.getValue();
+        // FIXME: Null Pointer Exception
         startGame1D(length);
       }
     });
