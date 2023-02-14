@@ -37,6 +37,7 @@ public class SettingsMenu extends JPanel {
   private LabyrinthController labyrinthControllerImplementation;
 
   // TODO: Refactor buttons with actionListeners should call controllers
+  // TODO: Create submethods when adding Listeners
   public SettingsMenu(JFrame frame, int nbPlayers) {
     this.frame = frame;
     this.nbPlayers = nbPlayers;
@@ -75,6 +76,14 @@ public class SettingsMenu extends JPanel {
     JLabel nameLabel = new JLabel("Name : ");
     nameSection.add(nameLabel);
     UserInputField nameField = new UserInputField("Player n°" + (playerID + 1));
+    initNameFieldFocusListener(nameField, playerID);
+
+    nameSection.add(nameField.getTextField());
+
+    playerPanel.add(nameSection);
+  }
+
+  private void initNameFieldFocusListener(UserInputField nameField, int playerID) {
     nameField.getTextField().addFocusListener(new FocusListener() {
       @Override
       public void focusGained(FocusEvent e) {
@@ -88,12 +97,10 @@ public class SettingsMenu extends JPanel {
           nameField.setText("Player n°" + (playerID + 1));
       }
     });
-    nameSection.add(nameField.getTextField());
-
-    playerPanel.add(nameSection);
   }
 
   private void addColorSectionToPanel(JPanel playerPanel, int playerID) {
+
     JPanel colorSection = new JPanel(new GridLayout(1, 2));
 
     JLabel colorLabel = new JLabel("Color : ");
@@ -204,7 +211,6 @@ public class SettingsMenu extends JPanel {
       // Is it better to check the inputs in startGame1D ?
       if (lengthLabyrinthInput.isValidInput()) {
         int length = lengthLabyrinthInput.getValue();
-        // FIXME: Null Pointer Exception
         startGame1D(length);
       }
     });
