@@ -1,5 +1,7 @@
 package com.gytmy.sound;
 
+import java.util.Objects;
+
 public class User {
 
     private static final String PATH = "src/resources/audioFiles/";
@@ -93,6 +95,11 @@ public class User {
         return user.getFirstname().equals(this.getFirstname())
                 && user.getLastname().equals(this.getLastname())
                 && user.getNumEtu() == this.getNumEtu();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstname, lastname, numEtu);
     }
 
     @Override
