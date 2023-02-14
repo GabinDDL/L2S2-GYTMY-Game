@@ -14,18 +14,18 @@ public class SoundRecorder {
 
     // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
+    private static final long MAX_RECORD_DURATION = 11000; // In milliseconds (11 secs)
+    private static Thread stopper;
 
     private File wavFile; // The file that will store the recorded sound
-    private long RECORD_DURATION; // In milliseconds
 
     // A TargetDataLine represents a mono or multi-channel audio feed
     // from which audio data can be read.
     private TargetDataLine channel;
 
-    public SoundRecorder(String audioFilePath, long recordDurationSeconds) {
+    public SoundRecorder(String audioFilePath) {
 
         this.wavFile = new File(audioFilePath);
-        this.RECORD_DURATION = recordDurationSeconds * 1000;
 
         // Make sure the file exists
         if (!wavFile.exists()) {
@@ -37,10 +37,6 @@ public class SoundRecorder {
                 System.out.println("Error: File cannot be created");
             }
         }
-    }
-
-    public long getRecordDuration() {
-        return RECORD_DURATION;
     }
 
     /**
@@ -63,7 +59,7 @@ public class SoundRecorder {
      */
     public void start() {
 
-        Thread stopper = createStopper();
+        initiateStopper();
 
         try {
             openChannel();
@@ -85,19 +81,16 @@ public class SoundRecorder {
      * 
      * @return Thread object
      */
-    private Thread createStopper() {
-        Thread stopper = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep(getRecordDuration() + 1000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                    System.out.println("Error: Recording was interrupted");
-                }
-                closeChannel();
+    private void initiateStopper() {
+        stopper = new Thread(() -> {
+            try {
+                Thread.sleep(MAX_RECORD_DURATION);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+                System.out.println("Error: Recording was interrupted");
             }
+            closeChannel();
         });
-        return stopper;
     }
 
     /**
