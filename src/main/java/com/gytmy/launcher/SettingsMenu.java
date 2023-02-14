@@ -33,6 +33,8 @@ public class SettingsMenu extends JPanel {
   private JPanel buttonsPanel;
   private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
 
+  private UserInputFieldRange[] arrayUserInputFields;
+
   private GameData gameData;
   private LabyrinthController labyrinthControllerImplementation;
 
@@ -70,7 +72,6 @@ public class SettingsMenu extends JPanel {
   }
 
   private void addNameSectionToPanel(JPanel playerPanel, int playerID) {
-
     JPanel nameSection = new JPanel(new GridLayout(1, 2));
 
     JLabel nameLabel = new JLabel("Name : ");
@@ -194,72 +195,53 @@ public class SettingsMenu extends JPanel {
 
   private void addActionListenerToPlayButton(JButton playButton, int dimension) {
     playButton.addActionListener(e -> {
-      if (Player.areAllPlayersReady(arrayPlayers)) {
-        switch (dimension) {
-          case 1:
-            initDimensionPickerLabyrinth1D();
-            break;
-          case 2:
-            initDimensionPickerLabyrinth2D();
-            break;
-          default:
-            break;
-        }
-      }
+      initDimensionPicker(dimension);
     });
   }
 
   private void initDimensionPicker(int dimension) {
     JPanel settingsPanel = new JPanel(new BorderLayout());
-    initTextPanel(dimension, settingsPanel);
+    initInputPanel(dimension, settingsPanel);
+    initValidateButtonDimensionPicker(dimension, settingsPanel);
 
     frame.setContentPane(settingsPanel);
     Toolbox.frameUpdate(frame, "Be AMazed (Length Picker)");
   }
 
-  private void initButton(int dimension, JPanel settingsPanel) {
-    JButton validateButton = new JButton("Validate");
-    validateButton.addActionListener(e -> {
-      if (lengthLabyrinthInput.isValidInput()) {
-        startGame(1, lengthLabyrinthInput.getValue());
-      }
-    });
-    settingsPanel.add(validateButton, BorderLayout.SOUTH);
-
-  }
-
-  private void initTextPanel(int dimension, JPanel settingsPanel) {
-
-    UserInputFieldRange[] arrayUserInputFields = new UserInputFieldRange[dimension];
+  private void initInputPanel(int dimension, JPanel settingsPanel) {
+    arrayUserInputFields = new UserInputFieldRange[dimension];
     JPanel textPanel = new JPanel(new GridLayout(dimension, 2));
 
-    UserInputFieldRange lengthLabyrinthInput = new UserInputFieldRange(2, 40);
-    addInputFieldInPanel(lengthLabyrinthInput, textPanel, "Enter the length of the path: ");
+    UserInputFieldRange widthLabyrinthInput = new UserInputFieldRange(2, 40);
+    arrayUserInputFields[0] = widthLabyrinthInput;
+    addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the width of the labyrinth: ");
 
     if (dimension == 2) {
-      UserInputFieldRange widthLabyrinthInput = new UserInputFieldRange(2, 40);
-      addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the horizontal length of the labyrinth: ");
+      UserInputFieldRange heightLabyrinthInput = new UserInputFieldRange(2, 40);
+      arrayUserInputFields[1] = heightLabyrinthInput;
+      addInputFieldInPanel(heightLabyrinthInput, textPanel, "Enter the height of the labyrinth: ");
     }
 
     settingsPanel.add(textPanel, BorderLayout.CENTER);
-
   }
 
-  private void initDimensionPickerLabyrinth2D() {
-    JPanel settingsPanel = new JPanel(new BorderLayout());
-
+  private void initValidateButtonDimensionPicker(int dimension, JPanel settingsPanel) {
     JButton validateButton = new JButton("Validate");
     validateButton.addActionListener(e -> {
-      // Is it better to check the inputs in startGame2D ?
-      if (InputField.areAllValidInputs(
-          widthLabyrinthInput, heightLabyrinthInput)) {
-        startGame(2, widthLabyrinthInput.getValue(), heightLabyrinthInput.getValue());
+      if (InputField.areAllValidInputs(arrayUserInputFields)) {
+        int[] size = getSizeValues(dimension);
+        startGame(dimension, size);
       }
     });
     settingsPanel.add(validateButton, BorderLayout.SOUTH);
+  }
 
-    frame.setContentPane(settingsPanel);
-    Toolbox.frameUpdate(frame, "Be AMazed (Dimension Picker)");
+  private int[] getSizeValues(int dimension) {
+    int[] size = new int[dimension];
+    for (int i = 0; i < size.length; i++) {
+      size[i] = arrayUserInputFields[i].getValue();
+    }
+    return size;
   }
 
   private void startGame(int dimension, int... size) {
