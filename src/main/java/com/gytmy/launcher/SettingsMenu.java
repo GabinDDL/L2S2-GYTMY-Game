@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.gytmy.labyrinth.LabyrinthTilePanel;
 import com.gytmy.labyrinth.Player;
 import com.gytmy.labyrinth.PlayerImplementation;
 import com.gytmy.utils.Toolbox;
@@ -19,6 +20,7 @@ import com.gytmy.utils.Vector2;
 import com.gytmy.utils.input.InputField;
 import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldRange;
+import com.gytmy.utils.launcher.GameData;
 
 public class SettingsMenu extends JPanel {
   private JFrame frame;
@@ -28,6 +30,9 @@ public class SettingsMenu extends JPanel {
   private JPanel playersPanel;
   private JPanel buttonsPanel;
   private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
+
+  private GameData gameData;
+  private LabyrinthControllerImplementation labyrinthControllerImplementation;
 
   // TODO: Refactor buttons with actionListeners should call controllers
   public SettingsMenu(JFrame frame, int nbPlayers) {
@@ -185,23 +190,31 @@ public class SettingsMenu extends JPanel {
 
     JPanel textPanel = new JPanel(new GridLayout(1, 2));
 
-    UserInputFieldRange inputField1D = new UserInputFieldRange(2, 40);
-    addInputFieldInPanel(inputField1D, textPanel, "Enter the length of the path: ");
+    UserInputFieldRange lengthLabyrinth = new UserInputFieldRange(2, 40);
+    addInputFieldInPanel(lengthLabyrinth, textPanel, "Enter the length of the path: ");
 
     settingsPanel.add(textPanel, BorderLayout.CENTER);
 
     JButton validateButton = new JButton("Validate");
     validateButton.addActionListener(e -> {
-      if (inputField1D.isValidInput())
-        startGame1D();
+      // Is it better to check the inputs in startGame1D ?
+      if (lengthLabyrinth.isValidInput()) {
+        int length = lengthLabyrinth.getValue();
+        startGame1D(length);
+      }
     });
     settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
     frame.setContentPane(settingsPanel);
-    Toolbox.frameUpdate(frame, "Be AMazed (Labyrinth1D)");
+    Toolbox.frameUpdate(frame, "Be AMazed (Length Picker)");
   }
 
-  private void startGame1D() {
+  private void startGame1D(int length) {
+    gameData = new GameData(arrayPlayers, length);
+    labyrinthControllerImplementation = new LabyrinthControllerImplementation(gameData);
+    LabyrinthTilePanel tilePanel = labyrinthControllerImplementation.getView().getTilePanel();
+    frame.setContentPane(tilePanel);
+    Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth1D)");
   }
 
   private void initPlayButtonLabyrinth2D() {
@@ -231,17 +244,24 @@ public class SettingsMenu extends JPanel {
 
     JButton validateButton = new JButton("Validate");
     validateButton.addActionListener(e -> {
+      // Is it better to check the inputs in startGame2D ?
       if (InputField.areAllValidInputs(
-          heightLabyrinth, widthLabyrinth))
-        startGame2D();
+          widthLabyrinth, heightLabyrinth)) {
+        startGame2D(widthLabyrinth.getValue(), heightLabyrinth.getValue());
+      }
     });
     settingsPanel.add(validateButton, BorderLayout.SOUTH);
 
     frame.setContentPane(settingsPanel);
-    Toolbox.frameUpdate(frame, "Be AMazed (Labyrinth2D)");
+    Toolbox.frameUpdate(frame, "Be AMazed (Dimension Picker)");
   }
 
-  public void startGame2D() {
+  public void startGame2D(int width, int height) {
+    gameData = new GameData(arrayPlayers, width, height);
+    labyrinthControllerImplementation = new LabyrinthControllerImplementation(gameData);
+    LabyrinthTilePanel tilePanel = labyrinthControllerImplementation.getView().getTilePanel();
+    frame.setContentPane(tilePanel);
+    Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth2D)");
   }
 
   private void addInputFieldInPanel(InputField inputField, JPanel panel, String instructions) {
