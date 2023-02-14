@@ -57,12 +57,4 @@ public class YamlReader {
     private static boolean fileDoesNotExists(String filePath) {
         return !(new File(filePath)).exists();
     }
-
-    public static void main(String[] args) throws Exception {
-
-        String pathExample = "src/resources/audioFiles/YAGO/config.yaml";
-
-        User user = read(pathExample);
-        System.out.println("User's Info :" + user.toString());
-    }
 }
