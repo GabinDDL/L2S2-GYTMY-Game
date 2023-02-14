@@ -115,7 +115,10 @@ public class SettingsMenu extends JPanel {
   private void addValidateSectionToPanel(JPanel playerPanel, int playerID) {
     JButton validateButton = new JButton("Validate");
     playerPanel.add(validateButton);
+    initValidateButtonActionListener(validateButton, playerID);
+  }
 
+  private void initValidateButtonActionListener(JButton validateButton, int playerID) {
     validateButton.addActionListener(event -> {
       lockPlayerSettings(playerID);
     });
@@ -149,7 +152,6 @@ public class SettingsMenu extends JPanel {
 
   public void initPlayer(int playerID) {
 
-    // TODO: Instanciate startCell coordinates after instanciation of Labyrinth
     Vector2 coordinates = new Vector2(
         Vector2.UNINITIALIZED_COORDINATE,
         Vector2.UNINITIALIZED_COORDINATE);
@@ -178,89 +180,80 @@ public class SettingsMenu extends JPanel {
   private void initPlayButtons() {
     buttonsPanel = new JPanel(new GridLayout(1, 2));
 
-    initPlayButtonLabyrinth1D();
-    initPlayButtonLabyrinth2D();
+    initPlayButtonDimension(1);
+    initPlayButtonDimension(2);
 
     add(buttonsPanel, BorderLayout.SOUTH);
   }
 
-  private void initPlayButtonLabyrinth1D() {
-
-    JButton playLabyrinth1DButton = new JButton("Play Labyrinth 1D");
-    buttonsPanel.add(playLabyrinth1DButton);
-    playLabyrinth1DButton.addActionListener(e -> {
-      if (Player.areAllPlayersReady(arrayPlayers)) {
-        initDimensionPickerLabyrinth1D();
-      }
-    });
-
+  private void initPlayButtonDimension(int dimension) {
+    JButton playButton = new JButton("Play Labyrinth " + dimension + "D");
+    buttonsPanel.add(playButton);
+    addActionListenerToPlayButton(playButton, dimension);
   }
 
-  private void initDimensionPickerLabyrinth1D() {
-    JPanel settingsPanel = new JPanel(new BorderLayout());
-
-    JPanel textPanel = new JPanel(new GridLayout(1, 2));
-
-    UserInputFieldRange lengthLabyrinthInput = new UserInputFieldRange(2, 40);
-    addInputFieldInPanel(lengthLabyrinthInput, textPanel, "Enter the length of the path: ");
-
-    settingsPanel.add(textPanel, BorderLayout.CENTER);
-
-    JButton validateButton = new JButton("Validate");
-    validateButton.addActionListener(e -> {
-      // Is it better to check the inputs in startGame1D ?
-      if (lengthLabyrinthInput.isValidInput()) {
-        int length = lengthLabyrinthInput.getValue();
-        startGame1D(length);
+  private void addActionListenerToPlayButton(JButton playButton, int dimension) {
+    playButton.addActionListener(e -> {
+      if (Player.areAllPlayersReady(arrayPlayers)) {
+        switch (dimension) {
+          case 1:
+            initDimensionPickerLabyrinth1D();
+            break;
+          case 2:
+            initDimensionPickerLabyrinth2D();
+            break;
+          default:
+            break;
+        }
       }
     });
-    settingsPanel.add(validateButton, BorderLayout.SOUTH);
+  }
+
+  private void initDimensionPicker(int dimension) {
+    JPanel settingsPanel = new JPanel(new BorderLayout());
+    initTextPanel(dimension, settingsPanel);
 
     frame.setContentPane(settingsPanel);
     Toolbox.frameUpdate(frame, "Be AMazed (Length Picker)");
   }
 
-  private void startGame1D(int length) {
-    gameData = new GameData(arrayPlayers, length);
-    labyrinthControllerImplementation = new LabyrinthControllerImplementation(gameData);
-    LabyrinthView labyrinthView = labyrinthControllerImplementation.getView();
-    LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
-
-    frame.setContentPane(tilePanel);
-    Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth1D)");
-  }
-
-  private void initPlayButtonLabyrinth2D() {
-
-    JButton playLabyrinth2DButton = new JButton("Play Labyrinth 2D");
-    buttonsPanel.add(playLabyrinth2DButton);
-    playLabyrinth2DButton.addActionListener(e -> {
-      if (Player.areAllPlayersReady(arrayPlayers)) {
-        initDimensionPickerLabyrinth2D();
+  private void initButton(int dimension, JPanel settingsPanel) {
+    JButton validateButton = new JButton("Validate");
+    validateButton.addActionListener(e -> {
+      if (lengthLabyrinthInput.isValidInput()) {
+        startGame(1, lengthLabyrinthInput.getValue());
       }
     });
+    settingsPanel.add(validateButton, BorderLayout.SOUTH);
+
+  }
+
+  private void initTextPanel(int dimension, JPanel settingsPanel) {
+
+    UserInputFieldRange[] arrayUserInputFields = new UserInputFieldRange[dimension];
+    JPanel textPanel = new JPanel(new GridLayout(dimension, 2));
+
+    UserInputFieldRange lengthLabyrinthInput = new UserInputFieldRange(2, 40);
+    addInputFieldInPanel(lengthLabyrinthInput, textPanel, "Enter the length of the path: ");
+
+    if (dimension == 2) {
+      UserInputFieldRange widthLabyrinthInput = new UserInputFieldRange(2, 40);
+      addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the horizontal length of the labyrinth: ");
+    }
+
+    settingsPanel.add(textPanel, BorderLayout.CENTER);
 
   }
 
   private void initDimensionPickerLabyrinth2D() {
     JPanel settingsPanel = new JPanel(new BorderLayout());
 
-    JPanel textPanel = new JPanel(new GridLayout(2, 2));
-
-    UserInputFieldRange heightLabyrinthInput = new UserInputFieldRange(2, 40);
-    addInputFieldInPanel(heightLabyrinthInput, textPanel, "Enter the vertical length of the labyrinth: ");
-
-    UserInputFieldRange widthLabyrinthInput = new UserInputFieldRange(2, 40);
-    addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the horizontal length of the labyrinth: ");
-
-    settingsPanel.add(textPanel, BorderLayout.CENTER);
-
     JButton validateButton = new JButton("Validate");
     validateButton.addActionListener(e -> {
       // Is it better to check the inputs in startGame2D ?
       if (InputField.areAllValidInputs(
           widthLabyrinthInput, heightLabyrinthInput)) {
-        startGame2D(widthLabyrinthInput.getValue(), heightLabyrinthInput.getValue());
+        startGame(2, widthLabyrinthInput.getValue(), heightLabyrinthInput.getValue());
       }
     });
     settingsPanel.add(validateButton, BorderLayout.SOUTH);
@@ -269,14 +262,29 @@ public class SettingsMenu extends JPanel {
     Toolbox.frameUpdate(frame, "Be AMazed (Dimension Picker)");
   }
 
-  public void startGame2D(int width, int height) {
-    gameData = new GameData(arrayPlayers, width, height);
+  private void startGame(int dimension, int... size) {
+    int width, height;
+    switch (dimension) {
+      case 1:
+        width = size[0];
+        gameData = new GameData(arrayPlayers, width);
+        break;
+      case 2:
+        width = size[0];
+        height = size[1];
+        gameData = new GameData(arrayPlayers, width, height);
+        break;
+      default:
+        break;
+    }
+
     labyrinthControllerImplementation = new LabyrinthControllerImplementation(gameData);
     LabyrinthView labyrinthView = labyrinthControllerImplementation.getView();
     LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
 
     frame.setContentPane(tilePanel);
-    Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth2D)");
+    Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth" + dimension + "D)");
+
   }
 
   private void addInputFieldInPanel(InputField inputField, JPanel panel, String instructions) {
