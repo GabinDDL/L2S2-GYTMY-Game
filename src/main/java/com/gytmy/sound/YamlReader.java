@@ -1,10 +1,9 @@
-package com.gytmy.utils;
+package com.gytmy.sound;
 
 import java.io.File;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.gytmy.sound.User;
 
 public class YamlReader {
 

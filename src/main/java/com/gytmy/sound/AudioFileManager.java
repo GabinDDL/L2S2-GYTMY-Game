@@ -1,10 +1,8 @@
-package com.gytmy.utils;
+package com.gytmy.sound;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Predicate;
-
-import com.gytmy.sound.User;
 
 /**
  * AudioFileManager is a class that manages the audio files
