@@ -32,6 +32,17 @@ public class LabyrinthPanel extends JPanel {
         updateAllLabyrinthCells();
     }
 
+    public void updateLabyrinthPanel(Player player, Direction directionFromOldCoordinates) {
+        // TODO:Handle updates of cells displaying players
+        /*
+         * Clear icon from departure cell
+         * If no icons are left delete gridbaglayout
+         * 
+         * Create new icon in destination cell
+         * Create 3*3 gridbaglayout in cell to handle coordinates in cell
+         */
+    }
+
     private void updateAllLabyrinthCells() {
         for (int row = 0; row < nbRowsBoard; row++) {
             for (int col = 0; col < nbColsBoard; col++) {
