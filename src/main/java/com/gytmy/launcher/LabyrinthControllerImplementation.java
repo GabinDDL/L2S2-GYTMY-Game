@@ -73,6 +73,4 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
   // Player selection with numbers
   // Movements with directional arrows
 
-  // TODO: Create move{Up, Down, Left, Right}
-
 }
