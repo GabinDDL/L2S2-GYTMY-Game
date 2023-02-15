@@ -4,7 +4,9 @@ import javax.swing.JTextField;
 
 public class UserInputField implements InputField {
 
-    public static final int DEFAULT_SIZE = 8;
+    // JTextFields need a default size if text is empty
+    // We chose 16 for reading comfort
+    public static final int DEFAULT_SIZE = 16;
 
     private JTextField textField;
 
@@ -17,7 +19,7 @@ public class UserInputField implements InputField {
     }
 
     public UserInputField() {
-        this(DEFAULT_SIZE); // JTextFields need a default size if text is empty
+        this(DEFAULT_SIZE);
     }
 
     @Override
