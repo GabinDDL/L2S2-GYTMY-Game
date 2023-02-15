@@ -2,8 +2,8 @@ package com.gytmy.labyrinth;
 
 public interface LabyrinthView {
 
-  void update();
+    void update();
 
-  LabyrinthPanel getTilePanel();
+    LabyrinthPanel getTilePanel();
 
 }

@@ -8,8 +8,8 @@ import com.gytmy.utils.Coordinates;
  */
 public interface BoardGenerator {
 
-  public boolean[][] generate(int width, int height);
+    public boolean[][] generate(int width, int height);
 
-  public boolean[][] generate(int width, int height, Coordinates initialCell);
+    public boolean[][] generate(int width, int height, Coordinates initialCell);
 
 }

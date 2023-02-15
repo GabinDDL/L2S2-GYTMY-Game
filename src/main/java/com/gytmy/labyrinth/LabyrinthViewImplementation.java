@@ -1,20 +1,20 @@
 package com.gytmy.labyrinth;
 
 public class LabyrinthViewImplementation implements LabyrinthView {
-  private LabyrinthPanel tilePanel;
+    private LabyrinthPanel tilePanel;
 
-  public LabyrinthViewImplementation(LabyrinthModel model) {
-    tilePanel = new LabyrinthPanel(model);
-  }
+    public LabyrinthViewImplementation(LabyrinthModel model) {
+        tilePanel = new LabyrinthPanel(model);
+    }
 
-  @Override
-  public void update() {
-    tilePanel.updateLabyrinthPanel();
-  }
+    @Override
+    public void update() {
+        tilePanel.updateLabyrinthPanel();
+    }
 
-  @Override
-  public LabyrinthPanel getTilePanel() {
-    return tilePanel;
-  }
+    @Override
+    public LabyrinthPanel getTilePanel() {
+        return tilePanel;
+    }
 
 }

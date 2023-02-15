@@ -13,64 +13,64 @@ import com.gytmy.utils.launcher.GameData;
 
 public class LabyrinthControllerImplementation implements LabyrinthController {
 
-  private GameData gameData;
-  private LabyrinthModel model;
-  private LabyrinthView view;
+    private GameData gameData;
+    private LabyrinthModel model;
+    private LabyrinthView view;
 
-  public LabyrinthControllerImplementation(GameData gameData) {
-    this.gameData = gameData;
-    initGame();
-  }
-
-  public void initGame() {
-    switch (gameData.getDimension()) {
-      case 1:
-        initGame1D();
-        break;
-      case 2:
-        initGame2D();
-        break;
-      default:
-        break;
+    public LabyrinthControllerImplementation(GameData gameData) {
+        this.gameData = gameData;
+        initGame();
     }
-  }
 
-  private void initGame1D() {
-    Player[] players = gameData.getPlayers();
-    model = new LabyrinthModel1D(
-        gameData.getWidthLabyrinth(),
-        gameData.getPlayers());
-    Coordinates initialCell = model.getInitialCell();
-    Player.initAllPlayersCoordinates(initialCell, players);
-    view = new LabyrinthViewImplementation(model);
-  }
+    public void initGame() {
+        switch (gameData.getDimension()) {
+            case 1:
+                initGame1D();
+                break;
+            case 2:
+                initGame2D();
+                break;
+            default:
+                break;
+        }
+    }
 
-  private void initGame2D() {
-    Player[] players = gameData.getPlayers();
-    model = new LabyrinthModelImplementation(
-        gameData.getWidthLabyrinth(),
-        gameData.getHeightLabyrinth(),
-        gameData.getPlayers());
-    Coordinates initialCell = model.getInitialCell();
-    Player.initAllPlayersCoordinates(initialCell, players);
-    view = new LabyrinthViewImplementation(model);
-  }
+    private void initGame1D() {
+        Player[] players = gameData.getPlayers();
+        model = new LabyrinthModel1D(
+                gameData.getWidthLabyrinth(),
+                gameData.getPlayers());
+        Coordinates initialCell = model.getInitialCell();
+        Player.initAllPlayersCoordinates(initialCell, players);
+        view = new LabyrinthViewImplementation(model);
+    }
 
-  @Override
-  public LabyrinthView getView() {
-    return view;
-  }
+    private void initGame2D() {
+        Player[] players = gameData.getPlayers();
+        model = new LabyrinthModelImplementation(
+                gameData.getWidthLabyrinth(),
+                gameData.getHeightLabyrinth(),
+                gameData.getPlayers());
+        Coordinates initialCell = model.getInitialCell();
+        Player.initAllPlayersCoordinates(initialCell, players);
+        view = new LabyrinthViewImplementation(model);
+    }
 
-  public void movePlayer(Player player, Direction direction) {
-    model.movePlayer(null, direction);
-    view.update();
-  }
+    @Override
+    public LabyrinthView getView() {
+        return view;
+    }
 
-  // TODO: Think about the primitive controls (Keyboard? Click on UI?)
-  // I think I'll go with the Keyboard,
-  // find a way to add a KeyListener to the window ?
-  // Handle inputs
-  // Player selection with numbers
-  // Movements with directional arrows
+    public void movePlayer(Player player, Direction direction) {
+        model.movePlayer(null, direction);
+        view.update();
+    }
+
+    // TODO: Think about the primitive controls (Keyboard? Click on UI?)
+    // I think I'll go with the Keyboard,
+    // find a way to add a KeyListener to the window ?
+    // Handle inputs
+    // Player selection with numbers
+    // Movements with directional arrows
 
 }
