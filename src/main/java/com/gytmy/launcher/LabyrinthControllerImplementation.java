@@ -40,8 +40,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         model = new LabyrinthModel1D(
                 gameData.getWidthLabyrinth(),
                 gameData.getPlayers());
-        Coordinates initialCell = model.getInitialCell();
-        Player.initAllPlayersCoordinates(initialCell, players);
+        initPlayersInitialCell(model, players);
         view = new LabyrinthViewImplementation(model);
     }
 
@@ -51,9 +50,13 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
                 gameData.getWidthLabyrinth(),
                 gameData.getHeightLabyrinth(),
                 gameData.getPlayers());
+        initPlayersInitialCell(model, players);
+        view = new LabyrinthViewImplementation(model);
+    }
+
+    private static void initPlayersInitialCell(LabyrinthModel model, Player[] players) {
         Coordinates initialCell = model.getInitialCell();
         Player.initAllPlayersCoordinates(initialCell, players);
-        view = new LabyrinthViewImplementation(model);
     }
 
     @Override
