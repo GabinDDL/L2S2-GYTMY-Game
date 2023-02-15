@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.gytmy.utils.Toolbox;
+import com.gytmy.utils.GameFrameToolbox;
 import com.gytmy.utils.input.UserInputFieldRange;
 
 public class StartMenu extends JPanel {
@@ -47,7 +47,7 @@ public class StartMenu extends JPanel {
         int nbPlayers = nbPlayersField.getValue();
         frame.setContentPane(new SettingsMenu(frame, nbPlayers));
         String className = this.getClass().getSimpleName();
-        Toolbox.frameUpdate(frame, className);
+        GameFrameToolbox.frameUpdate(frame, className);
       }
     });
     add(playButton, BorderLayout.SOUTH);

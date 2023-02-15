@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import com.gytmy.utils.Toolbox;
+import com.gytmy.utils.GameFrameToolbox;
 
 public class GraphicalLauncher implements Runnable {
 
@@ -20,7 +20,7 @@ public class GraphicalLauncher implements Runnable {
     StartMenu menu = new StartMenu(frame);
     frame.add(menu);
     String className = this.getClass().getSimpleName();
-    Toolbox.frameUpdate(frame, className);
+    GameFrameToolbox.frameUpdate(frame, className);
     frame.setVisible(true);
     frame.setResizable(false);
   }

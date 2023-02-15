@@ -2,7 +2,7 @@ package com.gytmy.utils;
 
 import javax.swing.JFrame;
 
-public class Toolbox {
+public class GameFrameToolbox {
 
   private static final String GAME_TITLE = "Be AMazed";
 

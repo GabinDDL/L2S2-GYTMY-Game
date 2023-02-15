@@ -17,7 +17,7 @@ import com.gytmy.labyrinth.LabyrinthPanel;
 import com.gytmy.labyrinth.LabyrinthView;
 import com.gytmy.labyrinth.Player;
 import com.gytmy.labyrinth.PlayerImplementation;
-import com.gytmy.utils.Toolbox;
+import com.gytmy.utils.GameFrameToolbox;
 import com.gytmy.utils.Vector2;
 import com.gytmy.utils.input.InputField;
 import com.gytmy.utils.input.UserInputField;
@@ -206,7 +206,7 @@ public class SettingsMenu extends JPanel {
 
     frame.setContentPane(settingsPanel);
     String className = this.getClass().getSimpleName();
-    Toolbox.frameUpdate(frame, className + " / Size Picker");
+    GameFrameToolbox.frameUpdate(frame, className + " / Size Picker");
   }
 
   private void initInputPanel(int dimension, JPanel settingsPanel) {
@@ -267,7 +267,7 @@ public class SettingsMenu extends JPanel {
 
     frame.setContentPane(tilePanel);
     String className = this.getClass().getSimpleName();
-    Toolbox.frameUpdate(frame, className + " / View Labyrinth" + dimension + "D");
+    GameFrameToolbox.frameUpdate(frame, className + " / View Labyrinth" + dimension + "D");
 
   }
 
