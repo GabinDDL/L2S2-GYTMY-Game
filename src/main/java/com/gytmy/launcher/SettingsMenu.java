@@ -18,7 +18,7 @@ import com.gytmy.labyrinth.LabyrinthView;
 import com.gytmy.labyrinth.Player;
 import com.gytmy.labyrinth.PlayerImplementation;
 import com.gytmy.utils.GameFrameToolbox;
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 import com.gytmy.utils.input.InputField;
 import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldRange;
@@ -153,9 +153,9 @@ public class SettingsMenu extends JPanel {
 
   public void initPlayer(int playerID) {
 
-    Vector2 coordinates = new Vector2(
-        Vector2.UNINITIALIZED_COORDINATE,
-        Vector2.UNINITIALIZED_COORDINATE);
+    Coordinates coordinates = new Coordinates(
+        Coordinates.UNINITIALIZED_COORDINATE,
+        Coordinates.UNINITIALIZED_COORDINATE);
     String name = getNameField(playerID).getText();
     Color color = getPlayerColorFromPanel(playerID);
     boolean ready = true;

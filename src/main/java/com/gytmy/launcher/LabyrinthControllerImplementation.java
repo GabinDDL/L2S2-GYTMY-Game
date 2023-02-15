@@ -8,7 +8,7 @@ import com.gytmy.labyrinth.LabyrinthModelImplementation;
 import com.gytmy.labyrinth.LabyrinthView;
 import com.gytmy.labyrinth.LabyrinthViewImplementation;
 import com.gytmy.labyrinth.Player;
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 import com.gytmy.utils.launcher.GameData;
 
 public class LabyrinthControllerImplementation implements LabyrinthController {
@@ -40,7 +40,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     model = new LabyrinthModel1D(
         gameData.getWidthLabyrinth(),
         gameData.getPlayers());
-    Vector2 initialCell = model.getInitialCell();
+    Coordinates initialCell = model.getInitialCell();
     Player.initAllPlayersCoordinates(initialCell, players);
     view = new LabyrinthViewImplementation(model);
   }
@@ -51,7 +51,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         gameData.getWidthLabyrinth(),
         gameData.getHeightLabyrinth(),
         gameData.getPlayers());
-    Vector2 initialCell = model.getInitialCell();
+    Coordinates initialCell = model.getInitialCell();
     Player.initAllPlayersCoordinates(initialCell, players);
     view = new LabyrinthViewImplementation(model);
   }

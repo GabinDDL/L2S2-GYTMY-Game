@@ -2,13 +2,13 @@ package com.gytmy.labyrinth;
 
 import java.awt.Color;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 public interface Player {
 
-  public static final Vector2 UNINITIALIZED_VECTOR2 = new Vector2(
-      Vector2.UNINITIALIZED_COORDINATE,
-      Vector2.UNINITIALIZED_COORDINATE);
+  public static final Coordinates UNINITIALIZED_COORDINATES = new Coordinates(
+      Coordinates.UNINITIALIZED_COORDINATE,
+      Coordinates.UNINITIALIZED_COORDINATE);
   public static final String UNNAMED_PLAYER = "UNNAMED PLAYER";
   public static final Color UNINITIALIZED_COLOR = Color.MAGENTA;
 
@@ -16,7 +16,7 @@ public interface Player {
 
   public int getY();
 
-  public Vector2 getCoordinates();
+  public Coordinates getCoordinates();
 
   public String getName();
 
@@ -36,9 +36,9 @@ public interface Player {
 
   public void setY(int y);
 
-  public void setCoordinates(Vector2 coordinates);
+  public void setCoordinates(Coordinates coordinates);
 
-  public static void initAllPlayersCoordinates(Vector2 initialCell, Player... players) {
+  public static void initAllPlayersCoordinates(Coordinates initialCell, Player... players) {
 
     for (Player player : players) {
       player.setCoordinates(initialCell);

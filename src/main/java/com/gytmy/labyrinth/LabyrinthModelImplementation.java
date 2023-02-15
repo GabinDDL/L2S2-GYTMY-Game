@@ -3,7 +3,7 @@ package com.gytmy.labyrinth;
 import com.gytmy.labyrinth.generators.BoardGenerator;
 import com.gytmy.labyrinth.generators.DepthFirstGenerator;
 import com.gytmy.utils.Boolean2DArraysOperations;
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 /**
  * Implementation of the LabyrinthModel interface. It is used to represent the
@@ -25,18 +25,18 @@ import com.gytmy.utils.Vector2;
 public class LabyrinthModelImplementation implements LabyrinthModel {
 
   protected boolean[][] board;
-  protected Vector2 initialCell;
-  protected Vector2 exitCell;
+  protected Coordinates initialCell;
+  protected Coordinates exitCell;
 
   protected Player[] players;
 
-  public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Vector2 initialCell,
-      Vector2 exitCell,
+  public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Coordinates initialCell,
+      Coordinates exitCell,
       Player[] players) {
     this(generator.generate(width, height, initialCell), initialCell, exitCell, players);
   }
 
-  public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Vector2 initialCell,
+  public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Coordinates initialCell,
       Player[] players) {
     this(generator.generate(width, height, initialCell), initialCell, null, players);
   }
@@ -49,7 +49,8 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     this(new DepthFirstGenerator(), width, height, players);
   }
 
-  public LabyrinthModelImplementation(boolean[][] board, Vector2 initialCell, Vector2 exitCell, Player[] players) {
+  public LabyrinthModelImplementation(boolean[][] board, Coordinates initialCell, Coordinates exitCell,
+      Player[] players) {
     handleNullArguments(board);
     handleInvalidBoardSize(board);
     this.board = Boolean2DArraysOperations.copy(board);
@@ -93,7 +94,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
    * @param initialCell
    * @return the initial cell
    */
-  private Vector2 determineInitialCell(Vector2 initialCell) {
+  private Coordinates determineInitialCell(Coordinates initialCell) {
     if (initialCell == null) {
       // Get a random non-wall cell
       LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
@@ -109,7 +110,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
    * 
    * @param initialCell
    */
-  private void handleInvalidStartCell(Vector2 initialCell) {
+  private void handleInvalidStartCell(Coordinates initialCell) {
     if (isOutsideBounds(initialCell)) {
       throw new IllegalArgumentException("Initial cell is outside the board");
     }
@@ -130,7 +131,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
    * @param exitCell\
    * @return the exit cell
    */
-  private Vector2 determineExitCell(Vector2 exitCell) {
+  private Coordinates determineExitCell(Coordinates exitCell) {
     if (exitCell == null) {
       LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
       exitCell = finder.getFurthestCell(initialCell);
@@ -145,7 +146,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
    * 
    * @param exitCell
    */
-  private void handleInvalidExitCell(Vector2 exitCell) {
+  private void handleInvalidExitCell(Coordinates exitCell) {
     if (isOutsideBounds(exitCell)) {
       throw new IllegalArgumentException("Exit cell is outside the board");
     }
@@ -158,7 +159,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
   }
 
-  private boolean isOutsideBounds(Vector2 cell) {
+  private boolean isOutsideBounds(Coordinates cell) {
     return cell.getX() < 0 || cell.getX() >= board[0].length ||
         cell.getY() < 0 || cell.getY() >= board.length;
   }
@@ -172,12 +173,12 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
   }
 
   @Override
-  public Vector2 getInitialCell() {
+  public Coordinates getInitialCell() {
     return initialCell;
   }
 
   @Override
-  public Vector2 getExitCell() {
+  public Coordinates getExitCell() {
     return exitCell;
   }
 

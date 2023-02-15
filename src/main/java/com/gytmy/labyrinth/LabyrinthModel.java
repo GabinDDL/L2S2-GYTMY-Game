@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 public interface LabyrinthModel {
 
@@ -11,9 +11,9 @@ public interface LabyrinthModel {
    */
   boolean[][] getBoard();
 
-  Vector2 getInitialCell();
+  Coordinates getInitialCell();
 
-  Vector2 getExitCell();
+  Coordinates getExitCell();
 
   /**
    * Checks if the given move is valid for the given player

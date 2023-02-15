@@ -2,22 +2,22 @@ package com.gytmy.labyrinth;
 
 import java.awt.Color;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 public class PlayerImplementation implements Player {
-  private Vector2 coordinates;
+  private Coordinates coordinates;
   private String name;
   private Color color;
   private boolean ready;
 
-  public PlayerImplementation(Vector2 coordinates, String name, Color color, boolean ready) {
+  public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
     this.coordinates = coordinates;
     this.name = name;
     this.color = color;
     this.ready = ready;
   }
 
-  public PlayerImplementation(Vector2 coordinates) {
+  public PlayerImplementation(Coordinates coordinates) {
     this(coordinates.copy(),
         Player.UNNAMED_PLAYER,
         Player.UNINITIALIZED_COLOR,
@@ -25,14 +25,14 @@ public class PlayerImplementation implements Player {
   }
 
   public PlayerImplementation(int x, int y) {
-    this(new Vector2(x, y),
+    this(new Coordinates(x, y),
         Player.UNNAMED_PLAYER,
         Player.UNINITIALIZED_COLOR,
         false);
   }
 
   public PlayerImplementation() {
-    this(Player.UNINITIALIZED_VECTOR2,
+    this(Player.UNINITIALIZED_COORDINATES,
         Player.UNNAMED_PLAYER,
         Player.UNINITIALIZED_COLOR,
         false);
@@ -49,7 +49,7 @@ public class PlayerImplementation implements Player {
   }
 
   @Override
-  public Vector2 getCoordinates() {
+  public Coordinates getCoordinates() {
     return coordinates.copy();
   }
 
@@ -79,7 +79,7 @@ public class PlayerImplementation implements Player {
   }
 
   @Override
-  public void setCoordinates(Vector2 coordinates) {
+  public void setCoordinates(Coordinates coordinates) {
     this.coordinates = coordinates.copy();
   }
 

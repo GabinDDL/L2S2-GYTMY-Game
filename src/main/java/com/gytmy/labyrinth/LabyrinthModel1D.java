@@ -2,7 +2,7 @@ package com.gytmy.labyrinth;
 
 import java.util.Arrays;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 /* 
     Class representing the Model of a 1-Dimensional Labyrinth
@@ -28,41 +28,41 @@ import com.gytmy.utils.Vector2;
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 
-    /**
-     * @param lengthPath of the 1D Labyrinth
-     * @throws IllegalArgumentException
-     */
-    public LabyrinthModel1D(int lengthPath, Player[] players)
-            throws IllegalArgumentException {
+  /**
+   * @param lengthPath of the 1D Labyrinth
+   * @throws IllegalArgumentException
+   */
+  public LabyrinthModel1D(int lengthPath, Player[] players)
+      throws IllegalArgumentException {
 
-        super(initBoard(lengthPath), new Vector2(1, 1), new Vector2(lengthPath, 1), players);
+    super(initBoard(lengthPath), new Coordinates(1, 1), new Coordinates(lengthPath, 1), players);
 
+  }
+
+  /**
+   * Initializes the 1-Dimensional labyrinth of the given length
+   * 
+   * @param length of the labyrinth
+   */
+  private static boolean[][] initBoard(int length) {
+
+    if (length <= 1) {
+      throw new IllegalArgumentException(
+          "Cannot initialize a labyrinth of size <= 1");
+    }
+    // Do not forget the left and right borders
+    boolean[][] board = new boolean[3][length + 1];
+
+    for (int row = 0; row < board.length; ++row) {
+      // The walkable path with the first cell being a wall
+      if (row == 1) {
+        Arrays.fill(board[row], true);
+        board[row][0] = false;
+      } else
+        Arrays.fill(board[row], false); // Top and Bottom walls
     }
 
-    /**
-     * Initializes the 1-Dimensional labyrinth of the given length
-     * 
-     * @param length of the labyrinth
-     */
-    private static boolean[][] initBoard(int length) {
-
-        if (length <= 1) {
-            throw new IllegalArgumentException(
-                    "Cannot initialize a labyrinth of size <= 1");
-        }
-        // Do not forget the left and right borders
-        boolean[][] board = new boolean[3][length + 1];
-
-        for (int row = 0; row < board.length; ++row) {
-            // The walkable path with the first cell being a wall
-            if (row == 1) {
-                Arrays.fill(board[row], true);
-                board[row][0] = false;
-            } else
-                Arrays.fill(board[row], false); // Top and Bottom walls
-        }
-
-        return board;
-    }
+    return board;
+  }
 
 }
