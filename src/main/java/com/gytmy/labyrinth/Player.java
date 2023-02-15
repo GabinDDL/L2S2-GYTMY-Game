@@ -6,9 +6,6 @@ import com.gytmy.utils.Coordinates;
 
 public interface Player {
 
-  public static final Coordinates UNINITIALIZED_COORDINATES = new Coordinates(
-      Coordinates.UNINITIALIZED_COORDINATE,
-      Coordinates.UNINITIALIZED_COORDINATE);
   public static final String UNNAMED_PLAYER = "UNNAMED PLAYER";
   public static final Color UNINITIALIZED_COLOR = Color.MAGENTA;
 

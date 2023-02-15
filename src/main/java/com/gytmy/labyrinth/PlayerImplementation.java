@@ -32,7 +32,7 @@ public class PlayerImplementation implements Player {
   }
 
   public PlayerImplementation() {
-    this(Player.UNINITIALIZED_COORDINATES,
+    this(Coordinates.UNINITIALIZED_COORDINATES,
         Player.UNNAMED_PLAYER,
         Player.UNINITIALIZED_COLOR,
         false);

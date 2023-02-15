@@ -4,10 +4,13 @@ import java.util.Objects;
 
 public class Coordinates {
 
+  public static final int UNINITIALIZED_COORDINATE = -1;
+  public static final Coordinates UNINITIALIZED_COORDINATES = new Coordinates(
+      Coordinates.UNINITIALIZED_COORDINATE,
+      Coordinates.UNINITIALIZED_COORDINATE);
+
   private int x;
   private int y;
-
-  public static final int UNINITIALIZED_COORDINATE = -1;
 
   public Coordinates(int x, int y) {
     this.x = x;
