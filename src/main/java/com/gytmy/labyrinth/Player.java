@@ -6,6 +6,12 @@ import com.gytmy.utils.Vector2;
 
 public interface Player {
 
+  public static final Vector2 UNINITIALIZED_VECTOR2 = new Vector2(
+      Vector2.UNINITIALIZED_COORDINATE,
+      Vector2.UNINITIALIZED_COORDINATE);
+  public static final String UNNAMED_PLAYER = "UNNAMED PLAYER";
+  public static final Color UNINITIALIZED_COLOR = Color.MAGENTA;
+
   public int getX();
 
   public int getY();
