@@ -205,7 +205,8 @@ public class SettingsMenu extends JPanel {
     initValidateButtonDimensionPicker(dimension, settingsPanel);
 
     frame.setContentPane(settingsPanel);
-    Toolbox.frameUpdate(frame, "Be AMazed (Length Picker)");
+    String className = this.getClass().getSimpleName();
+    Toolbox.frameUpdate(frame, className + " / Size Picker");
   }
 
   private void initInputPanel(int dimension, JPanel settingsPanel) {
@@ -265,7 +266,8 @@ public class SettingsMenu extends JPanel {
     LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
 
     frame.setContentPane(tilePanel);
-    Toolbox.frameUpdate(frame, "Be AMazed (View Labyrinth" + dimension + "D)");
+    String className = this.getClass().getSimpleName();
+    Toolbox.frameUpdate(frame, className + " / View Labyrinth" + dimension + "D");
 
   }
 
