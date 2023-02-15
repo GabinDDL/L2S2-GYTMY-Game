@@ -195,7 +195,8 @@ public class SettingsMenu extends JPanel {
 
     private void addActionListenerToPlayButton(JButton playButton, int dimension) {
         playButton.addActionListener(e -> {
-            initDimensionPicker(dimension);
+            if (Player.areAllPlayersReady(arrayPlayers))
+                initDimensionPicker(dimension);
         });
     }
 
