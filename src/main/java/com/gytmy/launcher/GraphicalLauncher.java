@@ -19,8 +19,7 @@ public class GraphicalLauncher implements Runnable {
 
         StartMenu menu = new StartMenu(frame);
         frame.add(menu);
-        String className = this.getClass().getSimpleName();
-        GameFrameToolbox.frameUpdate(frame, className);
+        GameFrameToolbox.frameUpdate(frame, "StartMenu");
         frame.setVisible(true);
         frame.setResizable(false);
     }

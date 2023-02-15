@@ -43,8 +43,7 @@ public class StartMenu extends JPanel {
             if (nbPlayersField.isValidInput()) {
                 int nbPlayers = nbPlayersField.getValue();
                 frame.setContentPane(new SettingsMenu(frame, nbPlayers));
-                String className = this.getClass().getSimpleName();
-                GameFrameToolbox.frameUpdate(frame, className);
+                GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
             }
         });
         add(playButton, BorderLayout.SOUTH);
