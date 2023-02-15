@@ -23,9 +23,6 @@ public class StartMenu extends JPanel {
   }
 
   private void initMenu() {
-    // BorderLayout layout = new BorderLayout();
-    // layout.setVgap(20);
-    // setLayout(layout);
     setLayout(new BorderLayout());
     initTextField();
     initPlayerSettingsButton();
