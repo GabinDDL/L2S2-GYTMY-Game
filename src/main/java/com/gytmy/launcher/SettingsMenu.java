@@ -36,7 +36,7 @@ public class SettingsMenu extends JPanel {
   private UserInputFieldRange[] arrayUserInputFields;
 
   private GameData gameData;
-  private LabyrinthController labyrinthControllerImplementation;
+  private LabyrinthController labyrinthController;
 
   // TODO: Refactor buttons with actionListeners should call controllers
   // TODO: Create submethods when adding Listeners
@@ -261,8 +261,8 @@ public class SettingsMenu extends JPanel {
         break;
     }
 
-    labyrinthControllerImplementation = new LabyrinthControllerImplementation(gameData);
-    LabyrinthView labyrinthView = labyrinthControllerImplementation.getView();
+    labyrinthController = new LabyrinthControllerImplementation(gameData);
+    LabyrinthView labyrinthView = labyrinthController.getView();
     LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
 
     frame.setContentPane(tilePanel);
