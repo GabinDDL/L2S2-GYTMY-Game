@@ -224,6 +224,14 @@ public class SettingsMenu extends JPanel {
         settingsPanel.add(textPanel, BorderLayout.CENTER);
     }
 
+    private void addInputFieldInPanel(InputField inputField, JPanel panel, String instructions) {
+        JLabel label = new JLabel(instructions);
+        panel.add(label);
+
+        JTextField textField = inputField.getTextField();
+        panel.add(textField);
+    }
+
     private void initValidateButtonDimensionPicker(int dimension, JPanel settingsPanel) {
         JButton validateButton = new JButton("Validate");
         validateButton.addActionListener(e -> {
@@ -271,14 +279,6 @@ public class SettingsMenu extends JPanel {
             default:
                 break;
         }
-    }
-
-    private void addInputFieldInPanel(InputField inputField, JPanel panel, String instructions) {
-        JLabel label = new JLabel(instructions);
-        panel.add(label);
-
-        JTextField textField = inputField.getTextField();
-        panel.add(textField);
     }
 
 }
