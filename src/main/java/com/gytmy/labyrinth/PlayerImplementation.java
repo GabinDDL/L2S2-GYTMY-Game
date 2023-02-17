@@ -5,16 +5,22 @@ import java.awt.Color;
 import com.gytmy.utils.Coordinates;
 
 public class PlayerImplementation implements Player {
+    private static int idCounter = 0;
+
     private Coordinates coordinates;
     private String name;
     private Color color;
     private boolean ready;
+    private final int id;
 
     public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
         this.coordinates = coordinates;
         this.name = name;
         this.color = color;
         this.ready = ready;
+
+        this.id = idCounter;
+        ++idCounter;
     }
 
     public PlayerImplementation(Coordinates coordinates) {
@@ -66,6 +72,11 @@ public class PlayerImplementation implements Player {
     @Override
     public boolean isReady() {
         return ready;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override

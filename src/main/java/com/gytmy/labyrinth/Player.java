@@ -19,6 +19,8 @@ public interface Player {
 
     public Color getColor();
 
+    public int getId();
+
     public boolean isReady();
 
     public static boolean areAllPlayersReady(Player... players) {
