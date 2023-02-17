@@ -15,6 +15,8 @@ public interface LabyrinthModel {
 
     Coordinates getExitCell();
 
+    Player[] getPlayers();
+
     /**
      * Checks if the given move is valid for the given player
      * depending on its position on the board

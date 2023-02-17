@@ -183,6 +183,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     @Override
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    @Override
     public boolean isMoveValid(Player player, Direction direction) {
         return !isGoingOutside(player, direction) &&
                 !isGoingIntoWall(player, direction);
