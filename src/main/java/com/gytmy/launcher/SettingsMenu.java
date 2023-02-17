@@ -38,8 +38,6 @@ public class SettingsMenu extends JPanel {
     private GameData gameData;
     private LabyrinthController labyrinthController;
 
-    // TODO: Refactor buttons with actionListeners should call controllers
-    // TODO: Create submethods when adding Listeners
     public SettingsMenu(JFrame frame, int nbPlayers) {
         this.frame = frame;
         this.nbPlayers = nbPlayers;
@@ -246,6 +244,19 @@ public class SettingsMenu extends JPanel {
     }
 
     private void startGame(int dimension, int... size) {
+
+        initGameData(dimension, size);
+
+        labyrinthController = new LabyrinthControllerImplementation(gameData);
+        LabyrinthView labyrinthView = labyrinthController.getView();
+        LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
+
+        frame.setContentPane(tilePanel);
+        GameFrameToolbox.frameUpdate(frame, "View Labyrinth" + dimension + "D");
+
+    }
+
+    private void initGameData(int dimension, int... size) {
         int width, height;
         switch (dimension) {
             case 1:
@@ -260,14 +271,6 @@ public class SettingsMenu extends JPanel {
             default:
                 break;
         }
-
-        labyrinthController = new LabyrinthControllerImplementation(gameData);
-        LabyrinthView labyrinthView = labyrinthController.getView();
-        LabyrinthPanel tilePanel = labyrinthView.getTilePanel();
-
-        frame.setContentPane(tilePanel);
-        GameFrameToolbox.frameUpdate(frame, "View Labyrinth" + dimension + "D");
-
     }
 
     private void addInputFieldInPanel(InputField inputField, JPanel panel, String instructions) {
