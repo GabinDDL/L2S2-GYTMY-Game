@@ -236,31 +236,31 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      */
     private boolean isGoingIntoWall(Player player, Direction direction)
             throws IllegalArgumentException {
-        int newX = player.getX();
-        int newY = player.getY();
+        int newCol = player.getX();
+        int newRow = player.getY();
         switch (direction) {
             case UP:
             case DOWN:
-                newY = player.getY() + direction.getStep();
+                newRow = player.getY() + direction.getStep();
                 break;
             case LEFT:
             case RIGHT:
-                newX = player.getX() + direction.getStep();
+                newCol = player.getX() + direction.getStep();
                 break;
             default:
                 throw new IllegalArgumentException("Direction " + direction + " is not supported");
         }
-        return isWall(newX, newY);
+        return isWall(newCol, newRow);
     }
 
     /**
-     * @param x
-     * @param y
+     * @param row
+     * @param col
      * @return true if there is a wall at the given coordinates;
      *         false otherwise
      */
-    private boolean isWall(int x, int y) {
-        return !board[y][x];
+    public boolean isWall(int row, int col) {
+        return !board[row][col];
     }
 
     @Override
