@@ -66,7 +66,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
     public void movePlayer(Player player, Direction direction) {
         model.movePlayer(player, direction);
-        view.update();
+        view.update(player, direction);
     }
 
     // TODO: Think about the primitive controls (Keyboard? Click on UI?)

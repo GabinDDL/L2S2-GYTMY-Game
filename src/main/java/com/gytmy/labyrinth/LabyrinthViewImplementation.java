@@ -8,8 +8,8 @@ public class LabyrinthViewImplementation implements LabyrinthView {
     }
 
     @Override
-    public void update() {
-        tilePanel.updateLabyrinthPanel();
+    public void update(Player player, Direction direction) {
+        tilePanel.updateLabyrinthPanel(player, direction);
     }
 
     @Override
