@@ -76,7 +76,7 @@ public class User {
     }
 
     public String userYamlConfig() {
-        return PATH + getFirstname() + "/config.yaml";
+        return userAudioFilePath() + "config.yaml";
     }
 
     public String userAudioFilePath() {
