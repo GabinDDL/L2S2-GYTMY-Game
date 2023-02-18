@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+import com.gytmy.utils.WordsToRecord;
+
 /**
  * AudioFileManager is a class that manages the audio files
  * regarding the user
@@ -12,7 +14,6 @@ public class AudioFileManager {
 
     private static final String SRC_DIR_PATH = "src/resources/audioFiles/";
     private static final File SRC_DIRECTORY = new File(SRC_DIR_PATH);
-    private static final String[] WORDS_TO_RECORD = { "Haut", "Bas", "Gauche", "Droite" };
 
     /**
      * Does the folder "src/resources" exists ?
@@ -185,10 +186,10 @@ public class AudioFileManager {
      * Create a subdirectory for each word to record
      */
     public static void createWordsModelDirectories(String userDirPath) {
-        for (String subName : WORDS_TO_RECORD) {
-            File subDirectory = new File(userDirPath + "/" + subName);
+        WordsToRecord.getWordsToRecord().forEach((word) -> {
+            File subDirectory = new File(userDirPath + "/" + word.toString());
             subDirectory.mkdir();
-        }
+        });
     }
 
     /**
