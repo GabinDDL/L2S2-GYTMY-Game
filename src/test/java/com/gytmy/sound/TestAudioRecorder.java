@@ -9,22 +9,16 @@ import org.junit.Test;
 public class TestAudioRecorder {
 
     @Test
-    public void TestAudioRecorderConstructor() {
+    public void testAudioRecorderConstructor() {
 
         String path = "./AUDIO_TEST.wav";
+        File audioFile = new File(path);
+        audioFile.deleteOnExit();
 
         AudioRecorder audioRec = new AudioRecorder(path);
         audioRec.start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         audioRec.finish();
 
-        assertTrue(new File(path).exists());
-
-        new File(path).delete();
+        assertTrue(audioFile.exists());
     }
 }
