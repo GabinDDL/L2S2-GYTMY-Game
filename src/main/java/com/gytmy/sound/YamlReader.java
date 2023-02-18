@@ -39,15 +39,15 @@ public class YamlReader {
      */
     private static void handleInvalidFilePath(String filePath, boolean shouldExists) {
         if (filePath == null || filePath.isEmpty() || filePath.isBlank()) {
-            throw new IllegalArgumentException("Invalid file path");
+            throw new IllegalArgumentException("Invalid file path : " + filePath);
         }
 
         if (!filePath.endsWith(".yaml")) {
-            throw new IllegalArgumentException("Invalid file extension");
+            throw new IllegalArgumentException("Invalid file extension : " + filePath);
         }
 
         if (shouldExists && fileDoesNotExists(filePath)) {
-            throw new IllegalArgumentException("File does not exists");
+            throw new IllegalArgumentException("File does not exists : " + filePath);
         }
     }
 
