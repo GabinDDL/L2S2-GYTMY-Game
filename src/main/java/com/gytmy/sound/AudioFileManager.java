@@ -168,7 +168,12 @@ public class AudioFileManager {
 
         generateAudioFolderStructure();
 
-        userAlreadyExists(userToAdd);
+        try {
+            userAlreadyExists(userToAdd);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
 
         createUserFiles(userToAdd);
     }
