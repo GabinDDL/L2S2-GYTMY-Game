@@ -10,7 +10,7 @@ import java.io.*;
  * @author Structure :
  *         https://www.codejava.net/coding/capture-and-record-sound-into-wav-file-with-java-sound-api
  */
-public class SoundRecorder {
+public class AudioRecorder {
 
     // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
@@ -23,7 +23,7 @@ public class SoundRecorder {
     // from which audio data can be read.
     private TargetDataLine channel;
 
-    public SoundRecorder(String audioFilePath) {
+    public AudioRecorder(String audioFilePath) {
 
         this.wavFile = new File(audioFilePath);
 
