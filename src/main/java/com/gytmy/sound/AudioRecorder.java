@@ -43,7 +43,7 @@ public class AudioRecorder {
      * Defines an audio format
      * We want the format to be 16kHz, 8-bit and mono
      */
-    private AudioFormat getAudioFormat() {
+    private static AudioFormat getAudioFormat() {
         float sampleRate = 16000;
         int sampleSizeInBits = 8;
         int channels = 1;
@@ -89,7 +89,7 @@ public class AudioRecorder {
                 ex.printStackTrace();
                 System.out.println("Error: Recording was interrupted");
             }
-            closeChannel();
+            finish();
         });
     }
 
@@ -152,7 +152,11 @@ public class AudioRecorder {
     /**
      * Closes the target data line to finish capturing and recording
      */
-    private void closeChannel() {
+    public void finish() {
+        // stopper.stop();
+        // stopper.interrupt();
+        // stopper = null;
+
         channel.stop();
         channel.close();
         System.out.println("Finished");
