@@ -108,9 +108,8 @@ public class AudioFileManager {
             users.add(YamlReader.read(SRC_DIR_PATH + "/" + file.getName() + "/config.yaml"));
             return true;
 
-        } catch (Exception e) {
-            System.out.print(e);
-            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            System.out.print(e.getMessage());
             return false;
         }
     }
