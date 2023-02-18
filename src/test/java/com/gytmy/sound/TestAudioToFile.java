@@ -19,8 +19,13 @@ public class TestAudioToFile {
                 () -> AudioToFile.record(user, null),
                 "Invalid word recorded");
 
+        AudioFileManager.removeUser(user);
+        AudioFileManager.addUser(user);
+
         TestingUtils.assertArgumentExceptionMessage(
                 () -> AudioToFile.record(user, "INSULTE"),
                 "Invalid word recorded");
+
+        AudioFileManager.removeUser(user);
     }
 }

@@ -23,7 +23,7 @@ public class AudioToFile {
 
         String path = user.userAudioFilePath() + wordRecorded + "/" + wordRecorded + numberOfRecordings + ".wav";
 
-        new SoundRecorder(path).start();
+        new AudioRecorder(path).start();
     }
 
     /**
