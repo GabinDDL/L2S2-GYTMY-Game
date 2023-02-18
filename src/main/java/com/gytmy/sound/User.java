@@ -79,6 +79,10 @@ public class User {
         return PATH + getFirstname() + "/config.yaml";
     }
 
+    public String userAudioFilePath() {
+        return PATH + getFirstname() + "/";
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
