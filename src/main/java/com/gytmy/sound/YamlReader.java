@@ -31,7 +31,7 @@ public class YamlReader {
         handleInvalidFilePath(filePath, shouldExists);
 
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        objectMapper.writeValue(new File(filePath), ((User) user));
+        objectMapper.writeValue(new File(filePath), user);
     }
 
     /**
