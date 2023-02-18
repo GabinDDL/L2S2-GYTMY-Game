@@ -7,7 +7,7 @@ import com.gytmy.TestingUtils;
 public class TestAudioToFile {
 
     @Test
-    public void TestRecord() {
+    public void testRecord() {
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> AudioToFile.record(null, null),
