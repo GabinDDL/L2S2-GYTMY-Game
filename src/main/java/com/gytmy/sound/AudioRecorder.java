@@ -146,17 +146,22 @@ public class AudioRecorder {
     private void record(AudioInputStream inputStream) throws IOException {
 
         System.out.println("Start recording...");
-        AudioSystem.write(inputStream, FILE_TYPE, wavFile);
+        new Thread() {
+            public void run() {
+                try {
+                    AudioSystem.write(inputStream, FILE_TYPE, wavFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Error: File was not found");
+                }
+            }
+        }.start();
     }
 
     /**
      * Closes the target data line to finish capturing and recording
      */
     public void finish() {
-        // stopper.stop();
-        // stopper.interrupt();
-        // stopper = null;
-
         channel.stop();
         channel.close();
         System.out.println("Finished");
