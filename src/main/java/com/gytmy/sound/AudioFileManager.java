@@ -15,6 +15,37 @@ public class AudioFileManager {
     private static final String[] WORDS_TO_RECORD = { "Haut", "Bas", "Gauche", "Droite" };
 
     /**
+     * Does the folder "src/resources" exists ?
+     */
+    public static boolean resourcesFolderExists() {
+
+        return new File("src/resources").exists();
+    }
+
+    /**
+     * Does the folder "src/resources/audioFiles" exists ?
+     */
+    public static boolean audioFilesFolderExists() {
+
+        return SRC_DIRECTORY.exists();
+    }
+
+    /**
+     * If the folder "src/resources/audioFiles" does not exists,
+     * create it and his arborescence
+     */
+    public static void generateAudioFolderStructure() {
+
+        if (!resourcesFolderExists()) {
+            new File("src/resources").mkdir();
+        }
+
+        if (!audioFilesFolderExists()) {
+            SRC_DIRECTORY.mkdir();
+        }
+    }
+
+    /**
      * Get the number of files valid for a predicate
      */
     public static int numberOfFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
@@ -119,24 +150,55 @@ public class AudioFileManager {
      */
     public static void addUser(User userToAdd) {
 
-        if (new File(SRC_DIR_PATH + "/" + userToAdd.getFirstname()).exists()) {
+        generateAudioFolderStructure();
+
+        userAlreadyExists(userToAdd);
+
+        createUserFiles(userToAdd);
+    }
+
+    /**
+     * Throw an exception if the user already exists
+     */
+    public static void userAlreadyExists(User user) {
+
+        if (new File(SRC_DIR_PATH + "/" + user.getFirstname()).exists()) {
             throw new IllegalArgumentException("User already exists");
         }
+    }
 
-        String userDirPath = SRC_DIR_PATH + "/" + userToAdd.getFirstname();
+    /**
+     * Create the user directory and all the subdirectories and files
+     */
+    public static void createUserFiles(User user) {
+        String userDirPath = SRC_DIR_PATH + "/" + user.getFirstname();
 
         File userDirectory = new File(userDirPath);
         userDirectory.mkdir();
 
+        createWordsModelDirectories(userDirPath);
+
+        writeYamlConfig(user);
+    }
+
+    /**
+     * Create a subdirectory for each word to record
+     */
+    public static void createWordsModelDirectories(String userDirPath) {
         for (String subName : WORDS_TO_RECORD) {
-            File subDirectory = new File(userDirectory + "/" + subName);
+            File subDirectory = new File(userDirPath + "/" + subName);
             subDirectory.mkdir();
         }
+    }
 
+    /**
+     * Translate the user object to a yaml file
+     */
+    public static void writeYamlConfig(User user) {
         try {
-            YamlReader.write(User.getYamlConfig(userToAdd), userToAdd, false);
+            YamlReader.write(User.getYamlConfig(user), user, true);
         } catch (Exception e) {
-            System.out.println("Error while creating the yaml file for the user " + userToAdd);
+            System.out.println("Error while creating the `.yaml` file for the user " + user);
         }
     }
 
@@ -168,7 +230,7 @@ public class AudioFileManager {
     public static void main(String[] args) {
         User mathusan = new User("mathusan", "selvakumar");
 
-        addUser(mathusan);
-        removeUser(mathusan);
+        AudioFileManager.addUser(mathusan);
+        // removeUser(mathusan);
     }
 }
