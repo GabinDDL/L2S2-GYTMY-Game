@@ -104,8 +104,7 @@ public class SoundRecorder {
 
         // checks if system supports the data line
         if (!AudioSystem.isLineSupported(info)) {
-            System.out.println("Line not supported");
-            System.exit(0);
+            throw new LineUnavailableException("Error: Line Not Supported In Its Current Format");
         }
 
         channel = (TargetDataLine) AudioSystem.getLine(info);
