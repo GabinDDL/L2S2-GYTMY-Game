@@ -8,7 +8,7 @@ compile (){
 
 run (){
     echo "Launching..."
-    java -cp lib/*:bin com.gytmy.sound.Main
+    java -cp lib/*:bin com.gytmy.Main
 }
 
 compileTests (){
