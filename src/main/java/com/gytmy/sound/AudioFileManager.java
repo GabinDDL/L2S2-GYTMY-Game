@@ -121,22 +121,38 @@ public class AudioFileManager {
     public static int totalNumberOfAudioFiles() {
         int totalNumberOfAudioFiles = 0;
         for (User user : getUsers()) {
-            totalNumberOfAudioFiles += numberOfAudioFiles(user.getFirstname());
+            totalNumberOfAudioFiles += totalNumberOfAudioFiles(user.getFirstname());
         }
         return totalNumberOfAudioFiles;
     }
 
     /**
-     * Get the number of audio files for a user
+     * Get the number of audio files for a user for all the words
      */
-    public static int numberOfAudioFiles(String userName) {
-        File userDirectory = new File(SRC_DIR_PATH + "/" + userName);
+    public static int totalNumberOfAudioFiles(String userName) {
+        int numberOfAudioFiles = 0;
+        for (String word : WordsToRecord.getWordsToRecord()) {
+            numberOfAudioFiles += numberOfRecordings(userName, word);
+        }
+        return numberOfAudioFiles;
+    }
+
+    /**
+     * Get the number of audio files for a specific word
+     */
+    public static int numberOfRecordings(String userName, String word) {
+
+        if (!WordsToRecord.exists(word)) {
+            throw new IllegalArgumentException("Word does not exist");
+        }
+
+        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/" + word);
 
         if (!userDirectory.exists()) {
             return 0;
         }
 
-        return numberOfFilesVerifyingPredicate(userDirectory, ((file) -> isAudioFile(file)));
+        return numberOfFilesVerifyingPredicate(userDirectory, AudioFileManager::isAudioFile);
     }
 
     /**
@@ -163,7 +179,7 @@ public class AudioFileManager {
      */
     public static void userAlreadyExists(User user) {
 
-        if (new File(SRC_DIR_PATH + "/" + user.getFirstname()).exists()) {
+        if (new File(user.userAudioFilePath()).exists()) {
             throw new IllegalArgumentException("User already exists");
         }
     }
@@ -172,12 +188,11 @@ public class AudioFileManager {
      * Create the user directory and all the subdirectories and files
      */
     public static void createUserFiles(User user) {
-        String userDirPath = SRC_DIR_PATH + "/" + user.getFirstname();
 
-        File userDirectory = new File(userDirPath);
+        File userDirectory = new File(user.userAudioFilePath());
         userDirectory.mkdir();
 
-        createWordsModelDirectories(userDirPath);
+        createWordsModelDirectories(user.userAudioFilePath());
 
         writeYamlConfig(user);
     }
@@ -221,7 +236,7 @@ public class AudioFileManager {
      * Delete the user directory and all the files in it
      */
     private static void deleteFile(User user) {
-        File userDirectory = new File(SRC_DIR_PATH + "/" + user.getFirstname());
+        File userDirectory = new File(user.userAudioFilePath());
         for (File file : userDirectory.listFiles()) {
             file.delete();
         }
