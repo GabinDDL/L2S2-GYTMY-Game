@@ -12,10 +12,9 @@ public class AudioToFile {
      */
     public static void record(User user, String wordRecorded) {
 
-        try {
-            AudioFileManager.addUser(user);
-        } catch (IllegalArgumentException e) {
-        }
+        assertUserIsValid(user);
+
+        AudioFileManager.addUser(user);
 
         assertWordRecordedIsValid(wordRecorded);
         assertUserFolderIsValid(user, wordRecorded);
@@ -28,12 +27,22 @@ public class AudioToFile {
     }
 
     /**
+     * Asserts that the user is not null
+     */
+    private static void assertUserIsValid(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("Invalid null user");
+        }
+    }
+
+    /**
      * Asserts that the word recorded is a word we want to record
      * 
      * @param wordRecorded
      */
     private static void assertWordRecordedIsValid(String wordRecorded) {
-        if (!WordsToRecord.exists(wordRecorded)) {
+        if (wordRecorded == null || wordRecorded.isEmpty() || wordRecorded.isBlank()
+                || !WordsToRecord.exists(wordRecorded)) {
             throw new IllegalArgumentException("Invalid word recorded");
         }
     }
