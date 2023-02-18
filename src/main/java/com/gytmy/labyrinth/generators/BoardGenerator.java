@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth.generators;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 /**
  * Interface for board generators. Used to generate a board for the labyrinth.
@@ -10,6 +10,6 @@ public interface BoardGenerator {
 
     public boolean[][] generate(int width, int height);
 
-    public boolean[][] generate(int width, int height, Vector2 initialCell);
+    public boolean[][] generate(int width, int height, Coordinates initialCell);
 
 }

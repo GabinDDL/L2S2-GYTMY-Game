@@ -2,12 +2,12 @@ package com.gytmy.utils;
 
 import java.util.Objects;
 
-public class Vector2 {
+public class Coordinates {
 
     private int x;
     private int y;
 
-    public Vector2(int x, int y) {
+    public Coordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -31,8 +31,8 @@ public class Vector2 {
     /**
      * @return A copy of this vector
      */
-    public Vector2 copy() {
-        return new Vector2(x, y);
+    public Coordinates copy() {
+        return new Coordinates(x, y);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Vector2 {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Vector2 other = (Vector2) obj;
+        final Coordinates other = (Coordinates) obj;
 
         return this.x == other.x && this.y == other.y;
     }

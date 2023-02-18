@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.Test;
 
 import com.gytmy.TestingUtils;
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 public class TestDepthFirstGenerator {
 
@@ -25,25 +25,25 @@ public class TestDepthFirstGenerator {
     public void testConstructorInvalidStart() {
         String expectedErrorMessage = "The start cell must be inside the labyrinth";
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new DepthFirstGenerator().generate(5, 5, new Vector2(0, 0)),
+                () -> new DepthFirstGenerator().generate(5, 5, new Coordinates(0, 0)),
                 expectedErrorMessage);
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new DepthFirstGenerator().generate(5, 5, new Vector2(4, 4)),
+                () -> new DepthFirstGenerator().generate(5, 5, new Coordinates(4, 4)),
                 expectedErrorMessage);
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new DepthFirstGenerator().generate(5, 5, new Vector2(5, 5)),
+                () -> new DepthFirstGenerator().generate(5, 5, new Coordinates(5, 5)),
                 expectedErrorMessage);
     }
 
     @Test
     public void testConstructorValid() {
-        new DepthFirstGenerator().generate(5, 5, new Vector2(1, 1));
-        new DepthFirstGenerator().generate(5, 5, new Vector2(2, 2));
-        new DepthFirstGenerator().generate(5, 5, new Vector2(3, 3));
+        new DepthFirstGenerator().generate(5, 5, new Coordinates(1, 1));
+        new DepthFirstGenerator().generate(5, 5, new Coordinates(2, 2));
+        new DepthFirstGenerator().generate(5, 5, new Coordinates(3, 3));
 
-        new DepthFirstGenerator().generate(7, 6, new Vector2(1, 1));
-        new DepthFirstGenerator().generate(10, 9, new Vector2(2, 2));
-        new DepthFirstGenerator().generate(15, 20, new Vector2(3, 3));
+        new DepthFirstGenerator().generate(7, 6, new Coordinates(1, 1));
+        new DepthFirstGenerator().generate(10, 9, new Coordinates(2, 2));
+        new DepthFirstGenerator().generate(15, 20, new Coordinates(3, 3));
     }
 
     @Test

@@ -12,7 +12,7 @@ import com.gytmy.labyrinth.generators.BoardGenerator;
 import com.gytmy.labyrinth.generators.BorderBoardGenerator;
 import com.gytmy.labyrinth.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.generators.EmptyBoardGenerator;
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 public class TestLabyrinthImplementation {
 
@@ -27,23 +27,27 @@ public class TestLabyrinthImplementation {
     @Test
     public void testConstructorInvalidBoardSize() {
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[2][2], new Vector2(0, 0), new Vector2(0, 0), null),
+                () -> new LabyrinthModelImplementation(new boolean[2][2], new Coordinates(0, 0), new Coordinates(0, 0),
+                        null),
                 "Board must have at least 3 rows");
     }
 
     @Test
     public void testConstructorInvalidInitialCell() {
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 0), new Vector2(0, 0), null),
+                () -> new LabyrinthModelImplementation(new boolean[3][3], new Coordinates(0, 0), new Coordinates(0, 0),
+                        null),
                 "Initial cell is a wall");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(0, 3), new Vector2(0, 0), null),
+                () -> new LabyrinthModelImplementation(new boolean[3][3], new Coordinates(0, 3), new Coordinates(0, 0),
+                        null),
                 "Initial cell is outside the board");
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Vector2(3, 0), new Vector2(0, 0), null),
+                () -> new LabyrinthModelImplementation(new boolean[3][3], new Coordinates(3, 0), new Coordinates(0, 0),
+                        null),
                 "Initial cell is outside the board");
     }
 
@@ -53,17 +57,17 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(0, 0), null),
+                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(0, 0), null),
                 "Exit cell is a wall");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(0, 3), null),
+                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(0, 3), null),
                 "Exit cell is outside the board");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(3, 0), null),
+                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(3, 0), null),
                 "Exit cell is outside the board");
     }
 
@@ -72,30 +76,30 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(1, 1), null),
+                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(1, 1), null),
                 "Initial and exit cells cannot be the same");
     }
 
     @Test
     public void testConstructorNonEmptyExitCell() {
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(), 101, 101,
-                new Vector2(1, 1), null, null);
+                new Coordinates(1, 1), null, null);
         assertTrue(labyrinth.getExitCell() != null);
     }
 
     @Test
     public void testConstructorEmptyBoard() {
-        assertWasCorrectlyConstructed(new EmptyBoardGenerator(), new Vector2(10, 10));
+        assertWasCorrectlyConstructed(new EmptyBoardGenerator(), new Coordinates(10, 10));
     }
 
     @Test
     public void testConstructorBorderBoard() {
-        assertWasCorrectlyConstructed(new BorderBoardGenerator(), new Vector2(10, 10));
+        assertWasCorrectlyConstructed(new BorderBoardGenerator(), new Coordinates(10, 10));
     }
 
-    private void assertWasCorrectlyConstructed(BoardGenerator generator, Vector2 size) {
-        Vector2 initialCell = new Vector2(1, 1);
-        Vector2 exitCell = new Vector2(3, 1);
+    private void assertWasCorrectlyConstructed(BoardGenerator generator, Coordinates size) {
+        Coordinates initialCell = new Coordinates(1, 1);
+        Coordinates exitCell = new Coordinates(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
                 generator, size.getX(), size.getY(), initialCell, exitCell, null);
 
@@ -104,8 +108,8 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorDepthFirstBoard() {
-        Vector2 initialCell = new Vector2(1, 1);
-        Vector2 exitCell = new Vector2(3, 1);
+        Coordinates initialCell = new Coordinates(1, 1);
+        Coordinates exitCell = new Coordinates(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
                 new DepthFirstGenerator(), 11, 15, initialCell, exitCell, null);
 
@@ -118,7 +122,7 @@ public class TestLabyrinthImplementation {
     public void testIsMoveValidValidMovement() {
         boolean[][] board = new boolean[5][5];
         board[1][1] = true;
-        Player player = new PlayerImplementation(new Vector2(2, 2));
+        Player player = new PlayerImplementation(new Coordinates(2, 2));
         LabyrinthModel labyrinth = createBordered5x5Labyrinth();
 
         assertTrue(labyrinth.isMoveValid(player, Direction.UP));
@@ -138,7 +142,7 @@ public class TestLabyrinthImplementation {
                 board[i][j] = true;
             }
         }
-        return new LabyrinthModelImplementation(board, new Vector2(1, 1), new Vector2(3, 2), null);
+        return new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(3, 2), null);
     }
 
     @Test
@@ -147,10 +151,10 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[5][5];
         board[1][1] = true;
         board[2][3] = true;
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(board, new Vector2(1, 1),
-                new Vector2(3, 2), null);
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(board, new Coordinates(1, 1),
+                new Coordinates(3, 2), null);
 
-        Player player = new PlayerImplementation(new Vector2(1, 1));
+        Player player = new PlayerImplementation(new Coordinates(1, 1));
 
         assertFalse(labyrinth.isMoveValid(player, Direction.UP));
         assertFalse(labyrinth.isMoveValid(player, Direction.LEFT));
@@ -162,7 +166,7 @@ public class TestLabyrinthImplementation {
     public void testIsMoveValidInvalidMovementMovingOutsideTopLeft() {
         LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
 
-        Player player = new PlayerImplementation(new Vector2(0, 0));
+        Player player = new PlayerImplementation(new Coordinates(0, 0));
 
         assertFalse(labyrinth.isMoveValid(player, Direction.UP));
         assertFalse(labyrinth.isMoveValid(player, Direction.LEFT));
@@ -174,7 +178,7 @@ public class TestLabyrinthImplementation {
     public void testIsMoveValidInvalidMovementMovingOutsideBottomRight() {
         LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
 
-        Player player = new PlayerImplementation(new Vector2(4, 4));
+        Player player = new PlayerImplementation(new Coordinates(4, 4));
 
         assertTrue(labyrinth.isMoveValid(player, Direction.UP));
         assertTrue(labyrinth.isMoveValid(player, Direction.LEFT));
@@ -186,7 +190,7 @@ public class TestLabyrinthImplementation {
     public void testIsMoveValidInvalidMovementMovingOutsideTopRight() {
         LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
 
-        Player player = new PlayerImplementation(new Vector2(4, 0));
+        Player player = new PlayerImplementation(new Coordinates(4, 0));
 
         assertFalse(labyrinth.isMoveValid(player, Direction.UP));
         assertTrue(labyrinth.isMoveValid(player, Direction.LEFT));
@@ -198,7 +202,7 @@ public class TestLabyrinthImplementation {
     public void testIsMoveValidInvalidMovementMovingOutsideBottomLeft() {
         LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
 
-        Player player = new PlayerImplementation(new Vector2(0, 4));
+        Player player = new PlayerImplementation(new Coordinates(0, 4));
 
         assertTrue(labyrinth.isMoveValid(player, Direction.UP));
         assertFalse(labyrinth.isMoveValid(player, Direction.LEFT));
@@ -219,14 +223,14 @@ public class TestLabyrinthImplementation {
             }
         }
         return new LabyrinthModelImplementation(board,
-                new Vector2(1, 1), new Vector2(3, 2), null);
+                new Coordinates(1, 1), new Coordinates(3, 2), null);
     }
 
     @Test
     public void testMovePlayerValidMovement() {
         LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
 
-        Player player = new PlayerImplementation(new Vector2(1, 1));
+        Player player = new PlayerImplementation(new Coordinates(1, 1));
 
         assertTrue(labyrinth.isMoveValid(player, Direction.UP));
         assertTrue(labyrinth.isMoveValid(player, Direction.LEFT));
@@ -234,20 +238,20 @@ public class TestLabyrinthImplementation {
         assertTrue(labyrinth.isMoveValid(player, Direction.RIGHT));
 
         labyrinth.movePlayer(player, Direction.UP);
-        assertEquals(new Vector2(1, 0), player.getCoordinates());
+        assertEquals(new Coordinates(1, 0), player.getCoordinates());
         labyrinth.movePlayer(player, Direction.LEFT);
-        assertEquals(new Vector2(0, 0), player.getCoordinates());
+        assertEquals(new Coordinates(0, 0), player.getCoordinates());
         labyrinth.movePlayer(player, Direction.DOWN);
-        assertEquals(new Vector2(0, 1), player.getCoordinates());
+        assertEquals(new Coordinates(0, 1), player.getCoordinates());
         labyrinth.movePlayer(player, Direction.RIGHT);
-        assertEquals(new Vector2(1, 1), player.getCoordinates());
+        assertEquals(new Coordinates(1, 1), player.getCoordinates());
     }
 
     @Test
     public void testMovePlayerInvalidMovement() {
         LabyrinthModelImplementation labyrinth = createLabyrinthWithWalls();
 
-        Player player = new PlayerImplementation(new Vector2(3, 3));
+        Player player = new PlayerImplementation(new Coordinates(3, 3));
 
         assertFalse(labyrinth.isMoveValid(player, Direction.UP));
         assertFalse(labyrinth.isMoveValid(player, Direction.LEFT));
@@ -255,13 +259,13 @@ public class TestLabyrinthImplementation {
         assertFalse(labyrinth.isMoveValid(player, Direction.RIGHT));
 
         labyrinth.movePlayer(player, Direction.UP);
-        assertEquals(new Vector2(3, 3), player.getCoordinates());
+        assertEquals(new Coordinates(3, 3), player.getCoordinates());
         labyrinth.movePlayer(player, Direction.LEFT);
-        assertEquals(new Vector2(3, 3), player.getCoordinates());
+        assertEquals(new Coordinates(3, 3), player.getCoordinates());
         labyrinth.movePlayer(player, Direction.DOWN);
-        assertEquals(new Vector2(3, 3), player.getCoordinates());
+        assertEquals(new Coordinates(3, 3), player.getCoordinates());
         labyrinth.movePlayer(player, Direction.RIGHT);
-        assertEquals(new Vector2(3, 3), player.getCoordinates());
+        assertEquals(new Coordinates(3, 3), player.getCoordinates());
     }
 
     /**
@@ -274,7 +278,7 @@ public class TestLabyrinthImplementation {
         board[3][1] = true;
         board[3][3] = true;
         board[3][5] = true;
-        return new LabyrinthModelImplementation(board, new Vector2(1, 3), new Vector2(5, 3), null);
+        return new LabyrinthModelImplementation(board, new Coordinates(1, 3), new Coordinates(5, 3), null);
     }
 
     @Test
@@ -319,13 +323,13 @@ public class TestLabyrinthImplementation {
         LabyrinthModelImplementation labyrinth = createEmptyLabyrinth(5, players);
         assertFalse(labyrinth.isGameOver());
 
-        playerC.setCoordinates(new Vector2(1, 1));
+        playerC.setCoordinates(new Coordinates(1, 1));
         assertFalse(labyrinth.isGameOver());
 
-        playerB.setCoordinates(new Vector2(1, 1));
+        playerB.setCoordinates(new Coordinates(1, 1));
         assertFalse(labyrinth.isGameOver());
 
-        playerA.setCoordinates(new Vector2(1, 1));
+        playerA.setCoordinates(new Coordinates(1, 1));
         assertFalse(labyrinth.isGameOver());
     }
 
@@ -338,7 +342,7 @@ public class TestLabyrinthImplementation {
             }
         }
         return new LabyrinthModelImplementation(board,
-                new Vector2(1, 1), new Vector2(n - 1, 1), players);
+                new Coordinates(1, 1), new Coordinates(n - 1, 1), players);
     }
 
     @Test
