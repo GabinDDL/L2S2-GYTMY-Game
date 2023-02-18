@@ -1,16 +1,16 @@
 package com.gytmy.labyrinth;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 public class PlayerImplementation implements Player {
-    private Vector2 coordinates;
+    private Coordinates coordinates;
 
-    public PlayerImplementation(Vector2 coordinates) {
+    public PlayerImplementation(Coordinates coordinates) {
         this.coordinates = coordinates.copy();
     }
 
     public PlayerImplementation(int x, int y) {
-        this.coordinates = new Vector2(x, y);
+        this.coordinates = new Coordinates(x, y);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class PlayerImplementation implements Player {
     }
 
     @Override
-    public Vector2 getCoordinates() {
+    public Coordinates getCoordinates() {
         return coordinates.copy();
     }
 
@@ -39,7 +39,7 @@ public class PlayerImplementation implements Player {
     }
 
     @Override
-    public void setCoordinates(Vector2 coordinates) {
+    public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates.copy();
     }
 

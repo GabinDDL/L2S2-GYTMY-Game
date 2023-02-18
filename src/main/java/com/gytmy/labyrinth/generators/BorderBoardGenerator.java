@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth.generators;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 /**
  * Generates a board with a one cell border.
@@ -21,7 +21,7 @@ public class BorderBoardGenerator implements BoardGenerator {
     }
 
     @Override
-    public boolean[][] generate(int width, int height, Vector2 initialCell) {
+    public boolean[][] generate(int width, int height, Coordinates initialCell) {
         return generate(width, height);
     }
 

@@ -2,7 +2,7 @@ package com.gytmy.labyrinth;
 
 import java.util.Arrays;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 /* 
     Class representing the Model of a 1-Dimensional Labyrinth
@@ -35,7 +35,7 @@ public class LabyrinthModel1D extends LabyrinthModelImplementation {
     public LabyrinthModel1D(int lengthPath, Player[] players)
             throws IllegalArgumentException {
 
-        super(initBoard(lengthPath), new Vector2(1, 1), new Vector2(lengthPath, 1), players);
+        super(initBoard(lengthPath), new Coordinates(1, 1), new Coordinates(lengthPath, 1), players);
 
     }
 

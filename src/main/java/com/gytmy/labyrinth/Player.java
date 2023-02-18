@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth;
 
-import com.gytmy.utils.Vector2;
+import com.gytmy.utils.Coordinates;
 
 public interface Player {
 
@@ -8,13 +8,13 @@ public interface Player {
 
     public int getY();
 
-    public Vector2 getCoordinates();
+    public Coordinates getCoordinates();
 
     public void setX(int x);
 
     public void setY(int y);
 
-    public void setCoordinates(Vector2 coordinates);
+    public void setCoordinates(Coordinates coordinates);
 
     /**
      * Moves the player in the given direction
