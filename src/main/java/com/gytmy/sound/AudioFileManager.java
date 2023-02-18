@@ -192,19 +192,7 @@ public class AudioFileManager {
         File userDirectory = new File(user.userAudioFilePath());
         userDirectory.mkdir();
 
-        createWordsModelDirectories(user.userAudioFilePath());
-
         writeYamlConfig(user);
-    }
-
-    /**
-     * Create a subdirectory for each word to record
-     */
-    public static void createWordsModelDirectories(String userDirPath) {
-        WordsToRecord.getWordsToRecord().forEach((word) -> {
-            File subDirectory = new File(userDirPath + "/" + word.toString());
-            subDirectory.mkdir();
-        });
     }
 
     /**
