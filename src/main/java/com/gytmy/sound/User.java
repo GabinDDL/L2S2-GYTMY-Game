@@ -75,8 +75,8 @@ public class User {
         this.numEtu = numEtu;
     }
 
-    public static String getYamlConfig(User user) {
-        return PATH + user.getFirstname() + "/config.yaml";
+    public String userYamlConfig() {
+        return PATH + getFirstname() + "/config.yaml";
     }
 
     @Override

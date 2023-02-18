@@ -14,7 +14,7 @@ public class TestYamlReader {
         User userTest = new User("TEST", "TEST", 00000000);
         AudioFileManager.addUser(userTest);
 
-        User user = YamlReader.read(User.getYamlConfig(userTest));
+        User user = YamlReader.read(userTest.userYamlConfig());
 
         assertEquals(userTest, user);
 

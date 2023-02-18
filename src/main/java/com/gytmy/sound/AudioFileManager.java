@@ -196,7 +196,7 @@ public class AudioFileManager {
      */
     public static void writeYamlConfig(User user) {
         try {
-            YamlReader.write(User.getYamlConfig(user), user, false);
+            YamlReader.write(user.userYamlConfig(), user, false);
         } catch (Exception e) {
             System.out.println("Error while creating the `.yaml` file for the user " + user + " : " + e.getMessage());
         }
