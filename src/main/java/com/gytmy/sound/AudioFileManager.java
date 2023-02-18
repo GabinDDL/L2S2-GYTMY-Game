@@ -105,7 +105,7 @@ public class AudioFileManager {
 
     private static boolean tryAddingUser(ArrayList<User> users, File file) {
         try {
-            users.add(YamlReader.read(SRC_DIR_PATH + "/" + file.getName() + "/config.yaml"));
+            users.add(YamlReader.read(SRC_DIR_PATH + file.getName() + "/config.yaml"));
             return true;
 
         } catch (IllegalArgumentException e) {
@@ -229,16 +229,15 @@ public class AudioFileManager {
      */
     private static void deleteFile(User user) {
         File userDirectory = new File(user.userAudioFilePath());
-        for (File file : userDirectory.listFiles()) {
-            file.delete();
-        }
+        emptyDirectory(userDirectory);
         userDirectory.delete();
     }
 
-    public static void main(String[] args) {
-        User mathusan = new User("mathusan", "selvakumar");
-
-        AudioFileManager.addUser(mathusan);
-        // removeUser(mathusan);
+    private static void emptyDirectory(File directory) {
+        for (File file : directory.listFiles()) {
+            if (file.isDirectory())
+                emptyDirectory(file);
+            file.delete();
+        }
     }
 }
