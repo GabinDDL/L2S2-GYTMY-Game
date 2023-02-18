@@ -20,4 +20,8 @@ public class WordsToRecord {
 
         return values;
     }
+
+    public static boolean exists(String word) {
+        return getWordsToRecord().contains(word);
+    }
 }
