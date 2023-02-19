@@ -133,7 +133,6 @@ public class AudioRecorder {
      */
     private AudioInputStream capture(TargetDataLine targetLine) {
 
-        System.out.println("Canal is open.");
         return new AudioInputStream(targetLine);
     }
 
@@ -145,7 +144,6 @@ public class AudioRecorder {
      */
     private void record(AudioInputStream inputStream) throws IOException {
 
-        System.out.println("Start recording...");
         new Thread() {
             public void run() {
                 try {
@@ -164,6 +162,5 @@ public class AudioRecorder {
     public void finish() {
         channel.stop();
         channel.close();
-        System.out.println("Finished");
     }
 }
