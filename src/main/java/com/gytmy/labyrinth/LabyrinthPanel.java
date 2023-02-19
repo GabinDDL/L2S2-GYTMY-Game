@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.io.Console;
 
 import javax.swing.JPanel;
 
@@ -41,23 +40,23 @@ public class LabyrinthPanel extends JPanel {
     private void initCells() {
         for (int row = 0; row < nbRowsBoard; row++) {
             for (int col = 0; col < nbColsBoard; col++) {
-                initCell(row, col);
+                initCell(col, row);
             }
         }
     }
 
-    private void initCell(int row, int col) {
+    private void initCell(int col, int row) {
         GridBagLayout cellGrid = new GridBagLayout();
         JPanel cell = new JPanel(cellGrid);
 
         cell.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
 
-        initCellBackground(cell, row, col);
+        initCellBackground(cell, col, row);
 
         add(cell);
     }
 
-    private void initCellBackground(JPanel cell, int row, int col) {
+    private void initCellBackground(JPanel cell, int col, int row) {
 
         Coordinates cellToUpdate = new Coordinates(col, row);
         Coordinates initialCell = model.getInitialCell();
@@ -68,7 +67,7 @@ public class LabyrinthPanel extends JPanel {
         } else if (cellToUpdate.equals(exitCell)) {
             cell.setBackground(Color.RED);
         } else {
-            if (model.isWall(row, col)) {
+            if (!model.isWall(col, row)) {
                 cell.setBackground(Color.WHITE);
             } else {
                 cell.setBackground(Color.BLACK);
@@ -95,9 +94,8 @@ public class LabyrinthPanel extends JPanel {
     }
 
     private JPanel getCell(Coordinates coordinates) {
-        return (JPanel) getComponentAt(
-                coordinates.getX(),
-                coordinates.getY());
+        int componentID = coordinates.getX() + nbRowsBoard * coordinates.getY();
+        return (JPanel) getComponent(componentID);
     }
 
     public void updateLabyrinthPanel(Player player, Direction directionMoved) {

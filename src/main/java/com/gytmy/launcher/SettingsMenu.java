@@ -31,7 +31,7 @@ public class SettingsMenu extends JPanel {
 
     private JPanel playersPanel;
     private JPanel buttonsPanel;
-    private Color[] colors = new Color[] { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK };
+    private Color[] colors = new Color[] { Color.LIGHT_GRAY, Color.PINK, Color.BLUE, Color.YELLOW, Color.PINK };
 
     private UserInputFieldRange[] arrayUserInputFields;
 
