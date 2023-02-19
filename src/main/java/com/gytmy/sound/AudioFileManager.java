@@ -50,13 +50,7 @@ public class AudioFileManager {
      * Get the number of files valid for a predicate
      */
     public static int numberOfFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
-        int numberOfUsers = 0;
-        for (File file : directory.listFiles()) {
-            if (predicate.test(file)) {
-                numberOfUsers++;
-            }
-        }
-        return numberOfUsers;
+        return getFilesVerifyingPredicate(directory, predicate).size();
     }
 
     /**
@@ -120,7 +114,7 @@ public class AudioFileManager {
     public static int totalNumberOfAudioFiles() {
         int totalNumberOfAudioFiles = 0;
         for (User user : getUsers()) {
-            totalNumberOfAudioFiles += totalNumberOfAudioFiles(user.getFirstname());
+            totalNumberOfAudioFiles += totalNumberOfAudioFilesForUser(user.getFirstname());
         }
         return totalNumberOfAudioFiles;
     }
@@ -128,7 +122,7 @@ public class AudioFileManager {
     /**
      * Get the number of audio files for a user for all the words
      */
-    public static int totalNumberOfAudioFiles(String userName) {
+    public static int totalNumberOfAudioFilesForUser(String userName) {
         int numberOfAudioFiles = 0;
         for (String word : WordsToRecord.getWordsToRecord()) {
             numberOfAudioFiles += numberOfRecordings(userName, word);
@@ -168,12 +162,7 @@ public class AudioFileManager {
 
         generateAudioFolderStructure();
 
-        try {
-            userAlreadyExists(userToAdd);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
+        userAlreadyExists(userToAdd);
 
         createUserFiles(userToAdd);
     }
