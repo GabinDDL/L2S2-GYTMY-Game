@@ -17,7 +17,7 @@ public interface LabyrinthModel {
 
     Player[] getPlayers();
 
-    boolean isWall(int row, int col);
+    boolean isWall(int x, int y);
 
     /**
      * Checks if the given move is valid for the given player

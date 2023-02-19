@@ -254,13 +254,13 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     /**
-     * @param row
-     * @param col
+     * @param x
+     * @param y
      * @return true if there is a wall at the given coordinates;
      *         false otherwise
      */
-    public boolean isWall(int row, int col) {
-        return !board[row][col];
+    public boolean isWall(int x, int y) {
+        return !board[y][x];
     }
 
     @Override
