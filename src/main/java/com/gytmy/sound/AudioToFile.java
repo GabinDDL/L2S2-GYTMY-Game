@@ -7,6 +7,9 @@ import com.gytmy.utils.WordsToRecord;
 
 public class AudioToFile {
 
+    private AudioToFile() {
+    }
+
     /**
      * Starts recording an audio in which the user says the word recorded
      */
