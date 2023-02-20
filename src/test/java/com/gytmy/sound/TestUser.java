@@ -11,49 +11,49 @@ public class TestUser {
 	@Test
 	public void testConstructor() {
 
-		User user = new User();
-		assertTrue(user.getFirstname().equals("NO-NAME") &&
-				user.getLastname().equals("DEFAULT") &&
-				user.getNumEtu() == 2210000);
+		User user = new User("DEFAULT", "DEFAULT", 22100000);
+		assertTrue(user.getFirstName().equals("DEFAULT") &&
+				user.getLastName().equals("DEFAULT") &&
+				user.getStudentNumber() == 2210000);
 	}
 
 	@Test
-	public void testConstructorInvalidFirstname() {
+	public void testConstructorInvalidFirstName() {
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User(null),
-				"Invalid firstname");
+				() -> new User(null, "", 0),
+				"Invalid first name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User(""),
-				"Invalid firstname");
+				() -> new User("", "", 0),
+				"Invalid first name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("      "),
-				"Invalid firstname");
+				() -> new User("      ", "", 0),
+				"Invalid first name");
 	}
 
 	@Test
-	public void testConstructorInvalidLastname() {
+	public void testConstructorInvalidLastName() {
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("Firstname", null),
-				"Invalid lastname");
+				() -> new User("FirstName", null, 0),
+				"Invalid last name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("Firstname", ""),
-				"Invalid lastname");
+				() -> new User("FirstName", "", 0),
+				"Invalid last name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("Firstname", "      "),
-				"Invalid lastname");
+				() -> new User("FirstName", "      ", 0),
+				"Invalid last name");
 	}
 
 	@Test
-	public void testConstructorInvalidNumEtu() {
+	public void testConstructorInvalidStudentNumber() {
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("Firstname", "Lastname", -1),
-				"Invalid numEtu");
+				() -> new User("FirstName", "LastName", -1),
+				"Invalid student number");
 	}
 }
