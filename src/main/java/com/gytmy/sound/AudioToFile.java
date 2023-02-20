@@ -15,12 +15,12 @@ public class AudioToFile {
      */
     public static void record(User user, String wordRecorded) {
 
-        assertUserIsValid(user);
+        assertIsValidUser(user);
 
         AudioFileManager.addUser(user);
 
-        assertWordRecordedIsValid(wordRecorded);
-        assertUserFolderIsValid(user, wordRecorded);
+        assertIsValidWordRecorded(wordRecorded);
+        assertIsValidUserFolder(user, wordRecorded);
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), wordRecorded) + 1;
 
@@ -32,7 +32,7 @@ public class AudioToFile {
     /**
      * Asserts that the user is not null
      */
-    private static void assertUserIsValid(User user) {
+    private static void assertIsValidUser(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Invalid null user");
         }
@@ -43,7 +43,7 @@ public class AudioToFile {
      * 
      * @param wordRecorded
      */
-    private static void assertWordRecordedIsValid(String wordRecorded) {
+    private static void assertIsValidWordRecorded(String wordRecorded) {
         if (wordRecorded == null || wordRecorded.isEmpty() || wordRecorded.isBlank()
                 || !WordsToRecord.exists(wordRecorded)) {
             throw new IllegalArgumentException("Invalid word recorded");
@@ -53,7 +53,7 @@ public class AudioToFile {
     /**
      * Asserts that the user folder contains the word recorded folder
      */
-    private static void assertUserFolderIsValid(User user, String wordRecorded) {
+    private static void assertIsValidUserFolder(User user, String wordRecorded) {
 
         File userDirectory = new File(user.userAudioFilePath());
         ArrayList<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
