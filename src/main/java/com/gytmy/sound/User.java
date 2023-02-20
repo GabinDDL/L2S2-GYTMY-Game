@@ -33,10 +33,7 @@ public class User {
     }
 
     private boolean nameIsInvalid(String name) {
-        if (name == null || name.isEmpty() || name.isBlank()) {
-            return true;
-        }
-        return false;
+        return name == null || name.isEmpty() || name.isBlank();
     }
 
     public String getFirstName() {
