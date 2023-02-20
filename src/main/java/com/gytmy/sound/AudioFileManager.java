@@ -162,9 +162,13 @@ public class AudioFileManager {
 
         generateAudioFolderStructure();
 
-        userAlreadyExists(userToAdd);
+        try {
+            userAlreadyExists(userToAdd);
+            createUserFiles(userToAdd);
 
-        createUserFiles(userToAdd);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -193,7 +197,7 @@ public class AudioFileManager {
      */
     public static void writeYamlConfig(User user) {
         try {
-            YamlReader.write(user.userYamlConfig(), user, false);
+            YamlReader.write(user.userYamlConfig(), user);
         } catch (IllegalArgumentException e) {
             System.out.println("Error while creating the `.yaml` file for the user " + user + " : " + e.getMessage());
         }
@@ -203,10 +207,10 @@ public class AudioFileManager {
      * Remove a user from the directory if it exists
      */
     public static void removeUser(User userToRemove) {
-        ArrayList<User> usersWithSameFirstname = getUsersVerifyingPredicate(
+        ArrayList<User> usersWithSameFirstName = getUsersVerifyingPredicate(
                 (file) -> file.getName().startsWith(userToRemove.getFirstname()));
 
-        for (User user : usersWithSameFirstname) {
+        for (User user : usersWithSameFirstName) {
             if (user.equals(user)) {
                 deleteFile(user);
             }
