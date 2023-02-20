@@ -10,11 +10,11 @@ public class YamlReader {
     /**
      * Read the .yaml config file
      * 
-     * @return ApplicationConfig associatesd
+     * @return ApplicationConfig associated
      * @throws Exception
      */
     public static User read(String filePath) {
-        handleInvalidFilePath(filePath, true);
+        handleInvalidFilePath(filePath);
 
         File file = new File(filePath);
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
@@ -30,12 +30,18 @@ public class YamlReader {
     /**
      * Write the .yaml config file the user
      */
-    public static void write(String filePath, User user, boolean shouldExists) {
-        handleInvalidFilePath(filePath, shouldExists);
+    public static void write(String filePath, User user) {
+        handleInvalidFilePath(filePath);
+
+        File yamlFile = new File(filePath);
 
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
         try {
-            objectMapper.writeValue(new File(filePath), user);
+            if (fileDoesNotExist(filePath)) {
+                yamlFile.createNewFile();
+            }
+
+            objectMapper.writeValue(yamlFile, user);
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not write to file : " + filePath);
         }
@@ -44,7 +50,7 @@ public class YamlReader {
     /**
      * Handle invalid exceptions
      */
-    private static void handleInvalidFilePath(String filePath, boolean shouldExists) {
+    private static void handleInvalidFilePath(String filePath) {
         if (filePath == null || filePath.isEmpty() || filePath.isBlank()) {
             throw new IllegalArgumentException("Invalid file path : " + filePath);
         }
@@ -52,16 +58,12 @@ public class YamlReader {
         if (!filePath.endsWith(".yaml")) {
             throw new IllegalArgumentException("Invalid file extension : " + filePath);
         }
-
-        if (shouldExists && fileDoesNotExists(filePath)) {
-            throw new IllegalArgumentException("File does not exists : " + filePath);
-        }
     }
 
     /**
      * Check if the file exists
      */
-    private static boolean fileDoesNotExists(String filePath) {
+    private static boolean fileDoesNotExist(String filePath) {
         return !(new File(filePath)).exists();
     }
 }
