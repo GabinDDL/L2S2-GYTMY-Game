@@ -82,7 +82,7 @@ public class AudioFileManager {
         ArrayList<User> users = new ArrayList<User>();
         for (File file : SRC_DIRECTORY.listFiles()) {
             if (predicate.test(file)) {
-                tryAddingUser(users, file);
+                tryAddUser(users, file);
             }
         }
         return users;
@@ -95,7 +95,7 @@ public class AudioFileManager {
         return getUsersVerifyingPredicate(File::isDirectory);
     }
 
-    private static boolean tryAddingUser(ArrayList<User> users, File file) {
+    private static boolean tryAddUser(ArrayList<User> users, File file) {
         try {
             users.add(YamlReader.read(SRC_DIR_PATH + file.getName() + "/config.yaml"));
             return true;
