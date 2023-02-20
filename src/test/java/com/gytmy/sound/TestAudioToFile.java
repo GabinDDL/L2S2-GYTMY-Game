@@ -20,7 +20,7 @@ public class TestAudioToFile {
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> AudioToFile.record(user, null),
-                "Invalid word recorded");
+                "Invalid recorded word");
 
         AudioFileManager.removeUser(user);
     }
@@ -31,7 +31,7 @@ public class TestAudioToFile {
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> AudioToFile.record(user, "INSULTE"),
-                "Invalid word recorded");
+                "Invalid recorded word");
 
         AudioFileManager.removeUser(user);
     }

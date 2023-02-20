@@ -11,7 +11,7 @@ public class AudioToFile {
     }
 
     /**
-     * Starts recording an audio in which the user says the word recorded
+     * Starts recording an audio in which the user says the recorded word
      */
     public static void record(User user, String recordedWord) {
 
@@ -39,19 +39,19 @@ public class AudioToFile {
     }
 
     /**
-     * Asserts that the word recorded is a word we want to record
+     * Asserts that the recorded word is a word we want to record
      * 
      * @param recordedWord
      */
     private static void assertIsValidWordRecorded(String recordedWord) {
         if (recordedWord == null || recordedWord.isEmpty() || recordedWord.isBlank()
                 || !WordsToRecord.exists(recordedWord)) {
-            throw new IllegalArgumentException("Invalid word recorded");
+            throw new IllegalArgumentException("Invalid recorded word");
         }
     }
 
     /**
-     * Asserts that the user folder contains the word recorded folder
+     * Asserts that the user folder contains the recorded word folder
      */
     private static void assertIsValidUserFolder(User user, String recordedWord) {
 
