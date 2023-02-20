@@ -19,14 +19,18 @@ public class AudioFileManager {
     private AudioFileManager() {
     }
 
-    public static boolean doesResourcesFolderExist() {
+    /**
+     * Add an user to the directory if it doesn't already exist
+     */
+    public static void addUser(User userToAdd) throws IllegalArgumentException {
 
-        return new File("src/resources").exists();
-    }
+        generateAudioFolderStructure();
 
-    public static boolean doesAudioFilesFolderExist() {
+        if (doesUserAlreadyExist(userToAdd)) {
+            throw new IllegalArgumentException("User already exists");
+        }
 
-        return SRC_DIRECTORY.exists();
+        createUserFiles(userToAdd);
     }
 
     /**
@@ -44,139 +48,20 @@ public class AudioFileManager {
         }
     }
 
-    /**
-     * Get the number of files valid for a predicate
-     */
-    public static int numberOfFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
-        return getFilesVerifyingPredicate(directory, predicate).size();
+    public static boolean doesResourcesFolderExist() {
+        return new File("src/resources").exists();
     }
 
-    /**
-     * Get the number of users of the global directory
-     */
-    public static int numberOfUsers() {
-        return numberOfFilesVerifyingPredicate(SRC_DIRECTORY, File::isDirectory);
+    public static boolean doesAudioFilesFolderExist() {
+        return SRC_DIRECTORY.exists();
     }
 
-    /**
-     * Get the list of files verifying a predicate passed as parameter
-     * 
-     * @param directory
-     * @param predicate
-     * @return
-     */
-    public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
-        List<File> files = new ArrayList<File>();
-        for (File file : directory.listFiles()) {
-            if (predicate.test(file)) {
-                files.add(file);
-            }
-        }
-        return files;
-    }
-
-    /**
-     * Get the list of users verifying a predicate passed as parameter
-     */
-    public static List<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
-        ArrayList<User> users = new ArrayList<User>();
-        for (File file : SRC_DIRECTORY.listFiles()) {
-            if (predicate.test(file)) {
-                tryAddUser(users, file);
-            }
-        }
-        return users;
-    }
-
-    /**
-     * Get the list of users
-     */
-    public static List<User> getUsers() {
-        return getUsersVerifyingPredicate(File::isDirectory);
-    }
-
-    private static boolean tryAddUser(ArrayList<User> users, File file) {
-        try {
-            users.add(YamlReader.read(SRC_DIR_PATH + file.getName() + "/config.yaml"));
-            return true;
-
-        } catch (IllegalArgumentException e) {
-            System.out.print(e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Get the total number of audio files
-     */
-    public static int totalNumberOfAudioFiles() {
-        int totalNumberOfAudioFiles = 0;
-        for (User user : getUsers()) {
-            totalNumberOfAudioFiles += totalNumberOfAudioFilesForUser(user.getFirstName());
-        }
-        return totalNumberOfAudioFiles;
-    }
-
-    /**
-     * Get the number of audio files for a user for all the words
-     */
-    public static int totalNumberOfAudioFilesForUser(String userName) {
-        int numberOfAudioFiles = 0;
-        for (String word : WordsToRecord.getWordsToRecord()) {
-            numberOfAudioFiles += numberOfRecordings(userName, word);
-        }
-        return numberOfAudioFiles;
-    }
-
-    /**
-     * Get the number of audio files for a specific word
-     */
-    public static int numberOfRecordings(String userName, String word) {
-
-        if (!WordsToRecord.exists(word)) {
-            throw new IllegalArgumentException("Word does not exist");
-        }
-
-        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/" + word);
-
-        if (!userDirectory.exists()) {
-            return 0;
-        }
-
-        return numberOfFilesVerifyingPredicate(userDirectory, AudioFileManager::isAudioFile);
-    }
-
-    /**
-     * An audio file in our structure is a .wav file
-     */
-    private static boolean isAudioFile(File file) {
-        return file.isFile() && file.getName().endsWith(".wav");
-    }
-
-    /**
-     * Add an user to the directory if it doesn't already exist
-     */
-    public static void addUser(User userToAdd) throws IllegalArgumentException {
-
-        generateAudioFolderStructure();
-
-        if (doesUserAlreadyExist(userToAdd)) {
-            throw new IllegalArgumentException("User already exists");
-        }
-
-        createUserFiles(userToAdd);
-    }
-
-    /**
-     * Throw an exception if the user already exists
-     */
     public static boolean doesUserAlreadyExist(User user) {
-
         return new File(user.audioFilesPath()).exists();
     }
 
     /**
-     * Create the user directory and all the subdirectories and files
+     * Create the user directory, all the subdirectories and files
      */
     public static void createUserFiles(User user) {
 
@@ -211,6 +96,33 @@ public class AudioFileManager {
         }
     }
 
+    public static List<User> getUsers() {
+        return getUsersVerifyingPredicate(File::isDirectory);
+    }
+
+    public static List<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
+        ArrayList<User> users = new ArrayList<User>();
+
+        for (File file : SRC_DIRECTORY.listFiles()) {
+            if (predicate.test(file)) {
+                tryToAddUser(users, file);
+            }
+        }
+
+        return users;
+    }
+
+    private static boolean tryToAddUser(ArrayList<User> users, File file) {
+        try {
+            users.add(YamlReader.read(SRC_DIR_PATH + file.getName() + "/config.yaml"));
+            return true;
+
+        } catch (IllegalArgumentException e) {
+            System.out.print(e.getMessage());
+            return false;
+        }
+    }
+
     /**
      * Delete the user directory and all the files in it
      */
@@ -226,5 +138,74 @@ public class AudioFileManager {
                 clearDirectory(file);
             file.delete();
         }
+    }
+
+    public static int totalNumberOfAudioFiles() {
+        int totalNumberOfAudioFiles = 0;
+
+        for (User user : getUsers()) {
+            totalNumberOfAudioFiles += totalNumberOfAudioFilesForUser(user.getFirstName());
+        }
+
+        return totalNumberOfAudioFiles;
+    }
+
+    /**
+     * Get the number of audio files for a user for all the words that can be
+     * recorded
+     */
+    public static int totalNumberOfAudioFilesForUser(String userName) {
+        int numberOfAudioFiles = 0;
+
+        for (String word : WordsToRecord.getWordsToRecord()) {
+            numberOfAudioFiles += numberOfRecordings(userName, word);
+        }
+
+        return numberOfAudioFiles;
+    }
+
+    /**
+     * Get the number of audio files about a specific word
+     */
+    public static int numberOfRecordings(String userName, String word) {
+
+        if (!WordsToRecord.exists(word)) {
+            throw new IllegalArgumentException("Word does not exist");
+        }
+
+        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/" + word);
+
+        if (!userDirectory.exists()) {
+            return 0;
+        }
+
+        return numberOfFilesVerifyingPredicate(userDirectory, AudioFileManager::isAudioFile);
+    }
+
+    /**
+     * An audio file, in our project, is a .wav file
+     */
+    private static boolean isAudioFile(File file) {
+        return file.isFile() && file.getName().endsWith(".wav");
+    }
+
+    public static int numberOfUsers() {
+        return numberOfFilesVerifyingPredicate(SRC_DIRECTORY, File::isDirectory);
+    }
+
+    public static int numberOfFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
+        return getFilesVerifyingPredicate(directory, predicate).size();
+    }
+
+    public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
+        List<File> files = new ArrayList<File>();
+
+        for (File file : directory.listFiles()) {
+            if (predicate.test(file)) {
+                files.add(file);
+            }
+        }
+
+        return files;
     }
 }
