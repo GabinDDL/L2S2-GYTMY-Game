@@ -144,16 +144,14 @@ public class AudioRecorder {
      */
     private void record(AudioInputStream inputStream) throws IOException {
 
-        new Thread() {
-            public void run() {
-                try {
-                    AudioSystem.write(inputStream, FILE_TYPE, wavFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println("Error: File was not found");
-                }
+        new Thread(() -> {
+            try {
+                AudioSystem.write(inputStream, FILE_TYPE, wavFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error: File was not found");
             }
-        }.start();
+        }).start();
     }
 
     /**
