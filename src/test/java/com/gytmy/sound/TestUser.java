@@ -11,25 +11,29 @@ public class TestUser {
 	@Test
 	public void testConstructor() {
 
-		User user = new User("DEFAULT", "DEFAULT", 22100000);
-		assertTrue(user.getFirstName().equals("DEFAULT") &&
-				user.getLastName().equals("DEFAULT") &&
-				user.getStudentNumber() == 2210000);
+		User user = new User();
+		assertTrue(assertAreDefaultAttributes(user));
+	}
+
+	private boolean assertAreDefaultAttributes(User user) {
+		return user.getFirstName().equals(User.DEFAULT_FIRST_NAME) &&
+				user.getLastName().equals(User.DEFAULT_LAST_NAME) &&
+				user.getStudentNumber() == User.DEFAULT_STUDENT_NUMBER;
 	}
 
 	@Test
 	public void testConstructorInvalidFirstName() {
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User(null, "", 0),
+				() -> new User(null, User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER),
 				"Invalid first name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("", "", 0),
+				() -> new User("", User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER),
 				"Invalid first name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("      ", "", 0),
+				() -> new User("      ", User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER),
 				"Invalid first name");
 	}
 
@@ -37,15 +41,15 @@ public class TestUser {
 	public void testConstructorInvalidLastName() {
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("FirstName", null, 0),
+				() -> new User(User.DEFAULT_FIRST_NAME, null, User.DEFAULT_STUDENT_NUMBER),
 				"Invalid last name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("FirstName", "", 0),
+				() -> new User(User.DEFAULT_FIRST_NAME, "", User.DEFAULT_STUDENT_NUMBER),
 				"Invalid last name");
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("FirstName", "      ", 0),
+				() -> new User(User.DEFAULT_FIRST_NAME, "      ", User.DEFAULT_STUDENT_NUMBER),
 				"Invalid last name");
 	}
 
@@ -53,7 +57,7 @@ public class TestUser {
 	public void testConstructorInvalidStudentNumber() {
 
 		TestingUtils.assertArgumentExceptionMessage(
-				() -> new User("FirstName", "LastName", -1),
+				() -> new User(User.DEFAULT_FIRST_NAME, User.DEFAULT_LAST_NAME, -1),
 				"Invalid student number");
 	}
 }
