@@ -59,7 +59,6 @@ public class TestAudioFileManager {
         users = AudioFileManager.getUsersVerifyingPredicate(
                 file -> file.getName().startsWith(User.DEFAULT_FIRST_NAME));
 
-        System.out.println("users.size() = " + users.size());
         assertTrue(users.size() == 10);
         for (int i = 0; i < 10; i++) {
             User temporaryUser = new User();
