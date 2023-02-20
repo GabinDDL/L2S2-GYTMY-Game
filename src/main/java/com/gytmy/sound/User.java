@@ -9,9 +9,9 @@ public class User {
     public static final String DEFAULT_LAST_NAME = "LAST_NAME";
     public static final int DEFAULT_STUDENT_NUMBER = 22100000;
 
-    protected String firstName;
-    protected String lastName;
-    protected int studentNumber;
+    private String firstName;
+    private String lastName;
+    private int studentNumber;
 
     public User(String firstName, String lastName, int studentNumber) {
         handleInvalidArguments(firstName, lastName, studentNumber);
