@@ -2,9 +2,15 @@ package com.gytmy.sound;
 
 import java.util.Objects;
 
+/**
+ * User Class model a confirmed user of the application.
+ * A Path is attributed to each user and is the root path of its associated
+ * audio folder.
+ */
 public class User {
 
     private static final String PATH = "src/resources/audioFiles/";
+
     public static final String DEFAULT_FIRST_NAME = "FIRST_NAME";
     public static final String DEFAULT_LAST_NAME = "LAST_NAME";
     public static final int DEFAULT_STUDENT_NUMBER = 22100000;
