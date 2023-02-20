@@ -46,21 +46,27 @@ public class TestAudioFileManager {
 
     @Test
     public void testGetUsersVerifyingPredicate() {
+
         for (int i = 0; i < 10; i++) {
-            AudioFileManager.addUser(new User("test" + i));
+            User temporaryUser = new User();
+            temporaryUser.setFirstName(User.DEFAULT_FIRST_NAME + i);
+            AudioFileManager.addUser(temporaryUser);
         }
         ArrayList<User> users = AudioFileManager.getUsersVerifyingPredicate(
-                file -> file.getName().startsWith("test"));
+                file -> file.getName().startsWith(User.DEFAULT_LAST_NAME));
         assertTrue(users.size() == 0);
 
         users = AudioFileManager.getUsersVerifyingPredicate(
-                file -> file.getName().startsWith("TEST"));
+                file -> file.getName().startsWith(User.DEFAULT_FIRST_NAME));
 
+        System.out.println("users.size() = " + users.size());
         assertTrue(users.size() == 10);
         for (int i = 0; i < 10; i++) {
-            User tempUser = new User("TEST" + i);
-            assertTrue(users.contains(tempUser));
-            AudioFileManager.removeUser(tempUser);
+            User temporaryUser = new User();
+            temporaryUser.setFirstName(User.DEFAULT_FIRST_NAME + i);
+
+            assertTrue(users.contains(temporaryUser));
+            AudioFileManager.removeUser(temporaryUser);
         }
     }
 
@@ -90,10 +96,10 @@ public class TestAudioFileManager {
     @Test
     public void testAddingUser() {
 
-        TestingUtils.assertArgumentExceptionMessage(
-                () -> addTwiceUser(), "User already exists");
-
         User user = new User();
+
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> addTwiceUser(user), "User already exists");
 
         assertTrue(new File(user.userAudioFilePath()).exists());
 
@@ -101,8 +107,8 @@ public class TestAudioFileManager {
         assertFalse(new File(user.userAudioFilePath()).exists());
     }
 
-    private void addTwiceUser() {
-        User user = new User();
+    private void addTwiceUser(User user) {
+
         AudioFileManager.addUser(user);
         AudioFileManager.addUser(user);
     }
