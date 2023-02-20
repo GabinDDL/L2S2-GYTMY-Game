@@ -158,27 +158,23 @@ public class AudioFileManager {
     /**
      * Add an user to the directory if it doesn't already exist
      */
-    public static void addUser(User userToAdd) {
+    public static void addUser(User userToAdd) throws IllegalArgumentException {
 
         generateAudioFolderStructure();
 
-        try {
-            userAlreadyExists(userToAdd);
-            createUserFiles(userToAdd);
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        if (userAlreadyExists(userToAdd)) {
+            throw new IllegalArgumentException("User already exists");
         }
+
+        createUserFiles(userToAdd);
     }
 
     /**
      * Throw an exception if the user already exists
      */
-    public static void userAlreadyExists(User user) {
+    private static boolean userAlreadyExists(User user) {
 
-        if (new File(user.userAudioFilePath()).exists()) {
-            throw new IllegalArgumentException("User already exists");
-        }
+        return new File(user.userAudioFilePath()).exists();
     }
 
     /**
