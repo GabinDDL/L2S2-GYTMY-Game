@@ -166,7 +166,7 @@ public class AudioFileManager {
 
         generateAudioFolderStructure();
 
-        if (userAlreadyExists(userToAdd)) {
+        if (doesUserAlreadyExist(userToAdd)) {
             throw new IllegalArgumentException("User already exists");
         }
 
@@ -176,7 +176,7 @@ public class AudioFileManager {
     /**
      * Throw an exception if the user already exists
      */
-    private static boolean userAlreadyExists(User user) {
+    public static boolean doesUserAlreadyExist(User user) {
 
         return new File(user.userAudioFilePath()).exists();
     }
