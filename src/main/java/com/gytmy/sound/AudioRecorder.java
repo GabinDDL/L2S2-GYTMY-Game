@@ -69,10 +69,6 @@ public class AudioRecorder {
         } catch (LineUnavailableException ex) {
             ex.printStackTrace();
             System.out.println("Error: Line Unavailable");
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            System.out.println("Error: File was not found");
         }
     }
 
@@ -118,7 +114,7 @@ public class AudioRecorder {
      * @param targetLine
      * @throws IOException
      */
-    private void captureAndRecord(TargetDataLine targetLine) throws IOException {
+    private void captureAndRecord(TargetDataLine targetLine) {
 
         AudioInputStream inputStream = capture(targetLine);
         record(inputStream);
@@ -142,7 +138,7 @@ public class AudioRecorder {
      * @param inputStream Audio input stream
      * @throws IOException If the file is not found
      */
-    private void record(AudioInputStream inputStream) throws IOException {
+    private void record(AudioInputStream inputStream) {
 
         new Thread(() -> {
             try {
