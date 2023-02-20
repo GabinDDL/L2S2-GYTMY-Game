@@ -7,12 +7,15 @@ import com.gytmy.TestingUtils;
 public class TestAudioToFile {
 
     @Test
-    public void testRecord() {
+    public void testRecordInvalidUser() {
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> AudioToFile.record(null, null),
                 "Invalid null user");
+    }
 
+    @Test
+    public void testRecordInvalidNullWord() {
         User user = new User();
 
         TestingUtils.assertArgumentExceptionMessage(
@@ -20,6 +23,11 @@ public class TestAudioToFile {
                 "Invalid word recorded");
 
         AudioFileManager.removeUser(user);
+    }
+
+    @Test
+    public void testRecordInvalidUnknownWord() {
+        User user = new User();
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> AudioToFile.record(user, "INSULTE"),
