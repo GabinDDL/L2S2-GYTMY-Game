@@ -14,7 +14,7 @@ import com.gytmy.TestingUtils;
 
 public class TestAudioFileManager {
 
-    private static final int numberOfTestUsers = 10;
+    private static final int NUMBER_OF_TEST_USERS = 10;
 
     @Test
     public void testGenerateAudioFolderStructure() {
@@ -34,15 +34,15 @@ public class TestAudioFileManager {
 
         File directory = new File("src/resources/audioFiles");
 
-        for (int i = 0; i < numberOfTestUsers; i++) {
+        for (int i = 0; i < NUMBER_OF_TEST_USERS; i++) {
             new File(directory, "test" + i).createNewFile();
         }
         List<File> files = AudioFileManager.getFilesVerifyingPredicate(directory,
                 file -> file.getName().startsWith("test"));
 
-        assertTrue(files.size() == numberOfTestUsers);
+        assertTrue(files.size() == NUMBER_OF_TEST_USERS);
 
-        for (int i = 0; i < numberOfTestUsers; i++) {
+        for (int i = 0; i < NUMBER_OF_TEST_USERS; i++) {
             File tempFile = new File(directory, "test" + i);
             assertTrue(files.contains(tempFile));
             tempFile.delete();
@@ -52,7 +52,7 @@ public class TestAudioFileManager {
     @Test
     public void testGetUsersVerifyingPredicate() {
 
-        for (int i = 0; i < numberOfTestUsers; i++) {
+        for (int i = 0; i < NUMBER_OF_TEST_USERS; i++) {
             User temporaryUser = new User();
             temporaryUser.setFirstName(User.DEFAULT_FIRST_NAME + i);
             AudioFileManager.addUser(temporaryUser);
@@ -64,8 +64,8 @@ public class TestAudioFileManager {
         users = AudioFileManager.getUsersVerifyingPredicate(
                 file -> file.getName().startsWith(User.DEFAULT_FIRST_NAME));
 
-        assertTrue(users.size() == numberOfTestUsers);
-        for (int i = 0; i < numberOfTestUsers; i++) {
+        assertTrue(users.size() == NUMBER_OF_TEST_USERS);
+        for (int i = 0; i < NUMBER_OF_TEST_USERS; i++) {
             User temporaryUser = new User();
             temporaryUser.setFirstName(User.DEFAULT_FIRST_NAME + i);
 
