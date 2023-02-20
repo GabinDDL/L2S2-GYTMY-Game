@@ -5,20 +5,27 @@ import java.util.Objects;
 public class User {
 
     private static final String PATH = "src/resources/audioFiles/";
+    public static final String DEFAULT_FIRST_NAME = "FIRST_NAME";
+    public static final String DEFAULT_LAST_NAME = "LAST_NAME";
+    public static final int DEFAULT_STUDENT_NUMBER = 22100000;
 
     protected String firstName;
     protected String lastName;
     protected int studentNumber;
 
-    public User(String firstName, String lastName, int numEtu) {
-        handleInvalidArguments(firstName, lastName, numEtu);
+    public User(String firstName, String lastName, int studentNumber) {
+        handleInvalidArguments(firstName, lastName, studentNumber);
 
         this.firstName = firstName.toUpperCase();
         this.lastName = lastName.toUpperCase();
-        this.studentNumber = numEtu;
+        this.studentNumber = studentNumber;
     }
 
-    private void handleInvalidArguments(String firstName, String lastName, int numEtu) {
+    public User() {
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER);
+    }
+
+    private void handleInvalidArguments(String firstName, String lastName, int studentNumber) {
         if (nameIsInvalid(firstName)) {
             throw new IllegalArgumentException("Invalid first name");
         }
@@ -27,7 +34,7 @@ public class User {
             throw new IllegalArgumentException("Invalid last name");
         }
 
-        if (numEtu < 0) {
+        if (studentNumber < 0) {
             throw new IllegalArgumentException("Invalid student number");
         }
     }
@@ -56,8 +63,8 @@ public class User {
         return studentNumber;
     }
 
-    public void setStudentNumber(int numEtu) {
-        this.studentNumber = numEtu;
+    public void setStudentNumber(int studentNumber) {
+        this.studentNumber = studentNumber;
     }
 
     public String userYamlConfig() {
