@@ -18,7 +18,7 @@ public class AudioFileManager {
     /**
      * Does the folder "src/resources" exists ?
      */
-    public static boolean resourcesFolderExists() {
+    public static boolean doesResourcesFolderExist() {
 
         return new File("src/resources").exists();
     }
@@ -26,7 +26,7 @@ public class AudioFileManager {
     /**
      * Does the folder "src/resources/audioFiles" exists ?
      */
-    public static boolean audioFilesFolderExists() {
+    public static boolean doesAudioFilesFolderExist() {
 
         return SRC_DIRECTORY.exists();
     }
@@ -37,11 +37,11 @@ public class AudioFileManager {
      */
     public static void generateAudioFolderStructure() {
 
-        if (!resourcesFolderExists()) {
+        if (!doesResourcesFolderExist()) {
             new File("src/resources").mkdir();
         }
 
-        if (!audioFilesFolderExists()) {
+        if (!doesAudioFilesFolderExist()) {
             SRC_DIRECTORY.mkdir();
         }
     }
@@ -208,7 +208,7 @@ public class AudioFileManager {
 
         for (User user : usersWithSameFirstName) {
             if (user.equals(user)) {
-                deleteFile(user);
+                deleteFiles(user);
             }
         }
     }
@@ -216,16 +216,16 @@ public class AudioFileManager {
     /**
      * Delete the user directory and all the files in it
      */
-    private static void deleteFile(User user) {
+    private static void deleteFiles(User user) {
         File userDirectory = new File(user.userAudioFilePath());
-        emptyDirectory(userDirectory);
+        clearDirectory(userDirectory);
         userDirectory.delete();
     }
 
-    private static void emptyDirectory(File directory) {
+    private static void clearDirectory(File directory) {
         for (File file : directory.listFiles()) {
             if (file.isDirectory())
-                emptyDirectory(file);
+                clearDirectory(file);
             file.delete();
         }
     }
