@@ -14,7 +14,7 @@ public class AudioRecorder {
 
     // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
-    private static final long MAX_RECORD_DURATION = 11000; // In milliseconds (11 secs)
+    private static final long MAX_RECORD_DURATION_MILLISECONDS = 11000;
     private static Thread stopper;
 
     private File wavFile; // The file that will store the recorded sound
@@ -84,7 +84,7 @@ public class AudioRecorder {
     private void initiateStopper() {
         stopper = new Thread(() -> {
             try {
-                Thread.sleep(MAX_RECORD_DURATION);
+                Thread.sleep(MAX_RECORD_DURATION_MILLISECONDS);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
                 System.out.println("Error: Recording was interrupted");
