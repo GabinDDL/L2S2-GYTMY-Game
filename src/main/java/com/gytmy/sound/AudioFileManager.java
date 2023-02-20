@@ -16,6 +16,9 @@ public class AudioFileManager {
     private static final String SRC_DIR_PATH = "src/resources/audioFiles/";
     private static final File SRC_DIRECTORY = new File(SRC_DIR_PATH);
 
+    private AudioFileManager() {
+    }
+
     /**
      * Does the folder "src/resources" exists ?
      */
