@@ -19,25 +19,19 @@ public class AudioFileManager {
     private AudioFileManager() {
     }
 
-    /**
-     * Does the folder "src/resources" exists ?
-     */
     public static boolean doesResourcesFolderExist() {
 
         return new File("src/resources").exists();
     }
 
-    /**
-     * Does the folder "src/resources/audioFiles" exists ?
-     */
     public static boolean doesAudioFilesFolderExist() {
 
         return SRC_DIRECTORY.exists();
     }
 
     /**
-     * If the folder "src/resources/audioFiles" does not exists,
-     * create it and his arborescence
+     * If the folder "src/resources/audioFiles" does not exist,
+     * create it and its arborescence
      */
     public static void generateAudioFolderStructure() {
 
