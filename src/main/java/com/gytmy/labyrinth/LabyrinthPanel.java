@@ -99,15 +99,6 @@ public class LabyrinthPanel extends JPanel {
     }
 
     public void updateLabyrinthPanel(Player player, Direction directionMoved) {
-        // TODO:Handle updates of cells displaying players
-        /*
-         * Clear icon from departure cell
-         * If no icons are left delete gridbaglayout
-         * 
-         * Create new icon in destination cell
-         * Create 3*3 gridbaglayout in cell to handle coordinates in cell
-         */
-
         clearPlayerFromOriginalCell(player, directionMoved);
         addPlayerInDestinationCell(player);
     }
