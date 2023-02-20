@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class TestAudioFileManager {
         for (int i = 0; i < 10; i++) {
             new File(directory, "test" + i).createNewFile();
         }
-        ArrayList<File> files = AudioFileManager.getFilesVerifyingPredicate(directory,
+        List<File> files = AudioFileManager.getFilesVerifyingPredicate(directory,
                 file -> file.getName().startsWith("test"));
 
         assertTrue(files.size() == 10);
@@ -52,7 +52,7 @@ public class TestAudioFileManager {
             temporaryUser.setFirstName(User.DEFAULT_FIRST_NAME + i);
             AudioFileManager.addUser(temporaryUser);
         }
-        ArrayList<User> users = AudioFileManager.getUsersVerifyingPredicate(
+        List<User> users = AudioFileManager.getUsersVerifyingPredicate(
                 file -> file.getName().startsWith(User.DEFAULT_LAST_NAME));
         assertTrue(users.size() == 0);
 

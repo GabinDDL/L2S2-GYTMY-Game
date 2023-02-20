@@ -2,6 +2,7 @@ package com.gytmy.sound;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import com.gytmy.utils.WordsToRecord;
@@ -67,8 +68,8 @@ public class AudioFileManager {
      * @param predicate
      * @return
      */
-    public static ArrayList<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
-        ArrayList<File> files = new ArrayList<File>();
+    public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
+        List<File> files = new ArrayList<File>();
         for (File file : directory.listFiles()) {
             if (predicate.test(file)) {
                 files.add(file);
@@ -80,7 +81,7 @@ public class AudioFileManager {
     /**
      * Get the list of users verifying a predicate passed as parameter
      */
-    public static ArrayList<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
+    public static List<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
         ArrayList<User> users = new ArrayList<User>();
         for (File file : SRC_DIRECTORY.listFiles()) {
             if (predicate.test(file)) {
@@ -93,7 +94,7 @@ public class AudioFileManager {
     /**
      * Get the list of users
      */
-    public static ArrayList<User> getUsers() {
+    public static List<User> getUsers() {
         return getUsersVerifyingPredicate(File::isDirectory);
     }
 
@@ -203,7 +204,7 @@ public class AudioFileManager {
      * Remove a user from the directory if it exists
      */
     public static void removeUser(User userToRemove) {
-        ArrayList<User> usersWithSameFirstName = getUsersVerifyingPredicate(
+        List<User> usersWithSameFirstName = getUsersVerifyingPredicate(
                 (file) -> file.getName().startsWith(userToRemove.getFirstName()));
 
         for (User user : usersWithSameFirstName) {

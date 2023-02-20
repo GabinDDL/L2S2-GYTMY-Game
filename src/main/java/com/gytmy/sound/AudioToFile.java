@@ -1,7 +1,7 @@
 package com.gytmy.sound;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.gytmy.utils.WordsToRecord;
 
@@ -56,7 +56,7 @@ public class AudioToFile {
     private static void assertIsValidUserFolder(User user, String recordedWord) {
 
         File userDirectory = new File(user.userAudioFilePath());
-        ArrayList<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
+        List<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
 
         if (!userFiles.contains(new File(user.userAudioFilePath() + recordedWord))) {
             new File(user.userAudioFilePath() + recordedWord).mkdir();
