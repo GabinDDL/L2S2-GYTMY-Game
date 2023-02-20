@@ -32,11 +32,11 @@ public class User {
     }
 
     private void handleInvalidArguments(String firstName, String lastName, int studentNumber) {
-        if (nameIsInvalid(firstName)) {
+        if (isNameInvalid(firstName)) {
             throw new IllegalArgumentException("Invalid first name");
         }
 
-        if (nameIsInvalid(lastName)) {
+        if (isNameInvalid(lastName)) {
             throw new IllegalArgumentException("Invalid last name");
         }
 
@@ -45,7 +45,7 @@ public class User {
         }
     }
 
-    private boolean nameIsInvalid(String name) {
+    private boolean isNameInvalid(String name) {
         return name == null || name.isEmpty() || name.isBlank();
     }
 
@@ -73,11 +73,11 @@ public class User {
         this.studentNumber = studentNumber;
     }
 
-    public String userYamlConfig() {
-        return userAudioFilePath() + "config.yaml";
+    public String yamlConfigPath() {
+        return audioFilesPath() + "config.yaml";
     }
 
-    public String userAudioFilePath() {
+    public String audioFilesPath() {
         return PATH + getFirstName() + "/";
     }
 

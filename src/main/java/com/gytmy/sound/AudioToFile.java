@@ -24,7 +24,7 @@ public class AudioToFile {
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
-        String path = user.userAudioFilePath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
+        String path = user.audioFilesPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
         new AudioRecorder(path).start();
     }
@@ -55,11 +55,11 @@ public class AudioToFile {
      */
     private static void assertIsValidUserFolder(User user, String recordedWord) {
 
-        File userDirectory = new File(user.userAudioFilePath());
+        File userDirectory = new File(user.audioFilesPath());
         List<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
 
-        if (!userFiles.contains(new File(user.userAudioFilePath() + recordedWord))) {
-            new File(user.userAudioFilePath() + recordedWord).mkdir();
+        if (!userFiles.contains(new File(user.audioFilesPath() + recordedWord))) {
+            new File(user.audioFilesPath() + recordedWord).mkdir();
         }
     }
 }

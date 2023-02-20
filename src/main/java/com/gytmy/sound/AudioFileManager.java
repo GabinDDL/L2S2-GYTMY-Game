@@ -178,7 +178,7 @@ public class AudioFileManager {
      */
     public static boolean doesUserAlreadyExist(User user) {
 
-        return new File(user.userAudioFilePath()).exists();
+        return new File(user.audioFilesPath()).exists();
     }
 
     /**
@@ -186,7 +186,7 @@ public class AudioFileManager {
      */
     public static void createUserFiles(User user) {
 
-        File userDirectory = new File(user.userAudioFilePath());
+        File userDirectory = new File(user.audioFilesPath());
         userDirectory.mkdir();
 
         writeYamlConfig(user);
@@ -197,7 +197,7 @@ public class AudioFileManager {
      */
     public static void writeYamlConfig(User user) {
         try {
-            YamlReader.write(user.userYamlConfig(), user);
+            YamlReader.write(user.yamlConfigPath(), user);
         } catch (IllegalArgumentException e) {
             System.out.println("Error while creating the `.yaml` file for the user " + user + " : " + e.getMessage());
         }
@@ -221,7 +221,7 @@ public class AudioFileManager {
      * Delete the user directory and all the files in it
      */
     private static void deleteFiles(User user) {
-        File userDirectory = new File(user.userAudioFilePath());
+        File userDirectory = new File(user.audioFilesPath());
         clearDirectory(userDirectory);
         userDirectory.delete();
     }
