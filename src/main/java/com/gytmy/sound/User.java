@@ -4,12 +4,10 @@ import java.util.Objects;
 
 /**
  * User Class model a confirmed user of the application.
- * A Path is attributed to each user and is the root path of its associated
- * audio folder.
  */
 public class User {
 
-    private static final String PATH = "src/resources/audioFiles/";
+    private static final String AUDIO_ROOT_DIRECTORY = "src/resources/audioFiles/";
 
     public static final String DEFAULT_FIRST_NAME = "FIRST_NAME";
     public static final String DEFAULT_LAST_NAME = "LAST_NAME";
@@ -84,7 +82,7 @@ public class User {
     }
 
     public String audioFilesPath() {
-        return PATH + getFirstName() + "/";
+        return AUDIO_ROOT_DIRECTORY + getFirstName() + "/";
     }
 
     /**********************************/
