@@ -7,6 +7,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 public class YamlReader {
 
+    private YamlReader() {
+    }
+
     /**
      * Read the .yaml config file
      * 
