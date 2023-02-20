@@ -63,9 +63,6 @@ public class YamlReader {
         }
     }
 
-    /**
-     * Check if the file exists
-     */
     private static boolean fileDoesNotExist(String filePath) {
         return !(new File(filePath)).exists();
     }
