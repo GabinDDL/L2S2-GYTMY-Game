@@ -51,7 +51,7 @@ public class YamlReader {
     }
 
     /**
-     * Handle invalid exceptions
+     * Throw exception when file's path is invalid
      */
     private static void handleInvalidFilePath(String filePath) {
         if (filePath == null || filePath.isEmpty() || filePath.isBlank()) {
