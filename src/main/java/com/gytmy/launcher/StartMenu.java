@@ -32,7 +32,7 @@ public class StartMenu extends JPanel {
         textPanel = new JPanel(new GridLayout(1, 1));
         askNbPlayers = new JLabel("Enter the number of players: ");
         textPanel.add(askNbPlayers);
-        nbPlayersField = new UserInputFieldRange(1, 4);
+        nbPlayersField = new UserInputFieldRange(1, 5);
         textPanel.add(nbPlayersField.getTextField());
         add(textPanel, BorderLayout.CENTER);
     }
