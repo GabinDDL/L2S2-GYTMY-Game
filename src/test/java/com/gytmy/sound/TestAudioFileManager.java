@@ -14,6 +14,8 @@ import com.gytmy.TestingUtils;
 
 public class TestAudioFileManager {
 
+    private static final int numberOfTestUsers = 10;
+
     @Test
     public void testGenerateAudioFolderStructure() {
         AudioFileManager.generateAudioFolderStructure();
@@ -29,15 +31,18 @@ public class TestAudioFileManager {
 
     @Test
     public void testGetFilesVerifyingPredicate() throws IOException {
+
         File directory = new File("src/resources/audioFiles");
-        for (int i = 0; i < 10; i++) {
+
+        for (int i = 0; i < numberOfTestUsers; i++) {
             new File(directory, "test" + i).createNewFile();
         }
         List<File> files = AudioFileManager.getFilesVerifyingPredicate(directory,
                 file -> file.getName().startsWith("test"));
 
-        assertTrue(files.size() == 10);
-        for (int i = 0; i < 10; i++) {
+        assertTrue(files.size() == numberOfTestUsers);
+
+        for (int i = 0; i < numberOfTestUsers; i++) {
             File tempFile = new File(directory, "test" + i);
             assertTrue(files.contains(tempFile));
             tempFile.delete();
@@ -47,20 +52,20 @@ public class TestAudioFileManager {
     @Test
     public void testGetUsersVerifyingPredicate() {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numberOfTestUsers; i++) {
             User temporaryUser = new User();
             temporaryUser.setFirstName(User.DEFAULT_FIRST_NAME + i);
             AudioFileManager.addUser(temporaryUser);
         }
         List<User> users = AudioFileManager.getUsersVerifyingPredicate(
                 file -> file.getName().startsWith(User.DEFAULT_LAST_NAME));
-        assertTrue(users.size() == 0);
+        assertTrue(users.isEmpty());
 
         users = AudioFileManager.getUsersVerifyingPredicate(
                 file -> file.getName().startsWith(User.DEFAULT_FIRST_NAME));
 
-        assertTrue(users.size() == 10);
-        for (int i = 0; i < 10; i++) {
+        assertTrue(users.size() == numberOfTestUsers);
+        for (int i = 0; i < numberOfTestUsers; i++) {
             User temporaryUser = new User();
             temporaryUser.setFirstName(User.DEFAULT_FIRST_NAME + i);
 
@@ -98,7 +103,7 @@ public class TestAudioFileManager {
         User user = new User();
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> addUserTwice(user), "User already exists");
+                this::addUserTwice, "User already exists");
 
         assertTrue(new File(user.userAudioFilePath()).exists());
 
@@ -106,7 +111,9 @@ public class TestAudioFileManager {
         assertFalse(new File(user.userAudioFilePath()).exists());
     }
 
-    private void addUserTwice(User user) {
+    private void addUserTwice() {
+
+        User user = new User();
 
         AudioFileManager.addUser(user);
         AudioFileManager.addUser(user);
