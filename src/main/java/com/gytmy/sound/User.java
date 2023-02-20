@@ -8,39 +8,27 @@ public class User {
 
     protected String firstName;
     protected String lastName;
-    protected int numEtu;
+    protected int studentNumber;
 
     public User(String firstName, String lastName, int numEtu) {
         handleInvalidArguments(firstName, lastName, numEtu);
 
         this.firstName = firstName.toUpperCase();
         this.lastName = lastName.toUpperCase();
-        this.numEtu = numEtu;
+        this.studentNumber = numEtu;
     }
 
-    public User(String firstName, String lastName) {
-        this(firstName, lastName, 2210000);
-    }
-
-    public User(String firstName) {
-        this(firstName, "Default");
-    }
-
-    public User() {
-        this("No-name");
-    }
-
-    private void handleInvalidArguments(String firstname, String lastname, int numEtu) {
-        if (nameIsInvalid(firstname)) {
-            throw new IllegalArgumentException("Invalid firstname");
+    private void handleInvalidArguments(String firstName, String lastName, int numEtu) {
+        if (nameIsInvalid(firstName)) {
+            throw new IllegalArgumentException("Invalid first name");
         }
 
-        if (nameIsInvalid(lastname)) {
-            throw new IllegalArgumentException("Invalid lastname");
+        if (nameIsInvalid(lastName)) {
+            throw new IllegalArgumentException("Invalid last name");
         }
 
         if (numEtu < 0) {
-            throw new IllegalArgumentException("Invalid numEtu");
+            throw new IllegalArgumentException("Invalid student number");
         }
     }
 
@@ -55,24 +43,24 @@ public class User {
         return firstName;
     }
 
-    public void setFirstName(String firstname) {
-        this.firstName = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastname) {
-        this.lastName = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public int getNumEtu() {
-        return numEtu;
+    public int getStudentNumber() {
+        return studentNumber;
     }
 
-    public void setNumEtu(int numEtu) {
-        this.numEtu = numEtu;
+    public void setStudentNumber(int numEtu) {
+        this.studentNumber = numEtu;
     }
 
     public String userYamlConfig() {
@@ -98,16 +86,16 @@ public class User {
         User user = (User) obj;
         return user.getFirstName().equals(this.getFirstName())
                 && user.getLastName().equals(this.getLastName())
-                && user.getNumEtu() == this.getNumEtu();
+                && user.getStudentNumber() == this.getStudentNumber();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, numEtu);
+        return Objects.hash(firstName, lastName, studentNumber);
     }
 
     @Override
     public String toString() {
-        return "[" + numEtu + "] " + firstName + " " + lastName;
+        return "[" + studentNumber + "] " + firstName + " " + lastName;
     }
 }
