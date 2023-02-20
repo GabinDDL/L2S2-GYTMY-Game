@@ -19,7 +19,7 @@ public class AudioToFile {
         assertWordRecordedIsValid(wordRecorded);
         assertUserFolderIsValid(user, wordRecorded);
 
-        int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstname(), wordRecorded) + 1;
+        int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), wordRecorded) + 1;
 
         String path = user.userAudioFilePath() + wordRecorded + "/" + wordRecorded + numberOfRecordings + ".wav";
 

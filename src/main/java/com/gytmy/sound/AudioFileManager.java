@@ -114,7 +114,7 @@ public class AudioFileManager {
     public static int totalNumberOfAudioFiles() {
         int totalNumberOfAudioFiles = 0;
         for (User user : getUsers()) {
-            totalNumberOfAudioFiles += totalNumberOfAudioFilesForUser(user.getFirstname());
+            totalNumberOfAudioFiles += totalNumberOfAudioFilesForUser(user.getFirstName());
         }
         return totalNumberOfAudioFiles;
     }
@@ -208,7 +208,7 @@ public class AudioFileManager {
      */
     public static void removeUser(User userToRemove) {
         ArrayList<User> usersWithSameFirstName = getUsersVerifyingPredicate(
-                (file) -> file.getName().startsWith(userToRemove.getFirstname()));
+                (file) -> file.getName().startsWith(userToRemove.getFirstName()));
 
         for (User user : usersWithSameFirstName) {
             if (user.equals(user)) {
