@@ -13,18 +13,18 @@ public class AudioToFile {
     /**
      * Starts recording an audio in which the user says the word recorded
      */
-    public static void record(User user, String wordRecorded) {
+    public static void record(User user, String recordedWord) {
 
         assertIsValidUser(user);
 
         AudioFileManager.addUser(user);
 
-        assertIsValidWordRecorded(wordRecorded);
-        assertIsValidUserFolder(user, wordRecorded);
+        assertIsValidWordRecorded(recordedWord);
+        assertIsValidUserFolder(user, recordedWord);
 
-        int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), wordRecorded) + 1;
+        int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
-        String path = user.userAudioFilePath() + wordRecorded + "/" + wordRecorded + numberOfRecordings + ".wav";
+        String path = user.userAudioFilePath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
         new AudioRecorder(path).start();
     }
@@ -41,11 +41,11 @@ public class AudioToFile {
     /**
      * Asserts that the word recorded is a word we want to record
      * 
-     * @param wordRecorded
+     * @param recordedWord
      */
-    private static void assertIsValidWordRecorded(String wordRecorded) {
-        if (wordRecorded == null || wordRecorded.isEmpty() || wordRecorded.isBlank()
-                || !WordsToRecord.exists(wordRecorded)) {
+    private static void assertIsValidWordRecorded(String recordedWord) {
+        if (recordedWord == null || recordedWord.isEmpty() || recordedWord.isBlank()
+                || !WordsToRecord.exists(recordedWord)) {
             throw new IllegalArgumentException("Invalid word recorded");
         }
     }
@@ -53,13 +53,13 @@ public class AudioToFile {
     /**
      * Asserts that the user folder contains the word recorded folder
      */
-    private static void assertIsValidUserFolder(User user, String wordRecorded) {
+    private static void assertIsValidUserFolder(User user, String recordedWord) {
 
         File userDirectory = new File(user.userAudioFilePath());
         ArrayList<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
 
-        if (!userFiles.contains(new File(user.userAudioFilePath() + wordRecorded))) {
-            new File(user.userAudioFilePath() + wordRecorded).mkdir();
+        if (!userFiles.contains(new File(user.userAudioFilePath() + recordedWord))) {
+            new File(user.userAudioFilePath() + recordedWord).mkdir();
         }
     }
 }
