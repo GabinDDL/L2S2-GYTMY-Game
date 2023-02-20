@@ -98,7 +98,7 @@ public class TestAudioFileManager {
         User user = new User();
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> addTwiceUser(user), "User already exists");
+                () -> addUserTwice(user), "User already exists");
 
         assertTrue(new File(user.userAudioFilePath()).exists());
 
@@ -106,7 +106,7 @@ public class TestAudioFileManager {
         assertFalse(new File(user.userAudioFilePath()).exists());
     }
 
-    private void addTwiceUser(User user) {
+    private void addUserTwice(User user) {
 
         AudioFileManager.addUser(user);
         AudioFileManager.addUser(user);
