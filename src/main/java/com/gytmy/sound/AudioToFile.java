@@ -17,7 +17,13 @@ public class AudioToFile {
 
         assertIsValidUser(user);
 
-        AudioFileManager.addUser(user);
+        try {
+            AudioFileManager.addUser(user);
+        } catch (IllegalArgumentException e) {
+            if (!e.getMessage().equals("User already exists")) {
+                throw e;
+            }
+        }
 
         assertIsValidWordRecorded(recordedWord);
         assertIsValidUserFolder(user, recordedWord);
