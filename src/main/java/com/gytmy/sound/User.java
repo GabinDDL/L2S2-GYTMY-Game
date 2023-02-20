@@ -73,6 +73,12 @@ public class User {
         this.studentNumber = studentNumber;
     }
 
+    /***********************************
+     * To avoid putting these PATHS in *
+     * the `yaml` file, we do not want *
+     * to put `get` in the method name *
+     ***********************************/
+
     public String yamlConfigPath() {
         return audioFilesPath() + "config.yaml";
     }
@@ -80,6 +86,8 @@ public class User {
     public String audioFilesPath() {
         return PATH + getFirstName() + "/";
     }
+
+    /**********************************/
 
     @Override
     public boolean equals(Object obj) {
