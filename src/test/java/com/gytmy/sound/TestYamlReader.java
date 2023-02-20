@@ -14,7 +14,7 @@ public class TestYamlReader {
     @Test
     public void testReadYAML() {
 
-        User userTest = new User("TEST", "TEST", 00000000);
+        User userTest = new User();
         AudioFileManager.addUser(userTest);
 
         User user = null;
@@ -24,17 +24,14 @@ public class TestYamlReader {
         }
         AudioFileManager.removeUser(userTest);
 
-        assertEquals("[0] TEST TEST", user.toString());
+        assertEquals(userTest.toString(), user.toString());
     }
 
     @Test
     public void testWrite() {
         User user = new User();
 
-        try {
-            YamlReader.write("./test.yaml", user, false);
-        } catch (Exception e) {
-        }
+        YamlReader.write("./test.yaml", user);
 
         User userTest = null;
         try {
@@ -51,15 +48,15 @@ public class TestYamlReader {
         User user = new User();
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> YamlReader.write(null, user, false),
+                () -> YamlReader.write(null, user),
                 "Invalid file path : " + null);
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> YamlReader.write("", user, false),
+                () -> YamlReader.write("", user),
                 "Invalid file path : ");
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> YamlReader.write("  ", user, false),
+                () -> YamlReader.write("  ", user),
                 "Invalid file path :   ");
     }
 
@@ -68,18 +65,10 @@ public class TestYamlReader {
         User user = new User();
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> YamlReader.write("./test.txt", user, false),
+                () -> YamlReader.write("./test.txt", user),
                 "Invalid file extension : ./test.txt");
         TestingUtils.assertArgumentExceptionMessage(
-                () -> YamlReader.write("./test", user, false),
+                () -> YamlReader.write("./test", user),
                 "Invalid file extension : ./test");
-    }
-
-    @Test
-    public void testFileDoesNotExists() {
-
-        TestingUtils.assertArgumentExceptionMessage(
-                () -> YamlReader.write("./test.yaml", null, true),
-                "File does not exists : ./test.yaml");
     }
 }
