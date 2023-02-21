@@ -211,11 +211,13 @@ public class SettingsMenu extends JPanel {
         arrayUserInputFields = new UserInputFieldNumberInBounds[dimension];
         JPanel textPanel = new JPanel(new GridLayout(dimension, 2));
 
+        // capped upperBound to 40 to limit the size of the labyrinth
         UserInputFieldNumberInBounds widthLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
         arrayUserInputFields[0] = widthLabyrinthInput;
         addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the width of the labyrinth: ");
 
         if (dimension == 2) {
+            // capped upperBound to 40 to limit the size of the labyrinth
             UserInputFieldNumberInBounds heightLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
             arrayUserInputFields[1] = heightLabyrinthInput;
             addInputFieldInPanel(heightLabyrinthInput, textPanel, "Enter the height of the labyrinth: ");
