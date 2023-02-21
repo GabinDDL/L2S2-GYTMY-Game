@@ -21,7 +21,7 @@ import com.gytmy.utils.GameFrameToolbox;
 import com.gytmy.utils.Coordinates;
 import com.gytmy.utils.input.InputField;
 import com.gytmy.utils.input.UserInputField;
-import com.gytmy.utils.input.UserInputFieldRange;
+import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 import com.gytmy.utils.launcher.GameData;
 
 public class SettingsMenu extends JPanel {
@@ -33,7 +33,7 @@ public class SettingsMenu extends JPanel {
     private JPanel buttonsPanel;
     private Color[] colors = new Color[] { Color.BLUE, Color.GRAY, Color.ORANGE, Color.PINK, Color.YELLOW };
 
-    private UserInputFieldRange[] arrayUserInputFields;
+    private UserInputFieldNumberInBounds[] arrayUserInputFields;
 
     private GameData gameData;
     private LabyrinthController labyrinthController;
@@ -208,15 +208,15 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initInputPanel(int dimension, JPanel settingsPanel) {
-        arrayUserInputFields = new UserInputFieldRange[dimension];
+        arrayUserInputFields = new UserInputFieldNumberInBounds[dimension];
         JPanel textPanel = new JPanel(new GridLayout(dimension, 2));
 
-        UserInputFieldRange widthLabyrinthInput = new UserInputFieldRange(2, 40);
+        UserInputFieldNumberInBounds widthLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
         arrayUserInputFields[0] = widthLabyrinthInput;
         addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the width of the labyrinth: ");
 
         if (dimension == 2) {
-            UserInputFieldRange heightLabyrinthInput = new UserInputFieldRange(2, 40);
+            UserInputFieldNumberInBounds heightLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
             arrayUserInputFields[1] = heightLabyrinthInput;
             addInputFieldInPanel(heightLabyrinthInput, textPanel, "Enter the height of the labyrinth: ");
         }

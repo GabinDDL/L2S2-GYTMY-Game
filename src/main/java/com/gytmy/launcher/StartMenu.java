@@ -9,13 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.gytmy.utils.GameFrameToolbox;
-import com.gytmy.utils.input.UserInputFieldRange;
+import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 public class StartMenu extends JPanel {
     private JFrame frame;
     private JLabel askNbPlayers;
     private JPanel textPanel;
-    private UserInputFieldRange nbPlayersField;
+    private UserInputFieldNumberInBounds nbPlayersField;
 
     StartMenu(JFrame frame) {
         this.frame = frame;
@@ -32,7 +32,7 @@ public class StartMenu extends JPanel {
         textPanel = new JPanel(new GridLayout(1, 1));
         askNbPlayers = new JLabel("Enter the number of players: ");
         textPanel.add(askNbPlayers);
-        nbPlayersField = new UserInputFieldRange(1, 5);
+        nbPlayersField = new UserInputFieldNumberInBounds(1, 5);
         textPanel.add(nbPlayersField.getTextField());
         add(textPanel, BorderLayout.CENTER);
     }

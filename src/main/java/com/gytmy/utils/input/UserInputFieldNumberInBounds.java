@@ -1,0 +1,73 @@
+package com.gytmy.utils.input;
+
+public class UserInputFieldNumberInBounds extends UserInputField {
+
+    private int lowerBound;
+    private int upperBound;
+    public static final int NO_VALUE = -1;
+
+    public UserInputFieldNumberInBounds(int lowerBound, int upperBound)
+            throws IllegalArgumentException {
+        super();
+        if (lowerBound >= upperBound) {
+            throw new IllegalArgumentException("Lower bound must be smaller than upper bound");
+        }
+
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+
+    }
+
+    @Override
+    public boolean isValidInput() {
+        String strippedText = super.getText().strip();
+        return super.isValidInput() &&
+                isValidInteger(strippedText) &&
+                isInRangeOfBounds(Integer.valueOf(strippedText));
+    }
+
+    /**
+     * @param value
+     * @return true if lowerBound <= value <= upperBound
+     */
+    private boolean isInRangeOfBounds(int value) {
+        return lowerBound <= value && value <= upperBound;
+    }
+
+    private boolean isValidInteger(String input) {
+        try {
+            Integer.valueOf(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public int getValue() {
+        if (isValidInput()) {
+            return Integer.valueOf(super.getText().strip());
+        }
+        return NO_VALUE;
+    }
+
+    public int getLowerBound() {
+        return lowerBound;
+    }
+
+    public void setLowerBound(int lowerBound) {
+        this.lowerBound = lowerBound;
+    }
+
+    public int getUpperBound() {
+        return upperBound;
+    }
+
+    public void setUpperBound(int upperBound) {
+        this.upperBound = upperBound;
+    }
+
+    public static int getNoValue() {
+        return NO_VALUE;
+    }
+
+}
