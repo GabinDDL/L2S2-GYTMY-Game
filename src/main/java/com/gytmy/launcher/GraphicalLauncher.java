@@ -2,7 +2,8 @@ package com.gytmy.launcher;
 
 import javax.swing.JFrame;
 
-import com.gytmy.utils.GameFrameToolbox;
+import com.gytmy.labyrinth.view.GameFrameToolbox;
+import com.gytmy.labyrinth.view.StartMenu;
 
 public class GraphicalLauncher implements Runnable {
 
