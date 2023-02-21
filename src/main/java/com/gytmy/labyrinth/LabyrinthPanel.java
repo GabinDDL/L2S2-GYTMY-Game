@@ -115,13 +115,10 @@ public class LabyrinthPanel extends JPanel {
     private void addPlayerInDestinationCell(Player player) {
         Coordinates destinationCoordinates = player.getCoordinates();
         JPanel destinationCell = getCell(destinationCoordinates);
-
         GridBagConstraints cellConstraints = new GridBagConstraints();
         cellConstraints.gridx = (player.getId() * 2) % CELL_DIVISION;
         cellConstraints.gridy = (player.getId() * 2) / CELL_DIVISION;
-
         CirclePanel circle = new CirclePanel(player.getColor());
-
         destinationCell.add(circle, cellConstraints);
     }
 
