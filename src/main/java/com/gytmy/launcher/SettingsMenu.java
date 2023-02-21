@@ -49,7 +49,7 @@ public class SettingsMenu extends JPanel {
         initPlayButtons();
     }
 
-    public void initPlayersPanel() {
+    private void initPlayersPanel() {
         playersPanel = new JPanel(new GridLayout(1, 4));
 
         for (int playerID = 0; playerID < nbPlayers; ++playerID) {
@@ -60,7 +60,7 @@ public class SettingsMenu extends JPanel {
         add(playersPanel, BorderLayout.CENTER);
     }
 
-    public JPanel createPlayerPanel(int playerID) {
+    private JPanel createPlayerPanel(int playerID) {
         JPanel playerPanel = new JPanel(new GridLayout(3, 1));
         addNameSectionToPanel(playerPanel, playerID);
         addColorSectionToPanel(playerPanel, playerID);
@@ -149,7 +149,7 @@ public class SettingsMenu extends JPanel {
         validateButton.setEnabled(false);
     }
 
-    public void initPlayer(int playerID) {
+    private void initPlayer(int playerID) {
 
         Coordinates coordinates = new Coordinates(
                 Coordinates.UNINITIALIZED_COORDINATE,

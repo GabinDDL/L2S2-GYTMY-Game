@@ -22,7 +22,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         initGame();
     }
 
-    public void initGame() {
+    private void initGame() {
         switch (gameData.getDimension()) {
             case 1:
                 initGame1D();
@@ -64,6 +64,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         return view;
     }
 
+    @Override
     public void movePlayer(Player player, Direction direction) {
         model.movePlayer(player, direction);
         view.update(player, direction);
