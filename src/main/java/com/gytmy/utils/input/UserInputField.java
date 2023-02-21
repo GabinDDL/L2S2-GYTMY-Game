@@ -34,7 +34,15 @@ public class UserInputField implements InputField {
     }
 
     public void setText(String text) {
-        textField.setText(text);
+        String formattedText = formatString(text);
+        textField.setText(formattedText);
+    }
+
+    private static String formatString(String text) {
+        String textCleanTabs = text.replace("\t", " ");
+        String textCleanNewlines = textCleanTabs.replace("\n", " ");
+        String textCleanLeadingWhitespace = textCleanNewlines.stripLeading();
+        return textCleanLeadingWhitespace.stripTrailing();
     }
 
     public JTextField getTextField() {
