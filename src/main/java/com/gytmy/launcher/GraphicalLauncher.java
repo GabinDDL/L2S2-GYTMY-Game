@@ -8,10 +8,6 @@ import com.gytmy.utils.GameFrameToolbox;
 
 public class GraphicalLauncher implements Runnable {
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new GraphicalLauncher());
-    }
-
     @Override
     public void run() {
         JFrame frame = new JFrame();
