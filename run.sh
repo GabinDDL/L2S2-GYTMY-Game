@@ -1,27 +1,27 @@
 compile (){
     echo "Compiling..."
     find src/main/java/com/gytmy -name "*.java"  > sources.txt
-    javac -cp src:lib -d bin @sources.txt
+    javac -cp lib/*:src  -d bin @sources.txt
     echo "Done!"
 }
 
 
 run (){
     echo "Launching..."
-    java -cp bin/ com.gytmy.Main
+    java -cp lib/*:bin com.gytmy.Main
 }
 
 compileTests (){
     echo "Compiling tests..."
     find -name "*.java" > sources.txt
-    javac --class-path="src:lib/junit-platform-console-standalone-1.9.2.jar" -d bin @sources.txt
+    javac --class-path="src:lib/*" -d bin @sources.txt
     rm sources.txt
     echo "Done!"
 }
 
 runTests (){
     echo "Running tests..."
-    java -jar lib/junit-platform-console-standalone-1.9.2.jar --classpath=bin --scan-classpath --include-classname='.*';
+    java  -cp classes:bin:lib/*  org.junit.platform.console.ConsoleLauncher --scan-classpath;
 }
 
 
