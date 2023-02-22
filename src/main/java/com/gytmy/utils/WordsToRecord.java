@@ -1,6 +1,7 @@
 package com.gytmy.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public enum WordsToRecord {
 
@@ -9,8 +10,8 @@ public enum WordsToRecord {
     GAUCHE,
     DROITE;
 
-    public static ArrayList<String> getWordsToRecord() {
-        ArrayList<String> values = new ArrayList<String>();
+    public static List<String> getWordsToRecord() {
+        List<String> values = new ArrayList<>();
 
         for (WordsToRecord word : WordsToRecord.values()) {
             values.add(word.name());
