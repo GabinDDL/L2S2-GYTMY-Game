@@ -17,9 +17,9 @@ public class TestAudioFileManager {
     private static final int NUMBER_OF_TEST_USERS = 10;
 
     @Test
-    public void testGenerateAudioFolderStructure() {
-        AudioFileManager.generateAudioFolderStructure();
-        assertTrue(AudioFileManager.doesAudioFilesFolderExist());
+    public void testGenerateAudioDirectoryStructure() {
+        AudioFileManager.generateAudioDirectoryStructure();
+        assertTrue(AudioFileManager.doesAudioFilesDirectoryExist());
     }
 
     @Test

@@ -26,7 +26,7 @@ public class AudioToFile {
         }
 
         assertIsValidWordRecorded(recordedWord);
-        assertIsValidUserFolder(user, recordedWord);
+        assertIsValidUserDirectory(user, recordedWord);
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
@@ -59,7 +59,7 @@ public class AudioToFile {
     /**
      * Asserts that the user folder contains the recorded word folder
      */
-    private static void assertIsValidUserFolder(User user, String recordedWord) {
+    private static void assertIsValidUserDirectory(User user, String recordedWord) {
 
         File userDirectory = new File(user.audioFilesPath());
         List<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);

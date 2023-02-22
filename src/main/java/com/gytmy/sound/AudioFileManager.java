@@ -24,7 +24,7 @@ public class AudioFileManager {
      */
     public static void addUser(User userToAdd) throws IllegalArgumentException {
 
-        generateAudioFolderStructure();
+        generateAudioDirectoryStructure();
 
         if (doesUserAlreadyExist(userToAdd)) {
             throw new IllegalArgumentException("User already exists");
@@ -37,22 +37,22 @@ public class AudioFileManager {
      * If the folder "src/resources/audioFiles" does not exist,
      * create it and its arborescence
      */
-    public static void generateAudioFolderStructure() {
+    public static void generateAudioDirectoryStructure() {
 
-        if (!doesResourcesFolderExist()) {
+        if (!doesResourcesDirectoryExist()) {
             new File("src/resources").mkdir();
         }
 
-        if (!doesAudioFilesFolderExist()) {
+        if (!doesAudioFilesDirectoryExist()) {
             SRC_DIRECTORY.mkdir();
         }
     }
 
-    public static boolean doesResourcesFolderExist() {
+    public static boolean doesResourcesDirectoryExist() {
         return new File("src/resources").exists();
     }
 
-    public static boolean doesAudioFilesFolderExist() {
+    public static boolean doesAudioFilesDirectoryExist() {
         return SRC_DIRECTORY.exists();
     }
 
