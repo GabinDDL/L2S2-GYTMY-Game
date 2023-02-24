@@ -1,10 +1,7 @@
 package com.gytmy.labyrinth.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -16,136 +13,85 @@ import com.gytmy.utils.Coordinates;
 public class LabyrinthPanel extends JPanel {
 
     private LabyrinthModel model;
-    private boolean[][] board;
-    private int nbRowsBoard;
-    private int nbColsBoard;
-    private static final int CELL_SIZE = 24;
-    private static final int CELL_DIVISION = 3;
+    private int nbRows;
+    private int nbCols;
 
     public LabyrinthPanel(LabyrinthModel model) {
         this.model = model;
-        board = model.getBoard();
-        nbRowsBoard = board.length;
-        nbColsBoard = board[0].length;
-
-        GridLayout grid = new GridLayout(nbRowsBoard, nbColsBoard);
-        setLayout(grid);
-
-        initLabyrinthPanel();
-        setPreferredSize(new Dimension(nbColsBoard * CELL_SIZE, nbRowsBoard * CELL_SIZE));
+        this.nbRows = model.getBoard().length;
+        this.nbCols = model.getBoard()[0].length;
+        setLayout(new GridLayout(nbRows, nbCols));
+        prepareCells();
     }
 
-    private void initLabyrinthPanel() {
-        initCells();
-        initPlayersRepresentation();
-    }
-
-    private void initCells() {
-        for (int row = 0; row < nbRowsBoard; row++) {
-            for (int col = 0; col < nbColsBoard; col++) {
-                initCell(col, row);
+    private void prepareCells() {
+        for (int row = 0; row < nbRows; ++row) {
+            for (int col = 0; col < nbCols; ++col) {
+                initNewCell(col, row);
             }
         }
     }
 
-    private void initCell(int col, int row) {
-        GridBagLayout cellGrid = new GridBagLayout();
-        JPanel cell = new JPanel(cellGrid);
-
-        cell.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-
-        initCellBackground(cell, col, row);
-
+    private void initNewCell(int col, int row) {
+        Coordinates coordinates = new Coordinates(col, row);
+        List<Player> players = model.getPlayersAtCoordinates(coordinates);
+        Cell cell = new Cell(coordinates, players, this, model);
         add(cell);
+        cell.update();
     }
 
-    private void initCellBackground(JPanel cell, int col, int row) {
-
-        Coordinates cellToUpdate = new Coordinates(col, row);
-        Coordinates initialCell = model.getInitialCell();
-        Coordinates exitCell = model.getExitCell();
-
-        if (cellToUpdate.equals(initialCell)) {
-            cell.setBackground(Color.GREEN);
-        } else if (cellToUpdate.equals(exitCell)) {
-            cell.setBackground(Color.RED);
-        } else {
-            if (!model.isWall(col, row)) {
-                cell.setBackground(Color.WHITE);
-            } else {
-                cell.setBackground(Color.BLACK);
-            }
-        }
+    public void update(Player player, Direction direction) {
+        removePlayerFromOldCell(player, direction);
+        addPlayerInNewCell(player); // The new cell is updated in the model, so we don't need to update it here
     }
 
-    private void initPlayersRepresentation() {
-        Player[] players = model.getPlayers();
-        for (Player player : players) {
-            initPlayerRepresentation(player);
-        }
+    private void removePlayerFromOldCell(Player player, Direction direction) {
+        Cell previousCell = getPlayerPreviousCell(player, direction);
+        previousCell.removePlayer(player);
     }
 
-    private void initPlayerRepresentation(Player player) {
-        JPanel cell = getCell(player.getCoordinates());
-        JPanel circle = new CirclePanel(player.getColor());
-
-        GridBagConstraints cellConstraints = new GridBagConstraints();
-        cellConstraints.gridx = (player.getId() * 2) % CELL_DIVISION;
-        cellConstraints.gridy = (player.getId() * 2) / CELL_DIVISION;
-
-        cell.add(circle, cellConstraints);
+    private Cell getPlayerPreviousCell(Player player, Direction direction) {
+        Coordinates coordinates = getPlayerPreviousCoordinates(player, direction);
+        return getCell(coordinates);
     }
 
-    private JPanel getCell(Coordinates coordinates) {
-        int componentID = coordinates.getX() + nbRowsBoard * coordinates.getY();
-        return (JPanel) getComponent(componentID);
-    }
-
-    public void updateLabyrinthPanel(Player player, Direction directionMoved) {
-        clearPlayerFromOriginalCell(player, directionMoved);
-        addPlayerInDestinationCell(player);
-    }
-
-    private void clearPlayerFromOriginalCell(Player player, Direction directionMoved) {
-        Coordinates originalCoordinates = getPlayerOriginalCoordinates(player, directionMoved);
-        JPanel originalCell = getCell(originalCoordinates);
-        int xGrid = (player.getId() * 2) % CELL_DIVISION;
-        int yGrid = (player.getId() * 2) / CELL_DIVISION;
-        CirclePanel circle = (CirclePanel) originalCell.getComponentAt(xGrid, yGrid);
-        originalCell.remove(circle);
-    }
-
-    private void addPlayerInDestinationCell(Player player) {
-        Coordinates destinationCoordinates = player.getCoordinates();
-        JPanel destinationCell = getCell(destinationCoordinates);
-        GridBagConstraints cellConstraints = new GridBagConstraints();
-        cellConstraints.gridx = (player.getId() * 2) % CELL_DIVISION;
-        cellConstraints.gridy = (player.getId() * 2) / CELL_DIVISION;
-        CirclePanel circle = new CirclePanel(player.getColor());
-        destinationCell.add(circle, cellConstraints);
-    }
-
-    private Coordinates getPlayerOriginalCoordinates(Player player, Direction directionMoved) {
-        Coordinates originalCoordinates = player.getCoordinates();
-
-        switch (directionMoved) {
+    private Coordinates getPlayerPreviousCoordinates(Player player, Direction direction) {
+        Coordinates coordinates = player.getCoordinates();
+        switch (direction) {
             case UP:
-                originalCoordinates.setY(originalCoordinates.getY() + 1);
-                break;
-            case DOWN:
-                originalCoordinates.setY(originalCoordinates.getY() - 1);
-                break;
-            case LEFT:
-                originalCoordinates.setX(originalCoordinates.getX() + 1);
+                coordinates = new Coordinates(coordinates.getX(), coordinates.getY() + 1);
                 break;
             case RIGHT:
-                originalCoordinates.setX(originalCoordinates.getX() - 1);
+                coordinates = new Coordinates(coordinates.getX() - 1, coordinates.getY());
                 break;
-            default:
+            case DOWN:
+                coordinates = new Coordinates(coordinates.getX(), coordinates.getY() - 1);
+                break;
+            case LEFT:
+                coordinates = new Coordinates(coordinates.getX() + 1, coordinates.getY());
                 break;
         }
-
-        return originalCoordinates;
+        return coordinates;
     }
 
+    private void addPlayerInNewCell(Player player) {
+        Cell newCell = getPlayerNewCell(player);
+        newCell.addPlayer(player);
+    }
+
+    private Cell getPlayerNewCell(Player player) {
+        Coordinates coordinates = player.getCoordinates();
+        return getCell(coordinates);
+    }
+
+    // FIXME: Find a way to retrieve the cell once added to LabyrinthPanel's
+    // components
+    private Cell getCell(Coordinates coordinates) {
+        int nthComponent = getNthPosition(coordinates);
+        return (Cell) getComponent(nthComponent);
+    }
+
+    private int getNthPosition(Coordinates coordinates) {
+        return coordinates.getX() + coordinates.getY() * nbCols;
+    }
 }
