@@ -264,7 +264,9 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initGameData(int dimension, int... size) {
-        int width, height;
+        int width;
+        int height;
+
         switch (dimension) {
             case 1:
                 width = size[0];
