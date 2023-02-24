@@ -15,11 +15,14 @@ public class LabyrinthPanel extends JPanel {
     private LabyrinthModel model;
     private int nbRows;
     private int nbCols;
+    private Cell[][] cells;
 
     public LabyrinthPanel(LabyrinthModel model) {
         this.model = model;
         this.nbRows = model.getBoard().length;
         this.nbCols = model.getBoard()[0].length;
+        this.cells = new Cell[nbRows][nbCols];
+
         setLayout(new GridLayout(nbRows, nbCols));
         prepareCells();
     }
@@ -37,17 +40,18 @@ public class LabyrinthPanel extends JPanel {
         List<Player> players = model.getPlayersAtCoordinates(coordinates);
         Cell cell = new Cell(coordinates, players, this, model);
         add(cell);
-        cell.update();
+        cells[row][col] = cell;
     }
 
     public void update(Player player, Direction direction) {
-        removePlayerFromOldCell(player, direction);
-        addPlayerInNewCell(player); // The new cell is updated in the model, so we don't need to update it here
+        removePlayerFromPreviousCell(player, direction);
+        addPlayerInNewCell(player, direction);
     }
 
-    private void removePlayerFromOldCell(Player player, Direction direction) {
-        Cell previousCell = getPlayerPreviousCell(player, direction);
-        previousCell.removePlayer(player);
+    private void removePlayerFromPreviousCell(Player player, Direction direction) {
+        Cell playerPreviousCell = getPlayerPreviousCell(player, direction);
+        playerPreviousCell.removePlayer(player);
+        playerPreviousCell.update();
     }
 
     private Cell getPlayerPreviousCell(Player player, Direction direction) {
@@ -74,9 +78,10 @@ public class LabyrinthPanel extends JPanel {
         return coordinates;
     }
 
-    private void addPlayerInNewCell(Player player) {
-        Cell newCell = getPlayerNewCell(player);
-        newCell.addPlayer(player);
+    private void addPlayerInNewCell(Player player, Direction direction) {
+        Cell playerNewCell = getPlayerNewCell(player);
+        playerNewCell.addPlayer(player);
+        playerNewCell.update();
     }
 
     private Cell getPlayerNewCell(Player player) {
@@ -86,12 +91,8 @@ public class LabyrinthPanel extends JPanel {
 
     // FIXME: Find a way to retrieve the cell once added to LabyrinthPanel's
     // components
-    private Cell getCell(Coordinates coordinates) {
-        int nthComponent = getNthPosition(coordinates);
-        return (Cell) getComponent(nthComponent);
-    }
 
-    private int getNthPosition(Coordinates coordinates) {
-        return coordinates.getX() + coordinates.getY() * nbCols;
+    private Cell getCell(Coordinates coordinates) {
+        return cells[coordinates.getY()][coordinates.getX()];
     }
 }
