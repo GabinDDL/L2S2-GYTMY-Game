@@ -3,8 +3,6 @@ package com.gytmy.labyrinth.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.PlainDocument;
-
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.model.player.Player;

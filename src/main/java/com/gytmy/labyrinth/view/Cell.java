@@ -16,32 +16,13 @@ public class Cell extends JPanel {
 
     private Coordinates coordinates;
     private List<Player> players;
-    private JPanel labyrinthPanel;
     private LabyrinthModel model;
 
-    public Cell(Coordinates coordinates, List<Player> players, JPanel labyrinthPanel, LabyrinthModel model) {
+    public Cell(Coordinates coordinates, List<Player> players, LabyrinthModel model) {
         this.coordinates = coordinates;
         this.players = players;
-        this.labyrinthPanel = labyrinthPanel;
         this.model = model;
         init();
-    }
-
-    public void addPlayer(Player player) {
-        players.add(player);
-        update();
-    }
-
-    public void removePlayer(Player player) {
-        players.remove(player);
-        update();
-    }
-
-    public void update() {
-        removeAll();
-        init();
-        revalidate();
-        repaint();
     }
 
     private void init() {
@@ -80,6 +61,23 @@ public class Cell extends JPanel {
         }
     }
 
+    public void addPlayer(Player player) {
+        players.add(player);
+        update();
+    }
+
+    public void removePlayer(Player player) {
+        players.remove(player);
+        update();
+    }
+
+    public void update() {
+        removeAll();
+        init();
+        revalidate();
+        repaint();
+    }
+
     private void initPlayersCell(int nbPlayers) {
         switch (nbPlayers) {
             case 1:
@@ -102,21 +100,21 @@ public class Cell extends JPanel {
     private void create123PlayersCell(int nbPlayers) {
         GridLayout layout = new GridLayout(1, nbPlayers);
         setLayout(layout);
-        addPlayerPanels();
-    }
-
-    private void addPlayerPanels() {
-        for (Player player : players) {
-            JPanel playerPanel = new JPanel();
-            playerPanel.setBackground(player.getColor());
-            add(playerPanel);
-        }
+        addPlayerPanelsCase1234();
     }
 
     private void create4PlayersCell() {
         GridLayout layout = new GridLayout(2, 2);
         setLayout(layout);
-        addPlayerPanels();
+        addPlayerPanelsCase1234();
+    }
+
+    private void addPlayerPanelsCase1234() {
+        for (Player player : players) {
+            JPanel playerPanel = new JPanel();
+            playerPanel.setBackground(player.getColor());
+            add(playerPanel);
+        }
     }
 
     private void create5PlayersCell() {
@@ -144,7 +142,7 @@ public class Cell extends JPanel {
             res = players.get(2);
         } else if (isPlayer4Panel(col, row)) {
             res = players.get(3);
-        } else
+        } else // 5 Players
             res = players.get(4);
         return res;
     }
@@ -177,13 +175,6 @@ public class Cell extends JPanel {
         return (col == 2 && row == 3) ||
                 (col == 3 && row == 3) ||
                 (col == 3 && row == 2);
-    }
-
-    private static boolean isPlayer5Panel(int col, int row) {
-        return (col == 1 && row == 1) ||
-                (col == 2 && row == 1) ||
-                (col == 1 && row == 2) ||
-                (col == 2 && row == 2);
     }
 
 }

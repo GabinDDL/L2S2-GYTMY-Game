@@ -38,14 +38,14 @@ public class LabyrinthPanel extends JPanel {
     private void initNewCell(int col, int row) {
         Coordinates coordinates = new Coordinates(col, row);
         List<Player> players = model.getPlayersAtCoordinates(coordinates);
-        Cell cell = new Cell(coordinates, players, this, model);
+        Cell cell = new Cell(coordinates, players, model);
         add(cell);
         cells[row][col] = cell;
     }
 
     public void update(Player player, Direction direction) {
         removePlayerFromPreviousCell(player, direction);
-        addPlayerInNewCell(player, direction);
+        addPlayerInNewCell(player);
     }
 
     private void removePlayerFromPreviousCell(Player player, Direction direction) {
@@ -78,7 +78,7 @@ public class LabyrinthPanel extends JPanel {
         return coordinates;
     }
 
-    private void addPlayerInNewCell(Player player, Direction direction) {
+    private void addPlayerInNewCell(Player player) {
         Cell playerNewCell = getPlayerNewCell(player);
         playerNewCell.addPlayer(player);
         playerNewCell.update();
@@ -88,9 +88,6 @@ public class LabyrinthPanel extends JPanel {
         Coordinates coordinates = player.getCoordinates();
         return getCell(coordinates);
     }
-
-    // FIXME: Find a way to retrieve the cell once added to LabyrinthPanel's
-    // components
 
     private Cell getCell(Coordinates coordinates) {
         return cells[coordinates.getY()][coordinates.getX()];
