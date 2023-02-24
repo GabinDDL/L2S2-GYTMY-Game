@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth.view;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -25,6 +26,10 @@ public class LabyrinthPanel extends JPanel {
 
         setLayout(new GridLayout(nbRows, nbCols));
         prepareCells();
+        Dimension preferredSize = new Dimension(
+                Cell.getCellSize() * nbRows,
+                Cell.getCellSize() * nbCols);
+        setPreferredSize(preferredSize);
     }
 
     private void prepareCells() {

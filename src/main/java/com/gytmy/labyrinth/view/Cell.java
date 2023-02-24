@@ -1,6 +1,7 @@
 package com.gytmy.labyrinth.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.gytmy.utils.Coordinates;
 public class Cell extends JPanel {
 
     public static final Color UNINITIALIZED_CELL_COLOR = Color.DARK_GRAY;
+    public static final int CELL_SIZE = 24;
 
     private Coordinates coordinates;
     private List<Player> players;
@@ -31,6 +33,9 @@ public class Cell extends JPanel {
         } else {
             initPlayersCell(players.size());
         }
+
+        Dimension preferredSize = new Dimension(CELL_SIZE, CELL_SIZE);
+        setPreferredSize(preferredSize);
     }
 
     private void initNonPlayerCell() {
@@ -177,4 +182,7 @@ public class Cell extends JPanel {
                 (col == 3 && row == 2);
     }
 
+    public static int getCellSize() {
+        return CELL_SIZE;
+    }
 }
