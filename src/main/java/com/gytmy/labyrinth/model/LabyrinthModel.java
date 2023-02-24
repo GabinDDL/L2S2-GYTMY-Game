@@ -1,5 +1,7 @@
 package com.gytmy.labyrinth.model;
 
+import java.util.List;
+
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Coordinates;
 
@@ -18,7 +20,15 @@ public interface LabyrinthModel {
 
     Player[] getPlayers();
 
+    public List<Player> getPlayersAtCoordinates(Coordinates coordinates);
+
+    boolean isInitialCell(Coordinates coordinates);
+
+    boolean isExitCell(Coordinates coordinates);
+
     boolean isWall(int x, int y);
+
+    boolean isWall(Coordinates coordinates);
 
     /**
      * Checks if the given move is valid for the given player

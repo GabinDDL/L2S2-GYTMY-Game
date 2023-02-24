@@ -1,5 +1,10 @@
 package com.gytmy.labyrinth.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.text.PlainDocument;
+
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.model.player.Player;
@@ -188,6 +193,28 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         return players;
     }
 
+    public List<Player> getPlayersAtCoordinates(Coordinates coordinates) {
+        ArrayList<Player> res = new ArrayList<>();
+        for (Player player : players) {
+            if (player != null &&
+                    coordinates.equals(player.getCoordinates())) {
+                res.add(player);
+            }
+        }
+
+        return res;
+    }
+
+    @Override
+    public boolean isInitialCell(Coordinates coordinates) {
+        return coordinates.equals(initialCell);
+    }
+
+    @Override
+    public boolean isExitCell(Coordinates coordinates) {
+        return coordinates.equals(exitCell);
+    }
+
     @Override
     public boolean isMoveValid(Player player, Direction direction) {
         return !isGoingOutside(player, direction) &&
@@ -262,6 +289,10 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      */
     public boolean isWall(int x, int y) {
         return !board[y][x];
+    }
+
+    public boolean isWall(Coordinates coordinates) {
+        return isWall(coordinates.getX(), coordinates.getY());
     }
 
     @Override
