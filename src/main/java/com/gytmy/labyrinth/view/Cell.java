@@ -46,11 +46,11 @@ public class Cell extends JPanel {
 
     private boolean colorCellInitialOrExit() {
         if (model.isInitialCell(coordinates)) {
-            setBackground(Color.GREEN);
+            setBackground(Color.decode("#94b0c2"));
             return true;
 
         } else if (model.isExitCell(coordinates)) {
-            setBackground(Color.RED);
+            setBackground(Color.decode("#ee8695"));
             return true;
         }
 
@@ -59,10 +59,10 @@ public class Cell extends JPanel {
 
     private void colorCellPathOrWall() {
         if (model.isWall(coordinates)) {
-            setBackground(Color.BLACK);
+            setBackground(Color.decode("#2e222f"));
 
         } else {
-            setBackground(Color.WHITE);
+            setBackground(Color.decode("#FFF8EA"));
         }
     }
 
