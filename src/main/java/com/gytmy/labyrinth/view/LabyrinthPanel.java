@@ -69,11 +69,11 @@ public class LabyrinthPanel extends JPanel {
         switch (direction) {
             case UP:
             case DOWN:
-                coordinates = new Coordinates(coordinates.getX(), coordinates.getY() - direction.getStep());
+                coordinates.setY(coordinates.getY() - direction.getStep());
                 break;
             case LEFT:
             case RIGHT:
-                coordinates = new Coordinates(coordinates.getX() - direction.getStep(), coordinates.getY());
+                coordinates.setX(coordinates.getX() - direction.getStep());
                 break;
         }
         return coordinates;
