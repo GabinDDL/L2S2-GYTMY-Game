@@ -16,40 +16,46 @@ public class TestUserInputField {
     }
 
     @Test
-    public void testIsValidInput() {
+    public void testIsValidInputTrue() {
         UserInputField field = new UserInputField();
         field.setText("abc");
         assertTrue(field.isValidInput());
         field.setText(" abc ");
         assertTrue(field.isValidInput());
-        field.setText(" ");
-        assertFalse(field.isValidInput());
-        field.setText("");
-        assertFalse(field.isValidInput());
         field.setText("a");
         assertTrue(field.isValidInput());
-        field.setText("  ");
-        assertFalse(field.isValidInput());
         field.setText("  a");
         assertTrue(field.isValidInput());
         field.setText("  abc");
         assertTrue(field.isValidInput());
-        field.setText("\t");
-        assertFalse(field.isValidInput());
-        field.setText("\t\t");
-        assertFalse(field.isValidInput());
         field.setText("\t a");
         assertTrue(field.isValidInput());
         field.setText("\t abc");
         assertTrue(field.isValidInput());
-        field.setText(" \t ");
-        assertFalse(field.isValidInput());
         field.setText(" \t a");
         assertTrue(field.isValidInput());
         field.setText(" \t abc");
         assertTrue(field.isValidInput());
         field.setText(" \t abc \t ");
         assertTrue(field.isValidInput());
+
+    }
+
+    @Test
+    public void testIsValidInputFalse() {
+        UserInputField field = new UserInputField();
+        field.setText(" \t ");
+        assertFalse(field.isValidInput());
+        field.setText("\t");
+        assertFalse(field.isValidInput());
+        field.setText("\t\t");
+        assertFalse(field.isValidInput());
+        field.setText("  ");
+        assertFalse(field.isValidInput());
+        field.setText(" ");
+        assertFalse(field.isValidInput());
+        field.setText("");
+        assertFalse(field.isValidInput());
     }
 
     @Test
