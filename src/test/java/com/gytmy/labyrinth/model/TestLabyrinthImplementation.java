@@ -285,7 +285,7 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testNoPlayersMeansGameOver() {
-        LabyrinthModel1D labyrinth = new LabyrinthModel1D(5, null);
+        LabyrinthModel labyrinth = new LabyrinthModelImplementation(5, 5, null);
         assertTrue(labyrinth.isGameOver());
     }
 

@@ -8,5 +8,10 @@ import com.gytmy.utils.Coordinates;
  */
 public interface BoardGenerator {
 
+    /**
+     * Generates a board for the labyrinth.
+     * 
+     * @return a 2-dimensional array of booleans representing the board.
+     */
     public boolean[][] generate();
 }
