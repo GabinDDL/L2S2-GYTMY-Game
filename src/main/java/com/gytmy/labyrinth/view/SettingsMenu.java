@@ -256,7 +256,7 @@ public class SettingsMenu extends JPanel {
         if (selectedDimension == 1) {
             gameData = new GameData(size[0], arrayPlayers);
         } else {
-            gameData = new GameData(size[0], size[0], arrayPlayers);
+            gameData = new GameData(size[0], size[1], arrayPlayers);
         }
     }
 
