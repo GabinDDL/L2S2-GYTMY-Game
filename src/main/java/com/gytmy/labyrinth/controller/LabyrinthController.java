@@ -6,8 +6,10 @@ import com.gytmy.labyrinth.view.LabyrinthView;
 
 public interface LabyrinthController {
 
-    LabyrinthView getView();
+    public LabyrinthView getView();
 
-    void movePlayer(Player player, Direction direction);
+    public Player[] getPlayers();
+
+    public void movePlayer(Player player, Direction direction);
 
 }

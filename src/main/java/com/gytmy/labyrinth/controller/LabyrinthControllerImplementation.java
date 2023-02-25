@@ -64,6 +64,11 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     @Override
+    public Player[] getPlayers() {
+        return model.getPlayers();
+    }
+
+    @Override
     public void movePlayer(Player player, Direction direction) {
         model.movePlayer(player, direction);
         view.update(player, direction);
