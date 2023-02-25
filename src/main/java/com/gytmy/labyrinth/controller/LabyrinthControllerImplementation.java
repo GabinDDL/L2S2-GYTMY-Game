@@ -19,6 +19,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     public LabyrinthControllerImplementation(GameData gameData) {
         this.gameData = gameData;
         initGame();
+        addLabyrinthKeyController();
     }
 
     private void initGame() {
@@ -74,11 +75,8 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         view.update(player, direction);
     }
 
-    // TODO: Think about the primitive controls (Keyboard? Click on UI?)
-    // I think I'll go with the Keyboard,
-    // find a way to add a KeyListener to the window ?
-    // Handle inputs
-    // Player selection with numbers
-    // Movements with directional arrows
-
+    @Override
+    public void addLabyrinthKeyController() {
+        view.addLabyrinthKeyController(new LabyrinthKeyController(this));
+    }
 }

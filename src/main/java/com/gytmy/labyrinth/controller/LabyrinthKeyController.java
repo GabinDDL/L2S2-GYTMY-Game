@@ -20,7 +20,6 @@ public class LabyrinthKeyController extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 controller.movePlayer(players[selectedPlayer], Direction.UP);
@@ -54,11 +53,11 @@ public class LabyrinthKeyController extends KeyAdapter {
         }
     }
 
-    private void changeSelectedPlayer(int player) {
-        if (player < 0 || player >= players.length) {
+    private void changeSelectedPlayer(int playerId) {
+        if (playerId < 0 || playerId >= players.length) {
             return;
         }
-        selectedPlayer = player;
+        selectedPlayer = playerId;
     }
 
 }
