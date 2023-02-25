@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import com.gytmy.labyrinth.controller.LabyrinthController;
 import com.gytmy.labyrinth.controller.LabyrinthControllerImplementation;
+import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.utils.Coordinates;

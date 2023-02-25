@@ -1,12 +1,12 @@
 package com.gytmy.labyrinth.controller;
 
 import com.gytmy.labyrinth.model.Direction;
+import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.LabyrinthModelImplementation;
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.generators.OneDimensionBoardGenerator;
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.labyrinth.view.GameData;
 import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.LabyrinthViewImplementation;
 import com.gytmy.utils.Coordinates;

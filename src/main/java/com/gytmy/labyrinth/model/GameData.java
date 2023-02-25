@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view;
+package com.gytmy.labyrinth.model;
 
 import com.gytmy.labyrinth.model.player.Player;
 
