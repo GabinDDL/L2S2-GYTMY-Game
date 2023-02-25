@@ -39,7 +39,6 @@ public class SettingsMenu extends JPanel {
     private UserInputFieldNumberInBounds[] arrayUserInputFields;
 
     private GameData gameData;
-    private LabyrinthController labyrinthController;
 
     public SettingsMenu(JFrame frame, int nbPlayers) {
         this.frame = frame;
@@ -258,7 +257,7 @@ public class SettingsMenu extends JPanel {
 
         initGameData(dimension, size);
 
-        labyrinthController = new LabyrinthControllerImplementation(gameData);
+        LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData);
         LabyrinthView labyrinthView = labyrinthController.getView();
         LabyrinthPanel tilePanel = labyrinthView.getLabyrinthPanel();
 
