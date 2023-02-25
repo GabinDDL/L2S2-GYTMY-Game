@@ -104,7 +104,6 @@ public class SettingsMenu extends JPanel {
     }
 
     private void addColorSectionToPanel(JPanel playerPanel, int playerID) {
-
         JPanel colorSection = new JPanel(new GridLayout(1, 2));
 
         JLabel colorLabel = new JLabel("Color : ");
@@ -153,7 +152,6 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initPlayer(int playerID) {
-
         Coordinates coordinates = new Coordinates(
                 Coordinates.UNINITIALIZED_COORDINATE,
                 Coordinates.UNINITIALIZED_COORDINATE);
@@ -260,18 +258,15 @@ public class SettingsMenu extends JPanel {
         } else {
             gameData = new GameData(size[0], size[0], arrayPlayers);
         }
-
     }
 
     private void startGame() {
-
         LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData);
         LabyrinthView labyrinthView = labyrinthController.getView();
         LabyrinthPanel tilePanel = labyrinthView.getLabyrinthPanel();
 
         frame.setContentPane(tilePanel);
         GameFrameToolbox.frameUpdate(frame, "View Labyrinth" + selectedDimension + "D");
-
     }
 
 }
