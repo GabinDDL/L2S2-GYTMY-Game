@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
-import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Coordinates;

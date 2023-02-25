@@ -1,7 +1,5 @@
 package com.gytmy.labyrinth.model.generators;
 
-import com.gytmy.utils.Coordinates;
-
 /**
  * Generates an empty board.
  */

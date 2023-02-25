@@ -1,7 +1,5 @@
 package com.gytmy.labyrinth.model.generators;
 
-import com.gytmy.utils.Coordinates;
-
 /**
  * Interface for board generators. Used to generate a board for the labyrinth.
  * It is part of a Strategy pattern.
