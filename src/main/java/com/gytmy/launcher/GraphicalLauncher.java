@@ -16,6 +16,7 @@ public class GraphicalLauncher implements Runnable {
         frame.add(menu);
         GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
         frame.setVisible(true);
+        frame.setSize(800, 500);
         frame.setResizable(false);
     }
 
