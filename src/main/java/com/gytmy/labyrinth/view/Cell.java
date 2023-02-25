@@ -13,6 +13,11 @@ import com.gytmy.utils.Coordinates;
 
 public class Cell extends JPanel {
 
+    public static final Color WALL_COLOR = Color.decode("#2E222F");
+    public static final Color PATH_COLOR = Color.decode("#fff8ea");
+    public static final Color INTIAL_CELL_COLOR = Color.decode("#94B0C2");
+    public static final Color EXIT_CELL_COLOR = Color.decode("#EE8695");
+
     public static final int CELL_SIZE = 24;
 
     private Coordinates coordinates;
@@ -45,11 +50,11 @@ public class Cell extends JPanel {
 
     private boolean colorCellInitialOrExit() {
         if (model.isInitialCell(coordinates)) {
-            setBackground(Color.decode("#94b0c2"));
+            setBackground(INTIAL_CELL_COLOR);
             return true;
 
         } else if (model.isExitCell(coordinates)) {
-            setBackground(Color.decode("#ee8695"));
+            setBackground(EXIT_CELL_COLOR);
             return true;
         }
 
@@ -58,10 +63,10 @@ public class Cell extends JPanel {
 
     private void colorCellPathOrWall() {
         if (model.isWall(coordinates)) {
-            setBackground(Color.decode("#2e222f"));
+            setBackground(WALL_COLOR);
 
         } else {
-            setBackground(Color.decode("#FFF8EA"));
+            setBackground(PATH_COLOR);
         }
     }
 
