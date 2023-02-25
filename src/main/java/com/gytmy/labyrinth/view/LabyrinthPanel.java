@@ -27,8 +27,8 @@ public class LabyrinthPanel extends JPanel {
         setLayout(new GridLayout(nbRows, nbCols));
         prepareCells();
         Dimension preferredSize = new Dimension(
-                Cell.getCellSize() * nbRows,
-                Cell.getCellSize() * nbCols);
+                Cell.CELL_SIZE * nbRows,
+                Cell.CELL_SIZE * nbCols);
         setPreferredSize(preferredSize);
     }
 
