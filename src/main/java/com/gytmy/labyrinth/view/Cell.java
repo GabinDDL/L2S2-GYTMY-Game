@@ -13,7 +13,6 @@ import com.gytmy.utils.Coordinates;
 
 public class Cell extends JPanel {
 
-    public static final Color UNINITIALIZED_CELL_COLOR = Color.DARK_GRAY;
     public static final int CELL_SIZE = 24;
 
     private Coordinates coordinates;
