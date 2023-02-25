@@ -68,16 +68,12 @@ public class LabyrinthPanel extends JPanel {
         Coordinates coordinates = player.getCoordinates();
         switch (direction) {
             case UP:
-                coordinates = new Coordinates(coordinates.getX(), coordinates.getY() + 1);
-                break;
-            case RIGHT:
-                coordinates = new Coordinates(coordinates.getX() - 1, coordinates.getY());
-                break;
             case DOWN:
-                coordinates = new Coordinates(coordinates.getX(), coordinates.getY() - 1);
+                coordinates = new Coordinates(coordinates.getX(), coordinates.getY() - direction.getStep());
                 break;
             case LEFT:
-                coordinates = new Coordinates(coordinates.getX() + 1, coordinates.getY());
+            case RIGHT:
+                coordinates = new Coordinates(coordinates.getX() - direction.getStep(), coordinates.getY());
                 break;
         }
         return coordinates;
