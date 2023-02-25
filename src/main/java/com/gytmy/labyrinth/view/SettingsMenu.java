@@ -155,7 +155,7 @@ public class SettingsMenu extends JPanel {
                 Coordinates.UNINITIALIZED_COORDINATE,
                 Coordinates.UNINITIALIZED_COORDINATE);
         String name = getNameField(playerID).getText();
-        Color color = getPlayerColorFromPanel(playerID);
+        Color color = getPlayerColor(playerID);
         boolean ready = true;
 
         Player player = new PlayerImplementation(
@@ -167,13 +167,8 @@ public class SettingsMenu extends JPanel {
         arrayPlayers[playerID] = player;
     }
 
-    private Color getPlayerColorFromPanel(int playerID) {
-        JPanel playerPanel = (JPanel) playersPanel.getComponent(playerID);
-        JPanel colorSection = (JPanel) playerPanel.getComponent(1);
-        JPanel colorPanel = (JPanel) colorSection.getComponent(1);
-        Color color = colorPanel.getBackground();
-
-        return color;
+    private Color getPlayerColor(int playerID) {
+        return colors[playerID];
     }
 
     private void initPlayButtons() {
