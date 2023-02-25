@@ -23,6 +23,7 @@ import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 public class SettingsMenu extends JPanel {
+
     private JFrame frame;
     private int nbPlayers;
     private Player[] arrayPlayers;
@@ -39,6 +40,7 @@ public class SettingsMenu extends JPanel {
 
     private UserInputFieldNumberInBounds[] arrayUserInputFields;
 
+    private int selectedDimension;
     private GameData gameData;
 
     public SettingsMenu(JFrame frame, int nbPlayers) {
@@ -189,30 +191,32 @@ public class SettingsMenu extends JPanel {
 
     private void addActionListenerToPlayButton(JButton playButton, int dimension) {
         playButton.addActionListener(e -> {
+            selectedDimension = dimension;
             if (Player.areAllPlayersReady(arrayPlayers))
-                initDimensionPicker(dimension);
+                initDimensionPicker();
+
         });
     }
 
-    private void initDimensionPicker(int dimension) {
+    private void initDimensionPicker() {
         JPanel settingsPanel = new JPanel(new BorderLayout());
-        initInputPanel(dimension, settingsPanel);
-        initValidateButtonDimensionPicker(dimension, settingsPanel);
+        initInputPanel(settingsPanel);
+        initValidateButtonDimensionPicker(settingsPanel);
 
         frame.setContentPane(settingsPanel);
         GameFrameToolbox.frameUpdate(frame, "Size Picker");
     }
 
-    private void initInputPanel(int dimension, JPanel settingsPanel) {
-        arrayUserInputFields = new UserInputFieldNumberInBounds[dimension];
-        JPanel textPanel = new JPanel(new GridLayout(dimension, 2));
+    private void initInputPanel(JPanel settingsPanel) {
+        arrayUserInputFields = new UserInputFieldNumberInBounds[selectedDimension];
+        JPanel textPanel = new JPanel(new GridLayout(selectedDimension, 2));
 
         // capped upperBound to 40 to limit the size of the labyrinth
         UserInputFieldNumberInBounds widthLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
         arrayUserInputFields[0] = widthLabyrinthInput;
         addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the width of the labyrinth: ");
 
-        if (dimension == 2) {
+        if (selectedDimension == 2) {
             // capped upperBound to 40 to limit the size of the labyrinth
             UserInputFieldNumberInBounds heightLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
             arrayUserInputFields[1] = heightLabyrinthInput;
@@ -230,55 +234,44 @@ public class SettingsMenu extends JPanel {
         panel.add(textField);
     }
 
-    private void initValidateButtonDimensionPicker(int dimension, JPanel settingsPanel) {
+    private void initValidateButtonDimensionPicker(JPanel settingsPanel) {
         JButton validateButton = new JButton("Validate");
         validateButton.addActionListener(e -> {
             if (InputField.areAllValidInputs(arrayUserInputFields)) {
-                int[] size = getSizeValues(dimension);
-                startGame(dimension, size);
+                int[] size = getSizeValues();
+                initGameData(size);
+                startGame();
             }
         });
         settingsPanel.add(validateButton, BorderLayout.SOUTH);
     }
 
-    private int[] getSizeValues(int dimension) {
-        int[] size = new int[dimension];
+    private int[] getSizeValues() {
+        int[] size = new int[selectedDimension];
         for (int i = 0; i < size.length; i++) {
             size[i] = arrayUserInputFields[i].getValue();
         }
         return size;
     }
 
-    private void startGame(int dimension, int... size) {
+    private void initGameData(int[] size) {
+        if (selectedDimension == 1) {
+            gameData = new GameData(size[0], arrayPlayers);
+        } else {
+            gameData = new GameData(size[0], size[0], arrayPlayers);
+        }
 
-        initGameData(dimension, size);
+    }
+
+    private void startGame() {
 
         LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData);
         LabyrinthView labyrinthView = labyrinthController.getView();
         LabyrinthPanel tilePanel = labyrinthView.getLabyrinthPanel();
 
         frame.setContentPane(tilePanel);
-        GameFrameToolbox.frameUpdate(frame, "View Labyrinth" + dimension + "D");
+        GameFrameToolbox.frameUpdate(frame, "View Labyrinth" + selectedDimension + "D");
 
-    }
-
-    private void initGameData(int dimension, int... size) {
-        int width;
-        int height;
-
-        switch (dimension) {
-            case 1:
-                width = size[0];
-                gameData = new GameData(arrayPlayers, width);
-                break;
-            case 2:
-                width = size[0];
-                height = size[1];
-                gameData = new GameData(arrayPlayers, width, height);
-                break;
-            default:
-                break;
-        }
     }
 
 }

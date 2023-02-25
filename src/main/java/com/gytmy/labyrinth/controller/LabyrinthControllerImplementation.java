@@ -4,9 +4,6 @@ import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.LabyrinthModelFactory;
-import com.gytmy.labyrinth.model.LabyrinthModelImplementation;
-import com.gytmy.labyrinth.model.generators.BoardGenerator;
-import com.gytmy.labyrinth.model.generators.OneDimensionBoardGenerator;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.LabyrinthViewImplementation;
@@ -24,25 +21,6 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     private void initGame() {
-        switch (gameData.getDimension()) {
-            case 1:
-                initGame1D();
-                break;
-            case 2:
-                initGame2D();
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void initGame1D() {
-        model = LabyrinthModelFactory.createLabyrinth(gameData);
-        initPlayersInitialCell(model.getPlayers());
-        view = new LabyrinthViewImplementation(model);
-    }
-
-    private void initGame2D() {
         model = LabyrinthModelFactory.createLabyrinth(gameData);
         initPlayersInitialCell(model.getPlayers());
         view = new LabyrinthViewImplementation(model);

@@ -1,7 +1,5 @@
 package com.gytmy.labyrinth.model;
 
-import org.junit.validator.PublicClassValidator;
-
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.model.generators.OneDimensionBoardGenerator;
@@ -44,7 +42,7 @@ public class LabyrinthModelFactory {
     }
 
     public static LabyrinthModel createLabyrinth(GameData gameData) {
-        BoardGenerator generator = getBoardGenerator(gameData.getWidthLabyrinth(), gameData.getHeightLabyrinth(), null);
+        BoardGenerator generator = getBoardGenerator(gameData.getWidth(), gameData.getHeight(), null);
         return createLabyrinth(generator, null, null, gameData.getPlayers());
     }
 

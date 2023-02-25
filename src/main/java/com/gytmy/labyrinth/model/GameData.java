@@ -3,47 +3,33 @@ package com.gytmy.labyrinth.model;
 import com.gytmy.labyrinth.model.player.Player;
 
 public class GameData {
+    private static final int NO_HEIGHT = -1;
 
-    public static final int NO_HEIGHT = -1;
-
-    private final int dimension;
     private Player[] players;
-    private final int widthLabyrinth;
-    private final int heightLabyrinth;
+    private final int width;
+    private final int height;
 
-    public GameData(Player[] players,
-            int widthLabyrinth) {
-        this(1, players, widthLabyrinth, NO_HEIGHT);
+    public GameData(int width, Player[] players) {
+        this(width, NO_HEIGHT, players);
     }
 
-    public GameData(Player[] players,
-            int widthLabyrinth, int heightLabyrinth) {
-        this(2, players, widthLabyrinth, heightLabyrinth);
-    }
+    public GameData(int width, int height, Player[] players) {
 
-    private GameData(int dimension, Player[] players,
-            int widthLabyrinth, int heightLabyrinth) {
-
-        this.dimension = dimension;
         this.players = players;
-        this.widthLabyrinth = widthLabyrinth;
-        this.heightLabyrinth = heightLabyrinth;
-    }
-
-    public int getDimension() {
-        return dimension;
+        this.width = width;
+        this.height = height;
     }
 
     public Player[] getPlayers() {
         return players;
     }
 
-    public int getWidthLabyrinth() {
-        return widthLabyrinth;
+    public int getWidth() {
+        return width;
     }
 
-    public int getHeightLabyrinth() {
-        return heightLabyrinth;
+    public int getHeight() {
+        return height;
     }
 
 }
