@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * A Labyrinth of dimension 1 is represented as a segment
  * without obstacles by using a 2-dimensional array of booleans,
- * of height 3 and length (lengthPath + 1).
+ * of height 3 and length (lengthPath + 2).
  */
 public class OneDimensionBoardGenerator implements BoardGenerator {
 
