@@ -121,9 +121,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initValidateButtonActionListener(JButton validateButton, int playerID) {
-        validateButton.addActionListener(event -> {
-            lockPlayerSettings(playerID);
-        });
+        validateButton.addActionListener(event -> lockPlayerSettings(playerID));
     }
 
     private void lockPlayerSettings(int playerID) {
