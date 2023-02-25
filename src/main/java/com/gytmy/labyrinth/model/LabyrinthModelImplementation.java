@@ -192,7 +192,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     public List<Player> getPlayersAtCoordinates(Coordinates coordinates) {
-        ArrayList<Player> res = new ArrayList<>();
+        List<Player> res = new ArrayList<>();
         for (Player player : players) {
             if (player != null &&
                     coordinates.equals(player.getCoordinates())) {
