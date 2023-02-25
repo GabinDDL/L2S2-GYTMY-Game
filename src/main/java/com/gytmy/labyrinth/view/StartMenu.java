@@ -12,8 +12,6 @@ import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 public class StartMenu extends JPanel {
     private JFrame frame;
-    private JLabel askNbPlayers;
-    private JPanel textPanel;
     private UserInputFieldNumberInBounds nbPlayersField;
 
     public StartMenu(JFrame frame) {
@@ -28,8 +26,8 @@ public class StartMenu extends JPanel {
     }
 
     private void initTextField() {
-        textPanel = new JPanel(new GridLayout(1, 1));
-        askNbPlayers = new JLabel("Enter the number of players: ");
+        JPanel textPanel = new JPanel(new GridLayout(1, 1));
+        JLabel askNbPlayers = new JLabel("Enter the number of players: ");
         textPanel.add(askNbPlayers);
         nbPlayersField = new UserInputFieldNumberInBounds(1, 5);
         textPanel.add(nbPlayersField.getTextField());
