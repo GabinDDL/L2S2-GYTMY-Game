@@ -7,11 +7,22 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.w3c.dom.events.MouseEvent;
+
+import com.gytmy.utils.Bounds;
+
 public class StartMenu extends JPanel {
     private JFrame frame;
 
-    private static final String BACKGROUND_IMAGE = "src/resources/images/MazeMenu.jpg";
-    private JPanel menu;
+    private static final String[] IMAGES = {
+            "src/resources/images/MazeMenu.jpg",
+            "src/resources/images/StartButton.png"
+    };
+    private static final Bounds[] IMAGES_BOUNDS = {
+            new Bounds(0, 0, 800, 500),
+            new Bounds(336, 300, 128, 128)
+    };
+    private JPanelWithImages menu;
 
     public StartMenu(JFrame frame) {
         this.frame = frame;
@@ -19,35 +30,22 @@ public class StartMenu extends JPanel {
         setLayout(new BorderLayout());
 
         initMenu();
+        handleClickEventOnMenu();
     }
 
     private void initMenu() {
-        menu = new JPanel(new BorderLayout());
-
-        initImageBackground();
-        initPlayButton();
-
-        add(menu, BorderLayout.CENTER);
-    }
-
-    private void initImageBackground() {
-        JPanel background = null;
         try {
-            background = new JPanelWithBackground(BACKGROUND_IMAGE);
+            menu = new JPanelWithImages(IMAGES, IMAGES_BOUNDS);
         } catch (IOException ioe) {
-            System.out.println("Error while loading the background image");
+            System.out.println("Error while loading one of the images");
             System.out.println(ioe.getMessage());
             ioe.getStackTrace();
         }
-        menu.add(background);
+
+        add(menu);
     }
 
-    private void initPlayButton() {
-        JButton playButton = new JButton("Play");
-        playButton.addActionListener(event -> {
-            frame.setContentPane(new HowManyPlayersMenu(frame));
-            GameFrameToolbox.frameUpdate(frame, "HowManyPlayersMenu");
-        });
-        menu.add(playButton, BorderLayout.SOUTH);
+    private void handleClickEventOnMenu() {
+
     }
 }
