@@ -53,7 +53,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initPlayersPanel() {
-        playersPanel = new JPanel(new GridLayout(1, 4));
+        playersPanel = new JPanel(new GridLayout(1, nbPlayers));
 
         for (int playerID = 0; playerID < nbPlayers; ++playerID) {
             JPanel playerPanel = createPlayerPanel(playerID);
