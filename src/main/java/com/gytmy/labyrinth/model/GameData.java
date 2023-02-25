@@ -4,7 +4,7 @@ import com.gytmy.labyrinth.model.player.Player;
 
 public class GameData {
 
-    public static final int NO_LENGTH = -1;
+    public static final int NO_HEIGHT = -1;
 
     private final int dimension;
     private Player[] players;
@@ -13,7 +13,7 @@ public class GameData {
 
     public GameData(Player[] players,
             int widthLabyrinth) {
-        this(1, players, widthLabyrinth, NO_LENGTH);
+        this(1, players, widthLabyrinth, NO_HEIGHT);
     }
 
     public GameData(Player[] players,
