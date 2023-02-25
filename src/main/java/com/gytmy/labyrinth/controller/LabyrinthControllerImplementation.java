@@ -37,20 +37,14 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     private void initGame1D() {
-        Player[] players = gameData.getPlayers();
-        int width = gameData.getWidthLabyrinth();
-        model = LabyrinthModelFactory.createLabyrinth(width, players);
-
-        initPlayersInitialCell(players);
+        model = LabyrinthModelFactory.createLabyrinth(gameData);
+        initPlayersInitialCell(model.getPlayers());
         view = new LabyrinthViewImplementation(model);
     }
 
     private void initGame2D() {
-        Player[] players = gameData.getPlayers();
-        model = LabyrinthModelFactory.createLabyrinth(gameData.getWidthLabyrinth(), gameData.getHeightLabyrinth(),
-                players);
-
-        initPlayersInitialCell(players);
+        model = LabyrinthModelFactory.createLabyrinth(gameData);
+        initPlayersInitialCell(model.getPlayers());
         view = new LabyrinthViewImplementation(model);
     }
 

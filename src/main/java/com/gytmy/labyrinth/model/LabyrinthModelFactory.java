@@ -43,6 +43,11 @@ public class LabyrinthModelFactory {
         return new LabyrinthModelImplementation(generator, initialCell, endCell, players);
     }
 
+    public static LabyrinthModel createLabyrinth(GameData gameData) {
+        BoardGenerator generator = getBoardGenerator(gameData.getWidthLabyrinth(), gameData.getHeightLabyrinth(), null);
+        return createLabyrinth(generator, null, null, gameData.getPlayers());
+    }
+
     private static BoardGenerator getBoardGenerator(int width, int height, Coordinates initialCell) {
         if (height <= 3) {
             return new OneDimensionBoardGenerator(width);
