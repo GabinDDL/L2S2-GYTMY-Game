@@ -25,14 +25,14 @@ public class LabyrinthPanel extends JPanel {
         this.cells = new Cell[nbRows][nbCols];
 
         setLayout(new GridLayout(nbRows, nbCols));
-        prepareCells();
+        initCells();
         Dimension preferredSize = new Dimension(
                 Cell.CELL_SIZE * nbRows,
                 Cell.CELL_SIZE * nbCols);
         setPreferredSize(preferredSize);
     }
 
-    private void prepareCells() {
+    private void initCells() {
         for (int row = 0; row < nbRows; ++row) {
             for (int col = 0; col < nbCols; ++col) {
                 initNewCell(col, row);
