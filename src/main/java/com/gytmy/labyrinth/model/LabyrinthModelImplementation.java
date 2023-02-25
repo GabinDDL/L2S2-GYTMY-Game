@@ -294,10 +294,13 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     @Override
-    public void movePlayer(Player player, Direction direction) {
-        if (isMoveValid(player, direction)) {
-            player.move(direction);
+    public boolean movePlayer(Player player, Direction direction) {
+        if (!isMoveValid(player, direction)) {
+            return false;
         }
+
+        player.move(direction);
+        return true;
     }
 
     /*

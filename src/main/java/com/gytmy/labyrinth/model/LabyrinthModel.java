@@ -51,8 +51,9 @@ public interface LabyrinthModel {
      * 
      * @param player
      * @param direction
+     * @return true if the move was successful;
      */
-    void movePlayer(Player player, Direction direction);
+    boolean movePlayer(Player player, Direction direction);
 
     /**
      * Checks if the given player's position is on the exit's position
