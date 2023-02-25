@@ -21,7 +21,8 @@ public class TestLabyrinthImplementation {
     @Test
     public void testConstructorNullBoard() {
         boolean[][] board = null; // Defined to avoid ambiguity
-        TestingUtils.assertArgumentExceptionMessage(() -> new LabyrinthModelImplementation(board, null, null, null),
+        TestingUtils.assertArgumentExceptionMessage(
+                () -> new LabyrinthModelImplementation(getGenerator(board), null, null, null),
                 "Board cannot be null");
 
     }
@@ -29,26 +30,30 @@ public class TestLabyrinthImplementation {
     @Test
     public void testConstructorInvalidBoardSize() {
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[2][2], new Coordinates(0, 0), new Coordinates(0, 0),
-                        null),
+                () -> new LabyrinthModelImplementation(getGenerator(new boolean[2][2]),
+                        new Coordinates(0, 0), new Coordinates(0, 0), null),
                 "Board must have at least 3 rows");
+
     }
 
     @Test
     public void testConstructorInvalidInitialCell() {
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Coordinates(0, 0), new Coordinates(0, 0),
+                () -> new LabyrinthModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(0, 0),
+                        new Coordinates(0, 0),
                         null),
                 "Initial cell is a wall");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Coordinates(0, 3), new Coordinates(0, 0),
+                () -> new LabyrinthModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(0, 3),
+                        new Coordinates(0, 0),
                         null),
                 "Initial cell is outside the board");
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(new boolean[3][3], new Coordinates(3, 0), new Coordinates(0, 0),
+                () -> new LabyrinthModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(3, 0),
+                        new Coordinates(0, 0),
                         null),
                 "Initial cell is outside the board");
     }
@@ -59,17 +64,20 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(0, 0), null),
+                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                        new Coordinates(0, 0), null),
                 "Exit cell is a wall");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(0, 3), null),
+                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                        new Coordinates(0, 3), null),
                 "Exit cell is outside the board");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(3, 0), null),
+                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                        new Coordinates(3, 0), null),
                 "Exit cell is outside the board");
     }
 
@@ -78,7 +86,8 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(1, 1), null),
+                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                        new Coordinates(1, 1), null),
                 "Initial and exit cells cannot be the same");
     }
 
@@ -91,15 +100,15 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorEmptyBoard() {
-        assertWasCorrectlyConstructed(new EmptyBoardGenerator(10, 10), new Coordinates(10, 10));
+        assertWasCorrectlyConstructed(new EmptyBoardGenerator(10, 10));
     }
 
     @Test
     public void testConstructorBorderBoard() {
-        assertWasCorrectlyConstructed(new BorderBoardGenerator(10, 10), new Coordinates(10, 10));
+        assertWasCorrectlyConstructed(new BorderBoardGenerator(10, 10));
     }
 
-    private void assertWasCorrectlyConstructed(BoardGenerator generator, Coordinates size) {
+    private void assertWasCorrectlyConstructed(BoardGenerator generator) {
         Coordinates initialCell = new Coordinates(1, 1);
         Coordinates exitCell = new Coordinates(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
@@ -144,7 +153,8 @@ public class TestLabyrinthImplementation {
                 board[i][j] = true;
             }
         }
-        return new LabyrinthModelImplementation(board, new Coordinates(1, 1), new Coordinates(3, 2), null);
+        return new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1), new Coordinates(3, 2),
+                null);
     }
 
     @Test
@@ -153,7 +163,8 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[5][5];
         board[1][1] = true;
         board[2][3] = true;
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(board, new Coordinates(1, 1),
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(getGenerator(board),
+                new Coordinates(1, 1),
                 new Coordinates(3, 2), null);
 
         Player player = new PlayerImplementation(new Coordinates(1, 1));
@@ -224,7 +235,7 @@ public class TestLabyrinthImplementation {
                 board[i][j] = true;
             }
         }
-        return new LabyrinthModelImplementation(board,
+        return new LabyrinthModelImplementation(getGenerator(board),
                 new Coordinates(1, 1), new Coordinates(3, 2), null);
     }
 
@@ -280,12 +291,13 @@ public class TestLabyrinthImplementation {
         board[3][1] = true;
         board[3][3] = true;
         board[3][5] = true;
-        return new LabyrinthModelImplementation(board, new Coordinates(1, 3), new Coordinates(5, 3), null);
+        return new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 3), new Coordinates(5, 3),
+                null);
     }
 
     @Test
     public void testNoPlayersMeansGameOver() {
-        LabyrinthModel labyrinth = new LabyrinthModelImplementation(5, 5, null);
+        LabyrinthModel labyrinth = LabyrinthModelFactory.createLabyrinth(5, 5, null);
         assertTrue(labyrinth.isGameOver());
     }
 
@@ -343,7 +355,7 @@ public class TestLabyrinthImplementation {
                 board[i][j] = true;
             }
         }
-        return new LabyrinthModelImplementation(board,
+        return new LabyrinthModelImplementation(getGenerator(board),
                 new Coordinates(1, 1), new Coordinates(n - 1, 1), players);
     }
 
@@ -366,6 +378,10 @@ public class TestLabyrinthImplementation {
         assertFalse(labyrinth.isPlayerAtExit(playerB));
         assertFalse(labyrinth.isPlayerAtExit(playerC));
         assertTrue(labyrinth.isPlayerAtExit(playerD));
+    }
+
+    private BoardGenerator getGenerator(boolean[][] board) {
+        return () -> board;
     }
 
 }

@@ -34,20 +34,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     protected Player[] players;
 
-    public LabyrinthModelImplementation(int width, int height, Player[] players) {
-        this(new DepthFirstGenerator(width, height), null, null, players);
-    }
-
     public LabyrinthModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
             Player[] players) {
-        this(generator.generate(), initialCell, exitCell, players);
-    }
-
-    public LabyrinthModelImplementation(boolean[][] board, Coordinates initialCell, Coordinates exitCell,
-            Player[] players) {
-        handleNullArguments(board);
-        handleInvalidBoardSize(board);
-        this.board = Boolean2DArraysOperations.copy(board);
+        this.board = generator.generate();
+        handleNullArguments();
+        handleInvalidBoardSize();
         this.initialCell = determineInitialCell(initialCell);
         this.exitCell = determineExitCell(exitCell);
         this.players = players;
@@ -59,7 +50,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * 
      * @param board
      */
-    private void handleNullArguments(boolean[][] board) {
+    private void handleNullArguments() {
         if (board == null) {
             throw new IllegalArgumentException("Board cannot be null");
         }
@@ -71,7 +62,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * 
      * @param board
      */
-    private void handleInvalidBoardSize(boolean[][] board) {
+    private void handleInvalidBoardSize() {
         if (board.length < 3) {
             throw new IllegalArgumentException("Board must have at least 3 rows");
         }
