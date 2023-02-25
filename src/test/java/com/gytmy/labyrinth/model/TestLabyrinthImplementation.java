@@ -84,28 +84,28 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testConstructorNonEmptyExitCell() {
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(), 101, 101,
+        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(101, 101),
                 new Coordinates(1, 1), null, null);
         assertTrue(labyrinth.getExitCell() != null);
     }
 
     @Test
     public void testConstructorEmptyBoard() {
-        assertWasCorrectlyConstructed(new EmptyBoardGenerator(), new Coordinates(10, 10));
+        assertWasCorrectlyConstructed(new EmptyBoardGenerator(10, 10), new Coordinates(10, 10));
     }
 
     @Test
     public void testConstructorBorderBoard() {
-        assertWasCorrectlyConstructed(new BorderBoardGenerator(), new Coordinates(10, 10));
+        assertWasCorrectlyConstructed(new BorderBoardGenerator(10, 10), new Coordinates(10, 10));
     }
 
     private void assertWasCorrectlyConstructed(BoardGenerator generator, Coordinates size) {
         Coordinates initialCell = new Coordinates(1, 1);
         Coordinates exitCell = new Coordinates(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
-                generator, size.getX(), size.getY(), initialCell, exitCell, null);
+                generator, initialCell, exitCell, null);
 
-        assertArrayEquals(labyrinth.getBoard(), generator.generate(size.getX(), size.getY()));
+        assertArrayEquals(labyrinth.getBoard(), generator.generate());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class TestLabyrinthImplementation {
         Coordinates initialCell = new Coordinates(1, 1);
         Coordinates exitCell = new Coordinates(3, 1);
         LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
-                new DepthFirstGenerator(), 11, 15, initialCell, exitCell, null);
+                new DepthFirstGenerator(11, 15), initialCell, exitCell, null);
 
         assertEquals(exitCell, labyrinth.getExitCell());
         assertEquals(11, labyrinth.getBoard()[0].length);

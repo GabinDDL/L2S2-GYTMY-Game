@@ -28,22 +28,12 @@ public class DepthFirstGenerator implements BoardGenerator {
     boolean[][] visited;
     Coordinates current;
 
-    @Override
-    public boolean[][] generate(int width, int height) {
+    public DepthFirstGenerator(int width, int height) {
         initArguments(width, height, null);
-        return generate();
     }
 
-    @Override
-    public boolean[][] generate(int width, int height, Coordinates start) {
+    public DepthFirstGenerator(int width, int height, Coordinates start) {
         initArguments(width, height, start);
-        return generate();
-    }
-
-    private boolean[][] generate() {
-        board = new boolean[height][width];
-        generateBoard();
-        return getBorderedBoard();
     }
 
     private void initArguments(int width, int height, Coordinates start) {
@@ -88,6 +78,13 @@ public class DepthFirstGenerator implements BoardGenerator {
         int col = rand.nextInt(width - 2) + 1; // 1 to width-1
 
         return new Coordinates(col, row);
+    }
+
+    @Override
+    public boolean[][] generate() {
+        board = new boolean[height][width];
+        generateBoard();
+        return getBorderedBoard();
     }
 
     private boolean[][] generateBoard() {

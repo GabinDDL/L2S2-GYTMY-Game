@@ -11,13 +11,13 @@ public class TestDepthFirstGenerator {
 
     @Test
     public void testConstructorInvalidSize() {
-        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator().generate(-1, 5),
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(1, 5).generate(),
                 "The width must be at least 5");
-        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator().generate(5, -5),
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, -5).generate(),
                 "The height must be at least 5");
-        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator().generate(1, -1),
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(1, -1).generate(),
                 "The width must be at least 5");
-        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator().generate(5, -3),
+        TestingUtils.assertArgumentExceptionMessage(() -> new DepthFirstGenerator(5, -3).generate(),
                 "The height must be at least 5");
     }
 
@@ -25,31 +25,31 @@ public class TestDepthFirstGenerator {
     public void testConstructorInvalidStart() {
         String expectedErrorMessage = "The start cell must be inside the labyrinth";
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new DepthFirstGenerator().generate(5, 5, new Coordinates(0, 0)),
+                () -> new DepthFirstGenerator(5, 5, new Coordinates(0, 0)).generate(),
                 expectedErrorMessage);
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new DepthFirstGenerator().generate(5, 5, new Coordinates(4, 4)),
+                () -> new DepthFirstGenerator(5, 5, new Coordinates(4, 4)).generate(),
                 expectedErrorMessage);
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new DepthFirstGenerator().generate(5, 5, new Coordinates(5, 5)),
+                () -> new DepthFirstGenerator(5, 5, new Coordinates(5, 5)).generate(),
                 expectedErrorMessage);
     }
 
     @Test
     public void testConstructorValid() {
-        new DepthFirstGenerator().generate(5, 5, new Coordinates(1, 1));
-        new DepthFirstGenerator().generate(5, 5, new Coordinates(2, 2));
-        new DepthFirstGenerator().generate(5, 5, new Coordinates(3, 3));
+        new DepthFirstGenerator(5, 5, new Coordinates(1, 1)).generate();
+        new DepthFirstGenerator(5, 5, new Coordinates(2, 2)).generate();
+        new DepthFirstGenerator(5, 5, new Coordinates(3, 3)).generate();
 
-        new DepthFirstGenerator().generate(7, 6, new Coordinates(1, 1));
-        new DepthFirstGenerator().generate(10, 9, new Coordinates(2, 2));
-        new DepthFirstGenerator().generate(15, 20, new Coordinates(3, 3));
+        new DepthFirstGenerator(7, 6, new Coordinates(1, 1)).generate();
+        new DepthFirstGenerator(10, 9, new Coordinates(2, 2)).generate();
+        new DepthFirstGenerator(15, 20, new Coordinates(3, 3)).generate();
     }
 
     @Test
     public void testNonEmptyGeneration() {
-        DepthFirstGenerator generator = new DepthFirstGenerator();
-        boolean[][] board = generator.generate(5, 5);
+        DepthFirstGenerator generator = new DepthFirstGenerator(5, 5);
+        boolean[][] board = generator.generate();
 
         assertTrue(board != null);
         assertTrue(board.length > 0);
@@ -93,8 +93,8 @@ public class TestDepthFirstGenerator {
     }
 
     private void assertCorrectSize(int width, int height) {
-        DepthFirstGenerator generator = new DepthFirstGenerator();
-        boolean[][] board = generator.generate(width, height);
+        DepthFirstGenerator generator = new DepthFirstGenerator(width, height);
+        boolean[][] board = generator.generate();
 
         String errorMessage = "width: " + width + ", height: " + height;
 

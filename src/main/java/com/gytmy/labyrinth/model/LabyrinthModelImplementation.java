@@ -34,23 +34,13 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     protected Player[] players;
 
-    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Coordinates initialCell,
-            Coordinates exitCell,
-            Player[] players) {
-        this(generator.generate(width, height, initialCell), initialCell, exitCell, players);
-    }
-
-    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Coordinates initialCell,
-            Player[] players) {
-        this(generator.generate(width, height, initialCell), initialCell, null, players);
-    }
-
-    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Player[] players) {
-        this(generator.generate(width, height), null, null, players);
-    }
-
     public LabyrinthModelImplementation(int width, int height, Player[] players) {
-        this(new DepthFirstGenerator(), width, height, players);
+        this(new DepthFirstGenerator(width, height), null, null, players);
+    }
+
+    public LabyrinthModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
+            Player[] players) {
+        this(generator.generate(), initialCell, exitCell, players);
     }
 
     public LabyrinthModelImplementation(boolean[][] board, Coordinates initialCell, Coordinates exitCell,
