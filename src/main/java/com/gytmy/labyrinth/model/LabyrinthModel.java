@@ -1,4 +1,9 @@
-package com.gytmy.labyrinth;
+package com.gytmy.labyrinth.model;
+
+import java.util.List;
+
+import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.utils.Coordinates;
 
 public interface LabyrinthModel {
 
@@ -7,7 +12,23 @@ public interface LabyrinthModel {
      * 
      * @return the Board according to its Dimension
      */
-    Object getBoard();
+    boolean[][] getBoard();
+
+    Coordinates getInitialCell();
+
+    Coordinates getExitCell();
+
+    Player[] getPlayers();
+
+    public List<Player> getPlayersAtCoordinates(Coordinates coordinates);
+
+    boolean isInitialCell(Coordinates coordinates);
+
+    boolean isExitCell(Coordinates coordinates);
+
+    boolean isWall(int x, int y);
+
+    boolean isWall(Coordinates coordinates);
 
     /**
      * Checks if the given move is valid for the given player

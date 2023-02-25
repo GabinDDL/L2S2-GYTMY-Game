@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.generators;
+package com.gytmy.labyrinth.model.generators;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth;
+package com.gytmy.labyrinth.model;
 
 public enum Direction {
 

@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth;
+package com.gytmy.labyrinth.model;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -10,6 +10,8 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import com.gytmy.TestingUtils;
+import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.player.PlayerImplementation;
 
 public class TestLabyrinthModel1D {
 

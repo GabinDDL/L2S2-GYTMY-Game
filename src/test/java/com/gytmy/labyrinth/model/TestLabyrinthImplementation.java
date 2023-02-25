@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth;
+package com.gytmy.labyrinth.model;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,10 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.Test;
 
 import com.gytmy.TestingUtils;
-import com.gytmy.labyrinth.generators.BoardGenerator;
-import com.gytmy.labyrinth.generators.BorderBoardGenerator;
-import com.gytmy.labyrinth.generators.DepthFirstGenerator;
-import com.gytmy.labyrinth.generators.EmptyBoardGenerator;
+import com.gytmy.labyrinth.model.generators.BoardGenerator;
+import com.gytmy.labyrinth.model.generators.BorderBoardGenerator;
+import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
+import com.gytmy.labyrinth.model.generators.EmptyBoardGenerator;
+import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.utils.Coordinates;
 
 public class TestLabyrinthImplementation {

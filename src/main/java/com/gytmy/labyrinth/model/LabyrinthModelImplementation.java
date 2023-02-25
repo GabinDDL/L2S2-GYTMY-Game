@@ -1,7 +1,11 @@
-package com.gytmy.labyrinth;
+package com.gytmy.labyrinth.model;
 
-import com.gytmy.labyrinth.generators.BoardGenerator;
-import com.gytmy.labyrinth.generators.DepthFirstGenerator;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gytmy.labyrinth.model.generators.BoardGenerator;
+import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
+import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Coordinates;
 
@@ -172,8 +176,41 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         return Boolean2DArraysOperations.copy(board);
     }
 
+    @Override
+    public Coordinates getInitialCell() {
+        return initialCell;
+    }
+
+    @Override
     public Coordinates getExitCell() {
         return exitCell;
+    }
+
+    @Override
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public List<Player> getPlayersAtCoordinates(Coordinates coordinates) {
+        List<Player> res = new ArrayList<>();
+        for (Player player : players) {
+            if (player != null &&
+                    coordinates.equals(player.getCoordinates())) {
+                res.add(player);
+            }
+        }
+
+        return res;
+    }
+
+    @Override
+    public boolean isInitialCell(Coordinates coordinates) {
+        return coordinates.equals(initialCell);
+    }
+
+    @Override
+    public boolean isExitCell(Coordinates coordinates) {
+        return coordinates.equals(exitCell);
     }
 
     @Override
@@ -225,21 +262,21 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      */
     private boolean isGoingIntoWall(Player player, Direction direction)
             throws IllegalArgumentException {
-        int newX = player.getX();
-        int newY = player.getY();
+        int newCol = player.getX();
+        int newRow = player.getY();
         switch (direction) {
             case UP:
             case DOWN:
-                newY = player.getY() + direction.getStep();
+                newRow = player.getY() + direction.getStep();
                 break;
             case LEFT:
             case RIGHT:
-                newX = player.getX() + direction.getStep();
+                newCol = player.getX() + direction.getStep();
                 break;
             default:
                 throw new IllegalArgumentException("Direction " + direction + " is not supported");
         }
-        return isWall(newX, newY);
+        return isWall(newCol, newRow);
     }
 
     /**
@@ -248,8 +285,12 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * @return true if there is a wall at the given coordinates;
      *         false otherwise
      */
-    private boolean isWall(int x, int y) {
+    public boolean isWall(int x, int y) {
         return !board[y][x];
+    }
+
+    public boolean isWall(Coordinates coordinates) {
+        return isWall(coordinates.getX(), coordinates.getY());
     }
 
     @Override

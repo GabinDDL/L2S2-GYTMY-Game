@@ -1,8 +1,10 @@
-package com.gytmy.labyrinth;
+package com.gytmy.labyrinth.model.player;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Test;
+
+import com.gytmy.labyrinth.model.Direction;
 
 public class TestPlayerImplementation {
 

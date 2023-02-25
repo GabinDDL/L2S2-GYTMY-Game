@@ -1,30 +1,31 @@
-package com.gytmy.labyrinth;
+package com.gytmy.labyrinth.model;
 
 import java.util.Arrays;
 
+import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Coordinates;
 
 /* 
-    Class representing the Model of a 1-Dimensional Labyrinth
+        Class representing the Model of a 1-Dimensional Labyrinth
 
-    The Labyrinth is associated with an array of players.
+        The Labyrinth is associated with an array of players.
 
-    A Labyrinth of dimension 1 is represented as a segment
-    without obstacles by using a 2-dimensional array of booleans,
-    of height 3 and length (lengthPath + 1)
-    
-    true represents a walkable path
-    false represents a wall
+        A Labyrinth of dimension 1 is represented as a segment
+        without obstacles by using a 2-dimensional array of booleans,
+        of height 3 and length (lengthPath + 1)
+        
+        true represents a walkable path
+        false represents a wall
 
-    Remarks: 
-    We implement it as a 2D Array of booleans of height 3 where 
-    the first and last row are filled with false to represent
-    the top and bottom borders (which are walls) and 
-    the middle row is filled with true except in the first cell
-    to represent a walkable path
-    
-    The entrance is board[1][1]
-    The exit is exitCell
+        Remarks: 
+        We implement it as a 2D Array of booleans of height 3 where 
+        the first and last row are filled with false to represent
+        the top and bottom borders (which are walls) and 
+        the middle row is filled with true except in the first cell
+        to represent a walkable path
+        
+        The entrance is board[1][1]
+        The exit is exitCell
  */
 public class LabyrinthModel1D extends LabyrinthModelImplementation {
 

@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.generators;
+package com.gytmy.labyrinth.model.generators;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
