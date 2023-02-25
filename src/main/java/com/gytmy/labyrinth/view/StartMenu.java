@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.view;
 import java.awt.BorderLayout;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,6 +25,7 @@ public class StartMenu extends JPanel {
         menu = new JPanel(new BorderLayout());
 
         initImageBackground();
+        initPlayButton();
 
         add(menu, BorderLayout.CENTER);
     }
@@ -38,5 +40,14 @@ public class StartMenu extends JPanel {
             ioe.getStackTrace();
         }
         menu.add(background);
+    }
+
+    private void initPlayButton() {
+        JButton playButton = new JButton("Play");
+        playButton.addActionListener(event -> {
+            frame.setContentPane(new HowManyPlayersMenu(frame));
+            GameFrameToolbox.frameUpdate(frame, "HowManyPlayersMenu");
+        });
+        menu.add(playButton, BorderLayout.SOUTH);
     }
 }
