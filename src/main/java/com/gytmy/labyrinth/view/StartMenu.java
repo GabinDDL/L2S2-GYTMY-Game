@@ -3,11 +3,8 @@ package com.gytmy.labyrinth.view;
 import java.awt.BorderLayout;
 import java.io.IOException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import org.w3c.dom.events.MouseEvent;
 
 import com.gytmy.utils.Bounds;
 

@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.gytmy.utils.Bounds;
-import com.gytmy.utils.Coordinates;
 
 public class JPanelWithImages extends JPanel {
 
