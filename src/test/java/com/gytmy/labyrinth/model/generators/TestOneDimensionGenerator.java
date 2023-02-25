@@ -47,13 +47,14 @@ public class TestOneDimensionGenerator {
         OneDimensionBoardGenerator labyrinth = new OneDimensionBoardGenerator(length);
 
         // Do not forget the left and right borders
-        boolean[][] array = new boolean[3][length + 1];
+        boolean[][] array = new boolean[3][length + 2];
 
         for (int row = 0; row < array.length; ++row) {
             // The walkable path with the first cell being a wall
             if (row == 1) {
                 Arrays.fill(array[row], true);
                 array[row][0] = false;
+                array[row][length + 1] = false;
             } else
                 Arrays.fill(array[row], false); // Top and Bottom walls
         }
