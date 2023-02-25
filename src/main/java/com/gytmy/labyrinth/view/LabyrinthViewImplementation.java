@@ -4,11 +4,12 @@ import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
 
-public class LabyrinthViewImplementation implements LabyrinthView {
+public class LabyrinthViewImplementation extends LabyrinthView {
     private LabyrinthPanel labyrinthPanel;
 
     public LabyrinthViewImplementation(LabyrinthModel model) {
         labyrinthPanel = new LabyrinthPanel(model);
+        add(labyrinthPanel);
     }
 
     @Override

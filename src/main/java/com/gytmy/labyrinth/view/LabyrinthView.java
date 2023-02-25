@@ -1,12 +1,14 @@
 package com.gytmy.labyrinth.view;
 
+import javax.swing.JPanel;
+
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.player.Player;
 
-public interface LabyrinthView {
+public abstract class LabyrinthView extends JPanel {
 
-    void update(Player player, Direction direction);
+    public abstract void update(Player player, Direction direction);
 
-    LabyrinthPanel getLabyrinthPanel();
+    public abstract LabyrinthPanel getLabyrinthPanel();
 
 }
