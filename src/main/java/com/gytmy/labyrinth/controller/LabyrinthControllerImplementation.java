@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.controller;
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 import com.gytmy.labyrinth.model.LabyrinthModelImplementation;
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.generators.OneDimensionBoardGenerator;
@@ -38,9 +39,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private void initGame1D() {
         Player[] players = gameData.getPlayers();
         int width = gameData.getWidthLabyrinth();
-        BoardGenerator generator = new OneDimensionBoardGenerator(width);
-        model = new LabyrinthModelImplementation(generator, new Coordinates(1, 1), new Coordinates(width, 1),
-                gameData.getPlayers());
+        model = LabyrinthModelFactory.createLabyrinth(width, players);
 
         initPlayersInitialCell(players);
         view = new LabyrinthViewImplementation(model);
@@ -48,10 +47,9 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
     private void initGame2D() {
         Player[] players = gameData.getPlayers();
-        model = new LabyrinthModelImplementation(
-                gameData.getWidthLabyrinth(),
-                gameData.getHeightLabyrinth(),
-                gameData.getPlayers());
+        model = LabyrinthModelFactory.createLabyrinth(gameData.getWidthLabyrinth(), gameData.getHeightLabyrinth(),
+                players);
+
         initPlayersInitialCell(players);
         view = new LabyrinthViewImplementation(model);
     }
