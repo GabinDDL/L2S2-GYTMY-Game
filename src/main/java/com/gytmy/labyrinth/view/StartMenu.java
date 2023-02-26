@@ -2,7 +2,6 @@ package com.gytmy.labyrinth.view;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
-import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

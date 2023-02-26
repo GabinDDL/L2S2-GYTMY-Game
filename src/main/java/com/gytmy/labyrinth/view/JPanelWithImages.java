@@ -13,6 +13,14 @@ import javax.swing.JPanel;
 
 import com.gytmy.utils.Bounds;
 
+/**
+ * A JPanelWithImages is a JPanel that can display images.
+ * To do so, it needs the path of the images files, the coordinates of
+ * the top left corner of the image and the width and height of the image.
+ * 
+ * When JPanel is displayed, the `paintComponent` method is called.
+ * This method is overridden to display the images at given coordinates.
+ */
 public class JPanelWithImages extends JPanel {
 
     private List<Image> images;
