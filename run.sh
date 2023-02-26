@@ -2,6 +2,7 @@ compile (){
     echo "Compiling..."
     find src/main/java/com/gytmy -name "*.java"  > sources.txt
     javac -cp lib/*:src  -d bin @sources.txt
+    rm sources.txt
     echo "Done!"
 }
 
