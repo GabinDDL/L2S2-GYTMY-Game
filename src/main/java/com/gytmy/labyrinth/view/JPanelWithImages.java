@@ -56,8 +56,6 @@ public class JPanelWithImages extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Draw the images.
-        // g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
         for (int i = 0; i < images.size(); i++) {
             if (images.get(i) != null) {
                 g.drawImage(images.get(i),
