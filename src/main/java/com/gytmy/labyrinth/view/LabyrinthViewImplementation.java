@@ -1,5 +1,7 @@
 package com.gytmy.labyrinth.view;
 
+import java.awt.GridBagLayout;
+
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
@@ -9,6 +11,7 @@ public class LabyrinthViewImplementation extends LabyrinthView {
 
     public LabyrinthViewImplementation(LabyrinthModel model) {
         labyrinthPanel = new LabyrinthPanel(model);
+        setLayout(new GridBagLayout());
         add(labyrinthPanel);
     }
 
