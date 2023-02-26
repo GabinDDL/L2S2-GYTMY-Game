@@ -14,14 +14,13 @@ public abstract class LabyrinthView extends JPanel {
 
     public abstract LabyrinthPanel getLabyrinthPanel();
 
-    public void addLabyrinthKeyController(KeyListener keyController) {
-
+    public void addKeyController(KeyListener keyController) {
+        //
         EventQueue.invokeLater(() -> {
             addKeyListener(keyController);
             setFocusable(true);
             requestFocusInWindow();
         });
-
     }
 
 }

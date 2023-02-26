@@ -80,7 +80,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     private void initializeKeyboardMouvementController() {
-        MouvementController mouvementController = new LabyrinthKeyController(this);
+        MouvementController mouvementController = new KeyboardMouvementController(this);
         mouvementController.setup();
     }
 
@@ -102,7 +102,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     @Override
-    public void addLabyrinthKeyController(LabyrinthKeyController controller) {
-        view.addLabyrinthKeyController(controller);
+    public void addLabyrinthKeyController(KeyboardMouvementController controller) {
+        view.addKeyController(controller);
     }
 }
