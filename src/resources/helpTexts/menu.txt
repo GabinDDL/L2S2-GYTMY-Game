@@ -1,0 +1,10 @@
+     RULES     
+ 
+ - If you never played this game before, you probably want to create your character first.
+   Please, head to the "Character Creation" section in the Settings.
+
+ - Else, you can start playing right away. Just click on the "Start Game" button. Have Fun!
+
+     HOW TO PLAY
+
+ - Use your voice to move ! Just say "haut", "bas", "gauche" or "droite" to move your character.

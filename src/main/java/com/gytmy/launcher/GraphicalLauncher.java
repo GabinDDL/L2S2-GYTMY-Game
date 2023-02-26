@@ -1,5 +1,9 @@
 package com.gytmy.launcher;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.view.GameFrameToolbox;
@@ -14,7 +18,16 @@ public class GraphicalLauncher implements Runnable {
 
         StartMenu menu = new StartMenu(frame);
         frame.add(menu);
-        GameFrameToolbox.frameUpdate(frame, "StartMenu");
+        GameFrameToolbox.frameUpdate(frame, "Menu");
+
+        try {
+            frame.setIconImage(ImageIO.read(new File("src/resources/images/gytmy_logo.png")));
+        } catch (IOException e) {
+            // If the image doesn't load, we want to continue anyway
+        }
+
+        frame.setSize(800, 500);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
     }
