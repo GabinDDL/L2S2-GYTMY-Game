@@ -6,6 +6,9 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import com.gytmy.utils.Bounds;
 
 public class StartMenu extends JPanel {
@@ -27,7 +30,7 @@ public class StartMenu extends JPanel {
         setLayout(new BorderLayout());
 
         initMenu();
-        handleClickEventOnMenu();
+        initMouseEventHandling();
     }
 
     private void initMenu() {
@@ -42,7 +45,35 @@ public class StartMenu extends JPanel {
         add(menu);
     }
 
-    private void handleClickEventOnMenu() {
+    private void initMouseEventHandling() {
+        menu.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
 
+                int xClick = mouseEvent.getX();
+                int yClick = mouseEvent.getY();
+
+                if (IMAGES_BOUNDS[1].isInside(xClick, yClick)) {
+                    frame.setContentPane(new HowManyPlayersMenu(frame));
+                    GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
     }
 }
