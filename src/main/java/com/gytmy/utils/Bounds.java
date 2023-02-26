@@ -1,5 +1,7 @@
 package com.gytmy.utils;
 
+import java.util.Objects;
+
 public class Bounds extends Coordinates {
 
     private final int width;
@@ -25,5 +27,20 @@ public class Bounds extends Coordinates {
 
     public boolean isInside(Coordinates coordinates) {
         return isInside(coordinates.getX(), coordinates.getY());
+    }
+
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Bounds)) {
+            return false;
+        }
+        Bounds other = (Bounds) o;
+        return getX() == other.getX() && getY() == other.getY() && width == other.width && height == other.height;
+    }
+
+    public int hashCode() {
+        return Objects.hash(getX(), getY(), width, height);
     }
 }
