@@ -113,7 +113,7 @@ public class StartMenu extends JPanel {
     private boolean isOnAClickableArea(int x, int y) {
 
         for (int i = 0; i < IMAGES_BOUNDS.length; i++) {
-            if (IMAGES_BOUNDS[i].isInside(x, y) && isImageClickable[i]) {
+            if (isImageClickable[i] && IMAGES_BOUNDS[i].isInside(x, y)) {
                 return true;
             }
         }

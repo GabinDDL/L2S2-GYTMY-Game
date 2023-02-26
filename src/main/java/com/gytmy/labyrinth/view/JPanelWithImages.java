@@ -29,13 +29,28 @@ public class JPanelWithImages extends JPanel {
         this.bounds = bounds;
 
         for (String fileName : filesName) {
-            if (fileName.endsWith(".gif")) {
-                images.add(Toolkit.getDefaultToolkit().createImage(fileName));
-            } else {
-                images.add(ImageIO.read(new File(fileName)));
-            }
+            createImage(fileName);
         }
+    }
 
+    private Image createImage(String fileName) {
+        if (fileName.endsWith(".gif")) {
+            return createGIF(fileName);
+        }
+        return createOther(fileName);
+    }
+
+    private Image createGIF(String fileName) {
+        return Toolkit.getDefaultToolkit().createImage(fileName);
+    }
+
+    private Image createOther(String fileName) {
+        try {
+            return ImageIO.read(new File(fileName));
+        } catch (IOException ioe) {
+            System.out.println("Error while loading the image " + fileName);
+            return null;
+        }
     }
 
     public void paintComponent(Graphics g) {
