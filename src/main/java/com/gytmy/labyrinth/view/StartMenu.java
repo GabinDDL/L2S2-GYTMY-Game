@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import com.gytmy.utils.Bounds;
+import com.gytmy.utils.HelpWindow;
 
 public class StartMenu extends JPanel {
     private JFrame frame;
@@ -19,14 +20,16 @@ public class StartMenu extends JPanel {
     private static final String[] IMAGES = {
             "src/resources/images/menu/MazeMenu.jpg",
             "src/resources/images/menu/StartButton.png",
-            "src/resources/images/menu/QuestionMark.png"
+            "src/resources/images/menu/QuestionMark.png",
+            "src/resources/images/menu/Settings.png"
     };
     private static final Bounds[] IMAGES_BOUNDS = {
             new Bounds(0, 0, 800, 500),
             new Bounds(336, 350, 128, 56),
-            new Bounds(750, 20, 32, 32)
+            new Bounds(750, 20, 32, 32),
+            new Bounds(20, 20, 32, 32)
     };
-    private static boolean[] isImageClickable = { false, true, true };
+    private static boolean[] isImageClickable = { false, true, true, true };
 
     private JPanelWithImages menu;
 
@@ -61,6 +64,8 @@ public class StartMenu extends JPanel {
                 if (IMAGES_BOUNDS[1].isInside(xClick, yClick)) {
                     frame.setContentPane(new HowManyPlayersMenu(frame));
                     GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
+                } else if (IMAGES_BOUNDS[2].isInside(xClick, yClick)) {
+                    showHelp();
                 }
             }
 
@@ -85,7 +90,6 @@ public class StartMenu extends JPanel {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
             }
 
@@ -101,6 +105,10 @@ public class StartMenu extends JPanel {
                 }
             }
         });
+    }
+
+    private void showHelp() {
+        HelpWindow.showHelp(menu, "MENU");
     }
 
     private boolean isOnAClickableArea(int x, int y) {
