@@ -12,4 +12,9 @@ public class OptionsMenu extends JPanel {
 
         setLayout(new GridBagLayout());
     }
+
+    public void goBackToStartMenu() {
+        frame.setContentPane(new StartMenu(frame));
+        GameFrameToolbox.frameUpdate(frame, "Menu");
+    }
 }
