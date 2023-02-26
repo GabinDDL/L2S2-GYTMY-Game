@@ -65,6 +65,9 @@ public class StartMenu extends JPanel {
                     GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
                 } else if (IMAGES_BOUNDS[2].isInside(xClick, yClick)) {
                     showHelp();
+                } else if (IMAGES_BOUNDS[3].isInside(xClick, yClick)) {
+                    frame.setContentPane(new OptionsMenu(frame));
+                    GameFrameToolbox.frameUpdate(frame, "OptionsMenu");
                 }
             }
 
