@@ -33,18 +33,23 @@ public class KeyboardMouvementController extends KeyAdapter implements Mouvement
             case KeyEvent.VK_RIGHT:
                 controller.movePlayer(players[selectedPlayer], Direction.RIGHT);
                 break;
+            case KeyEvent.VK_NUMPAD1:
             case KeyEvent.VK_1:
                 changeSelectedPlayer(0);
                 break;
+            case KeyEvent.VK_NUMPAD2:
             case KeyEvent.VK_2:
                 changeSelectedPlayer(1);
                 break;
+            case KeyEvent.VK_NUMPAD3:
             case KeyEvent.VK_3:
                 changeSelectedPlayer(2);
                 break;
+            case KeyEvent.VK_NUMPAD4:
             case KeyEvent.VK_4:
                 changeSelectedPlayer(3);
                 break;
+            case KeyEvent.VK_NUMPAD5:
             case KeyEvent.VK_5:
                 changeSelectedPlayer(4);
                 break;
