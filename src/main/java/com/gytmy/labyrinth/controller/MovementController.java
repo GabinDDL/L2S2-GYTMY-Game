@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth.controller;
 
-public interface MouvementController {
+public interface MovementController {
 
     /**
      * This function takes care of binding the controller to the rest of the

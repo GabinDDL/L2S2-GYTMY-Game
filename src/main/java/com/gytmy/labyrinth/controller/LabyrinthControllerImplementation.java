@@ -16,16 +16,16 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private LabyrinthModel model;
     private LabyrinthView view;
 
-    private MouvementControllerType selectedMouvementControllerType = MouvementControllerType.KEYBOARD;
+    private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
-    public enum MouvementControllerType {
+    public enum MovementControllerType {
         KEYBOARD
     }
 
     public LabyrinthControllerImplementation(GameData gameData) {
         this.gameData = gameData;
         initGame();
-        initializeMouvementController();
+        initializeMovementController();
     }
 
     private void initGame() {
@@ -65,22 +65,22 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         Player.initAllPlayersCoordinates(initialCell, players);
     }
 
-    private void initializeMouvementController() {
+    private void initializeMovementController() {
         // Switch statement used in place of an if-then-else statement because it is
         // more readable and allows for more than two conditions (future implementations
         // of different controllers)
-        switch (selectedMouvementControllerType) {
+        switch (selectedMovementControllerType) {
             case KEYBOARD:
-                initializeKeyboardMouvementController();
+                initializeKeyboardMovementController();
                 break;
             default:
                 break;
         }
     }
 
-    private void initializeKeyboardMouvementController() {
-        MouvementController mouvementController = new KeyboardMouvementController(this);
-        mouvementController.setup();
+    private void initializeKeyboardMovementController() {
+        MovementController movementController = new KeyboardMovementController(this);
+        movementController.setup();
     }
 
     @Override
@@ -101,7 +101,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     @Override
-    public void addKeyController(KeyboardMouvementController controller) {
+    public void addKeyController(KeyboardMovementController controller) {
         view.addKeyController(controller);
     }
 }

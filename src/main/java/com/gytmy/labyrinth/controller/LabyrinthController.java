@@ -10,7 +10,7 @@ public interface LabyrinthController {
 
     public Player[] getPlayers();
 
-    public void addKeyController(KeyboardMouvementController controller);
+    public void addKeyController(KeyboardMovementController controller);
 
     public void movePlayer(Player player, Direction direction);
 
