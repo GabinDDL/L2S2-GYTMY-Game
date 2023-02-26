@@ -6,9 +6,8 @@ import java.awt.Cursor;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import com.gytmy.utils.Bounds;
 import com.gytmy.utils.HelpWindow;
@@ -53,7 +52,9 @@ public class StartMenu extends JPanel {
     }
 
     private void initMouseEventHandling() {
-        menu.addMouseListener(new MouseListener() {
+
+        MouseAdapter adapter = new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 int xClick = mouseEvent.getX();
@@ -68,29 +69,6 @@ public class StartMenu extends JPanel {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
-
-        menu.addMouseMotionListener(new MouseMotionListener() {
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-            }
-
-            @Override
             public void mouseMoved(MouseEvent mouseEvent) {
                 int xClick = mouseEvent.getX();
                 int yClick = mouseEvent.getY();
@@ -101,7 +79,10 @@ public class StartMenu extends JPanel {
                     menu.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             }
-        });
+        };
+
+        menu.addMouseListener(adapter);
+        menu.addMouseMotionListener(adapter);
     }
 
     private void showHelp() {
