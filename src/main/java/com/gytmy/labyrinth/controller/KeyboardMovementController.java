@@ -20,7 +20,6 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 controller.movePlayer(players[selectedPlayer], Direction.UP);
