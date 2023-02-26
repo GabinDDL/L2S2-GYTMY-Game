@@ -6,14 +6,14 @@ import java.awt.event.KeyEvent;
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.player.Player;
 
-public class LabyrinthKeyController extends KeyAdapter implements MouvementController {
+public class KeyboardMouvementController extends KeyAdapter implements MouvementController {
 
     private LabyrinthController controller;
     private Player[] players;
 
     private int selectedPlayer = 0;
 
-    public LabyrinthKeyController(LabyrinthController controller) {
+    public KeyboardMouvementController(LabyrinthController controller) {
         this.controller = controller;
         this.players = controller.getPlayers();
     }
