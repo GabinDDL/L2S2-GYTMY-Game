@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.player.Player;
 
-public class LabyrinthKeyController extends KeyAdapter {
+public class LabyrinthKeyController extends KeyAdapter implements MouvementController {
 
     private LabyrinthController controller;
     private Player[] players;
@@ -58,6 +58,11 @@ public class LabyrinthKeyController extends KeyAdapter {
             return;
         }
         selectedPlayer = playerId;
+    }
+
+    @Override
+    public void setup() {
+        controller.addLabyrinthKeyController(this);
     }
 
 }

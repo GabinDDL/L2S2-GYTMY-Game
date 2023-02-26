@@ -16,10 +16,16 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private LabyrinthModel model;
     private LabyrinthView view;
 
+    private MouvementControllerType selectedMouvementControllerType = MouvementControllerType.KEYBOARD;
+
+    public enum MouvementControllerType {
+        KEYBOARD
+    }
+
     public LabyrinthControllerImplementation(GameData gameData) {
         this.gameData = gameData;
         initGame();
-        addLabyrinthKeyController();
+        initializeMouvementController();
     }
 
     private void initGame() {
@@ -59,6 +65,25 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         Player.initAllPlayersCoordinates(initialCell, players);
     }
 
+    private void initializeMouvementController() {
+        // Switch statement used in place of an if-then-else statement because it is
+        // more readable and allows for more than two conditions (future implementations
+        // of different controllers)
+        switch (selectedMouvementControllerType) {
+            case KEYBOARD:
+                initializeKeyboardMouvementController();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void initializeKeyboardMouvementController() {
+        MouvementController mouvementController = new LabyrinthKeyController(this);
+        mouvementController.setup();
+    }
+
     @Override
     public LabyrinthView getView() {
         return view;
@@ -77,7 +102,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     @Override
-    public void addLabyrinthKeyController() {
-        view.addLabyrinthKeyController(new LabyrinthKeyController(this));
+    public void addLabyrinthKeyController(LabyrinthKeyController controller) {
+        view.addLabyrinthKeyController(controller);
     }
 }
