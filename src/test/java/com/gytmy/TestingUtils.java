@@ -16,8 +16,7 @@ public class TestingUtils {
      * @param message
      */
     public static void assertArgumentExceptionMessage(Runnable runner, String message) {
-        Exception exceptionZero = assertThrows(IllegalArgumentException.class,
-                () -> runner.run());
+        Exception exceptionZero = assertThrows(IllegalArgumentException.class, runner::run);
         assertEquals(message, exceptionZero.getMessage());
     }
 
