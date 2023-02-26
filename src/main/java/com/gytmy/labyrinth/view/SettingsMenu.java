@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import com.gytmy.labyrinth.controller.LabyrinthController;
 import com.gytmy.labyrinth.controller.LabyrinthControllerImplementation;
 import com.gytmy.labyrinth.model.GameData;
+import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.utils.Coordinates;
@@ -209,14 +210,25 @@ public class SettingsMenu extends JPanel {
         arrayUserInputFields = new UserInputFieldNumberInBounds[selectedDimension];
         JPanel textPanel = new JPanel(new GridLayout(selectedDimension, 2));
 
+        int lowerBound;
+        int upperBound;
+        if (selectedDimension == 1) {
+            lowerBound = LabyrinthModelFactory.MINIMUM_WIDTH_1D;
+        } else {
+            lowerBound = LabyrinthModelFactory.MINIMUM_WIDTH_2D;
+        }
+
+        upperBound = LabyrinthModelFactory.MAXIMUM_SIZE;
+
         // capped upperBound to 40 to limit the size of the labyrinth
-        UserInputFieldNumberInBounds widthLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
+        UserInputFieldNumberInBounds widthLabyrinthInput = new UserInputFieldNumberInBounds(lowerBound, upperBound);
         arrayUserInputFields[0] = widthLabyrinthInput;
         addInputFieldInPanel(widthLabyrinthInput, textPanel, "Enter the width of the labyrinth: ");
 
         if (selectedDimension == 2) {
             // capped upperBound to 40 to limit the size of the labyrinth
-            UserInputFieldNumberInBounds heightLabyrinthInput = new UserInputFieldNumberInBounds(2, 40);
+            UserInputFieldNumberInBounds heightLabyrinthInput = new UserInputFieldNumberInBounds(lowerBound,
+                    upperBound);
             arrayUserInputFields[1] = heightLabyrinthInput;
             addInputFieldInPanel(heightLabyrinthInput, textPanel, "Enter the height of the labyrinth: ");
         }
