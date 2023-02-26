@@ -76,7 +76,6 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
             default:
                 break;
         }
-
     }
 
     private void initializeKeyboardMouvementController() {
