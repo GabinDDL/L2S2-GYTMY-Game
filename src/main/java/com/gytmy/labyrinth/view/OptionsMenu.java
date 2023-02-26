@@ -3,10 +3,12 @@ package com.gytmy.labyrinth.view;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
+import com.gytmy.utils.WordsToRecord;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -60,6 +62,29 @@ public class OptionsMenu extends JPanel {
     }
 
     private void initWordSelector() {
+        JPanel audioPanel = new JPanel(new GridLayout(4, 1));
+
+        JComboBox<WordsToRecord> wordSelector = new JComboBox<>();
+        addWordsToJComboBox(wordSelector);
+        audioPanel.add(wordSelector);
+
+        JLabel totalOfWords = new JLabel("Total of words: " + WordsToRecord.values().length);
+        audioPanel.add(totalOfWords);
+
+        JButton recordButton = new JButton("Record");
+        audioPanel.add(recordButton);
+
+        JButton goBackButton = new JButton("Go back");
+        audioPanel.add(goBackButton);
+
+        add(audioPanel, BorderLayout.EAST);
+    }
+
+    private void addWordsToJComboBox(JComboBox<WordsToRecord> wordSelector) {
+        WordsToRecord[] words = WordsToRecord.values();
+        for (WordsToRecord word : words) {
+            wordSelector.addItem(word);
+        }
     }
 
     public void goBackToStartMenu() {
