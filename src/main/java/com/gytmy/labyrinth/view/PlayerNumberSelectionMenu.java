@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
-public class HowManyPlayersMenu extends JPanel {
+public class PlayerNumberSelectionMenu extends JPanel {
     private JFrame frame;
     private UserInputFieldNumberInBounds nbPlayersField;
 
-    public HowManyPlayersMenu(JFrame frame) {
+    public PlayerNumberSelectionMenu(JFrame frame) {
         this.frame = frame;
         initMenu();
     }
