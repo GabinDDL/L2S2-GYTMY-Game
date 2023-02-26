@@ -29,7 +29,7 @@ public class JPanelWithImages extends JPanel {
         this.bounds = bounds;
 
         for (String fileName : filesName) {
-            createImage(fileName);
+            images.add(createImage(fileName));
         }
     }
 
