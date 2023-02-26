@@ -214,6 +214,16 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     @Override
+    public boolean movePlayer(Player player, Direction direction) {
+        if (!isMoveValid(player, direction)) {
+            return false;
+        }
+
+        player.move(direction);
+        return true;
+    }
+
+    @Override
     public boolean isMoveValid(Player player, Direction direction) {
         return !isGoingOutside(player, direction) &&
                 !isGoingIntoWall(player, direction);
@@ -291,16 +301,6 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     public boolean isWall(Coordinates coordinates) {
         return isWall(coordinates.getX(), coordinates.getY());
-    }
-
-    @Override
-    public boolean movePlayer(Player player, Direction direction) {
-        if (!isMoveValid(player, direction)) {
-            return false;
-        }
-
-        player.move(direction);
-        return true;
     }
 
     /*
