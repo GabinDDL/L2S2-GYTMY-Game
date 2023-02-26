@@ -1,6 +1,7 @@
 package com.gytmy.labyrinth.view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -8,6 +9,7 @@ import javax.swing.JPanel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import com.gytmy.utils.Bounds;
 
@@ -49,7 +51,6 @@ public class StartMenu extends JPanel {
         menu.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-
                 int xClick = mouseEvent.getX();
                 int yClick = mouseEvent.getY();
 
@@ -68,11 +69,32 @@ public class StartMenu extends JPanel {
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseEntered(MouseEvent mouseEvent) {
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+            }
+        });
+
+        menu.addMouseMotionListener(new MouseMotionListener() {
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent mouseEvent) {
+                int xClick = mouseEvent.getX();
+                int yClick = mouseEvent.getY();
+
+                if (IMAGES_BOUNDS[1].isInside(xClick, yClick)) {
+                    menu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    menu.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
             }
         });
     }
