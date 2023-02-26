@@ -101,7 +101,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     @Override
-    public void addLabyrinthKeyController(KeyboardMouvementController controller) {
+    public void addKeyController(KeyboardMouvementController controller) {
         view.addKeyController(controller);
     }
 }

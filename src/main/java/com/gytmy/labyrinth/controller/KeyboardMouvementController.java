@@ -62,7 +62,7 @@ public class KeyboardMouvementController extends KeyAdapter implements Mouvement
 
     @Override
     public void setup() {
-        controller.addLabyrinthKeyController(this);
+        controller.addKeyController(this);
     }
 
 }
