@@ -30,9 +30,9 @@ public class StartMenu extends JPanel {
             new Bounds(20, 20, 32, 32),
             new Bounds(96, 88, 608, 224)
     };
-    private static boolean[] isImageClickable = { false, true, true, true, false };
+    private static final boolean[] IS_IMAGE_CLICKABLE = { false, true, true, true, false };
 
-    private static String HELP_TEXT_FILE = "src/resources/helpTexts/menu.txt";
+    private static final String HELP_TEXT_FILE = "src/resources/helpTexts/menu.txt";
 
     private JPanelWithImages menu;
 
@@ -111,7 +111,7 @@ public class StartMenu extends JPanel {
     private boolean isOnAClickableArea(int x, int y) {
 
         for (int i = 0; i < IMAGES_BOUNDS.length; i++) {
-            if (isImageClickable[i] && IMAGES_BOUNDS[i].isInside(x, y)) {
+            if (IS_IMAGE_CLICKABLE[i] && IMAGES_BOUNDS[i].isInside(x, y)) {
                 return true;
             }
         }
