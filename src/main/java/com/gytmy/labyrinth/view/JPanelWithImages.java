@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth.view;
 
+import java.awt.Toolkit;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -28,7 +29,11 @@ public class JPanelWithImages extends JPanel {
         this.bounds = bounds;
 
         for (String fileName : filesName) {
-            images.add(ImageIO.read(new File(fileName)));
+            if (fileName.endsWith(".gif")) {
+                images.add(Toolkit.getDefaultToolkit().createImage(fileName));
+            } else {
+                images.add(ImageIO.read(new File(fileName)));
+            }
         }
 
     }
@@ -39,10 +44,12 @@ public class JPanelWithImages extends JPanel {
         // Draw the images.
         // g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
         for (int i = 0; i < images.size(); i++) {
-            g.drawImage(images.get(i),
-                    bounds[i].getX(), bounds[i].getY(),
-                    bounds[i].getWidth(), bounds[i].getHeight(),
-                    this);
+            if (images.get(i) != null) {
+                g.drawImage(images.get(i),
+                        bounds[i].getX(), bounds[i].getY(),
+                        bounds[i].getWidth(), bounds[i].getHeight(),
+                        this);
+            }
         }
     }
 }
