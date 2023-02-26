@@ -17,13 +17,17 @@ public class StartMenu extends JPanel {
     private JFrame frame;
 
     private static final String[] IMAGES = {
-            "src/resources/images/MazeMenu.jpg",
-            "src/resources/images/StartButton.png"
+            "src/resources/images/menu/MazeMenu.jpg",
+            "src/resources/images/menu/StartButton.png",
+            "src/resources/images/menu/QuestionMark.png"
     };
     private static final Bounds[] IMAGES_BOUNDS = {
             new Bounds(0, 0, 800, 500),
-            new Bounds(336, 350, 128, 56)
+            new Bounds(336, 350, 128, 56),
+            new Bounds(750, 20, 32, 32)
     };
+    private static boolean[] isImageClickable = { false, true, true };
+
     private JPanelWithImages menu;
 
     public StartMenu(JFrame frame) {
@@ -90,12 +94,22 @@ public class StartMenu extends JPanel {
                 int xClick = mouseEvent.getX();
                 int yClick = mouseEvent.getY();
 
-                if (IMAGES_BOUNDS[1].isInside(xClick, yClick)) {
+                if (isOnAClickableArea(xClick, yClick)) {
                     menu.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
                     menu.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             }
         });
+    }
+
+    private boolean isOnAClickableArea(int x, int y) {
+
+        for (int i = 0; i < IMAGES_BOUNDS.length; i++) {
+            if (IMAGES_BOUNDS[i].isInside(x, y) && isImageClickable[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
