@@ -52,6 +52,7 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
             case KeyEvent.VK_4:
                 changeSelectedPlayer(3);
                 break;
+            case KeyEvent.VK_LEFT_PARENTHESIS:
             case KeyEvent.VK_NUMPAD5:
             case KeyEvent.VK_5:
                 changeSelectedPlayer(4);
@@ -61,8 +62,6 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
         }
         if (e.getKeyCode() == 0) {
             changeSelectedPlayer(1);
-        } else if (e.getKeyCode() == 519) {
-            changeSelectedPlayer(2);
         }
     }
 
