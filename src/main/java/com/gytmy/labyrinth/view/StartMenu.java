@@ -47,8 +47,6 @@ public class StartMenu extends JPanel {
             menu = new JPanelWithImages(IMAGES, IMAGES_BOUNDS);
         } catch (IOException ioe) {
             System.out.println("Error while loading one of the images");
-            System.out.println(ioe.getMessage());
-            ioe.getStackTrace();
         }
 
         add(menu);
@@ -90,7 +88,6 @@ public class StartMenu extends JPanel {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
             }
 
             @Override
