@@ -17,16 +17,7 @@ public class HelpWindow {
         JOptionPane.showMessageDialog(component, message);
     }
 
-    private static String getHelpMessage(String window) {
-        switch (window) {
-            case "MENU":
-                return txtToString("src/resources/helpTexts/menu.txt");
-            default:
-                throw new IllegalArgumentException("No help message for this window");
-        }
-    }
-
-    private static String txtToString(String fileName) {
+    private static String getHelpMessage(String fileName) {
         Path filePath = Path.of(fileName);
         String content = "";
         try {

@@ -31,6 +31,8 @@ public class StartMenu extends JPanel {
     };
     private static boolean[] isImageClickable = { false, true, true, true };
 
+    private static String HELP_TEXT_FILE = "src/resources/helpTexts/menu.txt";
+
     private JPanelWithImages menu;
 
     public StartMenu(JFrame frame) {
@@ -105,7 +107,7 @@ public class StartMenu extends JPanel {
     }
 
     private void showHelp() {
-        HelpWindow.showHelp(menu, "MENU");
+        HelpWindow.showHelp(menu, HELP_TEXT_FILE);
     }
 
     private boolean isOnAClickableArea(int x, int y) {
