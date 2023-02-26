@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
-import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Coordinates;
@@ -34,30 +33,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     protected Player[] players;
 
-    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Coordinates initialCell,
-            Coordinates exitCell,
+    public LabyrinthModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
             Player[] players) {
-        this(generator.generate(width, height, initialCell), initialCell, exitCell, players);
-    }
-
-    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Coordinates initialCell,
-            Player[] players) {
-        this(generator.generate(width, height, initialCell), initialCell, null, players);
-    }
-
-    public LabyrinthModelImplementation(BoardGenerator generator, int width, int height, Player[] players) {
-        this(generator.generate(width, height), null, null, players);
-    }
-
-    public LabyrinthModelImplementation(int width, int height, Player[] players) {
-        this(new DepthFirstGenerator(), width, height, players);
-    }
-
-    public LabyrinthModelImplementation(boolean[][] board, Coordinates initialCell, Coordinates exitCell,
-            Player[] players) {
-        handleNullArguments(board);
-        handleInvalidBoardSize(board);
-        this.board = Boolean2DArraysOperations.copy(board);
+        this.board = generator.generate();
+        handleNullArguments();
+        handleInvalidBoardSize();
         this.initialCell = determineInitialCell(initialCell);
         this.exitCell = determineExitCell(exitCell);
         this.players = players;
@@ -69,7 +49,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * 
      * @param board
      */
-    private void handleNullArguments(boolean[][] board) {
+    private void handleNullArguments() {
         if (board == null) {
             throw new IllegalArgumentException("Board cannot be null");
         }
@@ -81,7 +61,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      * 
      * @param board
      */
-    private void handleInvalidBoardSize(boolean[][] board) {
+    private void handleInvalidBoardSize() {
         if (board.length < 3) {
             throw new IllegalArgumentException("Board must have at least 3 rows");
         }

@@ -17,33 +17,26 @@ import com.gytmy.utils.Coordinates;
  *      "https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_depth-first_search">Wikipedia</a>
  */
 public class DepthFirstGenerator implements BoardGenerator {
-    Random rand = new Random();
 
-    int width;
-    int height;
-    Coordinates start;
+    private static final Coordinates DEFAULT_INITIAL_CELL = new Coordinates(1, 1);
 
-    Stack<Coordinates> stack = new Stack<>();
-    boolean[][] board;
-    boolean[][] visited;
-    Coordinates current;
+    private Random rand = new Random();
 
-    @Override
-    public boolean[][] generate(int width, int height) {
+    private int width;
+    private int height;
+    private Coordinates start;
+
+    private Stack<Coordinates> stack = new Stack<>();
+    private boolean[][] board;
+    private boolean[][] visited;
+    private Coordinates current;
+
+    public DepthFirstGenerator(int width, int height) {
         initArguments(width, height, null);
-        return generate();
     }
 
-    @Override
-    public boolean[][] generate(int width, int height, Coordinates start) {
+    public DepthFirstGenerator(int width, int height, Coordinates start) {
         initArguments(width, height, start);
-        return generate();
-    }
-
-    private boolean[][] generate() {
-        board = new boolean[height][width];
-        generateBoard();
-        return getBorderedBoard();
     }
 
     private void initArguments(int width, int height, Coordinates start) {
@@ -53,7 +46,7 @@ public class DepthFirstGenerator implements BoardGenerator {
         this.height = height % 2 == 0 ? height : height - 1;
 
         if (start == null) {
-            this.start = generateRandomStart();
+            this.start = generateStart();
         } else {
             handleInvalidStart(start);
             this.start = start;
@@ -83,11 +76,15 @@ public class DepthFirstGenerator implements BoardGenerator {
         return start.getX() >= 1 && start.getX() < width && start.getY() >= 1 && start.getY() < height;
     }
 
-    private Coordinates generateRandomStart() {
-        int row = rand.nextInt(height - 2) + 1; // 1 to height-1
-        int col = rand.nextInt(width - 2) + 1; // 1 to width-1
+    private Coordinates generateStart() {
+        return DEFAULT_INITIAL_CELL.copy();
+    }
 
-        return new Coordinates(col, row);
+    @Override
+    public boolean[][] generate() {
+        board = new boolean[height][width];
+        generateBoard();
+        return getBorderedBoard();
     }
 
     private boolean[][] generateBoard() {
