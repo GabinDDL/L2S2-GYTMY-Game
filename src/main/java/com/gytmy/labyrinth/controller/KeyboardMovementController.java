@@ -20,6 +20,7 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println(e.getKeyCode());
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
                 controller.movePlayer(players[selectedPlayer], Direction.UP);
@@ -33,6 +34,7 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
             case KeyEvent.VK_RIGHT:
                 controller.movePlayer(players[selectedPlayer], Direction.RIGHT);
                 break;
+            case KeyEvent.VK_AMPERSAND:
             case KeyEvent.VK_NUMPAD1:
             case KeyEvent.VK_1:
                 changeSelectedPlayer(0);
@@ -41,10 +43,12 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
             case KeyEvent.VK_2:
                 changeSelectedPlayer(1);
                 break;
+            case KeyEvent.VK_QUOTEDBL:
             case KeyEvent.VK_NUMPAD3:
             case KeyEvent.VK_3:
                 changeSelectedPlayer(2);
                 break;
+            case KeyEvent.VK_QUOTE:
             case KeyEvent.VK_NUMPAD4:
             case KeyEvent.VK_4:
                 changeSelectedPlayer(3);
@@ -55,6 +59,11 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
                 break;
             default:
                 break;
+        }
+        if (e.getKeyCode() == 0) {
+            changeSelectedPlayer(1);
+        } else if (e.getKeyCode() == 519) {
+            changeSelectedPlayer(2);
         }
     }
 
