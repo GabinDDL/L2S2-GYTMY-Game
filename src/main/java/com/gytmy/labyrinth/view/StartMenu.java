@@ -17,7 +17,7 @@ public class StartMenu extends JPanel {
     };
     private static final Bounds[] IMAGES_BOUNDS = {
             new Bounds(0, 0, 800, 500),
-            new Bounds(336, 300, 128, 128)
+            new Bounds(336, 350, 128, 56)
     };
     private JPanelWithImages menu;
 
