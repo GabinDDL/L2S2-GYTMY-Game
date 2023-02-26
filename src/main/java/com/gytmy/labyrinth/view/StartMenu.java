@@ -21,15 +21,17 @@ public class StartMenu extends JPanel {
             "src/resources/images/menu/MazeMenu.jpg",
             "src/resources/images/menu/StartButton.png",
             "src/resources/images/menu/QuestionMark.png",
-            "src/resources/images/menu/Settings.png"
+            "src/resources/images/menu/Settings.png",
+            "src/resources/images/menu/MAZE_LOGO.gif"
     };
     private static final Bounds[] IMAGES_BOUNDS = {
             new Bounds(0, 0, 800, 500),
             new Bounds(336, 350, 128, 56),
             new Bounds(750, 20, 32, 32),
-            new Bounds(20, 20, 32, 32)
+            new Bounds(20, 20, 32, 32),
+            new Bounds(96, 88, 608, 224)
     };
-    private static boolean[] isImageClickable = { false, true, true, true };
+    private static boolean[] isImageClickable = { false, true, true, true, false };
 
     private static String HELP_TEXT_FILE = "src/resources/helpTexts/menu.txt";
 
