@@ -47,11 +47,8 @@ public class StartMenu extends JPanel {
     }
 
     private void initMenu() {
-        try {
-            menu = new JPanelWithImages(IMAGES, IMAGES_BOUNDS);
-        } catch (IOException ioe) {
-            System.out.println("Error while loading one of the images");
-        }
+
+        menu = new JPanelWithImages(IMAGES, IMAGES_BOUNDS);
 
         add(menu);
     }

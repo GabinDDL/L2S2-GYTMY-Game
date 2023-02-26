@@ -19,7 +19,7 @@ public class JPanelWithImages extends JPanel {
     private Bounds[] bounds;
 
     public JPanelWithImages(String[] filesName, Bounds[] bounds)
-            throws IOException, IllegalArgumentException {
+            throws IllegalArgumentException {
 
         if (filesName.length != bounds.length) {
             throw new IllegalArgumentException("The number of files and the number of coordinates must be the same");
