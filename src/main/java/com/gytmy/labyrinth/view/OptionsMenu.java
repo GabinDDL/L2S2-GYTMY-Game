@@ -1,7 +1,16 @@
 package com.gytmy.labyrinth.view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.io.File;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -10,19 +19,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 
-import java.io.File;
-
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.FileSystemTreeModel;
 import com.gytmy.utils.WordsToRecord;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.util.List;
-
 public class OptionsMenu extends JPanel {
     private JFrame frame;
+
+    private JPanel userPanel;
 
     private JComboBox<User> userSelector;
     private JComboBox<String> wordSelector = new JComboBox<>();
@@ -53,25 +58,43 @@ public class OptionsMenu extends JPanel {
     }
 
     private void initUserSelector() {
-        JPanel userPanel = new JPanel(new GridLayout(1, 4));
+
+        userPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
         userSelector = new JComboBox<>();
         addUsersToJComboBox(userSelector);
         userSelector.addActionListener(e -> userHasBeenChanged());
-        userPanel.add(userSelector);
+        addComponentToUserPanel(userSelector, c, 0, 0, 0.5, false);
 
         deleteUserButton = new JButton("Delete user");
         deleteUserButton.setEnabled(false);
         deleteUserButton.addActionListener(e -> deleteUser());
-        userPanel.add(deleteUserButton);
+        addComponentToUserPanel(deleteUserButton, c, 1, 0, 0.1, true);
 
         JButton editUserButton = new JButton("Edit user");
-        userPanel.add(editUserButton);
+        addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
 
         JButton addUserButton = new JButton("Add user");
-        userPanel.add(addUserButton);
+        addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
 
         add(userPanel, BorderLayout.NORTH);
+
+    }
+
+    private void addComponentToUserPanel(JComponent component, GridBagConstraints c, int gridx, int gridy,
+            double weightx, boolean setPreferredSize) {
+
+        c.gridx = gridx;
+        c.gridy = gridy;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = weightx;
+
+        userPanel.add(component, c);
+
+        component.setPreferredSize(
+                new Dimension(component.getPreferredSize().height,
+                        component.getPreferredSize().height));
     }
 
     private void deleteUser() {
