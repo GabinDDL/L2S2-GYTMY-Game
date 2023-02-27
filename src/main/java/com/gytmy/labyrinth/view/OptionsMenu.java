@@ -121,11 +121,11 @@ public class OptionsMenu extends JPanel {
 
         User user = (User) userSelector.getSelectedItem();
 
+        actualJTreeRootPath = JTREE_ROOT_PATH;
         if (user == ALL_USERS) {
-            actualJTreeRootPath = JTREE_ROOT_PATH;
             deleteUserButton.setEnabled(false);
         } else {
-            actualJTreeRootPath = JTREE_ROOT_PATH + user.getFirstName();
+            actualJTreeRootPath += user.getFirstName();
             deleteUserButton.setEnabled(true);
         }
         loadFileNavigator();
