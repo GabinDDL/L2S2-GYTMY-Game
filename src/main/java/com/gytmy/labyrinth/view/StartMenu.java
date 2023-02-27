@@ -68,6 +68,9 @@ public class StartMenu extends JPanel {
                 } else if (IMAGES_BOUNDS[3].isInside(xClick, yClick)) {
                     frame.setContentPane(new OptionsMenu(frame));
                     GameFrameToolbox.frameUpdate(frame, "OptionsMenu");
+                    frame.setLocationRelativeTo(null);
+                    frame.setSize(800, 500);
+                    frame.revalidate();
                 }
             }
 
