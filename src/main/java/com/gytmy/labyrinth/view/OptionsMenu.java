@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -24,7 +25,7 @@ public class OptionsMenu extends JPanel {
     private JFrame frame;
 
     private JComboBox<User> userSelector;
-    private JComboBox<String> wordSelector;
+    private JComboBox<String> wordSelector = new JComboBox<>();
 
     private JScrollPane scrollPane;
     private JTree fileNavigator;
@@ -32,9 +33,10 @@ public class OptionsMenu extends JPanel {
     private final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
     private String actualJTreeRootPath = JTREE_ROOT_PATH;
 
-    private final User NO_ONE = new User("x", "x", 0);
+    private final User NO_ONE = new User("ALL", "USERS", 0);
 
     private JLabel totalOfWords;
+    private JButton deleteUserButton;
 
     public OptionsMenu(JFrame frame) {
         this.frame = frame;
@@ -58,7 +60,9 @@ public class OptionsMenu extends JPanel {
         userSelector.addActionListener(e -> userHasBeenChanged());
         userPanel.add(userSelector);
 
-        JButton deleteUserButton = new JButton("Delete user");
+        deleteUserButton = new JButton("Delete user");
+        deleteUserButton.setEnabled(false);
+        deleteUserButton.addActionListener(e -> deleteUser());
         userPanel.add(deleteUserButton);
 
         JButton editUserButton = new JButton("Edit user");
@@ -70,6 +74,20 @@ public class OptionsMenu extends JPanel {
         add(userPanel, BorderLayout.NORTH);
     }
 
+    private void deleteUser() {
+
+        String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
+        int userIsDeleted = JOptionPane.showConfirmDialog(frame, confirmationDialog, "DELETE USER ?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (userIsDeleted == JOptionPane.YES_OPTION) {
+            User user = (User) userSelector.getSelectedItem();
+            AudioFileManager.removeUser(user);
+            userSelector.removeItem(user);
+        }
+    }
+
     private void userHasBeenChanged() {
         if (!(userSelector.getSelectedItem() instanceof User)) {
             return;
@@ -79,11 +97,13 @@ public class OptionsMenu extends JPanel {
 
         if (user == NO_ONE) {
             actualJTreeRootPath = JTREE_ROOT_PATH;
+            deleteUserButton.setEnabled(false);
         } else {
             actualJTreeRootPath = JTREE_ROOT_PATH + user.getFirstName();
+            deleteUserButton.setEnabled(true);
         }
         loadFileNavigator();
-        totalOfWords.setText(getTotalOfWords());
+        loadTotalOfWords();
         revalidate();
     }
 
@@ -115,8 +135,8 @@ public class OptionsMenu extends JPanel {
     private void initWordSelector() {
         JPanel audioPanel = new JPanel(new GridLayout(4, 1));
 
-        JComboBox<String> wordSelector = new JComboBox<>();
         addWordsToJComboBox(wordSelector);
+        wordSelector.addActionListener(e -> loadTotalOfWords());
         audioPanel.add(wordSelector);
 
         totalOfWords = new JLabel(getTotalOfWords());
@@ -130,6 +150,10 @@ public class OptionsMenu extends JPanel {
         audioPanel.add(goBackButton);
 
         add(audioPanel, BorderLayout.EAST);
+    }
+
+    private void loadTotalOfWords() {
+        totalOfWords.setText(getTotalOfWords());
     }
 
     private String getTotalOfWords() {
@@ -150,7 +174,7 @@ public class OptionsMenu extends JPanel {
             return label + AudioFileManager.totalNumberOfAudioFilesForUser(user.getFirstName());
         }
 
-        return label + AudioFileManager.numberOfRecordings(actualJTreeRootPath, word);
+        return label + AudioFileManager.numberOfRecordings(user.getFirstName(), word);
     }
 
     private int getTotalOfWordsForAllUsers(User user, String word) {
