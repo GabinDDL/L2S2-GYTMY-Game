@@ -52,15 +52,15 @@ public class OptionsMenu extends JPanel {
 
         setLayout(new BorderLayout());
 
-        initMenu();
-    }
-
-    private void initMenu() {
         initUserSelector();
         loadFileNavigator();
         initWordSelector();
     }
 
+    /**
+     * User Panel is the top panel of the OptionsMenu.
+     * It's used to select a user, add a new one, or edit / delete an existing one.
+     */
     private void initUserSelector() {
 
         userPanel = new JPanel(new GridBagLayout());
@@ -89,6 +89,15 @@ public class OptionsMenu extends JPanel {
 
     }
 
+    private void addUsersToJComboBox(JComboBox<User> userSelector) {
+        List<User> users = AudioFileManager.getUsers();
+        userSelector.addItem(NO_ONE);
+
+        for (User user : users) {
+            userSelector.addItem(user);
+        }
+    }
+
     private void addComponentToUserPanel(JComponent component, GridBagConstraints c, int gridx, int gridy,
             double weightx, boolean setPreferredSize) {
 
@@ -102,20 +111,6 @@ public class OptionsMenu extends JPanel {
         component.setPreferredSize(
                 new Dimension(component.getPreferredSize().height,
                         component.getPreferredSize().height));
-    }
-
-    private void deleteUser() {
-
-        String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
-        int userIsDeleted = JOptionPane.showConfirmDialog(frame, confirmationDialog, "DELETE USER ?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-
-        if (userIsDeleted == JOptionPane.YES_OPTION) {
-            User user = (User) userSelector.getSelectedItem();
-            AudioFileManager.removeUser(user);
-            userSelector.removeItem(user);
-        }
     }
 
     private void userHasBeenChanged() {
@@ -137,12 +132,17 @@ public class OptionsMenu extends JPanel {
         revalidate();
     }
 
-    private void addUsersToJComboBox(JComboBox<User> userSelector) {
-        List<User> users = AudioFileManager.getUsers();
-        userSelector.addItem(NO_ONE);
+    private void deleteUser() {
 
-        for (User user : users) {
-            userSelector.addItem(user);
+        String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
+        int userIsDeleted = JOptionPane.showConfirmDialog(frame, confirmationDialog, "DELETE USER ?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (userIsDeleted == JOptionPane.YES_OPTION) {
+            User user = (User) userSelector.getSelectedItem();
+            AudioFileManager.removeUser(user);
+            userSelector.removeItem(user);
         }
     }
 
