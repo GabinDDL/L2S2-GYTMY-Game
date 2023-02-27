@@ -1,12 +1,29 @@
 package com.gytmy.labyrinth.view;
 
+import java.awt.EventQueue;
+import java.awt.event.KeyListener;
+
+import javax.swing.JPanel;
+
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.player.Player;
 
-public interface LabyrinthView {
+public abstract class LabyrinthView extends JPanel {
 
-    void update(Player player, Direction direction);
+    public abstract void update(Player player, Direction direction);
 
-    LabyrinthPanel getLabyrinthPanel();
+    public abstract LabyrinthPanel getLabyrinthPanel();
+
+    public void addKeyController(KeyListener keyController) {
+        // The EventQueue is used to ensure that the key listener is added after the
+        // component is added to the frame. If it is added before, the component will
+        // only receive key events after it is clicked.
+        EventQueue.invokeLater(() -> {
+            addKeyListener(keyController);
+            // In order to be able to receive key events, the component must be focusable.
+            setFocusable(true);
+            requestFocusInWindow();
+        });
+    }
 
 }

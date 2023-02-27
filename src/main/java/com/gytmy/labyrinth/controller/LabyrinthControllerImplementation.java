@@ -15,9 +15,16 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private LabyrinthModel model;
     private LabyrinthView view;
 
+    private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
+
+    public enum MovementControllerType {
+        KEYBOARD
+    }
+
     public LabyrinthControllerImplementation(GameData gameData) {
         this.gameData = gameData;
         initGame();
+        initializeMovementController();
     }
 
     private void initGame() {
@@ -31,22 +38,43 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         Player.initAllPlayersCoordinates(initialCell, players);
     }
 
+    private void initializeMovementController() {
+        // Switch statement used in place of an if-then-else statement because it is
+        // more readable and allows for more than two conditions (future implementations
+        // of different controllers)
+        switch (selectedMovementControllerType) {
+            case KEYBOARD:
+                initializeKeyboardMovementController();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void initializeKeyboardMovementController() {
+        MovementController movementController = new KeyboardMovementController(this);
+        movementController.setup();
+    }
+
     @Override
     public LabyrinthView getView() {
         return view;
     }
 
     @Override
-    public void movePlayer(Player player, Direction direction) {
-        model.movePlayer(player, direction);
-        view.update(player, direction);
+    public Player[] getPlayers() {
+        return model.getPlayers();
     }
 
-    // TODO: Think about the primitive controls (Keyboard? Click on UI?)
-    // I think I'll go with the Keyboard,
-    // find a way to add a KeyListener to the window ?
-    // Handle inputs
-    // Player selection with numbers
-    // Movements with directional arrows
+    @Override
+    public void movePlayer(Player player, Direction direction) {
+        if (model.movePlayer(player, direction)) {
+            view.update(player, direction);
+        }
+    }
 
+    @Override
+    public void addKeyController(KeyboardMovementController controller) {
+        view.addKeyController(controller);
+    }
 }
