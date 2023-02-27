@@ -5,9 +5,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.tree.TreeModel;
+
+import java.io.File;
 
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
+import com.gytmy.utils.FileSystemTreeModel;
 import com.gytmy.utils.WordsToRecord;
 
 import java.awt.BorderLayout;
@@ -59,6 +64,11 @@ public class OptionsMenu extends JPanel {
     }
 
     private void initFileNavigator() {
+        TreeModel model = new FileSystemTreeModel(new File("src/resources/audioFiles"));
+        JTree fileNavigator = new JTree(model);
+        fileNavigator.setScrollsOnExpand(true);
+
+        add(fileNavigator, BorderLayout.CENTER);
     }
 
     private void initWordSelector() {
