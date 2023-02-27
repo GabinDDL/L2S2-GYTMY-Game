@@ -24,6 +24,7 @@ public class OptionsMenu extends JPanel {
     private JFrame frame;
 
     private JComboBox<User> userSelector;
+    private JComboBox<String> wordSelector;
 
     private JScrollPane scrollPane;
     private JTree fileNavigator;
@@ -32,6 +33,8 @@ public class OptionsMenu extends JPanel {
     private String actualJTreeRootPath = JTREE_ROOT_PATH;
 
     private final User NO_ONE = new User("x", "x", 0);
+
+    private JLabel totalOfWords;
 
     public OptionsMenu(JFrame frame) {
         this.frame = frame;
@@ -43,7 +46,7 @@ public class OptionsMenu extends JPanel {
 
     private void initMenu() {
         initUserSelector();
-        initFileNavigator();
+        loadFileNavigator();
         initWordSelector();
     }
 
@@ -79,7 +82,8 @@ public class OptionsMenu extends JPanel {
         } else {
             actualJTreeRootPath = JTREE_ROOT_PATH + user.getFirstName();
         }
-        reloadJTree();
+        loadFileNavigator();
+        totalOfWords.setText(getTotalOfWords());
         revalidate();
     }
 
@@ -92,11 +96,17 @@ public class OptionsMenu extends JPanel {
         }
     }
 
-    private void initFileNavigator() {
+    public void loadFileNavigator() {
+
+        if (scrollPane != null) {
+            remove(scrollPane);
+        }
+
         TreeModel model = new FileSystemTreeModel(new File(actualJTreeRootPath));
         fileNavigator = new JTree(model);
         fileNavigator.setScrollsOnExpand(true);
         fileNavigator.setShowsRootHandles(true);
+
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
@@ -105,11 +115,11 @@ public class OptionsMenu extends JPanel {
     private void initWordSelector() {
         JPanel audioPanel = new JPanel(new GridLayout(4, 1));
 
-        JComboBox<WordsToRecord> wordSelector = new JComboBox<>();
+        JComboBox<String> wordSelector = new JComboBox<>();
         addWordsToJComboBox(wordSelector);
         audioPanel.add(wordSelector);
 
-        JLabel totalOfWords = new JLabel("Total of words: " + WordsToRecord.values().length);
+        totalOfWords = new JLabel(getTotalOfWords());
         audioPanel.add(totalOfWords);
 
         JButton recordButton = new JButton("Record");
@@ -122,10 +132,46 @@ public class OptionsMenu extends JPanel {
         add(audioPanel, BorderLayout.EAST);
     }
 
-    private void addWordsToJComboBox(JComboBox<WordsToRecord> wordSelector) {
+    private String getTotalOfWords() {
+        String label = "Total of words: ";
+
+        if (!(userSelector.getSelectedItem() instanceof User)) {
+            return label + 0;
+        }
+
+        User user = (User) userSelector.getSelectedItem();
+        String word = wordSelector == null ? "ALL" : (String) wordSelector.getSelectedItem();
+
+        if (user == NO_ONE) {
+            return label + getTotalOfWordsForAllUsers(user, word);
+        }
+
+        if (word.equals("ALL")) {
+            return label + AudioFileManager.totalNumberOfAudioFilesForUser(user.getFirstName());
+        }
+
+        return label + AudioFileManager.numberOfRecordings(actualJTreeRootPath, word);
+    }
+
+    private int getTotalOfWordsForAllUsers(User user, String word) {
+        if (word.equals("ALL")) {
+            return AudioFileManager.totalNumberOfAudioFiles();
+        }
+
+        int totalForASpecificWord = 0;
+        for (User usr : AudioFileManager.getUsers()) {
+            totalForASpecificWord += AudioFileManager.numberOfRecordings(usr.getFirstName(), word);
+        }
+        return totalForASpecificWord;
+    }
+
+    private void addWordsToJComboBox(JComboBox<String> wordSelector) {
+
+        wordSelector.addItem("ALL");
+
         WordsToRecord[] words = WordsToRecord.values();
         for (WordsToRecord word : words) {
-            wordSelector.addItem(word);
+            wordSelector.addItem(word.name());
         }
     }
 
@@ -135,18 +181,5 @@ public class OptionsMenu extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setSize(800, 500);
         frame.revalidate();
-    }
-
-    public void reloadJTree() {
-
-        remove(scrollPane);
-
-        TreeModel model = new FileSystemTreeModel(new File(actualJTreeRootPath));
-        fileNavigator = new JTree(model);
-        fileNavigator.setScrollsOnExpand(true);
-
-        scrollPane = new JScrollPane(fileNavigator);
-
-        add(scrollPane, BorderLayout.CENTER);
     }
 }
