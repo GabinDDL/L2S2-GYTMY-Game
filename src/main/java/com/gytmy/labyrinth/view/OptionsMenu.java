@@ -38,7 +38,7 @@ public class OptionsMenu extends JPanel {
     private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
     private String actualJTreeRootPath = JTREE_ROOT_PATH;
 
-    private static final User NO_ONE = new User("ALL", "USERS", 0);
+    private static final User ALL_USERS = new User("ALL", "USERS", 0);
 
     private JButton deleteUserButton;
     private JButton editUserButton;
@@ -91,7 +91,7 @@ public class OptionsMenu extends JPanel {
 
     private void addUsersToJComboBox(JComboBox<User> userSelector) {
         List<User> users = AudioFileManager.getUsers();
-        userSelector.addItem(NO_ONE);
+        userSelector.addItem(ALL_USERS);
 
         for (User user : users) {
             userSelector.addItem(user);
@@ -120,7 +120,7 @@ public class OptionsMenu extends JPanel {
 
         User user = (User) userSelector.getSelectedItem();
 
-        if (user == NO_ONE) {
+        if (user == ALL_USERS) {
             actualJTreeRootPath = JTREE_ROOT_PATH;
             deleteUserButton.setEnabled(false);
         } else {
@@ -209,7 +209,7 @@ public class OptionsMenu extends JPanel {
         User user = (User) userSelector.getSelectedItem();
         String word = wordSelector == null ? "ALL" : (String) wordSelector.getSelectedItem();
 
-        if (user == NO_ONE) {
+        if (user == ALL_USERS) {
             return label + getTotalOfWordsForAllUsers(user, word);
         }
 
