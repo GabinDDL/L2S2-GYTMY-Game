@@ -5,6 +5,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 
@@ -67,8 +68,9 @@ public class OptionsMenu extends JPanel {
         TreeModel model = new FileSystemTreeModel(new File("src/resources/audioFiles"));
         JTree fileNavigator = new JTree(model);
         fileNavigator.setScrollsOnExpand(true);
+        JScrollPane scrollPane = new JScrollPane(fileNavigator);
 
-        add(fileNavigator, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     private void initWordSelector() {
