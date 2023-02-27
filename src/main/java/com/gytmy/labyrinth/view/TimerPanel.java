@@ -70,6 +70,7 @@ public class TimerPanel extends JPanel implements ActionListener {
 
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         counterInSeconds++;
         timerLabel.setText(getStringTime(counterInSeconds));
