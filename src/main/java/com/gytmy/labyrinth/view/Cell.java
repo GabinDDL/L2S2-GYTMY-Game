@@ -15,7 +15,7 @@ public class Cell extends JPanel {
 
     public static final Color WALL_COLOR = Color.decode("#2E222F");
     public static final Color PATH_COLOR = Color.decode("#fff8ea");
-    public static final Color INTIAL_CELL_COLOR = Color.decode("#94B0C2");
+    public static final Color INITIAL_CELL_COLOR = Color.decode("#94B0C2");
     public static final Color EXIT_CELL_COLOR = Color.decode("#EE8695");
 
     public static final int CELL_SIZE = 24;
@@ -50,7 +50,7 @@ public class Cell extends JPanel {
 
     private boolean colorCellInitialOrExit() {
         if (model.isInitialCell(coordinates)) {
-            setBackground(INTIAL_CELL_COLOR);
+            setBackground(INITIAL_CELL_COLOR);
             return true;
 
         } else if (model.isExitCell(coordinates)) {
