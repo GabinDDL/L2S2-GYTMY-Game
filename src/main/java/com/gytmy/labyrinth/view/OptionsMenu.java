@@ -85,6 +85,7 @@ public class OptionsMenu extends JPanel {
         audioPanel.add(recordButton);
 
         JButton goBackButton = new JButton("Go back");
+        goBackButton.addActionListener(e -> goBackToStartMenu());
         audioPanel.add(goBackButton);
 
         add(audioPanel, BorderLayout.EAST);
@@ -100,5 +101,8 @@ public class OptionsMenu extends JPanel {
     public void goBackToStartMenu() {
         frame.setContentPane(new StartMenu(frame));
         GameFrameToolbox.frameUpdate(frame, "Menu");
+        frame.setLocationRelativeTo(null);
+        frame.setSize(800, 500);
+        frame.revalidate();
     }
 }
