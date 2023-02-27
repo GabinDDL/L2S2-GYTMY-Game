@@ -10,8 +10,8 @@ public class GameFrameToolbox {
     }
 
     public static void frameUpdate(JFrame frame, String subTitle) {
-        frame.pack();
-        frame.setLocationRelativeTo(null);
+        // frame.pack();
+        // frame.setLocationRelativeTo(null);
         frame.revalidate();
         frame.setTitle(GAME_TITLE + "\t(" + subTitle + ")");
     }
