@@ -146,6 +146,10 @@ public class OptionsMenu extends JPanel {
         }
     }
 
+    /**
+     * File Navigator Panel is the center panel of the OptionsMenu.
+     * It's used to navigate through the user's audio files.
+     */
     public void loadFileNavigator() {
 
         if (scrollPane != null) {
@@ -162,6 +166,13 @@ public class OptionsMenu extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Word Selector Panel is the right panel of the OptionsMenu.
+     * It's used to select word to record. It displays the number of records
+     * existing for the selected word and the selected user.
+     * 
+     * You can also go back to the main menu from it.
+     */
     private void initWordSelector() {
         JPanel audioPanel = new JPanel(new GridLayout(4, 1));
 
