@@ -76,40 +76,4 @@ public class FileSystemTreeModel implements TreeModel {
     public void removeTreeModelListener(TreeModelListener listener) {
         listeners = Collections.emptyList();
     }
-
-    public Enumeration<?> getChildren(Object parent) {
-        final File file = (File) parent;
-        if (file.isDirectory()) {
-            final String[] children = file.list();
-
-            for (String str : children) {
-                System.out.println(str);
-            }
-
-            if (children != null) {
-                Arrays.sort(children);
-                return new Enumeration<String>() {
-                    int i = 0;
-
-                    @Override
-                    public boolean hasMoreElements() {
-                        return i < children.length;
-                    }
-
-                    @Override
-                    public String nextElement() {
-                        return children[i++];
-                    }
-                };
-            }
-        }
-        return Collections.emptyEnumeration();
-    }
-
-    public void fireTreeStructureChanged() {
-        TreeModelEvent e = new TreeModelEvent(this, new Object[] { root });
-        for (TreeModelListener l : listeners) {
-            l.treeStructureChanged(e);
-        }
-    }
 }
