@@ -108,9 +108,10 @@ public class OptionsMenu extends JPanel {
 
         userPanel.add(component, c);
 
-        component.setPreferredSize(
-                new Dimension(component.getPreferredSize().height,
-                        component.getPreferredSize().height));
+        if (setPreferredSize) {
+            component.setPreferredSize(
+                    new Dimension(component.getPreferredSize().height, component.getPreferredSize().height));
+        }
     }
 
     private void userHasBeenChanged() {
