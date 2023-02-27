@@ -35,10 +35,10 @@ public class OptionsMenu extends JPanel {
     private JScrollPane scrollPane;
     private JTree fileNavigator;
 
-    private final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
+    private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
     private String actualJTreeRootPath = JTREE_ROOT_PATH;
 
-    private final User NO_ONE = new User("ALL", "USERS", 0);
+    private static final User NO_ONE = new User("ALL", "USERS", 0);
 
     private JButton deleteUserButton;
     private JButton editUserButton;
