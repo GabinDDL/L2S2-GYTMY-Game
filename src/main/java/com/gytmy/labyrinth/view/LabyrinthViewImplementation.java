@@ -38,6 +38,7 @@ public class LabyrinthViewImplementation extends LabyrinthView {
         timerPanel.start();
     }
 
+    @Override
     public void stopTimer() {
         timerPanel.stop();
     }
