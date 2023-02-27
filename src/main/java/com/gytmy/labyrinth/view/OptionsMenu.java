@@ -40,8 +40,12 @@ public class OptionsMenu extends JPanel {
 
     private final User NO_ONE = new User("ALL", "USERS", 0);
 
-    private JLabel totalOfWords;
     private JButton deleteUserButton;
+    private JButton editUserButton;
+    private JButton addUserButton;
+
+    private JLabel totalOfWords;
+    private JButton recordButton;
 
     public OptionsMenu(JFrame frame) {
         this.frame = frame;
@@ -67,15 +71,18 @@ public class OptionsMenu extends JPanel {
         userSelector.addActionListener(e -> userHasBeenChanged());
         addComponentToUserPanel(userSelector, c, 0, 0, 0.5, false);
 
-        deleteUserButton = new JButton("Delete user");
+        deleteUserButton = new JButton("Delete");
+        deleteUserButton.setToolTipText("This will delete the current user and all his recordings");
         deleteUserButton.setEnabled(false);
         deleteUserButton.addActionListener(e -> deleteUser());
         addComponentToUserPanel(deleteUserButton, c, 1, 0, 0.1, true);
 
-        JButton editUserButton = new JButton("Edit user");
+        editUserButton = new JButton("Edit");
+        editUserButton.setToolTipText("This will edit the current user");
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
 
-        JButton addUserButton = new JButton("Add user");
+        addUserButton = new JButton("Add");
+        addUserButton.setToolTipText("This will add a new user");
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
 
         add(userPanel, BorderLayout.NORTH);
@@ -165,10 +172,12 @@ public class OptionsMenu extends JPanel {
         totalOfWords = new JLabel(getTotalOfWords());
         audioPanel.add(totalOfWords);
 
-        JButton recordButton = new JButton("Record");
+        recordButton = new JButton("Record");
+        recordButton.setToolTipText("Record a new audio for the selected word");
         audioPanel.add(recordButton);
 
         JButton goBackButton = new JButton("Go back");
+        goBackButton.setToolTipText("Go back to start menu");
         goBackButton.addActionListener(e -> goBackToStartMenu());
         audioPanel.add(goBackButton);
 
@@ -180,11 +189,11 @@ public class OptionsMenu extends JPanel {
     }
 
     private String getTotalOfWords() {
-        String label = "Total of words: ";
-
         if (!(userSelector.getSelectedItem() instanceof User)) {
-            return label + 0;
+            return "Not an user";
         }
+
+        String label = "Total of audios : ";
 
         User user = (User) userSelector.getSelectedItem();
         String word = wordSelector == null ? "ALL" : (String) wordSelector.getSelectedItem();
