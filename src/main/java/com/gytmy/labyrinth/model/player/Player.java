@@ -14,6 +14,8 @@ public interface Player {
 
     public int getY();
 
+    public int getScore();
+
     public Coordinates getCoordinates();
 
     public String getName();
@@ -58,4 +60,6 @@ public interface Player {
      * @param direction
      */
     public void move(Direction direction);
+
+    public void decreaseScore(int reduction);
 }

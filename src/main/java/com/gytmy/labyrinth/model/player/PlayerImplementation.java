@@ -12,6 +12,8 @@ public class PlayerImplementation implements Player {
     private String name;
     private Color color;
     private boolean ready;
+    private int score;
+
     private final int id;
 
     public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
@@ -19,6 +21,7 @@ public class PlayerImplementation implements Player {
         this.name = name;
         this.color = color;
         this.ready = ready;
+        this.score = 0;
 
         this.id = idCounter;
         ++idCounter;
@@ -129,4 +132,13 @@ public class PlayerImplementation implements Player {
         }
     }
 
+    @Override
+    public int getScore() {
+        return score;
+    }
+
+    @Override
+    public void decreaseScore(int reduction) {
+        this.score = Math.max(0, score - reduction);
+    }
 }
