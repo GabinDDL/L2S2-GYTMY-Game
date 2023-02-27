@@ -245,9 +245,9 @@ public class OptionsMenu extends JPanel {
 
     public void goBackToStartMenu() {
         frame.setContentPane(new StartMenu(frame));
-        GameFrameToolbox.frameUpdate(frame, "Menu");
-        // frame.setLocationRelativeTo(null);
-        // frame.setSize(800, 500);
-        // frame.revalidate();
+        frame.setSize(800, 500);
+        frame.setLocationRelativeTo(null);
+        frame.revalidate();
+        frame.setTitle("Be AMazed" + "\t( Menu )");
     }
 }
