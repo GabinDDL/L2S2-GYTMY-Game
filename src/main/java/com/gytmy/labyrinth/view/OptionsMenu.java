@@ -23,6 +23,16 @@ import java.util.List;
 public class OptionsMenu extends JPanel {
     private JFrame frame;
 
+    private JComboBox<User> userSelector;
+
+    private JScrollPane scrollPane;
+    private JTree fileNavigator;
+
+    private final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
+    private String actualJTreeRootPath = JTREE_ROOT_PATH;
+
+    private final User NO_ONE = new User("x", "x", 0);
+
     public OptionsMenu(JFrame frame) {
         this.frame = frame;
 
@@ -40,8 +50,9 @@ public class OptionsMenu extends JPanel {
     private void initUserSelector() {
         JPanel userPanel = new JPanel(new GridLayout(1, 4));
 
-        JComboBox<User> userSelector = new JComboBox<>();
+        userSelector = new JComboBox<>();
         addUsersToJComboBox(userSelector);
+        userSelector.addActionListener(e -> userHasBeenChanged());
         userPanel.add(userSelector);
 
         JButton deleteUserButton = new JButton("Delete user");
@@ -56,19 +67,37 @@ public class OptionsMenu extends JPanel {
         add(userPanel, BorderLayout.NORTH);
     }
 
+    private void userHasBeenChanged() {
+        if (!(userSelector.getSelectedItem() instanceof User)) {
+            return;
+        }
+
+        User user = (User) userSelector.getSelectedItem();
+
+        if (user == NO_ONE) {
+            actualJTreeRootPath = JTREE_ROOT_PATH;
+        } else {
+            actualJTreeRootPath = JTREE_ROOT_PATH + user.getFirstName();
+        }
+        reloadJTree();
+        revalidate();
+    }
+
     private void addUsersToJComboBox(JComboBox<User> userSelector) {
         List<User> users = AudioFileManager.getUsers();
+        userSelector.addItem(NO_ONE);
+
         for (User user : users) {
             userSelector.addItem(user);
         }
-        userSelector.addItem(new User("User 1", "Name 1", 2121));
     }
 
     private void initFileNavigator() {
-        TreeModel model = new FileSystemTreeModel(new File("src/resources/audioFiles"));
-        JTree fileNavigator = new JTree(model);
+        TreeModel model = new FileSystemTreeModel(new File(actualJTreeRootPath));
+        fileNavigator = new JTree(model);
         fileNavigator.setScrollsOnExpand(true);
-        JScrollPane scrollPane = new JScrollPane(fileNavigator);
+        fileNavigator.setShowsRootHandles(true);
+        scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
     }
@@ -106,5 +135,18 @@ public class OptionsMenu extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setSize(800, 500);
         frame.revalidate();
+    }
+
+    public void reloadJTree() {
+
+        remove(scrollPane);
+
+        TreeModel model = new FileSystemTreeModel(new File(actualJTreeRootPath));
+        fileNavigator = new JTree(model);
+        fileNavigator.setScrollsOnExpand(true);
+
+        scrollPane = new JScrollPane(fileNavigator);
+
+        add(scrollPane, BorderLayout.CENTER);
     }
 }
