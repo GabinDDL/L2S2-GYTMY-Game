@@ -3,9 +3,6 @@ package com.gytmy.utils;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -13,7 +10,6 @@ import javax.swing.tree.TreePath;
 public class FileSystemTreeModel implements TreeModel {
 
     private File root;
-    private List<TreeModelListener> listeners = Collections.emptyList();
 
     public FileSystemTreeModel(File root) {
         this.root = root;
@@ -69,11 +65,11 @@ public class FileSystemTreeModel implements TreeModel {
 
     @Override
     public void addTreeModelListener(TreeModelListener listener) {
-        listeners = Collections.singletonList(listener);
+        Collections.singletonList(listener);
     }
 
     @Override
     public void removeTreeModelListener(TreeModelListener listener) {
-        listeners = Collections.emptyList();
+        Collections.emptyList();
     }
 }
