@@ -1,6 +1,7 @@
 package com.gytmy.labyrinth.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 
 import com.gytmy.sound.AudioFileManager;
@@ -161,6 +163,15 @@ public class OptionsMenu extends JPanel {
         fileNavigator = new JTree(model);
         fileNavigator.setScrollsOnExpand(true);
         fileNavigator.setShowsRootHandles(true);
+        fileNavigator.setCellRenderer(new TreeCellRenderer() {
+
+            @Override
+            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
+                    boolean leaf, int row, boolean hasFocus) {
+                return new JLabel(((File) value).getName());
+            }
+
+        });
 
         scrollPane = new JScrollPane(fileNavigator);
 
