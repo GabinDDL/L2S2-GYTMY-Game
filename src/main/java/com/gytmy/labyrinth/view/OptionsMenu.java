@@ -1,12 +1,10 @@
 package com.gytmy.labyrinth.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.io.File;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -18,12 +16,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeModel;
 
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
-import com.gytmy.utils.FileSystemTreeModel;
+import com.gytmy.utils.FileTree;
 import com.gytmy.utils.WordsToRecord;
 
 public class OptionsMenu extends JPanel {
@@ -159,20 +155,7 @@ public class OptionsMenu extends JPanel {
             remove(scrollPane);
         }
 
-        TreeModel model = new FileSystemTreeModel(new File(actualJTreeRootPath));
-        fileNavigator = new JTree(model);
-        fileNavigator.setScrollsOnExpand(true);
-        fileNavigator.setShowsRootHandles(true);
-        fileNavigator.setCellRenderer(new TreeCellRenderer() {
-
-            @Override
-            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-                    boolean leaf, int row, boolean hasFocus) {
-                return new JLabel(((File) value).getName());
-            }
-
-        });
-
+        fileNavigator = new FileTree(actualJTreeRootPath);
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
