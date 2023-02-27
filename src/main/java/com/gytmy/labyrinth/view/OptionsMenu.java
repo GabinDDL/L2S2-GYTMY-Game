@@ -168,12 +168,13 @@ public class OptionsMenu extends JPanel {
     }
 
     /**
-     * Word Selector Panel is the right panel of the OptionsMenu.
-     * It's used to select word to record. It displays the number of records
-     * existing for the selected word and the selected user.
+     * Word Selector Panel is the panel at the right of the OptionsMenu. It's used
+     * to select the word among the list to record. It displays the number of
+     * records existing for the selected word and the selected user.
      * 
      * You can also go back to the main menu from it.
      */
+
     private void initWordSelector() {
         JPanel audioPanel = new JPanel(new GridLayout(4, 1));
 
@@ -196,6 +197,16 @@ public class OptionsMenu extends JPanel {
         add(audioPanel, BorderLayout.EAST);
     }
 
+    private void addWordsToJComboBox(JComboBox<String> wordSelector) {
+
+        wordSelector.addItem("ALL");
+
+        WordsToRecord[] words = WordsToRecord.values();
+        for (WordsToRecord word : words) {
+            wordSelector.addItem(word.name());
+        }
+    }
+
     private void loadTotalOfWords() {
         totalOfWords.setText(getTotalOfWords());
     }
@@ -211,7 +222,7 @@ public class OptionsMenu extends JPanel {
         String word = wordSelector == null ? "ALL" : (String) wordSelector.getSelectedItem();
 
         if (user == ALL_USERS) {
-            return label + getTotalOfWordsForAllUsers(user, word);
+            return label + getTotalOfWordsForAllUsers(word);
         }
 
         if (word.equals("ALL")) {
@@ -221,7 +232,7 @@ public class OptionsMenu extends JPanel {
         return label + AudioFileManager.numberOfRecordings(user.getFirstName(), word);
     }
 
-    private int getTotalOfWordsForAllUsers(User user, String word) {
+    private int getTotalOfWordsForAllUsers(String word) {
         if (word.equals("ALL")) {
             return AudioFileManager.totalNumberOfAudioFiles();
         }
@@ -231,16 +242,6 @@ public class OptionsMenu extends JPanel {
             totalForASpecificWord += AudioFileManager.numberOfRecordings(usr.getFirstName(), word);
         }
         return totalForASpecificWord;
-    }
-
-    private void addWordsToJComboBox(JComboBox<String> wordSelector) {
-
-        wordSelector.addItem("ALL");
-
-        WordsToRecord[] words = WordsToRecord.values();
-        for (WordsToRecord word : words) {
-            wordSelector.addItem(word.name());
-        }
     }
 
     public void goBackToStartMenu() {
