@@ -68,9 +68,16 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
     @Override
     public void movePlayer(Player player, Direction direction) {
+        if (!isMovementAllowed()) {
+            return;
+        }
         if (model.movePlayer(player, direction)) {
             view.update(player, direction);
         }
+    }
+
+    private boolean isMovementAllowed() {
+        return !model.isGameOver() && view.isTimerCounting();
     }
 
     @Override

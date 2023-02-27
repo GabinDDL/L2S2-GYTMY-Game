@@ -15,6 +15,7 @@ public class TimerPanel extends JPanel implements ActionListener {
 
     private int counter = 0;
     private int countdown = 3;
+    private boolean isCounting = false;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color COUNTDOWN_COLOR = Color.decode("#EE8695");
@@ -39,6 +40,7 @@ public class TimerPanel extends JPanel implements ActionListener {
                 timerLabel.setForeground(FOREGROUND_COLOR);
                 timerLabel.setText(getStringTime(counter));
                 timer = new Timer(1000, this);
+                isCounting = true;
                 timer.start();
             }
         });
@@ -48,7 +50,6 @@ public class TimerPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         counter++;
         timerLabel.setText(getStringTime(counter));
-
     }
 
     private String getStringTime(int counter) {
@@ -58,11 +59,22 @@ public class TimerPanel extends JPanel implements ActionListener {
     }
 
     public void start() {
+        if (isCounting) {
+            return;
+        }
+        if (countdown <= 0) {
+            isCounting = true;
+        }
         timer.start();
     }
 
     public void stop() {
+        isCounting = false;
         timer.stop();
+    }
+
+    public boolean isCounting() {
+        return isCounting;
     }
 
     public int getCounterInSeconds() {

@@ -14,6 +14,10 @@ public abstract class LabyrinthView extends JPanel {
 
     public abstract LabyrinthPanel getLabyrinthPanel();
 
+    public abstract int getTimerCounterInSeconds();
+
+    public abstract boolean isTimerCounting();
+
     public void addKeyController(KeyListener keyController) {
         // The EventQueue is used to ensure that the key listener is added after the
         // component is added to the frame. If it is added before, the component will

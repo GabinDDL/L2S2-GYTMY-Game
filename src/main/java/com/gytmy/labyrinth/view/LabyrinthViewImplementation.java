@@ -56,4 +56,9 @@ public class LabyrinthViewImplementation extends LabyrinthView {
         return labyrinthPanel;
     }
 
+    @Override
+    public boolean isTimerCounting() {
+        return timerPanel.isCounting();
+    }
+
 }
