@@ -84,6 +84,9 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private boolean isMovementAllowed() {
         if (model.isGameOver()) {
             view.stopTimer();
+            // TODO: Remove from production code
+            ScoreCalculator scoreCalculator = getScoreCalculator(ScoreType.CLASSIC, model.getPlayers()[0]);
+            System.out.println(scoreCalculator.getScore());
             return false;
         }
         return view.isTimerCounting();

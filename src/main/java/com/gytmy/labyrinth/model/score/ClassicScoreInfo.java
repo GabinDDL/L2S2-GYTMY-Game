@@ -21,7 +21,7 @@ public class ClassicScoreInfo implements ScoreInfo {
         this(minMovements, player.getNumberOfMovements(), timePassed);
     }
 
-    public ClassicScoreInfo(int minMovements, int timePassed, int movements) {
+    public ClassicScoreInfo(int minMovements, int movements, int timePassed) {
         this.minMovements = minMovements;
         this.timePassed = timePassed;
         this.movements = movements;
