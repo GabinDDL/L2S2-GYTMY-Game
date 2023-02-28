@@ -48,13 +48,12 @@ public class FileTree extends JTree {
 
             JLabel label = new JLabel(((File) value).getName());
             label.setOpaque(true);
+            label.setForeground(FOREGROUND_COLOR);
 
             if (selected) {
                 label.setBackground(SELECTION_COLOR);
-                label.setForeground(BACKGROUND_COLOR);
             } else {
                 label.setBackground(BACKGROUND_COLOR);
-                label.setForeground(FOREGROUND_COLOR);
             }
 
             return label;
