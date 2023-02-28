@@ -103,6 +103,8 @@ public class AudioFileManager {
     public static List<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
         List<User> users = new ArrayList<>();
 
+        generateAudioDirectoryStructure();
+
         for (File file : SRC_DIRECTORY.listFiles()) {
             if (predicate.test(file)) {
                 tryToAddUser(users, file);
@@ -199,6 +201,10 @@ public class AudioFileManager {
 
     public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
         List<File> files = new ArrayList<>();
+
+        if (!directory.exists()) {
+            return files;
+        }
 
         for (File file : directory.listFiles()) {
             if (predicate.test(file)) {
