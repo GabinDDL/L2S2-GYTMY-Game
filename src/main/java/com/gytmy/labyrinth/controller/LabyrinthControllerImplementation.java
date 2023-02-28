@@ -1,14 +1,11 @@
 package com.gytmy.labyrinth.controller;
 
-import org.junit.platform.console.shadow.picocli.CommandLine.ScopeType;
-
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
-import com.gytmy.labyrinth.model.score.ScoreInfo;
 import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory.ScoreType;
 import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.LabyrinthViewImplementation;
