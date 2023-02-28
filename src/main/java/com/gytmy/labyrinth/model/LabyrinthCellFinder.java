@@ -26,6 +26,17 @@ public class LabyrinthCellFinder {
         this.board = board;
     }
 
+    /**
+     * Returns the furthest cell from a given cell in the board. It is used to
+     * find the exit cell of the labyrinth. It uses a variation of breadth-first
+     * search.
+     *
+     * @param start the starting cell
+     * @return the furthest cell from the starting cell
+     * @see <a href=
+     *      "https://en.wikipedia.org/wiki/Breadth-first_search">Breadth-first
+     *      search</a>
+     */
     public Coordinates getFurthestCell(Coordinates start) {
 
         initializeVariables(start);
@@ -79,6 +90,38 @@ public class LabyrinthCellFinder {
     }
 
     /**
+     * Returns the distance between two cells in the board. It
+     * is uses the breadth-first search.
+     * 
+     * @param start the starting cell
+     * @param end   the ending cell
+     * @return the distance between the two cells
+     * @see <a href=
+     *      "https://en.wikipedia.org/wiki/Breadth-first_search">Breadth-first
+     *      search</a>
+     */
+    public int getDistance(Coordinates start, Coordinates end) {
+        initializeVariables(start);
+
+        int distance = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Coordinates current = queue.remove();
+                if (current.equals(end)) {
+                    return distance;
+                }
+                for (Direction direction : Direction.values()) {
+                    handleNeighbor(current, direction);
+                }
+            }
+            distance++;
+        }
+
+        return -1;
+    }
+
+    /**
      * Returns the closest cell to the top left corner of the board. It is used
      * to find the entrance cell of the labyrinth. The algorithm prioritizes
      * rows.
@@ -95,35 +138,6 @@ public class LabyrinthCellFinder {
             }
         }
         return null;
-    }
-
-    /**
-     * Returns the distance between two cells in the board.
-     * 
-     * @param start the starting cell
-     * @param end   the ending cell
-     * @return the distance between the two cells
-     */
-    public int getDistance(Coordinates start, Coordinates end) {
-        initializeVariables(start);
-
-        int distance = 0;
-
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                Coordinates current = queue.remove();
-                if (current.equals(end)) {
-                    return distance;
-                }
-                for (Direction direction : Direction.values()) {
-                    handleNeighbor(current, direction);
-                }
-            }
-            distance++;
-        }
-
-        return -1;
     }
 
 }
