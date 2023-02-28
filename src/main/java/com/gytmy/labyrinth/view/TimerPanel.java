@@ -72,7 +72,6 @@ public class TimerPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("TimerPanel.actionPerformed()");
         if (!isCounting) {
             return;
         }
