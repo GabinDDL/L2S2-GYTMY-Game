@@ -69,8 +69,6 @@ public class OptionsMenu extends JPanel {
     private void initUserPanel() {
 
         userPanel = new JPanel(new GridBagLayout());
-        userPanel.setBackground(BUTTON_COLOR);
-        userPanel.setForeground(TEXT_COLOR);
         GridBagConstraints c = new GridBagConstraints();
 
         initUserSelector(c);
@@ -217,16 +215,14 @@ public class OptionsMenu extends JPanel {
     private void initWorldSelector(JComponent parentComponent) {
         addWordsToJComboBox(wordSelector);
         wordSelector.addActionListener(e -> loadTotalOfWords());
-        wordSelector.setBackground(BUTTON_COLOR);
-        wordSelector.setForeground(TEXT_COLOR);
+        initColors(wordSelector);
         ((JLabel) wordSelector.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         parentComponent.add(wordSelector);
     }
 
     private void initCountOfWords(JComponent parenComponent) {
         totalOfWords = new JLabel(getTotalOfWords());
-        totalOfWords.setBackground(BUTTON_COLOR);
-        totalOfWords.setForeground(TEXT_COLOR);
+        initColors(totalOfWords);
         totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
         parenComponent.add(totalOfWords);
     }
@@ -234,8 +230,7 @@ public class OptionsMenu extends JPanel {
     private void initRecordButton(JComponent parentComponent) {
         recordButton = new JButton("Record");
         recordButton.setToolTipText("Record a new audio for the selected word");
-        recordButton.setBackground(BUTTON_COLOR);
-        recordButton.setForeground(TEXT_COLOR);
+        initColors(recordButton);
         parentComponent.add(recordButton);
     }
 
