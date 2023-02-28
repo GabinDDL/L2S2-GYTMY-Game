@@ -29,6 +29,7 @@ public class Bounds extends Coordinates {
         return isInside(coordinates.getX(), coordinates.getY());
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
@@ -40,6 +41,7 @@ public class Bounds extends Coordinates {
         return getX() == other.getX() && getY() == other.getY() && width == other.width && height == other.height;
     }
 
+    @Override
     public int hashCode() {
         return Objects.hash(getX(), getY(), width, height);
     }
