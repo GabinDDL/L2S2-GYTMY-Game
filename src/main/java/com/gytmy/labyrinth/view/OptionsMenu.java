@@ -1,6 +1,7 @@
 package com.gytmy.labyrinth.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.SwingConstants;
 
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
@@ -45,12 +47,16 @@ public class OptionsMenu extends JPanel {
     private JLabel totalOfWords;
     private JButton recordButton;
 
+    private static final Color BUTTON_COLOR = Cell.WALL_COLOR;
+    private static final Color TEXT_COLOR = Cell.PATH_COLOR;
+    private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
+
     public OptionsMenu(JFrame frame) {
         this.frame = frame;
 
         setLayout(new BorderLayout());
 
-        initUserSelector();
+        initUserPanel();
         loadFileNavigator();
         initWordSelector();
     }
@@ -59,32 +65,56 @@ public class OptionsMenu extends JPanel {
      * User Panel is the top panel of the OptionsMenu.
      * It's used to select a user, add a new one, or edit / delete an existing one.
      */
-    private void initUserSelector() {
+    private void initUserPanel() {
 
         userPanel = new JPanel(new GridBagLayout());
+        userPanel.setBackground(BUTTON_COLOR);
+        userPanel.setForeground(TEXT_COLOR);
         GridBagConstraints c = new GridBagConstraints();
 
+        initUserSelector(c);
+        initDeleteButton(c);
+        initEditButton(c);
+        initAddButton(c);
+
+        add(userPanel, BorderLayout.NORTH);
+    }
+
+    private void initUserSelector(GridBagConstraints c) {
         userSelector = new JComboBox<>();
         addUsersToJComboBox(userSelector);
         userSelector.addActionListener(e -> userHasBeenChanged());
+        userSelector.setBackground(BUTTON_COLOR);
+        userSelector.setForeground(TEXT_COLOR);
         addComponentToUserPanel(userSelector, c, 0, 0, 0.5, false);
+    }
 
+    private void initDeleteButton(GridBagConstraints c) {
         deleteUserButton = new JButton("Delete");
         deleteUserButton.setToolTipText("This will delete the current user and all his recordings");
         deleteUserButton.setEnabled(false);
         deleteUserButton.addActionListener(e -> deleteUser());
+        initColors(deleteUserButton);
         addComponentToUserPanel(deleteUserButton, c, 1, 0, 0.1, true);
+    }
 
+    private void initEditButton(GridBagConstraints c) {
         editUserButton = new JButton("Edit");
         editUserButton.setToolTipText("This will edit the current user");
+        initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
+    }
 
+    private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
+        initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
+    }
 
-        add(userPanel, BorderLayout.NORTH);
-
+    private void initColors(JComponent component) {
+        component.setBackground(BUTTON_COLOR);
+        component.setForeground(TEXT_COLOR);
     }
 
     private void addUsersToJComboBox(JComboBox<User> userSelector) {
@@ -126,6 +156,7 @@ public class OptionsMenu extends JPanel {
             actualJTreeRootPath += user.getFirstName();
             deleteUserButton.setEnabled(true);
         }
+
         loadFileNavigator();
         loadTotalOfWords();
         revalidate();
@@ -168,24 +199,33 @@ public class OptionsMenu extends JPanel {
      * 
      * You can also go back to the main menu from it.
      */
-
     private void initWordSelector() {
         JPanel audioPanel = new JPanel(new GridLayout(4, 1));
+        audioPanel.setBackground(BUTTON_COLOR);
 
         addWordsToJComboBox(wordSelector);
         wordSelector.addActionListener(e -> loadTotalOfWords());
+        wordSelector.setBackground(BUTTON_COLOR);
+        wordSelector.setForeground(TEXT_COLOR);
+        ((JLabel) wordSelector.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         audioPanel.add(wordSelector);
 
         totalOfWords = new JLabel(getTotalOfWords());
+        totalOfWords.setBackground(BUTTON_COLOR);
+        totalOfWords.setForeground(TEXT_COLOR);
         audioPanel.add(totalOfWords);
 
         recordButton = new JButton("Record");
         recordButton.setToolTipText("Record a new audio for the selected word");
+        recordButton.setBackground(BUTTON_COLOR);
+        recordButton.setForeground(TEXT_COLOR);
         audioPanel.add(recordButton);
 
         JButton goBackButton = new JButton("Go back");
         goBackButton.setToolTipText("Go back to start menu");
         goBackButton.addActionListener(e -> goBackToStartMenu());
+        goBackButton.setBackground(BACK_BUTTON_COLOR);
+        goBackButton.setForeground(TEXT_COLOR);
         audioPanel.add(goBackButton);
 
         add(audioPanel, BorderLayout.EAST);
