@@ -97,4 +97,33 @@ public class LabyrinthCellFinder {
         return null;
     }
 
+    /**
+     * Returns the distance between two cells in the board.
+     * 
+     * @param start the starting cell
+     * @param end   the ending cell
+     * @return the distance between the two cells
+     */
+    public int getDistance(Coordinates start, Coordinates end) {
+        initializeVariables(start);
+
+        int distance = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Coordinates current = queue.remove();
+                if (current.equals(end)) {
+                    return distance;
+                }
+                for (Direction direction : Direction.values()) {
+                    handleNeighbor(current, direction);
+                }
+            }
+            distance++;
+        }
+
+        return -1;
+    }
+
 }

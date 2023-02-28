@@ -70,4 +70,42 @@ public class TestLabyrinthCellFinder {
         assertEquals(expected, result);
     }
 
+    @Test
+    public void testGetDistance5x5() {
+        boolean[][] board = new boolean[][] {
+                { false, false, false, false, false },
+                { false, true, true, true, false },
+                { false, true, false, true, false },
+                { false, true, false, true, false },
+                { false, false, false, false, false }
+        };
+
+        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        int result = finder.getDistance(new Coordinates(1, 1), new Coordinates(3, 3));
+
+        assertEquals(4, result);
+
+    }
+
+    @Test
+    public void testGetDistance10x10() {
+        boolean[][] board = new boolean[][] {
+                { false, false, false, false, false, false, false, false, false, false },
+                { false, true, true, true, true, true, true, false, true, false },
+                { false, true, false, true, false, false, false, false, true, false },
+                { false, true, false, true, true, true, true, true, true, false },
+                { false, true, false, true, false, false, true, false, true, false },
+                { false, true, false, true, false, false, true, false, true, false },
+                { false, true, false, true, false, false, true, false, true, false },
+                { false, true, false, true, false, false, true, false, true, false },
+                { false, true, true, true, true, true, true, true, true, false },
+                { false, false, false, false, false, false, false, false, false, false }
+        };
+
+        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        int result = finder.getDistance(new Coordinates(6, 1), new Coordinates(8, 1));
+
+        assertEquals(12, result);
+    }
+
 }
