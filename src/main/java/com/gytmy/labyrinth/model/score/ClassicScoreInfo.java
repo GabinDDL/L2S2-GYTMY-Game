@@ -1,12 +1,12 @@
 package com.gytmy.labyrinth.model.score;
 
-public class PlayerClassicScoreInfo implements PlayerScoreInfo {
+public class ClassicScoreInfo implements ScoreInfo {
 
     private int minMovements;
     private int timePassed;
     private int movements;
 
-    public PlayerClassicScoreInfo(int minMovements) {
+    public ClassicScoreInfo(int minMovements) {
         this.minMovements = minMovements;
         this.timePassed = 0;
         this.movements = 0;

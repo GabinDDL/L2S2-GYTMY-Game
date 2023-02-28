@@ -1,7 +1,7 @@
 package com.gytmy.labyrinth.model.score;
 
 public class ClassicScoreCalculator implements ScoreCalculator {
-    private PlayerClassicScoreInfo info;
+    private ClassicScoreInfo info;
     private int bestTime;
 
     private static final int MAX_SCORE = 1000;
@@ -9,7 +9,10 @@ public class ClassicScoreCalculator implements ScoreCalculator {
     private static final int TIME_PENALTY = 10;
     private static final double IDEAL_MOVEMENT_TIME = 0.2;
 
-    public ClassicScoreCalculator(PlayerClassicScoreInfo info) {
+    public ClassicScoreCalculator(ClassicScoreInfo info) {
+        if (info == null) {
+            throw new IllegalArgumentException("Info must not be null");
+        }
         this.info = info;
         this.bestTime = (int) (info.getMinMovements() * IDEAL_MOVEMENT_TIME);
     }
@@ -30,10 +33,10 @@ public class ClassicScoreCalculator implements ScoreCalculator {
         return score;
     }
 
-    public void updateInfo(PlayerScoreInfo info) {
-        if (!(info instanceof PlayerClassicScoreInfo)) {
+    public void updateInfo(ScoreInfo info) {
+        if (!(info instanceof ClassicScoreInfo)) {
             throw new IllegalArgumentException("Info must be of type PlayerClassicScoreInfo");
         }
-        this.info = (PlayerClassicScoreInfo) info;
+        this.info = (ClassicScoreInfo) info;
     }
 }

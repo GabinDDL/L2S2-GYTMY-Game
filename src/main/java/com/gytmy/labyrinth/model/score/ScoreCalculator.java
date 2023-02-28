@@ -4,6 +4,6 @@ public interface ScoreCalculator {
 
     int getScore();
 
-    void updateInfo(PlayerScoreInfo info);
+    void updateInfo(ScoreInfo info);
 
 }
