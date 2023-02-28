@@ -10,13 +10,13 @@ import com.gytmy.utils.Coordinates;
  * used to find the entrance and exit cells of the labyrinth. It is also used to
  * find the distance between two cells.
  */
-public class LabyrinthCellFinder {
+public class CellFinder {
 
     private boolean[][] board;
     private boolean[][] visited;
     private Queue<Coordinates> queue;
 
-    public LabyrinthCellFinder(boolean[][] board) {
+    public CellFinder(boolean[][] board) {
         this.board = board;
     }
 

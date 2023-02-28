@@ -90,7 +90,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     private Coordinates determineInitialCell(Coordinates initialCell) {
         if (initialCell == null) {
             // Get a random non-wall cell
-            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+            CellFinder finder = new CellFinder(board);
             initialCell = finder.getClosestToTopCell();
         }
         handleInvalidStartCell(initialCell);
@@ -126,7 +126,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      */
     private Coordinates determineExitCell(Coordinates exitCell) {
         if (exitCell == null) {
-            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+            CellFinder finder = new CellFinder(board);
             exitCell = finder.getFurthestCell(initialCell);
         }
         handleInvalidExitCell(exitCell);
@@ -158,7 +158,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     private int calculateMinimumPathLength() {
-        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        CellFinder finder = new CellFinder(board);
         return finder.getDistance(initialCell, exitCell);
     }
 

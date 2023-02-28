@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.gytmy.utils.Coordinates;
 
-public class TestLabyrinthCellFinder {
+public class TestCellFinder {
 
     @Test
     public void testGetFurthestCell5x5() {
@@ -18,7 +18,7 @@ public class TestLabyrinthCellFinder {
                 { false, false, false, false, false }
         };
 
-        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        CellFinder finder = new CellFinder(board);
         Coordinates result = finder.getFurthestCell(new Coordinates(1, 3));
 
         assertEquals(result, new Coordinates(3, 3));
@@ -39,7 +39,7 @@ public class TestLabyrinthCellFinder {
                 { false, false, false, false, false, false, false, false, false, false }
         };
 
-        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        CellFinder finder = new CellFinder(board);
         Coordinates result = finder.getFurthestCell(new Coordinates(1, 3));
 
         assertEquals(result, new Coordinates(8, 1));
@@ -65,7 +65,7 @@ public class TestLabyrinthCellFinder {
     }
 
     private void assertCorrectClosestToTopCell(boolean[][] board, Coordinates expected) {
-        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        CellFinder finder = new CellFinder(board);
         Coordinates result = finder.getClosestToTopCell();
         assertEquals(expected, result);
     }
@@ -80,7 +80,7 @@ public class TestLabyrinthCellFinder {
                 { false, false, false, false, false }
         };
 
-        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        CellFinder finder = new CellFinder(board);
         int result = finder.getDistance(new Coordinates(1, 1), new Coordinates(3, 3));
 
         assertEquals(4, result);
@@ -102,7 +102,7 @@ public class TestLabyrinthCellFinder {
                 { false, false, false, false, false, false, false, false, false, false }
         };
 
-        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        CellFinder finder = new CellFinder(board);
         int result = finder.getDistance(new Coordinates(6, 1), new Coordinates(8, 1));
 
         assertEquals(12, result);
