@@ -123,6 +123,7 @@ public class PlayerImplementation implements Player {
         switch (direction) {
             case LEFT:
             case RIGHT:
+
                 int newHorizontalPosition = getX() + direction.getStep();
                 setX(newHorizontalPosition);
                 break;
