@@ -2,6 +2,8 @@ package com.gytmy.labyrinth.controller;
 
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.score.ScoreCalculator;
+import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory.ScoreType;
 import com.gytmy.labyrinth.view.LabyrinthView;
 
 public interface LabyrinthController {
@@ -13,5 +15,7 @@ public interface LabyrinthController {
     public void addKeyController(KeyboardMovementController controller);
 
     public void movePlayer(Player player, Direction direction);
+
+    public ScoreCalculator getScoreCalculator(ScoreType type, Player player);
 
 }

@@ -5,6 +5,12 @@ import java.util.List;
 
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.score.ClassicScoreInfo;
+import com.gytmy.labyrinth.model.score.ScoreCalculator;
+import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory;
+import com.gytmy.labyrinth.model.score.ScoreInfo;
+import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory.ScoreType;
+import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.Coordinates;
 
@@ -323,6 +329,21 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     @Override
     public int getMinimumPathLength() {
         return minimumPathLength;
+    }
+
+    @Override
+    public ScoreCalculator getScoreCalculator(LabyrinthView view, ScoreType type, Player player) {
+        ScoreInfo info;
+
+        switch (type) {
+            case CLASSIC:
+                info = new ClassicScoreInfo(this, player, view.getTimerCounterInSeconds());
+                break;
+            default:
+                throw new IllegalArgumentException("Score type " + type + " is not supported");
+        }
+
+        return ScoreCalculatorFactory.getScoreCalculator(info);
     }
 
 }

@@ -3,6 +3,9 @@ package com.gytmy.labyrinth.model;
 import java.util.List;
 
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.score.ScoreCalculator;
+import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory.ScoreType;
+import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.utils.Coordinates;
 
 public interface LabyrinthModel {
@@ -74,5 +77,10 @@ public interface LabyrinthModel {
      * @return the minimum path length from the initial cell to the exit cell
      */
     int getMinimumPathLength();
+
+    /**
+     * @return the initialize ScoreCalculator for the given ScoreType
+     */
+    ScoreCalculator getScoreCalculator(LabyrinthView view, ScoreType type, Player player);
 
 }
