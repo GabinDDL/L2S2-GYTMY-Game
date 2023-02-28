@@ -8,17 +8,35 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
 
+import com.gytmy.labyrinth.view.Cell;
+
+/**
+ * 
+ * The FileTree class is a subclass of JTree, used to display a file system as a
+ * tree structure.
+ * It extends JTree and implements TreeCellRenderer to customize the appearance
+ * of the tree nodes.
+ * The FileTree class sets some properties to enhance the usability of the
+ * JTree.
+ * The getCellRenderer() method overrides the default TreeCellRenderer to
+ * customize the rendering of the tree nodes.
+ * It sets the label text to the name of the file or directory, and sets the
+ * label background and foreground colors
+ * based on whether the node is selected or not.
+ */
 public class FileTree extends JTree {
 
-    private final Color BACKGROUND_COLOR = getBackground();
-    private final Color FOREGROUND_COLOR = getForeground();
+    private static final Color BACKGROUND_COLOR = Cell.PATH_COLOR;
+    private static final Color FOREGROUND_COLOR = Cell.WALL_COLOR;
+    private static final Color SELECTION_COLOR = Cell.INITIAL_CELL_COLOR;
 
     public FileTree(String rootPath) {
         super(new FileSystemTreeModel(new File(rootPath)));
 
+        setBackground(BACKGROUND_COLOR);
+
         setScrollsOnExpand(true);
         setShowsRootHandles(true);
-        // setToggleClickCount(1);
 
         addTreeSelectionListener(e -> {
             repaint();
@@ -39,8 +57,8 @@ public class FileTree extends JTree {
                 label.setOpaque(true);
 
                 if (selected) {
-                    label.setBackground(Color.RED);
-                    label.setForeground(Color.WHITE);
+                    label.setBackground(SELECTION_COLOR);
+                    label.setForeground(BACKGROUND_COLOR);
                 } else {
                     label.setBackground(BACKGROUND_COLOR);
                     label.setForeground(FOREGROUND_COLOR);
