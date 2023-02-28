@@ -12,6 +12,7 @@ import com.gytmy.labyrinth.model.score.ScoreInfo;
 import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory.ScoreType;
 import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.utils.Boolean2DArraysOperations;
+import com.gytmy.utils.CellFinder;
 import com.gytmy.utils.Coordinates;
 
 /**

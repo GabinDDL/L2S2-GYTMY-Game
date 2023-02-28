@@ -1,9 +1,9 @@
-package com.gytmy.labyrinth.model;
+package com.gytmy.utils;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.gytmy.utils.Coordinates;
+import com.gytmy.labyrinth.model.Direction;
 
 /**
  * This class is used to find information abot the cells in the board. It is

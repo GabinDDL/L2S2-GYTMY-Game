@@ -1,10 +1,8 @@
-package com.gytmy.labyrinth.model;
+package com.gytmy.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
-
-import com.gytmy.utils.Coordinates;
 
 public class TestCellFinder {
 
