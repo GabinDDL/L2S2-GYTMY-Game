@@ -31,7 +31,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     private Coordinates initialCell;
     private Coordinates exitCell;
 
-
+    private int minimumPathLength;
 
     private Player[] players;
 
@@ -43,6 +43,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         this.initialCell = determineInitialCell(initialCell);
         this.exitCell = determineExitCell(exitCell);
         this.players = players;
+        this.minimumPathLength = calculateMinimumPathLength();
     }
 
     /**
@@ -148,6 +149,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     private boolean isOutsideBounds(Coordinates cell) {
         return cell.getX() < 0 || cell.getX() >= board[0].length ||
                 cell.getY() < 0 || cell.getY() >= board.length;
+    }
+
+    private int calculateMinimumPathLength() {
+        LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+        return finder.getDistance(initialCell, exitCell);
     }
 
     @Override
@@ -315,6 +321,8 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     @Override
-
+    public int getMinimumPathLength() {
+        return minimumPathLength;
+    }
 
 }

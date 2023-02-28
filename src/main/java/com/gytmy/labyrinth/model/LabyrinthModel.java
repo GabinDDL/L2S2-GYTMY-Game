@@ -70,4 +70,9 @@ public interface LabyrinthModel {
      */
     boolean isGameOver();
 
+    /**
+     * @return the minimum path length from the initial cell to the exit cell
+     */
+    int getMinimumPathLength();
+
 }
