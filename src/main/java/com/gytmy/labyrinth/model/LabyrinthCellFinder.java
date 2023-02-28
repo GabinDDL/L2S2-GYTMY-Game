@@ -6,15 +6,9 @@ import java.util.Queue;
 import com.gytmy.utils.Coordinates;
 
 /**
- * This class is used to find the furthest cell from a given cell in a
- * labyrinth.
- * It is used to find the exit cell of the labyrinth.
- *
- * The algorithm used is a breadth-first search.
- * 
- * @see <a href=
- *      "https://en.wikipedia.org/wiki/Breadth-first_search">Breadth-first
- *      search</a>
+ * This class is used to find information abot the cells in the board. It is
+ * used to find the entrance and exit cells of the labyrinth. It is also used to
+ * find the distance between two cells.
  */
 public class LabyrinthCellFinder {
 
