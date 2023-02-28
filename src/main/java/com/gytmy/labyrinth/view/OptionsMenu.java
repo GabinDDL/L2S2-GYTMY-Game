@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
@@ -58,7 +59,7 @@ public class OptionsMenu extends JPanel {
 
         initUserPanel();
         loadFileNavigator();
-        initWordSelector();
+        initWordPanel();
     }
 
     /**
@@ -86,7 +87,7 @@ public class OptionsMenu extends JPanel {
         userSelector.addActionListener(e -> userHasBeenChanged());
         userSelector.setBackground(BUTTON_COLOR);
         userSelector.setForeground(TEXT_COLOR);
-        addComponentToUserPanel(userSelector, c, 0, 0, 0.5, false);
+        addComponentToUserPanel(userSelector, c, 0, 0, 0.46, false);
     }
 
     private void initDeleteButton(GridBagConstraints c) {
@@ -199,36 +200,80 @@ public class OptionsMenu extends JPanel {
      * 
      * You can also go back to the main menu from it.
      */
-    private void initWordSelector() {
-        JPanel audioPanel = new JPanel(new GridLayout(4, 1));
+    private void initWordPanel() {
+        JPanel audioPanel = new JPanel(new GridLayout(6, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
+        initWorldSelector(audioPanel);
+        initCountOfWords(audioPanel);
+        initRecordButton(audioPanel);
+        initProgressBar(audioPanel);
+        initMediaPlayer(audioPanel);
+        initBackButton(audioPanel);
+
+        add(audioPanel, BorderLayout.EAST);
+    }
+
+    private void initWorldSelector(JComponent parentComponent) {
         addWordsToJComboBox(wordSelector);
         wordSelector.addActionListener(e -> loadTotalOfWords());
         wordSelector.setBackground(BUTTON_COLOR);
         wordSelector.setForeground(TEXT_COLOR);
         ((JLabel) wordSelector.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        audioPanel.add(wordSelector);
+        parentComponent.add(wordSelector);
+    }
 
+    private void initCountOfWords(JComponent parenComponent) {
         totalOfWords = new JLabel(getTotalOfWords());
         totalOfWords.setBackground(BUTTON_COLOR);
         totalOfWords.setForeground(TEXT_COLOR);
-        audioPanel.add(totalOfWords);
+        totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
+        parenComponent.add(totalOfWords);
+    }
 
+    private void initRecordButton(JComponent parentComponent) {
         recordButton = new JButton("Record");
         recordButton.setToolTipText("Record a new audio for the selected word");
         recordButton.setBackground(BUTTON_COLOR);
         recordButton.setForeground(TEXT_COLOR);
-        audioPanel.add(recordButton);
+        parentComponent.add(recordButton);
+    }
 
+    private void initProgressBar(JComponent parentComponent) {
+        JProgressBar progressBar = new JProgressBar(0, 10);
+        parentComponent.add(progressBar);
+    }
+
+    private void initBackButton(JComponent parentComponent) {
         JButton goBackButton = new JButton("Go back");
         goBackButton.setToolTipText("Go back to start menu");
         goBackButton.addActionListener(e -> goBackToStartMenu());
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
-        audioPanel.add(goBackButton);
+        parentComponent.add(goBackButton);
+    }
 
-        add(audioPanel, BorderLayout.EAST);
+    private void initMediaPlayer(JComponent parentComponent) {
+        JPanel playPausePanel = new JPanel(new GridLayout(1, 5));
+        JButton previousButton = new JButton("<<");
+        JButton fiveSecondsBackButton = new JButton("-5s");
+        JButton playButton = new JButton("||");
+        JButton fiveSecondsForwardButton = new JButton("+5s");
+        JButton nextButton = new JButton(">>");
+
+        initColors(previousButton);
+        initColors(fiveSecondsBackButton);
+        initColors(playButton);
+        initColors(fiveSecondsForwardButton);
+        initColors(nextButton);
+
+        playPausePanel.add(previousButton);
+        playPausePanel.add(fiveSecondsBackButton);
+        playPausePanel.add(playButton);
+        playPausePanel.add(fiveSecondsForwardButton);
+        playPausePanel.add(nextButton);
+
+        parentComponent.add(playPausePanel);
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
