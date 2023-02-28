@@ -6,6 +6,9 @@ public class ScoreCalculatorFactory {
         CLASSIC
     }
 
+    private ScoreCalculatorFactory() {
+    }
+
     public static ScoreCalculator getScoreCalculator(ScoreType type, ScoreInfo info) {
         switch (type) {
             case CLASSIC:
@@ -16,10 +19,6 @@ public class ScoreCalculatorFactory {
             default:
                 throw new IllegalArgumentException("Unknown score type");
         }
-    }
-
-    public static ScoreCalculator getScoreCalculator(ScoreType type) {
-        return getScoreCalculator(type, null);
     }
 
     public static ScoreCalculator getScoreCalculator(ScoreInfo info) {
