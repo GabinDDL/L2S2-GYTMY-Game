@@ -87,10 +87,10 @@ public class AudioFileManager {
      */
     public static void removeUser(User userToRemove) {
         List<User> usersWithSameFirstName = getUsersVerifyingPredicate(
-                (file) -> file.getName().startsWith(userToRemove.getFirstName()));
+                file -> file.getName().startsWith(userToRemove.getFirstName()));
 
         for (User user : usersWithSameFirstName) {
-            if (user.equals(user)) {
+            if (user.equals(userToRemove)) {
                 deleteFiles(user);
             }
         }
