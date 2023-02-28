@@ -62,4 +62,6 @@ public interface Player {
     public void move(Direction direction);
 
     public void decreaseScore(int reduction);
+
+    public int getNumberOfMovements();
 }

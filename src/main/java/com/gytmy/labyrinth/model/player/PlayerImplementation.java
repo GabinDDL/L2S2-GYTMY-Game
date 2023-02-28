@@ -12,7 +12,9 @@ public class PlayerImplementation implements Player {
     private String name;
     private Color color;
     private boolean ready;
+
     private int score;
+    private int numberOfMovements;
 
     private final int id;
 
@@ -21,7 +23,9 @@ public class PlayerImplementation implements Player {
         this.name = name;
         this.color = color;
         this.ready = ready;
+
         this.score = 0;
+        this.numberOfMovements = 0;
 
         this.id = idCounter;
         ++idCounter;
@@ -130,6 +134,7 @@ public class PlayerImplementation implements Player {
             default:
                 throw new IllegalArgumentException("Direction " + direction + " is not supported");
         }
+        ++numberOfMovements;
     }
 
     @Override
@@ -140,5 +145,10 @@ public class PlayerImplementation implements Player {
     @Override
     public void decreaseScore(int reduction) {
         this.score = Math.max(0, score - reduction);
+    }
+
+    @Override
+    public int getNumberOfMovements() {
+        return numberOfMovements;
     }
 }
