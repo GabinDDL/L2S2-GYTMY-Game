@@ -27,11 +27,13 @@ import com.gytmy.utils.Coordinates;
  */
 public class LabyrinthModelImplementation implements LabyrinthModel {
 
-    protected boolean[][] board;
-    protected Coordinates initialCell;
-    protected Coordinates exitCell;
+    private boolean[][] board;
+    private Coordinates initialCell;
+    private Coordinates exitCell;
 
-    protected Player[] players;
+
+
+    private Player[] players;
 
     public LabyrinthModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
             Player[] players) {
@@ -311,5 +313,8 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     public boolean isPlayerAtExit(Player player) {
         return player.getCoordinates().equals(exitCell);
     }
+
+    @Override
+
 
 }
