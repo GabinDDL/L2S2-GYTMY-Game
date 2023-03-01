@@ -22,30 +22,31 @@ package com.gytmy.labyrinth.model.score;
  * 
  * <li>The time penalty is computed as follow:
  * <ul>
- * <li>If the time passed is less than the best time, the time penalty is
- * 0.</li>
- * <li>If the time passed is greater than the best time multiplied by a factor,
- * the time penalty is 1.</li>
+ * <li>If the time passed is less or equal than the best time, the time penalty
+ * is 0.</li>
+ * <li>If the time passed is greater than the best time multiplied by a factor
+ * ({@code TIME_FACTOR}), the time penalty is 1.</li>
  * <li>Otherwise, the time penalty is computed as the ratio between the time
- * passed and the best time.</li>
+ * passed and the best time multiplied by factor {@code TIME_FACTOR}.</li>
  * </ul>
  * </li>
  * 
  * <li>The movement penalty is computed as follow:
  * <ul>
- * <li>If the number of movements is less than the minimum number of movements,
+ * <li>If the number of movements is less or equal than the minimum number of
+ * movements,
  * the movement penalty is 0.</li>
  * <li>If the number of movements is greater than the minimum number of
- * movements multiplied by a factor, the movement penalty is 1.</li>
+ * movements multiplied by a factor ({@code MOVEMENT_PENALTY}), the movement
+ * penalty is 1.</li>
  * <li>Otherwise, the movement penalty is computed as the ratio between the
- * number
- * of movements and the minimum number of
- * movements.</li>
+ * number of movements and the minimum number of movements multiplied by
+ * {@code MOVEMENT_PENALTY}.</li>
  * </ul>
  * </li>
  * 
  * <li>At the end, the score is computed as the maximum score minus the
- * penalty(between 0 and 1) multiplied by the maximum score. The score is
+ * penalty (between 0 and 1) multiplied by the maximum score. The score is
  * therefore between 0 and 1000.</li>
  * </ul>
  * 
