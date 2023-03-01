@@ -3,25 +3,25 @@ package com.gytmy.labyrinth.model.score;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
 
-public class ClassicScoreInfo implements ScoreInfo {
+public class SimpleKeyboardScoreInfo implements ScoreInfo {
 
     private int minMovements;
     private int timePassed;
     private int movements;
 
-    public ClassicScoreInfo(int minMovements) {
+    public SimpleKeyboardScoreInfo(int minMovements) {
         this(minMovements, 0, 0);
     }
 
-    public ClassicScoreInfo(LabyrinthModel model, Player player) {
+    public SimpleKeyboardScoreInfo(LabyrinthModel model, Player player) {
         this(model.getMinimumPathLength(), player);
     }
 
-    public ClassicScoreInfo(int minMovements, Player player) {
+    public SimpleKeyboardScoreInfo(int minMovements, Player player) {
         this(minMovements, player.getNumberOfMovements(), player.getTimePassedInSeconds());
     }
 
-    public ClassicScoreInfo(int minMovements, int movements, int timePassed) {
+    public SimpleKeyboardScoreInfo(int minMovements, int movements, int timePassed) {
         this.minMovements = minMovements;
         this.timePassed = timePassed;
         this.movements = movements;

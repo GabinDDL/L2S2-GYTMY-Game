@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.labyrinth.model.score.ClassicScoreInfo;
+import com.gytmy.labyrinth.model.score.SimpleKeyboardScoreInfo;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory;
 import com.gytmy.labyrinth.model.score.ScoreInfo;
@@ -337,8 +337,8 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         ScoreInfo info;
 
         switch (type) {
-            case CLASSIC:
-                info = new ClassicScoreInfo(this, player);
+            case SIMPLE_KEYBOARD:
+                info = new SimpleKeyboardScoreInfo(this, player);
                 break;
             default:
                 throw new IllegalArgumentException("Score type " + type + " is not supported");

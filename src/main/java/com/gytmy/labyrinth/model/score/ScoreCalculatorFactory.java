@@ -3,7 +3,7 @@ package com.gytmy.labyrinth.model.score;
 public class ScoreCalculatorFactory {
 
     public enum ScoreType {
-        CLASSIC
+        SIMPLE_KEYBOARD
     }
 
     private ScoreCalculatorFactory() {
@@ -11,19 +11,19 @@ public class ScoreCalculatorFactory {
 
     public static ScoreCalculator getScoreCalculator(ScoreType type, ScoreInfo info) {
         switch (type) {
-            case CLASSIC:
-                if (!(info instanceof ClassicScoreInfo)) {
+            case SIMPLE_KEYBOARD:
+                if (!(info instanceof SimpleKeyboardScoreInfo)) {
                     throw new IllegalArgumentException("Info must be of type PlayerClassicScoreInfo");
                 }
-                return new ClassicScoreCalculator((ClassicScoreInfo) info);
+                return new SimpleKeyboardScoreCalculator((SimpleKeyboardScoreInfo) info);
             default:
                 throw new IllegalArgumentException("Unknown score type");
         }
     }
 
     public static ScoreCalculator getScoreCalculator(ScoreInfo info) {
-        if (info instanceof ClassicScoreInfo) {
-            return getScoreCalculator(ScoreType.CLASSIC, info);
+        if (info instanceof SimpleKeyboardScoreInfo) {
+            return getScoreCalculator(ScoreType.SIMPLE_KEYBOARD, info);
         }
         throw new IllegalArgumentException("Unknown score info type");
     }

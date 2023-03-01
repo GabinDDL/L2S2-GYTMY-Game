@@ -104,8 +104,8 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
             player.setTimePassedInSeconds(view.getTimerCounterInSeconds());
 
             // TODO: Remove from production code
-            ScoreCalculator scoreCalculator = getScoreCalculator(ScoreType.CLASSIC, model.getPlayers()[0]);
-            System.out.println(scoreCalculator.getScore());
+            ScoreCalculator scoreCalculator = getScoreCalculator(ScoreType.SIMPLE_KEYBOARD, player);
+            System.out.println(player.getName() + " : " + scoreCalculator.getScore());
         }
 
         if (model.isGameOver()) {
