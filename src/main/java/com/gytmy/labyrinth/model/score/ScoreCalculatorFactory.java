@@ -16,7 +16,7 @@ public class ScoreCalculatorFactory {
         switch (type) {
             case SIMPLE_KEYBOARD:
                 if (!(info instanceof SimpleKeyboardScoreInfo)) {
-                    throw new IllegalArgumentException("Info must be of type PlayerClassicScoreInfo");
+                    throw new IllegalArgumentException("Info must be of type SimpleKeyboardScoreInfo");
                 }
                 return new SimpleKeyboardScoreCalculator((SimpleKeyboardScoreInfo) info);
             default:

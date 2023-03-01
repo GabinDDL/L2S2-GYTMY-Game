@@ -147,7 +147,7 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
 
     public void updateInfo(ScoreInfo info) {
         if (!(info instanceof SimpleKeyboardScoreInfo)) {
-            throw new IllegalArgumentException("Info must be of type PlayerClassicScoreInfo");
+            throw new IllegalArgumentException("Info must be of type SimpleKeyboardScoreInfo");
         }
         this.info = (SimpleKeyboardScoreInfo) info;
     }
