@@ -3,7 +3,7 @@ package com.gytmy.labyrinth.controller;
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
-import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory.ScoreType;
+import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.labyrinth.view.LabyrinthView;
 
 public interface LabyrinthController {
