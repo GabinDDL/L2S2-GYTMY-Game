@@ -25,7 +25,7 @@ import com.gytmy.sound.User;
 import com.gytmy.utils.FileTree;
 import com.gytmy.utils.WordsToRecord;
 
-public class OptionsMenu extends JPanel {
+public class AudioMenu extends JPanel {
     private JFrame frame;
 
     private JPanel userPanel;
@@ -52,7 +52,7 @@ public class OptionsMenu extends JPanel {
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
-    public OptionsMenu(JFrame frame) {
+    public AudioMenu(JFrame frame) {
         this.frame = frame;
 
         setLayout(new BorderLayout());

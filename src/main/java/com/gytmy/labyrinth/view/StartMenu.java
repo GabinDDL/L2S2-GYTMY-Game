@@ -68,12 +68,12 @@ public class StartMenu extends JPanel {
                     showHelp();
 
                 } else if (IMAGES_BOUNDS[3].isInside(xClick, yClick)) {
-                    frame.setContentPane(new OptionsMenu(frame));
+                    frame.setContentPane(new AudioMenu(frame));
 
                     frame.setSize(800, 500);
                     frame.setLocationRelativeTo(null);
                     frame.revalidate();
-                    frame.setTitle("Be AMazed" + "\t( OptionsMenu )");
+                    frame.setTitle("Be AMazed" + "\t( AudioSettings )");
                 }
             }
 
