@@ -9,6 +9,13 @@ public class ScoreCalculatorFactory {
     private ScoreCalculatorFactory() {
     }
 
+    /**
+     * Get the score calculator for the given score type and score info.
+     * 
+     * @param type the score type
+     * @param info the score info
+     * @return the score calculator
+     */
     public static ScoreCalculator getScoreCalculator(ScoreType type, ScoreInfo info) {
         switch (type) {
             case SIMPLE_KEYBOARD:
@@ -21,6 +28,12 @@ public class ScoreCalculatorFactory {
         }
     }
 
+    /**
+     * Get the score calculator for the given score info.
+     * 
+     * @param info the score info
+     * @return the score calculator
+     */
     public static ScoreCalculator getScoreCalculator(ScoreInfo info) {
         if (info instanceof SimpleKeyboardScoreInfo) {
             return getScoreCalculator(ScoreType.SIMPLE_KEYBOARD, info);
