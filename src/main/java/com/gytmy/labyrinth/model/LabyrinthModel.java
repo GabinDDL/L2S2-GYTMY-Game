@@ -81,6 +81,6 @@ public interface LabyrinthModel {
     /**
      * @return the initialize ScoreCalculator for the given ScoreType
      */
-    ScoreCalculator getScoreCalculator(LabyrinthView view, ScoreType type, Player player);
+    ScoreCalculator getScoreCalculator(ScoreType type, Player player);
 
 }

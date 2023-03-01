@@ -333,12 +333,12 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     @Override
-    public ScoreCalculator getScoreCalculator(LabyrinthView view, ScoreType type, Player player) {
+    public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
         ScoreInfo info;
 
         switch (type) {
             case CLASSIC:
-                info = new ClassicScoreInfo(this, player, view.getTimerCounterInSeconds());
+                info = new ClassicScoreInfo(this, player);
                 break;
             default:
                 throw new IllegalArgumentException("Score type " + type + " is not supported");

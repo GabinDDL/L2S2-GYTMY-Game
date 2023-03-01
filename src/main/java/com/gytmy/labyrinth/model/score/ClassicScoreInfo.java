@@ -13,12 +13,12 @@ public class ClassicScoreInfo implements ScoreInfo {
         this(minMovements, 0, 0);
     }
 
-    public ClassicScoreInfo(LabyrinthModel model, Player player, int timePassed) {
-        this(model.getMinimumPathLength(), player, timePassed);
+    public ClassicScoreInfo(LabyrinthModel model, Player player) {
+        this(model.getMinimumPathLength(), player);
     }
 
-    public ClassicScoreInfo(int minMovements, Player player, int timePassed) {
-        this(minMovements, player.getNumberOfMovements(), timePassed);
+    public ClassicScoreInfo(int minMovements, Player player) {
+        this(minMovements, player.getNumberOfMovements(), player.getTimePassedInSeconds());
     }
 
     public ClassicScoreInfo(int minMovements, int movements, int timePassed) {
