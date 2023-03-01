@@ -86,8 +86,8 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
      * The ideal time to do a movement is different depending on the number of
      * movements. If the number of movements is less than a certain value, the ideal
      * time is a certain value. Otherwise, it is another value. This values are
-     * defined in the constants IDEAL_MOVEMENT_TIME_LOWER and
-     * IDEAL_MOVEMENT_TIME_UPPER.
+     * defined in the constants {@code IDEAL_MOVEMENT_TIME_LOWER}} and
+     * {@code IDEAL_MOVEMENT_TIME_UPPER}.
      * 
      * @param minMovement the minimum number of movements
      * @return the best time to do the game
@@ -133,7 +133,7 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
         if (timePassed > TIME_FACTOR * bestTime) {
             return 1;
         }
-        return (timePassed - bestTime) / (3. * bestTime);
+        return (timePassed - bestTime) / (TIME_FACTOR * bestTime);
     }
 
     private double computeMovementPenalty(int movements, int minMovements) {
