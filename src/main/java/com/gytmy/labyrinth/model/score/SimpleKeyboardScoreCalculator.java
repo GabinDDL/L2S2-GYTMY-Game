@@ -127,23 +127,24 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
     }
 
     private double computeTimePenalty(int timePassed) {
-        if (timePassed <= bestTime) {
-            return 0;
-        }
-        if (timePassed > TIME_FACTOR * bestTime) {
-            return 1;
-        }
-        return (timePassed - bestTime) / (TIME_FACTOR * bestTime);
+        double upperBound = TIME_FACTOR * bestTime;
+        return computeTimePenalty(timePassed - bestTime, upperBound);
     }
 
     private double computeMovementPenalty(int movements, int minMovements) {
-        if (movements <= minMovements) {
+        double upperBound = MOVEMENTS_FACTOR * minMovements;
+        return computeTimePenalty(movements - minMovements, upperBound);
+    }
+
+    private double computeTimePenalty(int value, double upperBound) {
+        if (value <= 0) {
             return 0;
         }
-        if (movements > MOVEMENTS_FACTOR * minMovements) {
+        if (value > upperBound) {
             return 1;
         }
-        return (movements - minMovements) / (MOVEMENTS_FACTOR * minMovements);
+
+        return (value - upperBound) / upperBound;
     }
 
     public void updateInfo(ScoreInfo info) {
