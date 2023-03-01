@@ -13,8 +13,8 @@ public class PlayerImplementation implements Player {
     private Color color;
     private boolean ready;
 
-    private int score;
     private int numberOfMovements;
+    private int timePassedInSeconds;
 
     private final int id;
 
@@ -24,8 +24,8 @@ public class PlayerImplementation implements Player {
         this.color = color;
         this.ready = ready;
 
-        this.score = 0;
         this.numberOfMovements = 0;
+        this.timePassedInSeconds = 0;
 
         this.id = idCounter;
         ++idCounter;
@@ -139,17 +139,17 @@ public class PlayerImplementation implements Player {
     }
 
     @Override
-    public int getScore() {
-        return score;
-    }
-
-    @Override
-    public void decreaseScore(int reduction) {
-        this.score = Math.max(0, score - reduction);
-    }
-
-    @Override
     public int getNumberOfMovements() {
         return numberOfMovements;
+    }
+
+    @Override
+    public int getTimePassedInSeconds() {
+        return timePassedInSeconds;
+    }
+
+    @Override
+    public void setTimePassedInSeconds(int timePassedInSeconds) {
+        this.timePassedInSeconds = timePassedInSeconds;
     }
 }

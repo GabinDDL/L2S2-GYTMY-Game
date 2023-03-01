@@ -14,8 +14,6 @@ public interface Player {
 
     public int getY();
 
-    public int getScore();
-
     public Coordinates getCoordinates();
 
     public String getName();
@@ -23,6 +21,10 @@ public interface Player {
     public Color getColor();
 
     public int getId();
+
+    public int getNumberOfMovements();
+
+    public int getTimePassedInSeconds();
 
     public boolean isReady();
 
@@ -54,6 +56,8 @@ public interface Player {
 
     public void setReady(boolean ready);
 
+    public void setTimePassedInSeconds(int timePassedInSeconds);
+
     /**
      * Moves the player in the given direction
      * 
@@ -61,7 +65,4 @@ public interface Player {
      */
     public void move(Direction direction);
 
-    public void decreaseScore(int reduction);
-
-    public int getNumberOfMovements();
 }
