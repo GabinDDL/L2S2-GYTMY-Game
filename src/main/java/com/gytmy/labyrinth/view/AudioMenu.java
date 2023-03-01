@@ -6,8 +6,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.List;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -22,6 +25,8 @@ import javax.swing.SwingConstants;
 
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
+import com.gytmy.sound.PlayingTimer;
+import com.gytmy.sound.AudioPlayer;
 import com.gytmy.utils.FileTree;
 import com.gytmy.utils.WordsToRecord;
 
@@ -47,6 +52,19 @@ public class AudioMenu extends JPanel {
 
     private JLabel totalOfWords;
     private JButton recordButton;
+
+    private JProgressBar timeProgress;
+    private JLabel labelDuration = new JLabel("00:00:00");
+
+    private AudioPlayer player = new AudioPlayer();
+    private Thread playbackThread;
+    private PlayingTimer timer;
+
+    private boolean isPlaying = false;
+
+    JButton previousButton;
+    JButton playAndStopButton;
+    JButton nextButton;
 
     private static final Color BUTTON_COLOR = Cell.WALL_COLOR;
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
@@ -235,8 +253,83 @@ public class AudioMenu extends JPanel {
     }
 
     private void initProgressBar(JComponent parentComponent) {
-        JProgressBar progressBar = new JProgressBar(0, 10);
-        parentComponent.add(progressBar);
+        timeProgress = new JProgressBar();
+        timeProgress.setEnabled(false);
+        timeProgress.setValue(0);
+        parentComponent.add(timeProgress);
+    }
+
+    private void initMediaPlayer(JComponent parentComponent) {
+        JPanel playPausePanel = new JPanel(new GridLayout(1, 3));
+        previousButton = new JButton("<<");
+        playAndStopButton = new JButton("|>");
+        nextButton = new JButton(">>");
+
+        initColors(previousButton);
+        initColors(playAndStopButton);
+        initColors(nextButton);
+
+        playAndStopButton.addActionListener(e -> {
+            if (!isPlaying) {
+                play();
+            } else {
+                stop();
+            }
+        });
+
+        playPausePanel.add(previousButton);
+        playPausePanel.add(playAndStopButton);
+        playPausePanel.add(nextButton);
+
+        parentComponent.add(playPausePanel);
+    }
+
+    private void play() {
+        timer = new PlayingTimer(labelDuration, timeProgress);
+        timer.start();
+        isPlaying = true;
+        playbackThread = new Thread(() -> {
+            try {
+
+                playAndStopButton.setText("||");
+                playAndStopButton.setEnabled(true);
+
+                player.load("src/resources/audioFiles/RecordAudio2.wav");
+                timer.setAudioClip(player.getAudioClip());
+                timeProgress.setMaximum((int) player.getClipSecondLength());
+
+                labelDuration.setText(player.getClipLengthString());
+                player.play();
+
+            } catch (UnsupportedAudioFileException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "The audio format is unsupported!", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (LineUnavailableException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Could not play the audio file because line is unavailable!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "I/O error while playing the audio file!", "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                stop();
+            }
+
+        });
+
+        playbackThread.start();
+    }
+
+    private void stop() {
+
+        timer.reset();
+        timer.interrupt();
+
+        playAndStopButton.setText("|>");
+        isPlaying = false;
+
+        player.stop();
+        playbackThread.interrupt();
     }
 
     private void initBackButton(JComponent parentComponent) {
@@ -246,29 +339,6 @@ public class AudioMenu extends JPanel {
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
         parentComponent.add(goBackButton);
-    }
-
-    private void initMediaPlayer(JComponent parentComponent) {
-        JPanel playPausePanel = new JPanel(new GridLayout(1, 5));
-        JButton previousButton = new JButton("<<");
-        JButton fiveSecondsBackButton = new JButton("-5s");
-        JButton playButton = new JButton("||");
-        JButton fiveSecondsForwardButton = new JButton("+5s");
-        JButton nextButton = new JButton(">>");
-
-        initColors(previousButton);
-        initColors(fiveSecondsBackButton);
-        initColors(playButton);
-        initColors(fiveSecondsForwardButton);
-        initColors(nextButton);
-
-        playPausePanel.add(previousButton);
-        playPausePanel.add(fiveSecondsBackButton);
-        playPausePanel.add(playButton);
-        playPausePanel.add(fiveSecondsForwardButton);
-        playPausePanel.add(nextButton);
-
-        parentComponent.add(playPausePanel);
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
