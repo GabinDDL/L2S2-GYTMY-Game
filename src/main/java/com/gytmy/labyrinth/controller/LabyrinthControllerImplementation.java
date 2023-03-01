@@ -68,7 +68,6 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         return model.getPlayers();
     }
 
-    // TODO: implement score calculation for multiple players
     @Override
     public void movePlayer(Player player, Direction direction) {
         if (!isMovementAllowed() || !canPlayerMove(player)) {
@@ -120,7 +119,6 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         view.addKeyController(controller);
     }
 
-    // TODO: remove this
     @Override
     public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
         return model.getScoreCalculator(type, player);

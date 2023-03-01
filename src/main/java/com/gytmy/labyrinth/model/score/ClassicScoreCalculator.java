@@ -5,8 +5,13 @@ public class ClassicScoreCalculator implements ScoreCalculator {
     private int bestTime;
 
     private static final int MAX_SCORE = 1000;
-    private static final int MOVEMENTS_PENALTY = 20;
-    private static final int TIME_PENALTY = 10;
+
+    private static final double MOVEMENTS_FACTOR = 2.5;
+    private static final double TIME_FACTOR = 2.5;
+
+    private static final double CASE_PENALTY = 2.;
+    private static final double TIME_PENALTY = 1.;
+
     private static final int FIRST_CHANGING_POINT = 45;
     private static final double IDEAL_MOVEMENT_TIME_UPPER = 0.15;
     private static final double IDEAL_MOVEMENT_TIME_LOWER = 0.1;
@@ -17,10 +22,14 @@ public class ClassicScoreCalculator implements ScoreCalculator {
         }
         this.info = info;
         int minMovement = info.getMinMovements();
+        this.bestTime = computeBestTime(minMovement);
+    }
+
+    private int computeBestTime(int minMovement) {
         if (minMovement <= FIRST_CHANGING_POINT) {
-            this.bestTime = (int) (IDEAL_MOVEMENT_TIME_LOWER * minMovement);
+            return (int) (IDEAL_MOVEMENT_TIME_LOWER * minMovement);
         } else {
-            this.bestTime = (int) (IDEAL_MOVEMENT_TIME_UPPER * minMovement);
+            return (int) (IDEAL_MOVEMENT_TIME_UPPER * minMovement);
         }
     }
 
@@ -31,18 +40,42 @@ public class ClassicScoreCalculator implements ScoreCalculator {
         int timePassed = info.getTimePassed();
         int minMovements = info.getMinMovements();
         // TODO: remove debug
+        System.out.println("--------------------");
         System.out.println("Best time: " + bestTime);
         System.out.println("Movements: " + movements);
         System.out.println("Time passed: " + timePassed);
         System.out.println("Min movements: " + minMovements);
-        if (movements > minMovements) {
-            score -= (movements - minMovements) * MOVEMENTS_PENALTY;
-        }
-        if (timePassed > bestTime) {
-            score -= (timePassed - bestTime) * TIME_PENALTY;
-        }
-        score = Math.max(score, 0);
+
+        double timePenalty = computeTimePenalty(timePassed);
+        double casePenalty = computeCasePenalty(movements, minMovements);
+
+        System.out.println("Time penalty: " + timePenalty);
+        System.out.println("Case penalty: " + casePenalty);
+
+        double totalPenalty = (TIME_PENALTY * timePenalty + CASE_PENALTY * casePenalty) / (TIME_PENALTY + CASE_PENALTY);
+
+        score -= totalPenalty * MAX_SCORE;
         return score;
+    }
+
+    private double computeTimePenalty(int timePassed) {
+        if (timePassed <= bestTime) {
+            return 0;
+        }
+        if (timePassed > TIME_FACTOR * bestTime) {
+            return 1;
+        }
+        return (timePassed - bestTime) / (3. * bestTime);
+    }
+
+    private double computeCasePenalty(int movements, int minMovements) {
+        if (movements <= minMovements) {
+            return 0;
+        }
+        if (movements > MOVEMENTS_FACTOR * minMovements) {
+            return 1;
+        }
+        return (movements - minMovements) / (MOVEMENTS_FACTOR * minMovements);
     }
 
     public void updateInfo(ScoreInfo info) {
