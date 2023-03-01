@@ -4,7 +4,7 @@ package com.gytmy.labyrinth.model.score;
  * This calculator is used to compute the score of a player in a simple keyboard
  * game.
  * 
- * The score take into account the time passed and the number of
+ * The score takes into account the time passed and the number of
  * movements. The idea behind the score is that the player should be able to do
  * the game in the minimum number of movements in the minimum time.
  * 
@@ -33,7 +33,7 @@ package com.gytmy.labyrinth.model.score;
  * 
  * <li>The movement penalty is computed as follow:
  * <ul>
- * <li>If the number of movements is less or equal than the minimum number of
+ * <li>If the number of movements is less or equals than the minimum number of
  * movements,
  * the movement penalty is 0.</li>
  * <li>If the number of movements is greater than the minimum number of
