@@ -2,10 +2,6 @@ package com.gytmy.labyrinth.model.score;
 
 public class ScoreCalculatorFactory {
 
-    public enum ScoreType {
-        SIMPLE_KEYBOARD
-    }
-
     private ScoreCalculatorFactory() {
     }
 

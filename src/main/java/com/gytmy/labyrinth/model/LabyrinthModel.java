@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
-import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory.ScoreType;
-import com.gytmy.labyrinth.view.LabyrinthView;
+import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.utils.Coordinates;
 
 public interface LabyrinthModel {

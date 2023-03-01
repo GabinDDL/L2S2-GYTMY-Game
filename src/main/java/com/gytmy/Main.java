@@ -20,6 +20,7 @@ public class Main {
 
         EventQueue.invokeLater(new GraphicalLauncher());
 
+        // TODO: Remove this code
         // Player player1 = new PlayerImplementation(new Coordinates(1, 1), "Grep",
         // Color.BLACK, true);
 
