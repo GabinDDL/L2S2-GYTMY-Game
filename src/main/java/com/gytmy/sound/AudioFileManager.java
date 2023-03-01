@@ -87,10 +87,10 @@ public class AudioFileManager {
      */
     public static void removeUser(User userToRemove) {
         List<User> usersWithSameFirstName = getUsersVerifyingPredicate(
-                (file) -> file.getName().startsWith(userToRemove.getFirstName()));
+                file -> file.getName().startsWith(userToRemove.getFirstName()));
 
         for (User user : usersWithSameFirstName) {
-            if (user.equals(user)) {
+            if (user.equals(userToRemove)) {
                 deleteFiles(user);
             }
         }
@@ -102,6 +102,8 @@ public class AudioFileManager {
 
     public static List<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
         List<User> users = new ArrayList<>();
+
+        generateAudioDirectoryStructure();
 
         for (File file : SRC_DIRECTORY.listFiles()) {
             if (predicate.test(file)) {
@@ -199,6 +201,10 @@ public class AudioFileManager {
 
     public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
         List<File> files = new ArrayList<>();
+
+        if (!directory.exists()) {
+            return files;
+        }
 
         for (File file : directory.listFiles()) {
             if (predicate.test(file)) {
