@@ -26,7 +26,7 @@ public class AudioPlayer implements LineListener {
 	/**
 	 * this flag indicates whether the playback completes or not.
 	 */
-	private boolean playCompleted;
+	private boolean playing;
 
 	/**
 	 * this flag indicates whether the playback is stopped or not.
@@ -108,10 +108,10 @@ public class AudioPlayer implements LineListener {
 
 		audioClip.start();
 
-		playCompleted = false;
+		playing = true;
 		isStopped = false;
 
-		while (!playCompleted) {
+		while (playing) {
 			// wait for the playback completes
 			try {
 				Thread.sleep(100);
@@ -122,7 +122,6 @@ public class AudioPlayer implements LineListener {
 				}
 			}
 		}
-
 		audioClip.close();
 
 	}
@@ -141,9 +140,7 @@ public class AudioPlayer implements LineListener {
 	public void update(LineEvent event) {
 		LineEvent.Type type = event.getType();
 		if (type == LineEvent.Type.STOP) {
-			if (isStopped) {
-				playCompleted = true;
-			}
+			playing = false;
 		}
 	}
 

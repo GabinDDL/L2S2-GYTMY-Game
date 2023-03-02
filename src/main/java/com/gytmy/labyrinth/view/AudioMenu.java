@@ -33,33 +33,31 @@ import com.gytmy.utils.WordsToRecord;
 public class AudioMenu extends JPanel {
     private JFrame frame;
 
+    // User Panel components
     private JPanel userPanel;
-
     private JComboBox<User> userSelector;
     private JComboBox<String> wordSelector = new JComboBox<>();
-
-    private JScrollPane scrollPane;
-    private JTree fileNavigator;
-
-    private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
-    private String actualJTreeRootPath = JTREE_ROOT_PATH;
-
-    private static final User ALL_USERS = new User("ALL", "USERS", 0);
 
     private JButton deleteUserButton;
     private JButton editUserButton;
     private JButton addUserButton;
 
+    // File Tree Panel Components
+    private JScrollPane scrollPane;
+    private JTree fileNavigator;
+    private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
+    private String actualJTreeRootPath = JTREE_ROOT_PATH;
+    private static final User ALL_USERS = new User("ALL", "USERS", 0);
+
+    // Word Panel Components
     private JLabel totalOfWords;
     private JButton recordButton;
 
     private JProgressBar timeProgress;
     private JLabel labelDuration = new JLabel("00:00:00");
-
     private AudioPlayer player = new AudioPlayer();
     private Thread playbackThread;
     private PlayingTimer timer;
-
     private boolean isPlaying = false;
 
     private JButton previousButton;
@@ -68,6 +66,7 @@ public class AudioMenu extends JPanel {
 
     private String audioToLoad = "";
 
+    // Colors
     private static final Color BUTTON_COLOR = Cell.WALL_COLOR;
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
@@ -228,12 +227,13 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
-        JPanel audioPanel = new JPanel(new GridLayout(6, 1));
+        JPanel audioPanel = new JPanel(new GridLayout(7, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
         initWorldSelector(audioPanel);
         initCountOfWords(audioPanel);
         initRecordButton(audioPanel);
+        initLabelDuration(audioPanel);
         initProgressBar(audioPanel);
         initMediaPlayer(audioPanel);
         initBackButton(audioPanel);
@@ -261,6 +261,12 @@ public class AudioMenu extends JPanel {
         recordButton.setToolTipText("Record a new audio for the selected word");
         initColors(recordButton);
         parentComponent.add(recordButton);
+    }
+
+    private void initLabelDuration(JComponent parentComponent) {
+        initColors(labelDuration);
+        labelDuration.setHorizontalAlignment(SwingConstants.CENTER);
+        parentComponent.add(labelDuration);
     }
 
     private void initProgressBar(JComponent parentComponent) {
@@ -313,26 +319,24 @@ public class AudioMenu extends JPanel {
                 player.play();
 
             } catch (UnsupportedAudioFileException ex) {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(AudioMenu.this,
                         "The audio format is unsupported!", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (LineUnavailableException ex) {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(AudioMenu.this,
                         "Could not play the audio file because line is unavailable!", "Error",
                         JOptionPane.ERROR_MESSAGE);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(AudioMenu.this,
                         "I/O error while playing the audio file!", "Error", JOptionPane.ERROR_MESSAGE);
             } finally {
                 stop();
             }
-
         });
 
         playbackThread.start();
     }
 
     private void stop() {
-
         timer.reset();
         timer.interrupt();
 
