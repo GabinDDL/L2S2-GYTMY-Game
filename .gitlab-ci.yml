@@ -16,6 +16,14 @@ build:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
 
+build_test:
+  stage: build
+  script:
+    - ./run.sh compileTests
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+
 test:
   stage: test
   script:
