@@ -68,9 +68,7 @@ public class PlayerSelectorPanel extends JPanel {
      * This class is used to select a user. It is part of a Observer pattern. It is
      * the Observer.
      */
-    public class UserSelector {
-
-        private JComboBox<User> userSelector;
+    public class UserSelector extends JComboBox<User> {
 
         public UserSelector() {
             AvailableUsers.getInstance().addObserver(this);
@@ -79,8 +77,21 @@ public class PlayerSelectorPanel extends JPanel {
 
         private void updateUserList() {
             for (User user : AvailableUsers.getInstance().getUsers()) {
-                userSelector.addItem(user);
+                addItem(new UserNameUser(user));
             }
+        }
+
+    }
+
+    private static class UserNameUser extends User {
+
+        public UserNameUser(User user) {
+            super(user);
+        }
+
+        @Override
+        public String toString() {
+            return getUserName();
         }
     }
 
@@ -126,6 +137,8 @@ public class PlayerSelectorPanel extends JPanel {
     // TODO:Remove this
 
     public static void main(String[] args) {
+
+        AudioFileManager.addUser(new User("Yago", "Iglesias", 12345, "Grep"));
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
