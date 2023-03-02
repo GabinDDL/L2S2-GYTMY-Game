@@ -61,7 +61,7 @@ public class PlayingTimer extends Thread {
 	}
 
 	/**
-	 * Reset counting to "00:00:00"
+	 * Reset counting to "00:00"
 	 */
 	public void reset() {
 		isReset = true;
