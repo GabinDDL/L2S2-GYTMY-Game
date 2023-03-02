@@ -36,6 +36,7 @@ public class PlayingTimer extends Thread {
         this.timeProgress = timeProgress;
     }
 
+    @Override
     public void run() {
         isRunning = true;
 
