@@ -64,7 +64,13 @@ public class PlayerSelectorPanel extends JPanel {
 
     }
 
-    public class UserSelector extends JComboBox<User> {
+    /**
+     * This class is used to select a user. It is part of a Observer pattern. It is
+     * the Observer.
+     */
+    public class UserSelector {
+
+        private JComboBox<User> userSelector;
 
         public UserSelector() {
             AvailableUsers.getInstance().addObserver(this);
@@ -73,24 +79,20 @@ public class PlayerSelectorPanel extends JPanel {
 
         private void updateUserList() {
             for (User user : AvailableUsers.getInstance().getUsers()) {
-                addItem(user);
+                userSelector.addItem(user);
             }
         }
     }
 
     /**
      * This class is used to store the available users in the system. It uses the
-     * Singleton pattern and is part of a Observer/Observable pattern. It is the
-     * Observable.
-     * 
+     * Singleton pattern and is part of a Observer pattern. It is the subject.
      */
     private static class AvailableUsers {
 
         private List<User> users;
-
-        private static AvailableUsers instance = null;
-
         private List<UserSelector> observers = new ArrayList<>();
+        private static AvailableUsers instance = null;
 
         private AvailableUsers() {
             users = new ArrayList<>();
