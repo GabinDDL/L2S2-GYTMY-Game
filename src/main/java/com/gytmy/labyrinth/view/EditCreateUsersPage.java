@@ -113,6 +113,8 @@ public class EditCreateUsersPage extends JPanel {
                 if (studentNumber.getText().equals("") || Integer.valueOf(studentNumber.getText()) == 0) {
                     studentNumber.setText("0");
                 }
+
+                studentNumber.setValue(Integer.valueOf(studentNumber.getText()));
             }
         });
 
