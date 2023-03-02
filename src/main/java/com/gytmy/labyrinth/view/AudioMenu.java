@@ -212,6 +212,7 @@ public class AudioMenu extends JPanel {
                 stop();
             }
             audioToLoad = ((FileTree) fileNavigator).getSelectedFilePath();
+            playAndStopButton.setEnabled(audioToLoad.endsWith(".wav"));
         });
 
         scrollPane = new JScrollPane(fileNavigator);
@@ -332,6 +333,8 @@ public class AudioMenu extends JPanel {
         initColors(previousButton);
         initColors(playAndStopButton);
         initColors(nextButton);
+
+        playAndStopButton.setEnabled(false);
 
         playAndStopButton.addActionListener(e -> {
             if (!isPlaying) {
