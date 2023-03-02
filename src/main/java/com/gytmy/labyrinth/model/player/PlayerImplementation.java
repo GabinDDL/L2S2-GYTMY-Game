@@ -12,6 +12,10 @@ public class PlayerImplementation implements Player {
     private String name;
     private Color color;
     private boolean ready;
+
+    private int numberOfMovements;
+    private int timePassedInSeconds;
+
     private final int id;
 
     public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
@@ -19,6 +23,9 @@ public class PlayerImplementation implements Player {
         this.name = name;
         this.color = color;
         this.ready = ready;
+
+        this.numberOfMovements = 0;
+        this.timePassedInSeconds = 0;
 
         this.id = idCounter;
         ++idCounter;
@@ -116,6 +123,7 @@ public class PlayerImplementation implements Player {
         switch (direction) {
             case LEFT:
             case RIGHT:
+
                 int newHorizontalPosition = getX() + direction.getStep();
                 setX(newHorizontalPosition);
                 break;
@@ -127,6 +135,21 @@ public class PlayerImplementation implements Player {
             default:
                 throw new IllegalArgumentException("Direction " + direction + " is not supported");
         }
+        ++numberOfMovements;
     }
 
+    @Override
+    public int getNumberOfMovements() {
+        return numberOfMovements;
+    }
+
+    @Override
+    public int getTimePassedInSeconds() {
+        return timePassedInSeconds;
+    }
+
+    @Override
+    public void setTimePassedInSeconds(int timePassedInSeconds) {
+        this.timePassedInSeconds = timePassedInSeconds;
+    }
 }

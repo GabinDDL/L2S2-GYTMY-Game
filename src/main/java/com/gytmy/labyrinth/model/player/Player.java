@@ -22,6 +22,10 @@ public interface Player {
 
     public int getId();
 
+    public int getNumberOfMovements();
+
+    public int getTimePassedInSeconds();
+
     public boolean isReady();
 
     public static boolean areAllPlayersReady(Player... players) {
@@ -52,10 +56,13 @@ public interface Player {
 
     public void setReady(boolean ready);
 
+    public void setTimePassedInSeconds(int timePassedInSeconds);
+
     /**
      * Moves the player in the given direction
      * 
      * @param direction
      */
     public void move(Direction direction);
+
 }

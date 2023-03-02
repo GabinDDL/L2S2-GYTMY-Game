@@ -5,7 +5,13 @@ import java.util.List;
 
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.score.ScoreCalculator;
+import com.gytmy.labyrinth.model.score.ScoreCalculatorFactory;
+import com.gytmy.labyrinth.model.score.ScoreInfo;
+import com.gytmy.labyrinth.model.score.ScoreType;
+import com.gytmy.labyrinth.model.score.SimpleKeyboardScoreInfo;
 import com.gytmy.utils.Boolean2DArraysOperations;
+import com.gytmy.utils.CellFinder;
 import com.gytmy.utils.Coordinates;
 
 /**
@@ -27,11 +33,13 @@ import com.gytmy.utils.Coordinates;
  */
 public class LabyrinthModelImplementation implements LabyrinthModel {
 
-    protected boolean[][] board;
-    protected Coordinates initialCell;
-    protected Coordinates exitCell;
+    private boolean[][] board;
+    private Coordinates initialCell;
+    private Coordinates exitCell;
 
-    protected Player[] players;
+    private int minimumPathLength;
+
+    private Player[] players;
 
     public LabyrinthModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
             Player[] players) {
@@ -41,6 +49,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         this.initialCell = determineInitialCell(initialCell);
         this.exitCell = determineExitCell(exitCell);
         this.players = players;
+        this.minimumPathLength = calculateMinimumPathLength();
     }
 
     /**
@@ -81,7 +90,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     private Coordinates determineInitialCell(Coordinates initialCell) {
         if (initialCell == null) {
             // Get a random non-wall cell
-            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+            CellFinder finder = new CellFinder(board);
             initialCell = finder.getClosestToTopCell();
         }
         handleInvalidStartCell(initialCell);
@@ -117,7 +126,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
      */
     private Coordinates determineExitCell(Coordinates exitCell) {
         if (exitCell == null) {
-            LabyrinthCellFinder finder = new LabyrinthCellFinder(board);
+            CellFinder finder = new CellFinder(board);
             exitCell = finder.getFurthestCell(initialCell);
         }
         handleInvalidExitCell(exitCell);
@@ -146,6 +155,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     private boolean isOutsideBounds(Coordinates cell) {
         return cell.getX() < 0 || cell.getX() >= board[0].length ||
                 cell.getY() < 0 || cell.getY() >= board.length;
+    }
+
+    private int calculateMinimumPathLength() {
+        CellFinder finder = new CellFinder(board);
+        return finder.getDistance(initialCell, exitCell);
     }
 
     @Override
@@ -310,6 +324,26 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     @Override
     public boolean isPlayerAtExit(Player player) {
         return player.getCoordinates().equals(exitCell);
+    }
+
+    @Override
+    public int getMinimumPathLength() {
+        return minimumPathLength;
+    }
+
+    @Override
+    public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
+        ScoreInfo info;
+
+        switch (type) {
+            case SIMPLE_KEYBOARD:
+                info = new SimpleKeyboardScoreInfo(this, player);
+                break;
+            default:
+                throw new IllegalArgumentException("Score type " + type + " is not supported");
+        }
+
+        return ScoreCalculatorFactory.getScoreCalculator(info);
     }
 
 }
