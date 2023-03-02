@@ -107,56 +107,12 @@ public class AudioMenu extends JPanel {
         addComponentToUserPanel(userSelector, c, 0, 0, 0.46, false);
     }
 
-    private void initDeleteButton(GridBagConstraints c) {
-        deleteUserButton = new JButton("Delete");
-        deleteUserButton.setToolTipText("This will delete the current user and all his recordings");
-        deleteUserButton.setEnabled(false);
-        deleteUserButton.addActionListener(e -> deleteUser());
-        initColors(deleteUserButton);
-        addComponentToUserPanel(deleteUserButton, c, 1, 0, 0.1, true);
-    }
-
-    private void initEditButton(GridBagConstraints c) {
-        editUserButton = new JButton("Edit");
-        editUserButton.setToolTipText("This will edit the current user");
-        initColors(editUserButton);
-        addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
-    }
-
-    private void initAddButton(GridBagConstraints c) {
-        addUserButton = new JButton("Add");
-        addUserButton.setToolTipText("This will add a new user");
-        initColors(addUserButton);
-        addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
-    }
-
-    private void initColors(JComponent component) {
-        component.setBackground(BUTTON_COLOR);
-        component.setForeground(TEXT_COLOR);
-    }
-
     private void addUsersToJComboBox(JComboBox<User> userSelector) {
         List<User> users = AudioFileManager.getUsers();
         userSelector.addItem(ALL_USERS);
 
         for (User user : users) {
             userSelector.addItem(user);
-        }
-    }
-
-    private void addComponentToUserPanel(JComponent component, GridBagConstraints c, int gridx, int gridy,
-            double weightx, boolean setPreferredSize) {
-
-        c.gridx = gridx;
-        c.gridy = gridy;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = weightx;
-
-        userPanel.add(component, c);
-
-        if (setPreferredSize) {
-            component.setPreferredSize(
-                    new Dimension(component.getPreferredSize().height, component.getPreferredSize().height));
         }
     }
 
@@ -180,6 +136,15 @@ public class AudioMenu extends JPanel {
         revalidate();
     }
 
+    private void initDeleteButton(GridBagConstraints c) {
+        deleteUserButton = new JButton("Delete");
+        deleteUserButton.setToolTipText("This will delete the current user and all his recordings");
+        deleteUserButton.setEnabled(false);
+        deleteUserButton.addActionListener(e -> deleteUser());
+        initColors(deleteUserButton);
+        addComponentToUserPanel(deleteUserButton, c, 1, 0, 0.1, true);
+    }
+
     private void deleteUser() {
 
         String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
@@ -191,6 +156,41 @@ public class AudioMenu extends JPanel {
             User user = (User) userSelector.getSelectedItem();
             AudioFileManager.removeUser(user);
             userSelector.removeItem(user);
+        }
+    }
+
+    private void initEditButton(GridBagConstraints c) {
+        editUserButton = new JButton("Edit");
+        editUserButton.setToolTipText("This will edit the current user");
+        initColors(editUserButton);
+        addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
+    }
+
+    private void initAddButton(GridBagConstraints c) {
+        addUserButton = new JButton("Add");
+        addUserButton.setToolTipText("This will add a new user");
+        initColors(addUserButton);
+        addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
+    }
+
+    private void initColors(JComponent component) {
+        component.setBackground(BUTTON_COLOR);
+        component.setForeground(TEXT_COLOR);
+    }
+
+    private void addComponentToUserPanel(JComponent component, GridBagConstraints c, int gridx, int gridy,
+            double weightx, boolean setPreferredSize) {
+
+        c.gridx = gridx;
+        c.gridy = gridy;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = weightx;
+
+        userPanel.add(component, c);
+
+        if (setPreferredSize) {
+            component.setPreferredSize(
+                    new Dimension(component.getPreferredSize().height, component.getPreferredSize().height));
         }
     }
 
@@ -249,11 +249,58 @@ public class AudioMenu extends JPanel {
         parentComponent.add(wordSelector);
     }
 
+    private void addWordsToJComboBox(JComboBox<String> wordSelector) {
+
+        wordSelector.addItem("ALL");
+
+        WordsToRecord[] words = WordsToRecord.values();
+        for (WordsToRecord word : words) {
+            wordSelector.addItem(word.name());
+        }
+    }
+
     private void initCountOfWords(JComponent parenComponent) {
         totalOfWords = new JLabel(getTotalOfWords());
         initColors(totalOfWords);
         totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
         parenComponent.add(totalOfWords);
+    }
+
+    private void loadTotalOfWords() {
+        totalOfWords.setText(getTotalOfWords());
+    }
+
+    private String getTotalOfWords() {
+        if (!(userSelector.getSelectedItem() instanceof User)) {
+            return "Not an user";
+        }
+
+        String label = "Total of audios : ";
+
+        User user = (User) userSelector.getSelectedItem();
+        String word = wordSelector == null ? "ALL" : (String) wordSelector.getSelectedItem();
+
+        if (user == ALL_USERS) {
+            return label + getTotalOfWordsForAllUsers(word);
+        }
+
+        if (word.equals("ALL")) {
+            return label + AudioFileManager.totalNumberOfAudioFilesForUser(user.getFirstName());
+        }
+
+        return label + AudioFileManager.numberOfRecordings(user.getFirstName(), word);
+    }
+
+    private int getTotalOfWordsForAllUsers(String word) {
+        if (word.equals("ALL")) {
+            return AudioFileManager.totalNumberOfAudioFiles();
+        }
+
+        int totalForASpecificWord = 0;
+        for (User usr : AudioFileManager.getUsers()) {
+            totalForASpecificWord += AudioFileManager.numberOfRecordings(usr.getFirstName(), word);
+        }
+        return totalForASpecificWord;
     }
 
     private void initRecordButton(JComponent parentComponent) {
@@ -323,11 +370,6 @@ public class AudioMenu extends JPanel {
         playbackThread.start();
     }
 
-    private void displayExceptionMessage(String errorMessage) {
-        JOptionPane.showMessageDialog(AudioMenu.this,
-                errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
     private void initAudioPlaying()
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         playAndStopButton.setText("||");
@@ -339,6 +381,11 @@ public class AudioMenu extends JPanel {
 
         labelDuration.setText(player.getClipLengthString());
         player.play();
+    }
+
+    private void displayExceptionMessage(String errorMessage) {
+        JOptionPane.showMessageDialog(AudioMenu.this,
+                errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     private void stop() {
@@ -359,53 +406,6 @@ public class AudioMenu extends JPanel {
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
         parentComponent.add(goBackButton);
-    }
-
-    private void addWordsToJComboBox(JComboBox<String> wordSelector) {
-
-        wordSelector.addItem("ALL");
-
-        WordsToRecord[] words = WordsToRecord.values();
-        for (WordsToRecord word : words) {
-            wordSelector.addItem(word.name());
-        }
-    }
-
-    private void loadTotalOfWords() {
-        totalOfWords.setText(getTotalOfWords());
-    }
-
-    private String getTotalOfWords() {
-        if (!(userSelector.getSelectedItem() instanceof User)) {
-            return "Not an user";
-        }
-
-        String label = "Total of audios : ";
-
-        User user = (User) userSelector.getSelectedItem();
-        String word = wordSelector == null ? "ALL" : (String) wordSelector.getSelectedItem();
-
-        if (user == ALL_USERS) {
-            return label + getTotalOfWordsForAllUsers(word);
-        }
-
-        if (word.equals("ALL")) {
-            return label + AudioFileManager.totalNumberOfAudioFilesForUser(user.getFirstName());
-        }
-
-        return label + AudioFileManager.numberOfRecordings(user.getFirstName(), word);
-    }
-
-    private int getTotalOfWordsForAllUsers(String word) {
-        if (word.equals("ALL")) {
-            return AudioFileManager.totalNumberOfAudioFiles();
-        }
-
-        int totalForASpecificWord = 0;
-        for (User usr : AudioFileManager.getUsers()) {
-            totalForASpecificWord += AudioFileManager.numberOfRecordings(usr.getFirstName(), word);
-        }
-        return totalForASpecificWord;
     }
 
     public void goBackToStartMenu() {
