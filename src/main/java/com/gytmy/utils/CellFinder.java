@@ -1,31 +1,36 @@
-package com.gytmy.labyrinth.model;
+package com.gytmy.utils;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.gytmy.utils.Coordinates;
+import com.gytmy.labyrinth.model.Direction;
 
 /**
- * This class is used to find the furthest cell from a given cell in a
- * labyrinth.
- * It is used to find the exit cell of the labyrinth.
- *
- * The algorithm used is a breadth-first search.
- * 
- * @see <a href=
- *      "https://en.wikipedia.org/wiki/Breadth-first_search">Breadth-first
- *      search</a>
+ * This class is used to find information abot the cells in the board. It is
+ * used to find the entrance and exit cells of the labyrinth. It is also used to
+ * find the distance between two cells.
  */
-public class LabyrinthCellFinder {
+public class CellFinder {
 
     private boolean[][] board;
     private boolean[][] visited;
     private Queue<Coordinates> queue;
 
-    public LabyrinthCellFinder(boolean[][] board) {
+    public CellFinder(boolean[][] board) {
         this.board = board;
     }
 
+    /**
+     * Returns the furthest cell from a given cell in the board. It is used to
+     * find the exit cell of the labyrinth. It uses a variation of breadth-first
+     * search.
+     *
+     * @param start the starting cell
+     * @return the furthest cell from the starting cell
+     * @see <a href=
+     *      "https://en.wikipedia.org/wiki/Breadth-first_search">Breadth-first
+     *      search</a>
+     */
     public Coordinates getFurthestCell(Coordinates start) {
 
         initializeVariables(start);
@@ -76,6 +81,38 @@ public class LabyrinthCellFinder {
 
     private boolean isWall(Coordinates position) {
         return !board[position.getY()][position.getX()];
+    }
+
+    /**
+     * Returns the distance between two cells in the board. It
+     * is uses the breadth-first search.
+     * 
+     * @param start the starting cell
+     * @param end   the ending cell
+     * @return the distance between the two cells
+     * @see <a href=
+     *      "https://en.wikipedia.org/wiki/Breadth-first_search">Breadth-first
+     *      search</a>
+     */
+    public int getDistance(Coordinates start, Coordinates end) {
+        initializeVariables(start);
+
+        int distance = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Coordinates current = queue.remove();
+                if (current.equals(end)) {
+                    return distance;
+                }
+                for (Direction direction : Direction.values()) {
+                    handleNeighbor(current, direction);
+                }
+            }
+            distance++;
+        }
+
+        return -1;
     }
 
     /**

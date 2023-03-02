@@ -5,6 +5,8 @@ import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.score.ScoreCalculator;
+import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.LabyrinthViewImplementation;
 import com.gytmy.utils.Coordinates;
@@ -68,15 +70,18 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
     @Override
     public void movePlayer(Player player, Direction direction) {
-        if (!isMovementAllowed()) {
+        if (!isMovementAllowed() || !canPlayerMove(player)) {
             return;
         }
         if (model.movePlayer(player, direction)) {
             view.update(player, direction);
         }
-        if (model.isGameOver()) {
-            view.stopTimer();
-        }
+
+        handlePlayersAtExit(player);
+    }
+
+    private boolean canPlayerMove(Player player) {
+        return !model.isPlayerAtExit(player);
     }
 
     private boolean isMovementAllowed() {
@@ -87,8 +92,31 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         return view.isTimerCounting();
     }
 
+    /**
+     * Takes care of the players that have reached the exit cell. If the player has
+     * reached the exit cell, the player's time is saved. If all players have
+     * reached the exit cell, the game is over.
+     * 
+     * @param player
+     */
+    private void handlePlayersAtExit(Player player) {
+        if (!canPlayerMove(player)) {
+            player.setTimePassedInSeconds(view.getTimerCounterInSeconds());
+        }
+
+        if (model.isGameOver()) {
+            view.stopTimer();
+
+        }
+    }
+
     @Override
     public void addKeyController(KeyboardMovementController controller) {
         view.addKeyController(controller);
+    }
+
+    @Override
+    public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
+        return model.getScoreCalculator(type, player);
     }
 }
