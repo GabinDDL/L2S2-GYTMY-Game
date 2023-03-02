@@ -12,24 +12,27 @@ public class User {
     public static final String DEFAULT_FIRST_NAME = "FIRST_NAME";
     public static final String DEFAULT_LAST_NAME = "LAST_NAME";
     public static final int DEFAULT_STUDENT_NUMBER = 22100000;
+    public static final String DEFAULT_USER_NAME = "USER_NAME";
 
     private String firstName;
     private String lastName;
     private int studentNumber;
+    private String userName;
 
-    public User(String firstName, String lastName, int studentNumber) {
-        handleInvalidArguments(firstName, lastName, studentNumber);
+    public User(String firstName, String lastName, int studentNumber, String userName) {
+        handleInvalidArguments(firstName, lastName, studentNumber, userName);
 
         this.firstName = firstName.toUpperCase();
         this.lastName = lastName.toUpperCase();
         this.studentNumber = studentNumber;
+        this.userName = userName;
     }
 
     public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER);
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME);
     }
 
-    private void handleInvalidArguments(String firstName, String lastName, int studentNumber) {
+    private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {
         if (isNameInvalid(firstName)) {
             throw new IllegalArgumentException("Invalid first name");
         }
@@ -40,6 +43,10 @@ public class User {
 
         if (studentNumber < 0) {
             throw new IllegalArgumentException("Invalid student number");
+        }
+
+        if (isNameInvalid(userName)) {
+            throw new IllegalArgumentException("Invalid user name");
         }
     }
 
@@ -69,6 +76,14 @@ public class User {
 
     public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /***********************************
@@ -102,16 +117,17 @@ public class User {
         User user = (User) obj;
         return user.getFirstName().equals(this.getFirstName())
                 && user.getLastName().equals(this.getLastName())
-                && user.getStudentNumber() == this.getStudentNumber();
+                && user.getStudentNumber() == this.getStudentNumber()
+                && user.getUserName().equals(this.getUserName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, studentNumber);
+        return Objects.hash(firstName, lastName, studentNumber, userName);
     }
 
     @Override
     public String toString() {
-        return "[" + studentNumber + "] " + firstName + " " + lastName;
+        return "[" + studentNumber + "] " + firstName + " " + lastName + " {" + userName + "}";
     }
 }
