@@ -100,6 +100,7 @@ public class AudioMenu extends JPanel {
     private void initEditButton(GridBagConstraints c) {
         editUserButton = new JButton("Edit");
         editUserButton.setToolTipText("This will edit the current user");
+        editUserButton.setEnabled(false);
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -107,8 +108,17 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
+        addUserButton.addActionListener(e -> addUser());
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
+    }
+
+    private void addUser() {
+        frame.setContentPane(new EditCreateUsersPage(frame));
+        frame.setSize(800, 500);
+        frame.setLocationRelativeTo(null);
+        frame.revalidate();
+        frame.setTitle("Add New User");
     }
 
     private void initColors(JComponent component) {
