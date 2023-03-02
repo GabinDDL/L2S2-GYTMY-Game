@@ -307,33 +307,38 @@ public class AudioMenu extends JPanel {
         isPlaying = true;
         playbackThread = new Thread(() -> {
             try {
-
-                playAndStopButton.setText("||");
-                playAndStopButton.setEnabled(true);
-
-                player.load(audioToLoad);
-                timer.setAudioClip(player.getAudioClip());
-                timeProgress.setMaximum((int) player.getClipSecondLength());
-
-                labelDuration.setText(player.getClipLengthString());
-                player.play();
+                initAudioPlaying();
 
             } catch (UnsupportedAudioFileException ex) {
-                JOptionPane.showMessageDialog(AudioMenu.this,
-                        "The audio format is unsupported!", "Error", JOptionPane.ERROR_MESSAGE);
+                displayExceptionMessage("The audio format is unsupported!");
             } catch (LineUnavailableException ex) {
-                JOptionPane.showMessageDialog(AudioMenu.this,
-                        "Could not play the audio file because line is unavailable!", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                displayExceptionMessage("Could not play the audio file because line is unavailable!");
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(AudioMenu.this,
-                        "I/O error while playing the audio file!", "Error", JOptionPane.ERROR_MESSAGE);
+                displayExceptionMessage("I/O error while playing the audio file!");
             } finally {
                 stop();
             }
         });
 
         playbackThread.start();
+    }
+
+    private void displayExceptionMessage(String errorMessage) {
+        JOptionPane.showMessageDialog(AudioMenu.this,
+                errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void initAudioPlaying()
+            throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        playAndStopButton.setText("||");
+        playAndStopButton.setEnabled(true);
+
+        player.load(audioToLoad);
+        timer.setAudioClip(player.getAudioClip());
+        timeProgress.setMaximum((int) player.getClipSecondLength());
+
+        labelDuration.setText(player.getClipLengthString());
+        player.play();
     }
 
     private void stop() {
