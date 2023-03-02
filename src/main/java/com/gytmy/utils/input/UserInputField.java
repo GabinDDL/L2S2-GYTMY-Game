@@ -8,7 +8,7 @@ public class UserInputField implements InputField {
     // We chose 16 for reading comfort
     public static final int DEFAULT_SIZE = 16;
 
-    private JTextField textField;
+    protected JTextField textField;
 
     public UserInputField(String text) {
         this.textField = new JTextField(text);

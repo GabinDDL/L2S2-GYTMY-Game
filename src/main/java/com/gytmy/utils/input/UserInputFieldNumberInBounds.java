@@ -16,6 +16,16 @@ public class UserInputFieldNumberInBounds extends UserInputField {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
 
+        super.textField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!((c >= '0') && (c <= '9') ||
+                        (c == java.awt.event.KeyEvent.VK_BACK_SPACE) ||
+                        (c == java.awt.event.KeyEvent.VK_DELETE))) {
+                    evt.consume();
+                }
+            }
+        });
     }
 
     @Override
