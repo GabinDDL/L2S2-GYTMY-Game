@@ -50,6 +50,12 @@ public class UserInputFieldNumberInBounds extends UserInputField {
         return NO_VALUE;
     }
 
+    public void setValue(int value) {
+        if (isInRangeOfBounds(value)) {
+            super.setText(String.valueOf(value));
+        }
+    }
+
     public int getLowerBound() {
         return lowerBound;
     }
