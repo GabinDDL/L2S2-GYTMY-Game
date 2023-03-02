@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 /**
- * This class counts playing time in the form of HH:mm:ss
- * It also updates the time slider
+ * This class counts playing time in the form of mm:ss
+ * It also updates the time progress bar.
  * 
  * @see https://www.codejava.net/coding/java-audio-player-sample-application-in-swing
  *
