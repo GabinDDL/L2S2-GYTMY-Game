@@ -101,6 +101,8 @@ public class AudioMenu extends JPanel {
         editUserButton = new JButton("Edit");
         editUserButton.setToolTipText("This will edit the current user");
         editUserButton.setEnabled(false);
+        editUserButton.addActionListener(
+                e -> editOrAddUser("Edit User", new EditCreateUsersPage(frame, (User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -108,17 +110,17 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
-        addUserButton.addActionListener(e -> addUser());
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame)));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
 
-    private void addUser() {
-        frame.setContentPane(new EditCreateUsersPage(frame));
+    private void editOrAddUser(String title, com.gytmy.labyrinth.view.EditCreateUsersPage page) {
+        frame.setContentPane(page);
         frame.setSize(800, 500);
         frame.setLocationRelativeTo(null);
         frame.revalidate();
-        frame.setTitle("Add New User");
+        frame.setTitle(title);
     }
 
     private void initColors(JComponent component) {
@@ -161,9 +163,11 @@ public class AudioMenu extends JPanel {
         actualJTreeRootPath = JTREE_ROOT_PATH;
         if (user == ALL_USERS) {
             deleteUserButton.setEnabled(false);
+            editUserButton.setEnabled(false);
         } else {
             actualJTreeRootPath += user.getFirstName();
             deleteUserButton.setEnabled(true);
+            editUserButton.setEnabled(true);
         }
 
         loadFileNavigator();

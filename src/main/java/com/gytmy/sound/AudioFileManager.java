@@ -75,8 +75,12 @@ public class AudioFileManager {
      * Translate the user object to a yaml file
      */
     public static void writeYamlConfig(User user) {
+        writeYamlConfigAtCertainPath(user, user.yamlConfigPath());
+    }
+
+    public static void writeYamlConfigAtCertainPath(User user, String path) {
         try {
-            YamlReader.write(user.yamlConfigPath(), user);
+            YamlReader.write(path, user);
         } catch (IllegalArgumentException e) {
             System.out.println("Error while creating the `.yaml` file for the user " + user + " : " + e.getMessage());
         }
@@ -213,5 +217,17 @@ public class AudioFileManager {
         }
 
         return files;
+    }
+
+    public static void editUser(User userToEdit, User user) {
+        List<User> allUsers = getUsers();
+
+        for (User currentUser : allUsers) {
+            if (currentUser.equals(userToEdit)) {
+                writeYamlConfigAtCertainPath(user, userToEdit.yamlConfigPath());
+                File userDirectory = new File(userToEdit.audioFilesPath());
+                userDirectory.renameTo(new File(user.audioFilesPath()));
+            }
+        }
     }
 }

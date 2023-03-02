@@ -66,6 +66,7 @@ public class EditCreateUsersPage extends JPanel {
             firstName.setText(userToEdit.getFirstName());
             lastName.setText(userToEdit.getLastName());
             studentNumber.setValue(userToEdit.getStudentNumber());
+            userName.setText(userToEdit.getUserName());
         }
     }
 
@@ -221,10 +222,7 @@ public class EditCreateUsersPage extends JPanel {
             if (userToEdit == null) {
                 AudioFileManager.addUser(user);
             } else {
-                userToEdit.setFirstName(firstName.getText());
-                userToEdit.setLastName(lastName.getText());
-                userToEdit.setStudentNumber(Integer.valueOf(studentNumber.getText()));
-                userToEdit.setUserName(userName.getText());
+                AudioFileManager.editUser(userToEdit, user);
             }
 
             frame.setContentPane(new AudioMenu(frame));
