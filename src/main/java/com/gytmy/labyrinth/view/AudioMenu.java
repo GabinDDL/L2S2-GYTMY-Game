@@ -54,7 +54,7 @@ public class AudioMenu extends JPanel {
     private JButton recordButton;
 
     private JProgressBar timeProgress;
-    private JLabel labelDuration = new JLabel("00:00:00");
+    private JLabel labelDuration = new JLabel("00:00");
     private AudioPlayer player = new AudioPlayer();
     private Thread playbackThread;
     private PlayingTimer timer;
@@ -379,7 +379,6 @@ public class AudioMenu extends JPanel {
         timer.setAudioClip(player.getAudioClip());
         timeProgress.setMaximum((int) player.getClipSecondLength());
 
-        labelDuration.setText(player.getClipLengthString());
         player.play();
     }
 

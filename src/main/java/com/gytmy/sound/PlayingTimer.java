@@ -17,7 +17,7 @@ import javax.swing.JProgressBar;
  *
  */
 public class PlayingTimer extends Thread {
-	private DateFormat dateFormater = new SimpleDateFormat("HH:mm:ss");
+	private DateFormat dateFormater = new SimpleDateFormat("mm:ss");
 	private boolean isRunning = false;
 	private boolean isReset = false;
 	private long startTime;
@@ -52,7 +52,7 @@ public class PlayingTimer extends Thread {
 			} catch (InterruptedException ex) {
 				if (isReset) {
 					timeProgress.setValue(0);
-					labelRecordTime.setText("00:00:00");
+					labelRecordTime.setText("00:00");
 					isRunning = false;
 					break;
 				}
