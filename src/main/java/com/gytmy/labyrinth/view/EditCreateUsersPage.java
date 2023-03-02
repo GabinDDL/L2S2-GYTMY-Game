@@ -25,6 +25,7 @@ public class EditCreateUsersPage extends JPanel {
     private UserInputField firstName;
     private UserInputField lastName;
     private UserInputFieldNumberInBounds studentNumber;
+    private UserInputField userName;
 
     EditCreateUsersPage(JFrame frame) {
         this(frame, null);
@@ -45,6 +46,7 @@ public class EditCreateUsersPage extends JPanel {
         initFirstNameInput(constraints);
         initLastNameInput(constraints);
         initStudentNumberInput(constraints);
+        initUserNameInput(constraints);
 
         setTextValues();
         addListenerToButtons();
@@ -113,6 +115,22 @@ public class EditCreateUsersPage extends JPanel {
                 }
             }
         });
+
+        userName.getTextField().addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (userName.getText().equals("Username")) {
+                    userName.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (userName.getText().equals("")) {
+                    userName.setText("Username");
+                }
+            }
+        });
     }
 
     private void initFirstNameInput(GridBagConstraints constraints) {
@@ -149,17 +167,28 @@ public class EditCreateUsersPage extends JPanel {
         add(studentNumber.getTextField(), constraints);
     }
 
+    private void initUserNameInput(GridBagConstraints constraints) {
+        userName = new UserInputField("Username");
+        userName.setBackground(Cell.PATH_COLOR);
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        constraints.weightx = 0.7;
+        constraints.weighty = 0.5;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        add(userName.getTextField(), constraints);
+    }
+
     private void initCancelButton(GridBagConstraints constraints) {
         cancel = new JButton("Cancel");
         cancel.setBackground(Cell.INITIAL_CELL_COLOR);
 
         cancel.addActionListener(e -> {
-            constraints.insets = new Insets(0, 5, 10, 0);
+            frame.setContentPane(new AudioMenu(frame));
             frame.revalidate();
         });
 
         constraints.gridx = 0;
-        constraints.gridy = 4;
+        constraints.gridy = 5;
         constraints.weightx = 0.2;
 
         add(cancel, constraints);
@@ -169,7 +198,7 @@ public class EditCreateUsersPage extends JPanel {
         save = new JButton("Save");
         save.setBackground(Cell.EXIT_CELL_COLOR);
         constraints.gridx = 2;
-        constraints.gridy = 4;
+        constraints.gridy = 5;
         constraints.weightx = 0.2;
 
         add(save, constraints);
