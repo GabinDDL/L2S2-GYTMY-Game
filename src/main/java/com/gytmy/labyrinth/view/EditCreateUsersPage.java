@@ -15,7 +15,6 @@ import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 public class EditCreateUsersPage extends JPanel {
     private JFrame frame;
 
-    private JButton goBack;
     private JButton save;
     private JButton cancel;
     private UserInputField firstName;
@@ -33,8 +32,6 @@ public class EditCreateUsersPage extends JPanel {
         setBackground(Cell.WALL_COLOR);
         GridBagConstraints constraints = new GridBagConstraints();
 
-        initGoBackButton(constraints);
-
         constraints.insets = new Insets(15, 0, 0, 0);
         constraints.ipady = 20;
 
@@ -45,18 +42,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.fill = GridBagConstraints.NONE;
         constraints.ipady = 0;
 
+        constraints.insets = new Insets(0, 5, 10, 0);
         initSaveButton(constraints);
         initCancelButton(constraints);
-    }
-
-    private void initGoBackButton(GridBagConstraints constraints) {
-        goBack = new JButton("Go back");
-        goBack.setBackground(Cell.INITIAL_CELL_COLOR);
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.weightx = 0.2;
-        constraints.insets = new Insets(30, 5, 0, 0);
-        add(goBack, constraints);
     }
 
     private void initFirstNameInput(GridBagConstraints constraints) {
@@ -93,23 +81,29 @@ public class EditCreateUsersPage extends JPanel {
         add(studentNumber.getTextField(), constraints);
     }
 
+    private void initCancelButton(GridBagConstraints constraints) {
+        cancel = new JButton("Cancel");
+        cancel.setBackground(Cell.INITIAL_CELL_COLOR);
+
+        cancel.addActionListener(e -> {
+            frame.setContentPane(new AudioMenu(frame));
+            frame.revalidate();
+        });
+
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.weightx = 0.2;
+
+        add(cancel, constraints);
+    }
+
     private void initSaveButton(GridBagConstraints constraints) {
         save = new JButton("Save");
         save.setBackground(Cell.EXIT_CELL_COLOR);
         constraints.gridx = 2;
         constraints.gridy = 4;
         constraints.weightx = 0.2;
-        constraints.insets = new Insets(0, 5, 10, 0);
-        add(save, constraints);
-    }
 
-    private void initCancelButton(GridBagConstraints constraints) {
-        cancel = new JButton("Cancel");
-        cancel.setBackground(Cell.INITIAL_CELL_COLOR);
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        constraints.weightx = 0.2;
-        constraints.insets = new Insets(0, 0, 0, 5);
-        add(cancel, constraints);
+        add(save, constraints);
     }
 }
