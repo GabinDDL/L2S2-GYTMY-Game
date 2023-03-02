@@ -47,7 +47,7 @@ public class AudioMenu extends JPanel {
     private JTree fileNavigator;
     private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
     private String actualJTreeRootPath = JTREE_ROOT_PATH;
-    private static final User ALL_USERS = new User("ALL", "USERS", 0);
+    private static final User ALL_USERS = new User("ALL", "USERS", 0, "EVERYONE");
 
     // Word Panel Components
     private JLabel totalOfWords;
