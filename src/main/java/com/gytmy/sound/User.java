@@ -19,6 +19,10 @@ public class User {
     private int studentNumber;
     private String userName;
 
+    public User(User user) {
+        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
+    }
+
     public User(String firstName, String lastName, int studentNumber, String userName) {
         handleInvalidArguments(firstName, lastName, studentNumber, userName);
 
