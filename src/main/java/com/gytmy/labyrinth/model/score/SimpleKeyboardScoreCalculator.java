@@ -106,18 +106,9 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
         int movements = info.getMovements();
         int timePassed = info.getTimePassed();
         int minMovements = info.getMinMovements();
-        // TODO: remove debug
-        System.out.println("--------------------");
-        System.out.println("Best time: " + bestTime);
-        System.out.println("Movements: " + movements);
-        System.out.println("Time passed: " + timePassed);
-        System.out.println("Min movements: " + minMovements);
 
         double timePenalty = computeTimePenalty(timePassed);
         double movementPenalty = computeMovementPenalty(movements, minMovements);
-
-        System.out.println("Time penalty: " + timePenalty);
-        System.out.println("Movement penalty: " + movementPenalty);
 
         double totalPenalty = (TIME_PENALTY * timePenalty + MOVEMENT_PENALTY * movementPenalty)
                 / (TIME_PENALTY + MOVEMENT_PENALTY);

@@ -102,10 +102,6 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private void handlePlayersAtExit(Player player) {
         if (!canPlayerMove(player)) {
             player.setTimePassedInSeconds(view.getTimerCounterInSeconds());
-
-            // TODO: Remove from production code
-            ScoreCalculator scoreCalculator = getScoreCalculator(ScoreType.SIMPLE_KEYBOARD, player);
-            System.out.println(player.getName() + " : " + scoreCalculator.getScore());
         }
 
         if (model.isGameOver()) {
