@@ -6,6 +6,7 @@ before_script:
 
 stages:
   - build
+  - build_test
   - test
 
 build:
@@ -17,7 +18,7 @@ build:
     policy: push
 
 build_test:
-  stage: build
+  stage: build_test
   script:
     - ./run.sh compileTests
   cache:
