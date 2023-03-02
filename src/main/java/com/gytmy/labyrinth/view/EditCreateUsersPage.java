@@ -2,6 +2,7 @@ package com.gytmy.labyrinth.view;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.GridBagLayout;
@@ -11,6 +12,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
@@ -20,7 +22,7 @@ public class EditCreateUsersPage extends JPanel {
 
     private User userToEdit;
 
-    private JButton save;
+    private JButton saveOrCreate;
     private JButton cancel;
     private UserInputField firstName;
     private UserInputField lastName;
@@ -55,7 +57,7 @@ public class EditCreateUsersPage extends JPanel {
         constraints.ipady = 0;
 
         constraints.insets = new Insets(0, 5, 10, 0);
-        initSaveButton(constraints);
+        initSaveCreateButton(constraints);
         initCancelButton(constraints);
     }
 
@@ -196,13 +198,53 @@ public class EditCreateUsersPage extends JPanel {
         add(cancel, constraints);
     }
 
-    private void initSaveButton(GridBagConstraints constraints) {
-        save = new JButton("Save");
-        save.setBackground(Cell.EXIT_CELL_COLOR);
+    private void initSaveCreateButton(GridBagConstraints constraints) {
+        saveOrCreate = new JButton(userToEdit == null ? "Create" : "Save");
+        saveOrCreate.setBackground(Cell.EXIT_CELL_COLOR);
+
+        saveOrCreate.addActionListener(e -> {
+
+            if (!inputsAreValid()) {
+                JOptionPane.showMessageDialog(this, "Please fill correctly all fields", "Attention",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            User user = createUser();
+
+            if (AudioFileManager.getUsers().contains(user)) {
+                JOptionPane.showMessageDialog(this, "User already exists", "Attention",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (userToEdit == null) {
+                AudioFileManager.addUser(user);
+            } else {
+                userToEdit.setFirstName(firstName.getText());
+                userToEdit.setLastName(lastName.getText());
+                userToEdit.setStudentNumber(Integer.valueOf(studentNumber.getText()));
+                userToEdit.setUserName(userName.getText());
+            }
+
+            frame.setContentPane(new AudioMenu(frame));
+            frame.revalidate();
+        });
+
         constraints.gridx = 2;
         constraints.gridy = 5;
         constraints.weightx = 0.2;
 
-        add(save, constraints);
+        add(saveOrCreate, constraints);
+    }
+
+    private User createUser() {
+        return new User(firstName.getText(), lastName.getText(), Integer.valueOf(studentNumber.getText()),
+                userName.getText());
+    }
+
+    private boolean inputsAreValid() {
+        return !firstName.getText().equals("First name") && !lastName.getText().equals("Last name")
+                && Integer.valueOf(studentNumber.getText()) != 0 && !userName.getText().equals("Username");
     }
 }
