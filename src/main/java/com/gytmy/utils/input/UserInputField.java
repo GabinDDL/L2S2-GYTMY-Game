@@ -49,4 +49,11 @@ public class UserInputField implements InputField {
         return textField;
     }
 
+    public void setBackground(java.awt.Color color) {
+        textField.setBackground(color);
+    }
+
+    public void setForeground(java.awt.Color color) {
+        textField.setForeground(color);
+    }
 }
