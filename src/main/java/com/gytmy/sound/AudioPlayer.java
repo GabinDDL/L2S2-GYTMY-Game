@@ -67,12 +67,8 @@ public class AudioPlayer implements LineListener {
 
     /**
      * Play a given audio file.
-     * 
-     * @throws IOException
-     * @throws UnsupportedAudioFileException
-     * @throws LineUnavailableException
      */
-    public void play() throws IOException {
+    public void play() {
 
         audioClip.start();
 
