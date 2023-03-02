@@ -8,12 +8,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.GridBagConstraints;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import com.gytmy.sound.User;
 import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 public class EditCreateUsersPage extends JPanel {
     private JFrame frame;
+
+    private User userToEdit;
 
     private JButton save;
     private JButton cancel;
@@ -28,6 +33,8 @@ public class EditCreateUsersPage extends JPanel {
     EditCreateUsersPage(JFrame frame, User userToEdit) {
         this.frame = frame;
 
+        this.userToEdit = userToEdit;
+
         setLayout(new GridBagLayout());
         setBackground(Cell.WALL_COLOR);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -39,12 +46,73 @@ public class EditCreateUsersPage extends JPanel {
         initLastNameInput(constraints);
         initStudentNumberInput(constraints);
 
+        setTextValues();
+        addListenerToButtons();
+
         constraints.fill = GridBagConstraints.NONE;
         constraints.ipady = 0;
 
         constraints.insets = new Insets(0, 5, 10, 0);
         initSaveButton(constraints);
         initCancelButton(constraints);
+    }
+
+    private void setTextValues() {
+        if (userToEdit != null) {
+            firstName.setText(userToEdit.getFirstName());
+            lastName.setText(userToEdit.getLastName());
+            studentNumber.setValue(userToEdit.getStudentNumber());
+        }
+    }
+
+    private void addListenerToButtons() {
+        firstName.getTextField().addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (firstName.getText().equals("First name")) {
+                    firstName.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (firstName.getText().equals("")) {
+                    firstName.setText("First name");
+                }
+            }
+        });
+
+        lastName.getTextField().addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (lastName.getText().equals("Last name")) {
+                    lastName.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (lastName.getText().equals("")) {
+                    lastName.setText("Last name");
+                }
+            }
+        });
+
+        studentNumber.getTextField().addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (Integer.valueOf(studentNumber.getText()) == 0) {
+                    studentNumber.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (studentNumber.getText().equals("") || Integer.valueOf(studentNumber.getText()) == 0) {
+                    studentNumber.setText("0");
+                }
+            }
+        });
     }
 
     private void initFirstNameInput(GridBagConstraints constraints) {
@@ -86,7 +154,7 @@ public class EditCreateUsersPage extends JPanel {
         cancel.setBackground(Cell.INITIAL_CELL_COLOR);
 
         cancel.addActionListener(e -> {
-            frame.setContentPane(new AudioMenu(frame));
+            constraints.insets = new Insets(0, 5, 10, 0);
             frame.revalidate();
         });
 
