@@ -33,6 +33,23 @@ public class EditCreateUsersPage extends JPanel {
         setBackground(Cell.WALL_COLOR);
         GridBagConstraints constraints = new GridBagConstraints();
 
+        initGoBackButton(constraints);
+
+        constraints.insets = new Insets(15, 0, 0, 0);
+        constraints.ipady = 20;
+
+        initFirstNameInput(constraints);
+        initLastNameInput(constraints);
+        initStudentNumberInput(constraints);
+
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.ipady = 0;
+
+        initSaveButton(constraints);
+        initCancelButton(constraints);
+    }
+
+    private void initGoBackButton(GridBagConstraints constraints) {
         goBack = new JButton("Go back");
         goBack.setBackground(Cell.INITIAL_CELL_COLOR);
         constraints.gridx = 0;
@@ -40,10 +57,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.weightx = 0.2;
         constraints.insets = new Insets(30, 5, 0, 0);
         add(goBack, constraints);
+    }
 
-        constraints.insets = new Insets(15, 0, 0, 0);
-        constraints.ipady = 20;
-
+    private void initFirstNameInput(GridBagConstraints constraints) {
         firstName = new UserInputField("First name");
         firstName.setBackground(Cell.PATH_COLOR);
         constraints.gridx = 1;
@@ -52,7 +68,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.weighty = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         add(firstName.getTextField(), constraints);
+    }
 
+    private void initLastNameInput(GridBagConstraints constraints) {
         lastName = new UserInputField("Last name");
         lastName.setBackground(Cell.PATH_COLOR);
         constraints.gridx = 1;
@@ -61,7 +79,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.weighty = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         add(lastName.getTextField(), constraints);
+    }
 
+    private void initStudentNumberInput(GridBagConstraints constraints) {
         studentNumber = new UserInputFieldNumberInBounds(0, 99999999);
         studentNumber.setBackground(Cell.PATH_COLOR);
         studentNumber.setValue(0);
@@ -71,10 +91,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.weighty = 0.5;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         add(studentNumber.getTextField(), constraints);
+    }
 
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.ipady = 0;
-
+    private void initSaveButton(GridBagConstraints constraints) {
         save = new JButton("Save");
         save.setBackground(Cell.EXIT_CELL_COLOR);
         constraints.gridx = 2;
@@ -82,7 +101,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.weightx = 0.2;
         constraints.insets = new Insets(0, 5, 10, 0);
         add(save, constraints);
+    }
 
+    private void initCancelButton(GridBagConstraints constraints) {
         cancel = new JButton("Cancel");
         cancel.setBackground(Cell.INITIAL_CELL_COLOR);
         constraints.gridx = 0;
@@ -90,6 +111,5 @@ public class EditCreateUsersPage extends JPanel {
         constraints.weightx = 0.2;
         constraints.insets = new Insets(0, 0, 0, 5);
         add(cancel, constraints);
-        // constraints.fill = GridBagConstraints.HORIZONTAL;
     }
 }
