@@ -59,4 +59,9 @@ public class FileTree extends JTree {
             return label;
         };
     }
+
+    public String getSelectedFilePath() {
+        System.out.println(getSelectionPath().getLastPathComponent().toString());
+        return getSelectionPath().getLastPathComponent().toString();
+    }
 }

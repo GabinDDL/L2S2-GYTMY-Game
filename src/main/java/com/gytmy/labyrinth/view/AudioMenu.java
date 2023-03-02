@@ -24,9 +24,9 @@ import javax.swing.JTree;
 import javax.swing.SwingConstants;
 
 import com.gytmy.sound.AudioFileManager;
-import com.gytmy.sound.User;
-import com.gytmy.sound.PlayingTimer;
 import com.gytmy.sound.AudioPlayer;
+import com.gytmy.sound.PlayingTimer;
+import com.gytmy.sound.User;
 import com.gytmy.utils.FileTree;
 import com.gytmy.utils.WordsToRecord;
 
@@ -62,9 +62,11 @@ public class AudioMenu extends JPanel {
 
     private boolean isPlaying = false;
 
-    JButton previousButton;
-    JButton playAndStopButton;
-    JButton nextButton;
+    private JButton previousButton;
+    private JButton playAndStopButton;
+    private JButton nextButton;
+
+    private String audioToLoad = "";
 
     private static final Color BUTTON_COLOR = Cell.WALL_COLOR;
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
@@ -203,7 +205,16 @@ public class AudioMenu extends JPanel {
             remove(scrollPane);
         }
 
+        audioToLoad = "";
+
         fileNavigator = new FileTree(actualJTreeRootPath);
+        fileNavigator.addTreeSelectionListener(e -> {
+            if (isPlaying) {
+                stop();
+            }
+            audioToLoad = ((FileTree) fileNavigator).getSelectedFilePath();
+        });
+
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
@@ -294,7 +305,7 @@ public class AudioMenu extends JPanel {
                 playAndStopButton.setText("||");
                 playAndStopButton.setEnabled(true);
 
-                player.load("src/resources/audioFiles/RecordAudio2.wav");
+                player.load(audioToLoad);
                 timer.setAudioClip(player.getAudioClip());
                 timeProgress.setMaximum((int) player.getClipSecondLength());
 
@@ -389,6 +400,9 @@ public class AudioMenu extends JPanel {
     }
 
     public void goBackToStartMenu() {
+        if (isPlaying) {
+            stop();
+        }
         frame.setContentPane(new StartMenu(frame));
         frame.setSize(800, 500);
         frame.setLocationRelativeTo(null);

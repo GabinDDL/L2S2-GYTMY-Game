@@ -19,7 +19,6 @@ import javax.swing.JProgressBar;
 public class PlayingTimer extends Thread {
 	private DateFormat dateFormater = new SimpleDateFormat("HH:mm:ss");
 	private boolean isRunning = false;
-	private boolean isPause = false;
 	private boolean isReset = false;
 	private long startTime;
 	private long pauseTime;
@@ -45,17 +44,11 @@ public class PlayingTimer extends Thread {
 		while (isRunning) {
 			try {
 				Thread.sleep(100);
-				if (!isPause) {
-					if (audioClip != null && audioClip.isRunning()) {
-						labelRecordTime.setText(toTimeString());
-						int currentSecond = (int) audioClip.getMicrosecondPosition() / 1_000_000;
-						System.out.println("currentSecond: " + currentSecond);
-						timeProgress.setValue(currentSecond);
-					}
+				if (audioClip != null && audioClip.isRunning()) {
+					labelRecordTime.setText(toTimeString());
+					int currentSecond = (int) audioClip.getMicrosecondPosition() / 1_000_000;
+					timeProgress.setValue(currentSecond);
 				}
-				// else {
-				// pauseTime += 100;
-				// }
 			} catch (InterruptedException ex) {
 				if (isReset) {
 					timeProgress.setValue(0);
@@ -73,14 +66,6 @@ public class PlayingTimer extends Thread {
 	public void reset() {
 		isReset = true;
 		isRunning = false;
-	}
-
-	public void pauseTimer() {
-		isPause = true;
-	}
-
-	public void resumeTimer() {
-		isPause = false;
 	}
 
 	/**

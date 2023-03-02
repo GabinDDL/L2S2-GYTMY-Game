@@ -33,8 +33,6 @@ public class AudioPlayer implements LineListener {
 	 */
 	private boolean isStopped;
 
-	private boolean isPaused;
-
 	private Clip audioClip;
 
 	/**
@@ -119,16 +117,8 @@ public class AudioPlayer implements LineListener {
 				Thread.sleep(100);
 			} catch (InterruptedException ex) {
 				if (isStopped) {
-					System.out.println("Stopped");
 					audioClip.stop();
 					break;
-				}
-				if (isPaused) {
-					System.out.println("Pause");
-					audioClip.stop();
-				} else {
-					System.out.println("Resume");
-					audioClip.start();
 				}
 			}
 		}
@@ -144,14 +134,6 @@ public class AudioPlayer implements LineListener {
 		isStopped = true;
 	}
 
-	public void pause() {
-		isPaused = true;
-	}
-
-	public void resume() {
-		isPaused = false;
-	}
-
 	/**
 	 * Listens to the audio line events to know when the playback completes.
 	 */
@@ -159,10 +141,7 @@ public class AudioPlayer implements LineListener {
 	public void update(LineEvent event) {
 		LineEvent.Type type = event.getType();
 		if (type == LineEvent.Type.STOP) {
-			if (!isStopped && !isPaused) {
-				System.out.println("Finished");
-			}
-			if (isStopped || !isPaused) {
+			if (isStopped) {
 				playCompleted = true;
 			}
 		}
