@@ -106,7 +106,7 @@ public class PlayerSelectorPanel extends JPanel {
         private static AvailableUsers instance = null;
 
         private AvailableUsers() {
-            users = new ArrayList<>();
+            users = AudioFileManager.getUsers();
         }
 
         public static AvailableUsers getInstance() {
@@ -138,7 +138,7 @@ public class PlayerSelectorPanel extends JPanel {
 
     public static void main(String[] args) {
 
-        AudioFileManager.addUser(new User("Yago", "Iglesias", 12345, "Grep"));
+        // AudioFileManager.addUser(new User("Yago", "Iglesias", 12345, "Grep"));
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
