@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.sound.AudioFileManager;
-import com.gytmy.sound.User;
 
 public class PlayerSelectionPanel extends JPanel {
 
