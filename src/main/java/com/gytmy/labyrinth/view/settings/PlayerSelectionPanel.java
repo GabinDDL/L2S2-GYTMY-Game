@@ -18,9 +18,9 @@ import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
 
-public class PlayerSelectorPanel extends JPanel {
+public class PlayerSelectionPanel extends JPanel {
 
-    public PlayerSelectorPanel() {
+    public PlayerSelectionPanel() {
         super();
     }
 
@@ -169,10 +169,10 @@ public class PlayerSelectorPanel extends JPanel {
         // Color.RED, true);
         // PlayerPanel panel = new PlayerPanel(player);
 
-        UserSelector panel1 = new PlayerSelectorPanel().new UserSelector();
-        UserSelector panel2 = new PlayerSelectorPanel().new UserSelector();
-        UserSelector panel3 = new PlayerSelectorPanel().new UserSelector();
-        UserSelector panel4 = new PlayerSelectorPanel().new UserSelector();
+        UserSelector panel1 = new PlayerSelectionPanel().new UserSelector();
+        UserSelector panel2 = new PlayerSelectionPanel().new UserSelector();
+        UserSelector panel3 = new PlayerSelectionPanel().new UserSelector();
+        UserSelector panel4 = new PlayerSelectionPanel().new UserSelector();
 
         UserSelector[] panels = { panel1, panel2, panel3, panel4 };
 
