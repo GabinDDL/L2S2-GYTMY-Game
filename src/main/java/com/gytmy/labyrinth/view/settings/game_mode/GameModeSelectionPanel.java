@@ -60,10 +60,14 @@ public class GameModeSelectionPanel extends JPanel {
         repaint();
     }
 
-    public GameModeData getSettingsData() {
+    public GameModeData getGameModeData() {
         GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
                 .getGameModeSettingsPanel((GameMode) gameModeSelector.getSelectedItem());
         return handler.getSettingsData();
+    }
+
+    public GameMode getSelectedGameMode() {
+        return (GameMode) gameModeSelector.getSelectedItem();
     }
 
     private class GameModeSelector extends JComboBox<GameMode> {

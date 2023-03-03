@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.sound.AudioFileManager;
+import com.gytmy.sound.User;
 
 public class PlayerSelectionPanel extends JPanel {
 
@@ -38,7 +40,7 @@ public class PlayerSelectionPanel extends JPanel {
 
     public boolean arePlayersReady() {
         for (PlayerPanel playerPanel : playerPanels) {
-            if (playerPanel.getPlayer() == null) {
+            if (!playerPanel.isReady() && playerPanel.isActivated()) {
                 return false;
             }
         }

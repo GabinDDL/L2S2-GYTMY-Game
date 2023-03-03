@@ -154,6 +154,13 @@ public class PlayerPanel extends JPanel {
         String userName = userSelector.getSelectedItem().toString();
         Color color = COLORS[id];
         return new PlayerImplementation(userName, color);
+    }
 
+    public boolean isReady() {
+        return isPlayerReady;
+    }
+
+    public boolean isActivated() {
+        return userSelector != null;
     }
 }

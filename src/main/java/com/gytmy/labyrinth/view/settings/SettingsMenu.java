@@ -10,15 +10,26 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.lang.Thread.State;
 
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import com.gytmy.labyrinth.controller.LabyrinthController;
+import com.gytmy.labyrinth.controller.LabyrinthControllerImplementation;
+import com.gytmy.labyrinth.model.GameData;
+import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.GameFrameToolbox;
+import com.gytmy.labyrinth.view.LabyrinthView;
+import com.gytmy.labyrinth.view.settings.game_mode.GameMode;
+import com.gytmy.labyrinth.view.settings.game_mode.GameModeData;
 import com.gytmy.labyrinth.view.settings.game_mode.GameModeSelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
 public class SettingsMenu extends JPanel {
+
+    private JFrame frame;
 
     private PlayerSelectionPanel playerSelectionPanel;
     private GameModeSelectionPanel gameModeSelectionPanel;
@@ -28,7 +39,9 @@ public class SettingsMenu extends JPanel {
     private static final String ANIMATED_GAME_GIF_PATH = "src/resources/images/settings_menu/MAZE_LOGO_ROTATED.gif";
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
-    public SettingsMenu() {
+    public SettingsMenu(JFrame frame) {
+        this.frame = frame;
+
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
 
@@ -77,6 +90,7 @@ public class SettingsMenu extends JPanel {
 
     private void initStartGameButton() {
         startGameButton = new JButton("Start Game");
+        startGameButton.addActionListener(e -> startGame());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -88,6 +102,24 @@ public class SettingsMenu extends JPanel {
 
     private void startGame() {
 
+        if (!playerSelectionPanel.arePlayersReady()) {
+            // TODO: Add error message
+            return;
+        }
+
+        // TODO: Handle wrong inputs
+
+        Player[] players = playerSelectionPanel.getSelectedPlayers();
+        GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
+        GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
+        GameData gameData = new GameData(gameModeSettings, gameMode, players);
+
+        LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData);
+        LabyrinthView labyrinthView = labyrinthController.getView();
+
+        frame.setContentPane(labyrinthView);
+        GameFrameToolbox.frameUpdate(frame, "View Labyrinth" + gameMode);
+
     }
 
     private void updateGUI() {
@@ -96,9 +128,9 @@ public class SettingsMenu extends JPanel {
     }
 
     public static void main(String[] args) {
-        JPanel panel = new SettingsMenu();
 
         JFrame frame = new JFrame();
+        JPanel panel = new SettingsMenu(frame);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(800, 500));
         frame.add(panel);
