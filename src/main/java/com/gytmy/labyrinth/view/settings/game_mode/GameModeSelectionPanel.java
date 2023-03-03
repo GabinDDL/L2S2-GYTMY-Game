@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.view.Cell;
 
-public class GameModeSelectorPanel extends JPanel {
+public class GameModeSelectionPanel extends JPanel {
 
     public static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     public static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
@@ -19,7 +19,7 @@ public class GameModeSelectorPanel extends JPanel {
     private GameModeSelector gameModeSelector;
     protected JPanel gameModeSettingsPanel;
 
-    public GameModeSelectorPanel() {
+    public GameModeSelectionPanel() {
         setBackground(BACKGROUND_COLOR);
         initGameModeSelector();
         initGameModeSettingsPanel();
@@ -33,7 +33,7 @@ public class GameModeSelectorPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
+        gbc.weighty = 0.3;
         add(gameModeSelector, gbc);
         revalidate();
         repaint();
@@ -95,7 +95,7 @@ public class GameModeSelectorPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        GameModeSelectorPanel panel = new GameModeSelectorPanel();
+        GameModeSelectionPanel panel = new GameModeSelectionPanel();
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

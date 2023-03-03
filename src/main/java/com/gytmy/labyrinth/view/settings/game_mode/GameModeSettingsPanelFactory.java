@@ -35,8 +35,8 @@ public class GameModeSettingsPanelFactory {
         private JTextField heightInputField;
         private JLabel heightLabel;
 
-        private static final Color BACKGROUND_COLOR = GameModeSelectorPanel.BACKGROUND_COLOR;
-        private static final Color FOREGROUND_COLOR = GameModeSelectorPanel.FOREGROUND_COLOR;
+        private static final Color BACKGROUND_COLOR = GameModeSelectionPanel.BACKGROUND_COLOR;
+        private static final Color FOREGROUND_COLOR = GameModeSelectionPanel.FOREGROUND_COLOR;
 
         private static ClassicSettingsPanelHandler instance = null;
 
