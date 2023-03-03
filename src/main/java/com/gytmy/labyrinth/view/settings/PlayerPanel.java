@@ -1,11 +1,16 @@
 package com.gytmy.labyrinth.view.settings;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 
-import javax.swing.ImageIcon;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
@@ -13,6 +18,7 @@ import javax.swing.event.MouseInputAdapter;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.utils.ImageManipulator;
 
 public class PlayerPanel extends JPanel {
     private static final Color[] COLORS = new Color[] {
@@ -23,93 +29,126 @@ public class PlayerPanel extends JPanel {
             Color.decode("#29366f")
     };
     private static final Color DEFAULT_BACKGROUND = Cell.WALL_COLOR;
+    private static final Color BORDE_COLOR = Cell.PATH_COLOR;
     private static final String ADD_PLAYER_IMAGE_PATH = "src/resources/images/settings_menu/add_player.png";
+    private static final Dimension PANEL_DIMENSION = new Dimension(165, 165);
 
     private static int playerCount = 0;
     private int id;
-
     private UserSelector userSelector;
-
     private boolean isPlayerReady = false;
 
     public PlayerPanel() {
         id = playerCount;
         playerCount++;
-        GridBagConstraints gbc = new GridBagConstraints();
+
+        setBorder(BorderFactory.createLineBorder(BORDE_COLOR));
+        setPreferredSize(PANEL_DIMENSION);
+        setLayout(new GridBagLayout());
+
         userSelector = null;
-        initEmpty(gbc);
+        initializeMouseBehavior();
+        initEmpty();
     }
 
-    private void initEmpty(GridBagConstraints gbc) {
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        setBackground(DEFAULT_BACKGROUND);
-        ImageIcon icon = new ImageIcon(ADD_PLAYER_IMAGE_PATH);
-        JLabel imageLabel = new JLabel(icon);
-        imageLabel.setLayout(new GridBagLayout());
-        add(imageLabel);
-        revalidate();
-        repaint();
-
-        addMouseListener(new MouseInputAdapter() {
+    private void initializeMouseBehavior() {
+        MouseInputAdapter adapter = new MouseInputAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 switch (e.getButton()) {
                     case MouseEvent.BUTTON1:
-                        if (userSelector == null) {
-                            initNonEmpty();
-                            initUserSelector(gbc);
-                        } else {
-                            updateReadyStatus();
-                        }
-                        revalidate();
-                        repaint();
+                        handleLeftClick();
                         break;
                     case MouseEvent.BUTTON3:
-                        if (userSelector == null) {
-                            break;
-                        }
-                        remove(userSelector);
-                        userSelector.unlockChoice();
-                        userSelector.cleanData();
-                        userSelector = null;
-                        initEmpty(gbc);
+                        handleRightClick();
                         break;
                     default:
                         break;
                 }
             }
-        });
-    }
 
-    private void initUserSelector(GridBagConstraints gbc) {
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1;
-        gbc.weighty = 0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        userSelector = new UserSelector();
-        add(userSelector);
+            private void handleLeftClick() {
+                if (userSelector == null) {
+                    initNonEmpty();
+                    initUserSelector();
+                } else {
+                    updateReadyStatus();
+                }
+            }
+
+            private void handleRightClick() {
+                if (userSelector == null) {
+                    return;
+                }
+                remove(userSelector);
+                userSelector.unlockChoice();
+                userSelector.cleanData();
+                userSelector = null;
+                initEmpty();
+            }
+        };
+
+        addMouseListener(adapter);
     }
 
     private void initNonEmpty() {
         removeAll();
-        setBackground(COLORS[id]);
-        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+
+        JPanel panel = new JPanel();
+        panel.setBackground(COLORS[id]);
+        add(panel, gbc);
+
+        updateGUI();
+    }
+
+    private void initUserSelector() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.PAGE_END;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+
+        userSelector = new UserSelector();
+        add(userSelector, gbc);
+
+        updateGUI();
     }
 
     private void updateReadyStatus() {
+        // TODO: Temporal fix waiting for a better solution
+        // @lacenne should be able to fix this
         isPlayerReady = !isPlayerReady;
         if (isPlayerReady) {
-            setBackground(Color.decode("#ffffff"));
             userSelector.lockChoice();
         } else {
-            setBackground(COLORS[id]);
             userSelector.unlockChoice();
         }
+        updateGUI();
+
+    }
+
+    private void initEmpty() {
+        removeAll();
+        setBackground(DEFAULT_BACKGROUND);
+        JLabel label = new JLabel();
+        int imageWidth = getPreferredSize().width / 2;
+        int imageHeight = getPreferredSize().height / 2;
+        label.setIcon(ImageManipulator.resizeImage(ADD_PLAYER_IMAGE_PATH, new Dimension(imageWidth, imageHeight)));
+        add(label);
+        updateGUI();
+    }
+
+    private void updateGUI() {
+        revalidate();
+        repaint();
     }
 
     public Player getPlayer() {

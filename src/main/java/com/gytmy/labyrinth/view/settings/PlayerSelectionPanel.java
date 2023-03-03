@@ -48,7 +48,7 @@ public class PlayerSelectionPanel extends JPanel {
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(800, 165);
         frame.setLocationRelativeTo(null);
 
         PlayerPanel playerPanel1 = new PlayerPanel();

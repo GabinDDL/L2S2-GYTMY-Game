@@ -1,12 +1,26 @@
 package com.gytmy.labyrinth.view.settings;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+
+import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
 
@@ -16,8 +30,15 @@ import com.gytmy.sound.User;
  */
 public class UserSelector extends JComboBox<User> {
 
+    private static final Color FOREGROUND_COLOR = Cell.WALL_COLOR;
+    private static final Color BACKGROUND_COLOR = Cell.PATH_COLOR;
+
     public UserSelector() {
         AvailableUsers.getInstance().addObserver(this);
+
+        setForeground(FOREGROUND_COLOR);
+        setBackground(BACKGROUND_COLOR);
+
         updateUserList();
     }
 

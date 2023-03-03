@@ -18,8 +18,8 @@ public class ImageManipulator {
      * @param dimension the size of the image
      * @return the {@code ImageIcon}
      */
-    public static ImageIcon initImageAsImageIcon(String path, Dimension dimension) {
-        return initImageAsImageIcon(path, dimension.width, dimension.height);
+    public static ImageIcon resizeImage(String path, Dimension dimension) {
+        return resizeImage(path, dimension.width, dimension.height);
     }
 
     /**
@@ -31,7 +31,7 @@ public class ImageManipulator {
      * @param height the height of the image
      * @return the {@code ImageIcon}
      */
-    public static ImageIcon initImageAsImageIcon(String path, int width, int height) {
+    public static ImageIcon resizeImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(path);
 
         Image resizedImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
