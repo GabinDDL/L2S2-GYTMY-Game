@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class GameFrameToolbox {
 
-    private static final String GAME_TITLE = "Be AMazed";
+    public static final String GAME_TITLE = "Be AMazed";
 
     private GameFrameToolbox() {
     }
