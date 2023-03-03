@@ -11,7 +11,6 @@ public class UserInputFieldNumberInBounds extends UserInputField {
 
     private int lowerBound;
     private int upperBound;
-    public static final int NO_VALUE = -1;
 
     public UserInputFieldNumberInBounds(int lowerBound, int upperBound)
             throws IllegalArgumentException {
@@ -42,6 +41,7 @@ public class UserInputFieldNumberInBounds extends UserInputField {
 
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
+        textField.setText("0");
 
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -54,15 +54,19 @@ public class UserInputFieldNumberInBounds extends UserInputField {
                         (c == KeyEvent.VK_DELETE))) {
                     evt.consume();
                 }
+
+                if (textField.getText().length() >= String.valueOf(upperBound).length()) {
+                    setValue(upperBound);
+                    evt.consume();
+                }
             }
         });
     }
 
     @Override
     public boolean isValidInput() {
-        String strippedText = super.getText().strip();
         return super.isValidInput() &&
-                isInRangeOfBounds(Integer.valueOf(strippedText));
+                isInRangeOfBounds(Integer.valueOf(super.getText()));
     }
 
     /**
@@ -73,16 +77,24 @@ public class UserInputFieldNumberInBounds extends UserInputField {
         return lowerBound <= value && value <= upperBound;
     }
 
-    public int getValue() {
-        if (isValidInput()) {
-            return Integer.valueOf(super.getText().strip());
+    @Override
+    public void setText(String text) throws NumberFormatException {
+        if (text != null && text.isEmpty()) {
+            setValue(lowerBound);
+            return;
         }
-        return NO_VALUE;
+        setValue(Integer.valueOf(text));
+    }
+
+    public int getValue() {
+        return Integer.valueOf(super.getText());
     }
 
     public void setValue(int value) {
         if (isInRangeOfBounds(value)) {
             super.setText(String.valueOf(value));
+        } else {
+            super.setText(String.valueOf(value > upperBound ? upperBound : lowerBound));
         }
     }
 
@@ -101,9 +113,4 @@ public class UserInputFieldNumberInBounds extends UserInputField {
     public void setUpperBound(int upperBound) {
         this.upperBound = upperBound;
     }
-
-    public static int getNoValue() {
-        return NO_VALUE;
-    }
-
 }
