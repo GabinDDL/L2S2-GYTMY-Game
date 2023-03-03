@@ -373,7 +373,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void initMediaPlayer(JComponent parentComponent) {
-        JPanel playPausePanel = new JPanel(new GridLayout(1, 3));
+        JPanel playPausePanel = new JPanel(new GridLayout(1, 1));
         playAndStopButton = new JButton("|>");
 
         initColors(playAndStopButton);
