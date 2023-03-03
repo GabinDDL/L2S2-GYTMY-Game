@@ -15,7 +15,7 @@ import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.labyrinth.view.Cell;
 
 public class PlayerPanel extends JPanel {
-    public static final Color[] COLORS = new Color[] {
+    private static final Color[] COLORS = new Color[] {
             Color.decode("#b13e53"),
             Color.decode("#ffcd75"),
             Color.decode("#38b764"),
@@ -56,7 +56,7 @@ public class PlayerPanel extends JPanel {
 
         addMouseListener(new MouseInputAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 switch (e.getButton()) {
                     case MouseEvent.BUTTON1:
                         if (userSelector == null) {
