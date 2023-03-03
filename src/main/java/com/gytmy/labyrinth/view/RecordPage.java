@@ -37,7 +37,7 @@ public class RecordPage extends JPanel {
     private int totalOfAudioWhenRecordStart;
     private int totalRecordedAudio = 0;
 
-    RecordPage(JFrame frame, User userRecording, String wordToRecord) {
+    public RecordPage(JFrame frame, User userRecording, String wordToRecord) {
         this.frame = frame;
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
