@@ -157,4 +157,8 @@ public class AudioRecorder {
         channel.stop();
         channel.close();
     }
+
+    public static int getTotalDurationInSeconds() {
+        return (int) ((MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
+    }
 }

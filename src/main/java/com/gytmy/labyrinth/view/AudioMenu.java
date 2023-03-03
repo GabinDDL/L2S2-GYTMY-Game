@@ -230,8 +230,15 @@ public class AudioMenu extends JPanel {
     private void initRecordButton(JComponent parentComponent) {
         recordButton = new JButton("Record");
         recordButton.setToolTipText("Record a new audio for the selected word");
+        recordButton.addActionListener(e -> recordAudio());
         initColors(recordButton);
         parentComponent.add(recordButton);
+    }
+
+    private void recordAudio() {
+        frame.setContentPane(new RecordPage(frame));
+        frame.revalidate();
+        frame.setTitle("RECORD STUDIO");
     }
 
     private void initProgressBar(JComponent parentComponent) {
