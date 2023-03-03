@@ -1,5 +1,7 @@
 package com.gytmy.utils.input;
 
+import java.awt.event.KeyAdapter;
+
 public class UserInputFieldNumberInBounds extends UserInputField {
 
     private int lowerBound;
@@ -16,7 +18,8 @@ public class UserInputFieldNumberInBounds extends UserInputField {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
 
-        super.textField.addKeyListener(new java.awt.event.KeyAdapter() {
+        super.textField.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 char c = evt.getKeyChar();
                 if (!((c >= '0') && (c <= '9') ||
