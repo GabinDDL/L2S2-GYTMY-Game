@@ -297,7 +297,8 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testNoPlayersMeansGameOver() {
-        LabyrinthModel labyrinth = LabyrinthModelFactory.createLabyrinth(5, 5, null);
+        LabyrinthModel labyrinth = LabyrinthModelFactory.createLabyrinth(new DepthFirstGenerator(5, 5), null, null,
+                null);
         assertTrue(labyrinth.isGameOver());
     }
 
