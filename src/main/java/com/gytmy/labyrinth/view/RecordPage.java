@@ -17,6 +17,7 @@ import java.awt.GridBagConstraints;
 public class RecordPage extends JPanel {
 
     private JFrame frame;
+    private AudioMenu audioMenu;
 
     private User userRecording;
     private String wordToRecord;
@@ -27,18 +28,20 @@ public class RecordPage extends JPanel {
     private JLabel statusRecordLabel;
     private JLabel totalRecordedAudioLabel;
 
-    private JButton cancelButton;
-    private JButton saveButton;
+    private JButton goBackButton;
     private JButton recordButton;
     private JButton stopButton;
+    private JButton discardButton;
+    private JButton discardAllButton;
 
     private TimerPanel timerPanel;
 
     private int totalOfAudioWhenRecordStart;
     private int totalRecordedAudio = 0;
 
-    public RecordPage(JFrame frame, User userRecording, String wordToRecord) {
+    public RecordPage(JFrame frame, AudioMenu audioMenu, User userRecording, String wordToRecord) {
         this.frame = frame;
+        this.audioMenu = audioMenu;
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
 
@@ -54,11 +57,11 @@ public class RecordPage extends JPanel {
         initTimerPanel(constraints);
         initStatusRecordLabel(constraints);
         initTotalRecordedAudioLabel(constraints);
-        initCancelButton(constraints);
-        initSaveButton(constraints);
         initRecordButton(constraints);
         initStopButton(constraints);
-
+        initDiscardButton(constraints);
+        initDiscardAllButton(constraints);
+        initGoBackButton(constraints);
     }
 
     private void initTimerPanel(GridBagConstraints constraints) {
@@ -74,7 +77,7 @@ public class RecordPage extends JPanel {
         statusRecordLabel = new JLabel(pausedStatusRecord);
         statusRecordLabel.setForeground(Cell.PATH_COLOR);
         constraints.gridx = 2;
-        constraints.gridy = 0;
+        constraints.gridy = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         add(statusRecordLabel, constraints);
@@ -145,38 +148,42 @@ public class RecordPage extends JPanel {
         statusRecordLabel.setText(pausedStatusRecord);
         timerPanel.stop();
 
-        saveButton.setEnabled(true);
         this.remove(timerPanel);
         initTimerPanel(new GridBagConstraints());
         this.revalidate();
     }
 
-    private void initSaveButton(GridBagConstraints constraints) {
-        saveButton = new JButton(" Save ");
-        saveButton.setBackground(Cell.EXIT_CELL_COLOR);
-        saveButton.setEnabled(false);
-        saveButton.addActionListener(e -> goBackToAudioMenu());
-        constraints.gridx = 4;
+    private void initDiscardButton(GridBagConstraints constraints) {
+        discardButton = new JButton("Discard");
+        discardButton.setBackground(Cell.INITIAL_CELL_COLOR);
+        discardButton.addActionListener(e -> discard());
+        constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.weightx = 0.5;
         constraints.weighty = 0.2;
-        add(saveButton, constraints);
+        add(discardButton, constraints);
     }
 
-    private void initCancelButton(GridBagConstraints constraints) {
-        cancelButton = new JButton("Cancel");
-        cancelButton.setBackground(Cell.INITIAL_CELL_COLOR);
-        cancelButton.addActionListener(e -> sureToDelete());
-        constraints.gridx = 0;
+    private void discard() {
+        AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
+                totalOfAudioWhenRecordStart + (totalRecordedAudio--));
+
+        totalRecordedAudioLabel.setText("Total recorded: " + totalRecordedAudio);
+    }
+
+    private void initDiscardAllButton(GridBagConstraints constraints) {
+        discardAllButton = new JButton("Discard All");
+        discardAllButton.setBackground(Cell.INITIAL_CELL_COLOR);
+        discardAllButton.addActionListener(e -> sureToDelete());
+        constraints.gridx = 3;
         constraints.gridy = 2;
         constraints.weightx = 0.5;
         constraints.weighty = 0.2;
-        add(cancelButton, constraints);
+        add(discardAllButton, constraints);
     }
 
     private void sureToDelete() {
         if (totalRecordedAudio == 0) {
-            goBackToAudioMenu();
             return;
         }
 
@@ -185,23 +192,33 @@ public class RecordPage extends JPanel {
                 "Sure to delete?", JOptionPane.YES_NO_OPTION);
 
         if (sureToDelete == JOptionPane.YES_OPTION) {
-            cancel();
+            discardAll();
         }
     }
 
-    private void cancel() {
+    private void discardAll() {
+
         for (int i = 1; i <= totalRecordedAudio; i++) {
             AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
                     totalOfAudioWhenRecordStart + i);
         }
-        goBackToAudioMenu();
+
+        totalRecordedAudio = 0;
+        totalRecordedAudioLabel.setText("Total recorded: " + totalRecordedAudio);
+    }
+
+    private void initGoBackButton(GridBagConstraints constraints) {
+        goBackButton = new JButton("Go Back");
+        goBackButton.setBackground(Cell.EXIT_CELL_COLOR);
+        goBackButton.addActionListener(e -> goBackToAudioMenu());
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.2;
+        add(goBackButton, constraints);
     }
 
     private void goBackToAudioMenu() {
-        frame.setContentPane(new AudioMenu(frame));
-        frame.revalidate();
-        // TO DO : change the title of the frame with GameFrameToolBox.GAME_TITLE when
-        // merged
-        frame.setTitle("Be AMazed" + "\t( AudioSettings )");
+        frame.setContentPane(audioMenu);
     }
 }

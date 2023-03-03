@@ -19,6 +19,7 @@ import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 public class EditCreateUsersPage extends JPanel {
     private JFrame frame;
+    private AudioMenu audioMenu;
 
     private User userToEdit;
 
@@ -34,12 +35,13 @@ public class EditCreateUsersPage extends JPanel {
     private static final int DEFAULT_STUDENT_NUMBER_VALUE = 0;
     private static final String DEFAULT_USER_NAME_TEXT = "User name";
 
-    EditCreateUsersPage(JFrame frame) {
-        this(frame, null);
+    EditCreateUsersPage(JFrame frame, AudioMenu audioMenu) {
+        this(frame, audioMenu, null);
     }
 
-    EditCreateUsersPage(JFrame frame, User userToEdit) {
+    EditCreateUsersPage(JFrame frame, AudioMenu audioMenu, User userToEdit) {
         this.frame = frame;
+        this.audioMenu = audioMenu;
 
         this.userToEdit = userToEdit;
 
@@ -167,7 +169,7 @@ public class EditCreateUsersPage extends JPanel {
         cancel.setBackground(Cell.INITIAL_CELL_COLOR);
 
         cancel.addActionListener(e -> {
-            frame.setContentPane(new AudioMenu(frame));
+            frame.setContentPane(audioMenu);
             frame.revalidate();
         });
 
@@ -204,7 +206,7 @@ public class EditCreateUsersPage extends JPanel {
                 AudioFileManager.editUser(userToEdit, user);
             }
 
-            frame.setContentPane(new AudioMenu(frame));
+            frame.setContentPane(audioMenu);
             frame.revalidate();
         });
 

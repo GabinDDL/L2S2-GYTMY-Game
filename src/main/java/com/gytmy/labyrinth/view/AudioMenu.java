@@ -28,6 +28,8 @@ import com.gytmy.utils.WordsToRecord;
 public class AudioMenu extends JPanel {
     private JFrame frame;
 
+    private StartMenu startMenu;
+
     private JPanel userPanel;
 
     private JComboBox<User> userSelector;
@@ -52,8 +54,10 @@ public class AudioMenu extends JPanel {
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
-    public AudioMenu(JFrame frame) {
+    public AudioMenu(JFrame frame, StartMenu startMenu) {
         this.frame = frame;
+        this.startMenu = startMenu;
+        this.frame.setTitle("Be AMazed" + "\t( AudioSettings )");
 
         setLayout(new BorderLayout());
 
@@ -102,7 +106,8 @@ public class AudioMenu extends JPanel {
         editUserButton.setToolTipText("This will edit the current user");
         editUserButton.setEnabled(false);
         editUserButton.addActionListener(
-                e -> editOrAddUser("Edit User", new EditCreateUsersPage(frame, (User) userSelector.getSelectedItem())));
+                e -> editOrAddUser("Edit User",
+                        new EditCreateUsersPage(frame, this, (User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -110,7 +115,7 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
-        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame)));
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame, this)));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
@@ -257,7 +262,8 @@ public class AudioMenu extends JPanel {
 
     private void recordAudio() {
         frame.setContentPane(
-                new RecordPage(frame, (User) userSelector.getSelectedItem(), (String) wordSelector.getSelectedItem()));
+                new RecordPage(frame, this, (User) userSelector.getSelectedItem(),
+                        (String) wordSelector.getSelectedItem()));
         frame.revalidate();
         frame.setTitle("RECORD STUDIO");
     }
@@ -358,9 +364,7 @@ public class AudioMenu extends JPanel {
     }
 
     public void goBackToStartMenu() {
-        frame.setContentPane(new StartMenu(frame));
-        frame.setSize(800, 500);
+        frame.setContentPane(startMenu);
         frame.revalidate();
-        frame.setTitle("Be AMazed" + "\t( Menu )");
     }
 }
