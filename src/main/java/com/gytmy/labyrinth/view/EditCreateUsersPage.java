@@ -29,6 +29,11 @@ public class EditCreateUsersPage extends JPanel {
     private UserInputFieldNumberInBounds studentNumber;
     private UserInputField userName;
 
+    private static final String DEFAULT_FIRST_NAME_TEXT = "First name";
+    private static final String DEFAULT_LAST_NAME_TEXT = "Last name";
+    private static final int DEFAULT_STUDENT_NUMBER_VALUE = 0;
+    private static final String DEFAULT_USER_NAME_TEXT = "User name";
+
     EditCreateUsersPage(JFrame frame) {
         this(frame, null);
     }
@@ -71,91 +76,57 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private void addListenerToButtons() {
-        addFocusListenerToFirstName();
+        addFocusListenerTo(firstName, DEFAULT_FIRST_NAME_TEXT);
 
-        addFocusListenerToLastName();
+        addFocusListenerTo(lastName, DEFAULT_LAST_NAME_TEXT);
 
-        addFocusListenerToStudentNumber();
+        addNumberFocusListenerTo(studentNumber, DEFAULT_STUDENT_NUMBER_VALUE);
 
-        addFocusListenerToUserName();
+        addFocusListenerTo(userName, DEFAULT_USER_NAME_TEXT);
     }
 
-    private void addFocusListenerToFirstName() {
-        firstName.getTextField().addFocusListener(new FocusListener() {
+    private void addFocusListenerTo(UserInputField field, String defaultText) {
+        field.getTextField().addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (firstName.getText().equals("First name")) {
-                    firstName.setText("");
+                if (field.getText().equals(defaultText)) {
+                    field.setText("");
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (firstName.getText().equals("")) {
-                    firstName.setText("First name");
+                if (isTextFieldInvalid(field.getText())) {
+                    field.setText(defaultText);
                 }
             }
         });
     }
 
-    private void addFocusListenerToLastName() {
-        lastName.getTextField().addFocusListener(new FocusListener() {
+    private void addNumberFocusListenerTo(UserInputFieldNumberInBounds field, int defaultValue) {
+        field.getTextField().addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (lastName.getText().equals("Last name")) {
-                    lastName.setText("");
+                if (field.getValue() == defaultValue) {
+                    field.setText("");
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (lastName.getText().equals("")) {
-                    lastName.setText("Last name");
+                if (isTextFieldInvalid(field.getText()) || field.getValue() == defaultValue) {
+                    field.setValue(defaultValue);
                 }
             }
         });
     }
 
-    private void addFocusListenerToStudentNumber() {
-        studentNumber.getTextField().addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (Integer.valueOf(studentNumber.getText()) == 0) {
-                    studentNumber.setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (studentNumber.getText().equals("") || Integer.valueOf(studentNumber.getText()) == 0) {
-                    studentNumber.setText("0");
-                }
-
-                studentNumber.setValue(Integer.valueOf(studentNumber.getText()));
-            }
-        });
-    }
-
-    private void addFocusListenerToUserName() {
-        userName.getTextField().addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (userName.getText().equals("Username")) {
-                    userName.setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (userName.getText().equals("")) {
-                    userName.setText("Username");
-                }
-            }
-        });
+    protected boolean isTextFieldInvalid(String text) {
+        return text.isBlank();
     }
 
     private void initFirstNameInput(GridBagConstraints constraints) {
-        firstName = new UserInputField("First name");
+        firstName = new UserInputField(DEFAULT_FIRST_NAME_TEXT);
         firstName.setBackground(Cell.PATH_COLOR);
         constraints.gridx = 1;
         constraints.gridy = 1;
@@ -166,7 +137,7 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private void initLastNameInput(GridBagConstraints constraints) {
-        lastName = new UserInputField("Last name");
+        lastName = new UserInputField(DEFAULT_LAST_NAME_TEXT);
         lastName.setBackground(Cell.PATH_COLOR);
         constraints.gridx = 1;
         constraints.gridy = 2;
@@ -177,7 +148,7 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private void initStudentNumberInput(GridBagConstraints constraints) {
-        studentNumber = new UserInputFieldNumberInBounds(0, 99999999);
+        studentNumber = new UserInputFieldNumberInBounds(DEFAULT_STUDENT_NUMBER_VALUE, 99999999);
         studentNumber.setBackground(Cell.PATH_COLOR);
         studentNumber.setValue(0);
         constraints.gridx = 1;
@@ -189,7 +160,7 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private void initUserNameInput(GridBagConstraints constraints) {
-        userName = new UserInputField("Username");
+        userName = new UserInputField(DEFAULT_USER_NAME_TEXT);
         userName.setBackground(Cell.PATH_COLOR);
         constraints.gridx = 1;
         constraints.gridy = 4;
