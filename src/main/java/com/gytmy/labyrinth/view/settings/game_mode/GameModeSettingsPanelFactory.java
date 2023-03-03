@@ -18,7 +18,7 @@ public class GameModeSettingsPanelFactory {
     public static GameModeSettingsPanelHandler getGameModeSettingsPanel(GameMode gameMode) {
         switch (gameMode) {
             case CLASSIC:
-                return ClassicGameModeSettingsPanelHandler.getInstance();
+                return ClassicSettingsPanelHandler.getInstance();
             default:
                 throw new IllegalArgumentException("Game mode not supported");
         }
@@ -28,7 +28,7 @@ public class GameModeSettingsPanelFactory {
      * This class is a singleton. It is used to create the settings panel for the
      * classic game mode.
      */
-    private static class ClassicGameModeSettingsPanelHandler implements GameModeSettingsPanelHandler {
+    private static class ClassicSettingsPanelHandler implements GameModeSettingsPanelHandler {
 
         private JTextField widthInputField;
         private JLabel widthLabel;
@@ -38,9 +38,9 @@ public class GameModeSettingsPanelFactory {
         private static final Color BACKGROUND_COLOR = GameModeSelectorPanel.BACKGROUND_COLOR;
         private static final Color FOREGROUND_COLOR = GameModeSelectorPanel.FOREGROUND_COLOR;
 
-        private static ClassicGameModeSettingsPanelHandler instance = null;
+        private static ClassicSettingsPanelHandler instance = null;
 
-        private ClassicGameModeSettingsPanelHandler() {
+        private ClassicSettingsPanelHandler() {
             initComponents();
 
         }
@@ -67,9 +67,9 @@ public class GameModeSettingsPanelFactory {
             heightLabel.setForeground(FOREGROUND_COLOR);
         }
 
-        public static ClassicGameModeSettingsPanelHandler getInstance() {
+        public static ClassicSettingsPanelHandler getInstance() {
             if (instance == null) {
-                instance = new ClassicGameModeSettingsPanelHandler();
+                instance = new ClassicSettingsPanelHandler();
             }
             return instance;
         }
