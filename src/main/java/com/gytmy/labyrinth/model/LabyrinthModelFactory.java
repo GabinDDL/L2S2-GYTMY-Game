@@ -16,31 +16,6 @@ public class LabyrinthModelFactory {
     private LabyrinthModelFactory() {
     }
 
-    public static LabyrinthModel createLabyrinth(int length, Player[] players) {
-        BoardGenerator generator = getBoardGenerator(length, 0, null);
-        return createLabyrinth(generator, null, null, players);
-    }
-
-    public static LabyrinthModel createLabyrinth(int length, int height, Player[] players) {
-        BoardGenerator generator = getBoardGenerator(length, height, null);
-        return createLabyrinth(generator, null, null, players);
-    }
-
-    public static LabyrinthModel createLabyrinth(int length, int height, Coordinates initialCell, Player[] players) {
-        BoardGenerator generator = getBoardGenerator(length, height, initialCell);
-        return createLabyrinth(generator, initialCell, null, players);
-    }
-
-    public static LabyrinthModel createLabyrinth(int length, int height, Coordinates initialCell, Coordinates endCell,
-            Player[] players) {
-        BoardGenerator generator = getBoardGenerator(length, height, initialCell);
-        return createLabyrinth(generator, initialCell, endCell, players);
-    }
-
-    public static LabyrinthModel createLabyrinth(BoardGenerator generator, Player[] players) {
-        return createLabyrinth(generator, null, null, players);
-    }
-
     public static LabyrinthModel createLabyrinth(GameData gameData) {
 
         switch (gameData.getGameMode()) {
