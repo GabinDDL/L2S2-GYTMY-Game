@@ -116,6 +116,8 @@ public class EditCreateUsersPage extends JPanel {
             public void focusLost(FocusEvent e) {
                 if (isTextFieldInvalid(field.getText())) {
                     field.setValue(defaultValue);
+                } else if (field.getValue() > field.getUpperBound()) {
+                    field.setValue(field.getUpperBound());
                 }
             }
         });
@@ -140,7 +142,7 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private void initStudentNumberInput(GridBagConstraints constraints) {
-        studentNumber = new UserInputFieldNumberInBounds(DEFAULT_STUDENT_NUMBER_VALUE, 99999999);
+        studentNumber = new UserInputFieldNumberInBounds(DEFAULT_STUDENT_NUMBER_VALUE, 10);
         studentNumber.setBackground(Cell.PATH_COLOR);
         studentNumber.setValue(0);
         setConstraints(constraints, 1, 3, 0.7, 0.5);
