@@ -1,7 +1,6 @@
 package com.gytmy.labyrinth.view.settings;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.controller.LabyrinthController;
 import com.gytmy.labyrinth.controller.LabyrinthControllerImplementation;
@@ -123,16 +121,6 @@ public class SettingsMenu extends JPanel {
     private void updateGUI() {
         revalidate();
         repaint();
-    }
-
-    public static void main(String[] args) {
-
-        JFrame frame = new JFrame();
-        JPanel panel = new SettingsMenu(frame);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(800, 500));
-        frame.add(panel);
-        frame.setVisible(true);
     }
 
 }

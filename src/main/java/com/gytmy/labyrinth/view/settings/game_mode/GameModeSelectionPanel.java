@@ -1,14 +1,11 @@
 package com.gytmy.labyrinth.view.settings.game_mode;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.view.Cell;
 
@@ -108,14 +105,4 @@ public class GameModeSelectionPanel extends JPanel {
 
     }
 
-    public static void main(String[] args) {
-        GameModeSelectionPanel panel = new GameModeSelectionPanel();
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(800, 500));
-        frame.add(panel);
-        frame.setVisible(true);
-
-    }
 }
