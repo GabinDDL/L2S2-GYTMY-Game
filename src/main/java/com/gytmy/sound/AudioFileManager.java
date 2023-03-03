@@ -75,8 +75,15 @@ public class AudioFileManager {
      * Translate the user object to a yaml file
      */
     public static void writeYamlConfig(User user) {
+        writeYamlConfigAtCertainPath(user, user.yamlConfigPath());
+    }
+
+    /**
+     * Translate the user object to a yaml file at a certain path given as parameter
+     */
+    public static void writeYamlConfigAtCertainPath(User user, String path) {
         try {
-            YamlReader.write(user.yamlConfigPath(), user);
+            YamlReader.write(path, user);
         } catch (IllegalArgumentException e) {
             System.out.println("Error while creating the `.yaml` file for the user " + user + " : " + e.getMessage());
         }
@@ -213,5 +220,69 @@ public class AudioFileManager {
         }
 
         return files;
+    }
+
+    public static void deleteRecording(String firstName, String wordToRecord, int i) {
+        deleteRecording(SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+    }
+
+    public static void deleteRecording(String filePath) {
+        File fileToDelete = new File(filePath);
+        if (fileToDelete.exists()) {
+            fileToDelete.delete();
+        }
+    }
+
+    /**
+     * Rename the audio files after a deletion of a recording
+     * For example, if in the directory of a user, there are 3 files named
+     * "word1.wav", "word2.wav" and "word3.wav".
+     * And we delete the file "word2.wav", the file "word3.wav" will be renamed
+     * "word2.wav"
+     * 
+     * @param wordIndex          the index of the file that has been deleted
+     * @param numberOfRecordings the number of recordings for the word before
+     *                           deleting the file
+     */
+    public static void renameAudioFiles(String firstName, String word, int wordIndex, int numberOfRecordings) {
+        File userDirectory = new File(SRC_DIR_PATH + firstName + "/" + word);
+
+        if (!userDirectory.exists()) {
+            return;
+        }
+
+        int diff = 1;
+        for (int index = wordIndex + 1; index <= numberOfRecordings; index++) {
+
+            File fileToRename = new File(userDirectory + "/" + word + index + ".wav");
+            File newFile = new File(userDirectory + "/" + word + (index - diff) + ".wav");
+
+            if (fileToRename.exists()) {
+                fileToRename.renameTo(newFile);
+            } else {
+                diff++;
+            }
+        }
+    }
+
+    /**
+     * To modify an existing user, we need to modify the yaml file and the
+     * directory name
+     * So, we rewrite the yaml file with data of the new user
+     * 
+     * @param userToEdit an old user that already exists
+     * @param user       the new user that will replace the old one
+     */
+    public static void editUser(User userToEdit, User user) {
+        List<User> allUsers = getUsers();
+
+        for (User currentUser : allUsers) {
+            if (currentUser.equals(userToEdit)) {
+                writeYamlConfigAtCertainPath(user, userToEdit.yamlConfigPath());
+
+                File oldUserDirectory = new File(userToEdit.audioFilesPath());
+                oldUserDirectory.renameTo(new File(user.audioFilesPath()));
+            }
+        }
     }
 }

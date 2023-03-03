@@ -3,7 +3,7 @@ package com.gytmy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-public class TestingUtils {
+public class TestingUtils<T> {
 
     private TestingUtils() {
     }
@@ -19,5 +19,4 @@ public class TestingUtils {
         Exception exceptionZero = assertThrows(IllegalArgumentException.class, runner::run);
         assertEquals(message, exceptionZero.getMessage());
     }
-
 }
