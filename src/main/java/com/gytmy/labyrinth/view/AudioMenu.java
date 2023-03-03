@@ -323,13 +323,9 @@ public class AudioMenu extends JPanel {
         deleteRecord.addActionListener(e -> {
             if (audioToLoad != null) {
 
-                // System.out.println("Audio deleted : " + audioToLoad);
-                // src / resources / audioFiles / user / word / wordindex.wav
                 String[] path = audioToLoad.split("/");
                 String userFirstName = path[3];
-                // System.out.println("username :" + path[3]);
                 String word = path[4];
-                // System.out.println("word :" + path[4]);
 
                 String wordIndex = extractNumberFromWord(path[5]);
 
