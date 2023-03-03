@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.AudioToFile;
 import com.gytmy.sound.User;
-import com.gytmy.utils.WordsToRecord;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -19,6 +18,9 @@ public class RecordPage extends JPanel {
 
     private User userRecording;
     private String wordToRecord;
+    private static final String statusRecord = "[%s] --> %s";
+    private String pausedStatusRecord;
+    private String recordingStatusRecord;
 
     private JLabel statusRecordLabel;
 
@@ -34,6 +36,9 @@ public class RecordPage extends JPanel {
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
 
+        pausedStatusRecord = String.format(statusRecord, wordToRecord, "∅ Stopped.");
+        recordingStatusRecord = String.format(statusRecord, wordToRecord, "● Recording...");
+
         setLayout(new GridBagLayout());
         setBackground(Cell.WALL_COLOR);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -48,7 +53,7 @@ public class RecordPage extends JPanel {
     }
 
     private void initTimerPanel(GridBagConstraints constraints) {
-        timerPanel = new TimerPanel(AudioRecorder.getTotalDurationInSeconds() / 1000);
+        timerPanel = new TimerPanel(AudioRecorder.getTotalDurationInSeconds());
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.weightx = 0.5;
@@ -57,7 +62,7 @@ public class RecordPage extends JPanel {
     }
 
     private void initStatusRecordLabel(GridBagConstraints constraints) {
-        statusRecordLabel = new JLabel("Status: " + "∅");
+        statusRecordLabel = new JLabel(pausedStatusRecord);
         statusRecordLabel.setForeground(Cell.PATH_COLOR);
         constraints.gridx = 2;
         constraints.gridy = 0;
@@ -81,20 +86,49 @@ public class RecordPage extends JPanel {
         stopButton.setEnabled(true);
         recordButton.setEnabled(false);
 
-        statusRecordLabel.setText("Status: " + "● Recording");
+        statusRecordLabel.setText(recordingStatusRecord);
         AudioToFile.record(userRecording, wordToRecord.toString());
         timerPanel.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                while (!timerPanel.isCounting()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                stopRecord();
+            }
+        }.start();
     }
 
     private void initStopButton(GridBagConstraints constraints) {
         stopButton = new JButton(" □ Stop ");
         stopButton.setBackground(Cell.PATH_COLOR);
         stopButton.setEnabled(false);
+        stopButton.addActionListener(e -> stopRecord());
         constraints.gridx = 3;
         constraints.gridy = 1;
         constraints.weightx = 0.75;
         constraints.weighty = 0.2;
         add(stopButton, constraints);
+    }
+
+    protected void stopRecord() {
+        stopButton.setEnabled(false);
+        recordButton.setEnabled(true);
+
+        AudioToFile.stop();
+        statusRecordLabel.setText(pausedStatusRecord);
+        timerPanel.stop();
+
+        saveButton.setEnabled(true);
+        this.remove(timerPanel);
+        initTimerPanel(new GridBagConstraints());
+        this.revalidate();
     }
 
     private void initSaveButton(GridBagConstraints constraints) {
