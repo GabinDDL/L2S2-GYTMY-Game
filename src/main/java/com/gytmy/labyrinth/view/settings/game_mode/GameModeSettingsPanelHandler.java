@@ -8,7 +8,7 @@ public interface GameModeSettingsPanelHandler {
 
     public void cleanPanel(JPanel settingsPanel);
 
-    public SettingsData getSettingsData();
+    public GameModeData getSettingsData();
 
     public default void updateGUI(JPanel settingsPanel) {
         settingsPanel.revalidate();

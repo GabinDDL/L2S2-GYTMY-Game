@@ -1,11 +1,11 @@
 package com.gytmy.labyrinth.view.settings.game_mode;
 
-public class ClassicSettingsData implements SettingsData {
+public class ClassicGameModeData implements GameModeData {
 
     private int width;
     private int height;
 
-    public ClassicSettingsData(int width, int height) {
+    public ClassicGameModeData(int width, int height) {
         this.width = width;
         this.height = height;
     }

@@ -127,8 +127,8 @@ public class GameModeSettingsPanelFactory {
         }
 
         @Override
-        public SettingsData getSettingsData() {
-            return new ClassicSettingsData(Integer.parseInt(widthInputField.getText()),
+        public GameModeData getSettingsData() {
+            return new ClassicGameModeData(Integer.parseInt(widthInputField.getText()),
                     Integer.parseInt(heightInputField.getText()));
         }
     }

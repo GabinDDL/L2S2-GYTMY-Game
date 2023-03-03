@@ -60,7 +60,7 @@ public class GameModeSelectionPanel extends JPanel {
         repaint();
     }
 
-    public SettingsData getSettingsData() {
+    public GameModeData getSettingsData() {
         GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
                 .getGameModeSettingsPanel((GameMode) gameModeSelector.getSelectedItem());
         return handler.getSettingsData();
