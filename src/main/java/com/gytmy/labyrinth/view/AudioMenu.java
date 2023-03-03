@@ -414,9 +414,6 @@ public class AudioMenu extends JPanel {
         if (isPlaying) {
             stop();
         }
-        frame.setContentPane(new StartMenu(frame));
-        frame.setLocationRelativeTo(null);
-        frame.revalidate();
-        frame.setTitle(GameFrameToolbox.GAME_TITLE + "\t( Menu )");
+        GameFrameToolbox.goToStartMenu(frame);
     }
 }
