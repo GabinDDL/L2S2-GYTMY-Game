@@ -71,6 +71,16 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private void addListenerToButtons() {
+        addFocusListenerToFirstName();
+
+        addFocusListenerToLastName();
+
+        addFocusListenerToStudentNumber();
+
+        addFocusListenerToUserName();
+    }
+
+    private void addFocusListenerToFirstName() {
         firstName.getTextField().addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -86,7 +96,9 @@ public class EditCreateUsersPage extends JPanel {
                 }
             }
         });
+    }
 
+    private void addFocusListenerToLastName() {
         lastName.getTextField().addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -102,7 +114,9 @@ public class EditCreateUsersPage extends JPanel {
                 }
             }
         });
+    }
 
+    private void addFocusListenerToStudentNumber() {
         studentNumber.getTextField().addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -120,7 +134,9 @@ public class EditCreateUsersPage extends JPanel {
                 studentNumber.setValue(Integer.valueOf(studentNumber.getText()));
             }
         });
+    }
 
+    private void addFocusListenerToUserName() {
         userName.getTextField().addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
