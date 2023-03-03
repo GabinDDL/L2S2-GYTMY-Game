@@ -1,5 +1,7 @@
 package com.gytmy.utils.input;
 
+import java.awt.Color;
+
 import javax.swing.JTextField;
 
 public class UserInputField implements InputField {
@@ -8,7 +10,7 @@ public class UserInputField implements InputField {
     // We chose 16 for reading comfort
     public static final int DEFAULT_SIZE = 16;
 
-    private JTextField textField;
+    protected JTextField textField;
 
     public UserInputField(String text) {
         this.textField = new JTextField(text);
@@ -49,4 +51,11 @@ public class UserInputField implements InputField {
         return textField;
     }
 
+    public void setBackground(Color color) {
+        textField.setBackground(color);
+    }
+
+    public void setForeground(Color color) {
+        textField.setForeground(color);
+    }
 }
