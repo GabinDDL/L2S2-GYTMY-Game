@@ -1,5 +1,7 @@
 package com.gytmy.utils.input;
 
+import java.awt.Color;
+
 import javax.swing.JTextField;
 
 public class UserInputField implements InputField {
@@ -49,11 +51,11 @@ public class UserInputField implements InputField {
         return textField;
     }
 
-    public void setBackground(java.awt.Color color) {
+    public void setBackground(Color color) {
         textField.setBackground(color);
     }
 
-    public void setForeground(java.awt.Color color) {
+    public void setForeground(Color color) {
         textField.setForeground(color);
     }
 }
