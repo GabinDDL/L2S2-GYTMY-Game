@@ -39,6 +39,10 @@ public class PlayerImplementation implements Player {
                 false);
     }
 
+    public PlayerImplementation(String name, Color color) {
+        this(Coordinates.UNINITIALIZED_COORDINATES, name, color, true);
+    }
+
     public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
         this.coordinates = coordinates;
         this.name = name;
