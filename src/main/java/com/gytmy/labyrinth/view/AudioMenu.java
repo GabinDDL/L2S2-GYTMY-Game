@@ -52,6 +52,7 @@ public class AudioMenu extends JPanel {
     // Word Panel Components
     private JLabel totalOfWords;
     private JButton recordButton;
+    private JButton deleteRecord;
 
     private JProgressBar timeProgress;
     private JLabel labelDuration = new JLabel("00:00");
@@ -206,13 +207,23 @@ public class AudioMenu extends JPanel {
 
         audioToLoad = "";
 
+        if (deleteRecord != null) {
+            deleteRecord.setEnabled(false);
+        }
+
         fileNavigator = new FileTree(actualJTreeRootPath);
         fileNavigator.addTreeSelectionListener(e -> {
             if (isPlaying) {
                 stop();
             }
             audioToLoad = ((FileTree) fileNavigator).getSelectedFilePath();
-            playAndStopButton.setEnabled(audioToLoad.endsWith(".wav"));
+            if (audioToLoad.endsWith(".wav")) {
+                playAndStopButton.setEnabled(true);
+                deleteRecord.setEnabled(true);
+            } else {
+                playAndStopButton.setEnabled(false);
+                deleteRecord.setEnabled(false);
+            }
         });
 
         scrollPane = new JScrollPane(fileNavigator);
@@ -228,11 +239,12 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
-        JPanel audioPanel = new JPanel(new GridLayout(7, 1));
+        JPanel audioPanel = new JPanel(new GridLayout(8, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
         initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
+        initDeleteRecordButton(audioPanel);
         initRecordButton(audioPanel);
         initLabelDuration(audioPanel);
         initProgressBar(audioPanel);
@@ -302,6 +314,48 @@ public class AudioMenu extends JPanel {
             totalForASpecificWord += AudioFileManager.numberOfRecordings(usr.getFirstName(), word);
         }
         return totalForASpecificWord;
+    }
+
+    private void initDeleteRecordButton(JComponent parentComponent) {
+        deleteRecord = new JButton("Delete");
+        deleteRecord.setToolTipText("Delete the selected audio");
+        deleteRecord.setEnabled(false);
+        deleteRecord.addActionListener(e -> {
+            if (audioToLoad != null) {
+
+                // System.out.println("Audio deleted : " + audioToLoad);
+                // src / resources / audioFiles / user / word / wordindex.wav
+                String[] path = audioToLoad.split("/");
+                String userFirstName = path[3];
+                // System.out.println("username :" + path[3]);
+                String word = path[4];
+                // System.out.println("word :" + path[4]);
+
+                String wordIndex = extractNumberFromWord(path[5]);
+
+                int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
+                        userFirstName, word);
+                AudioFileManager.deleteRecording(audioToLoad);
+
+                AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
+                        totalRecordsBeforeDelete);
+                loadFileNavigator();
+                loadTotalOfWords();
+            }
+        });
+        initColors(deleteRecord);
+        parentComponent.add(deleteRecord);
+    }
+
+    private String extractNumberFromWord(String string) {
+        String newString = "";
+
+        for (int i = 0; i < string.length(); i++) {
+            if (Character.isDigit(string.charAt(i))) {
+                newString += string.charAt(i);
+            }
+        }
+        return newString;
     }
 
     private void initRecordButton(JComponent parentComponent) {

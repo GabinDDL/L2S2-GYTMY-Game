@@ -214,4 +214,44 @@ public class AudioFileManager {
 
         return files;
     }
+
+    public static void deleteRecording(String firstName, String wordToRecord, int i) {
+        deleteRecording(SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+    }
+
+    public static void deleteRecording(String filePath) {
+        File fileToDelete = new File(filePath);
+        if (fileToDelete.exists()) {
+            fileToDelete.delete();
+        }
+    }
+
+    public static void renameAudioFiles(String firstName, String word, int wordIndex, int numberOfRecordings) {
+        File userDirectory = new File(SRC_DIR_PATH + firstName + "/" + word);
+
+        System.out.print("Renaming files in " + userDirectory + " from " + wordIndex + " to end");
+
+        if (!userDirectory.exists()) {
+            return;
+        }
+
+        System.out.println(" (directory exists)");
+
+        int diff = 1;
+        for (int index = wordIndex + 1; index <= numberOfRecordings; index++) {
+
+            File fileToRename = new File(userDirectory + "/" + word + index + ".wav");
+            File newFile = new File(userDirectory + "/" + word + (index - diff) + ".wav");
+
+            System.out.println("Renaming " + fileToRename + " to " + newFile + " ...");
+
+            if (fileToRename.exists()) {
+                System.out.println("File exists, renaming...");
+                fileToRename.renameTo(newFile);
+            } else {
+                System.out.println("File does not exist, incrementing diff");
+                diff++;
+            }
+        }
+    }
 }
