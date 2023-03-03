@@ -125,9 +125,11 @@ public class AudioMenu extends JPanel {
         actualJTreeRootPath = JTREE_ROOT_PATH;
         if (user == ALL_USERS) {
             deleteUserButton.setEnabled(false);
+            editUserButton.setEnabled(false);
         } else {
             actualJTreeRootPath += user.getFirstName();
             deleteUserButton.setEnabled(true);
+            editUserButton.setEnabled(true);
         }
 
         loadFileNavigator();
@@ -161,6 +163,9 @@ public class AudioMenu extends JPanel {
     private void initEditButton(GridBagConstraints c) {
         editUserButton = new JButton("Edit");
         editUserButton.setToolTipText("This will edit the current user");
+        editUserButton.setEnabled(false);
+        editUserButton.addActionListener(
+                e -> editOrAddUser("Edit User", new EditCreateUsersPage(frame, (User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -168,8 +173,16 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame)));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
+    }
+
+    private void editOrAddUser(String title, EditCreateUsersPage page) {
+        frame.setContentPane(page);
+        frame.setSize(800, 500);
+        frame.revalidate();
+        frame.setTitle(title);
     }
 
     private void initColors(JComponent component) {
