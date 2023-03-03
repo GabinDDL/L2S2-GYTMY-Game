@@ -231,7 +231,7 @@ public class AudioMenu extends JPanel {
         JPanel audioPanel = new JPanel(new GridLayout(7, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
-        initWorldSelector(audioPanel);
+        initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
         initRecordButton(audioPanel);
         initLabelDuration(audioPanel);
@@ -242,7 +242,7 @@ public class AudioMenu extends JPanel {
         add(audioPanel, BorderLayout.EAST);
     }
 
-    private void initWorldSelector(JComponent parentComponent) {
+    private void initWordSelector(JComponent parentComponent) {
         addWordsToJComboBox(wordSelector);
         wordSelector.addActionListener(e -> loadTotalOfWords());
         initColors(wordSelector);
