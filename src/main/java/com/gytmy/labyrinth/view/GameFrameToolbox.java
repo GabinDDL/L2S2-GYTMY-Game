@@ -21,4 +21,10 @@ public class GameFrameToolbox {
         frame.revalidate();
         frame.setTitle(GAME_TITLE + "\t( Menu )");
     }
+
+    public static void goToPlayerNumberSelectionMenu(JFrame frame, int nbPlayers) {
+        frame.setContentPane(new SettingsMenu(frame, nbPlayers));
+        GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
+    }
+
 }
