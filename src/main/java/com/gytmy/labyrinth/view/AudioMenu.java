@@ -61,9 +61,7 @@ public class AudioMenu extends JPanel {
     private PlayingTimer timer;
     private boolean isPlaying = false;
 
-    private JButton previousButton;
     private JButton playAndStopButton;
-    private JButton nextButton;
 
     private String audioToLoad = "";
 
@@ -376,16 +374,11 @@ public class AudioMenu extends JPanel {
 
     private void initMediaPlayer(JComponent parentComponent) {
         JPanel playPausePanel = new JPanel(new GridLayout(1, 3));
-        previousButton = new JButton("<<");
         playAndStopButton = new JButton("|>");
-        nextButton = new JButton(">>");
 
-        initColors(previousButton);
         initColors(playAndStopButton);
-        initColors(nextButton);
 
         playAndStopButton.setEnabled(false);
-
         playAndStopButton.addActionListener(e -> {
             if (!isPlaying) {
                 play();
@@ -394,9 +387,7 @@ public class AudioMenu extends JPanel {
             }
         });
 
-        playPausePanel.add(previousButton);
         playPausePanel.add(playAndStopButton);
-        playPausePanel.add(nextButton);
 
         parentComponent.add(playPausePanel);
     }
