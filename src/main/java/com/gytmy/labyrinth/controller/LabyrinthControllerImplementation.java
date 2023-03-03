@@ -1,7 +1,6 @@
 package com.gytmy.labyrinth.controller;
 
 import java.awt.EventQueue;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 
