@@ -36,6 +36,15 @@ public class PlayerSelectionPanel extends JPanel {
         return players.toArray(new Player[0]);
     }
 
+    public boolean arePlayersReady() {
+        for (PlayerPanel playerPanel : playerPanels) {
+            if (playerPanel.getPlayer() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // TODO:Remove this method
     public static void main(String[] args) {
 

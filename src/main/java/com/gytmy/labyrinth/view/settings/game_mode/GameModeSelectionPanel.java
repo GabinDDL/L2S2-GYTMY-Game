@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.view.settings.game_mode;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -21,6 +22,8 @@ public class GameModeSelectionPanel extends JPanel {
 
     public GameModeSelectionPanel() {
         setBackground(BACKGROUND_COLOR);
+        setLayout(new GridBagLayout());
+
         initGameModeSelector();
         initGameModeSettingsPanel();
     }
@@ -35,6 +38,7 @@ public class GameModeSelectionPanel extends JPanel {
         gbc.weightx = 1.0;
         gbc.weighty = 0.3;
         add(gameModeSelector, gbc);
+
         revalidate();
         repaint();
     }
@@ -46,14 +50,20 @@ public class GameModeSelectionPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.PAGE_END;
         gbc.weightx = 1;
-        gbc.weighty = 1;
+        gbc.weighty = 0.7;
         gameModeSelector.updateGameModeSettingsPanel((GameMode) gameModeSelector.getSelectedItem());
         gameModeSettingsPanel.setBackground(BACKGROUND_COLOR);
         add(gameModeSettingsPanel, gbc);
+
         revalidate();
         repaint();
+    }
+
+    public SettingsData getSettingsData() {
+        GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
+                .getGameModeSettingsPanel((GameMode) gameModeSelector.getSelectedItem());
+        return handler.getSettingsData();
     }
 
     private class GameModeSelector extends JComboBox<GameMode> {
@@ -89,7 +99,6 @@ public class GameModeSelectionPanel extends JPanel {
             GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
                     .getGameModeSettingsPanel(lastSelectedGameMode);
             handler.cleanPanel(gameModeSettingsPanel);
-
         }
 
     }
@@ -99,7 +108,7 @@ public class GameModeSelectionPanel extends JPanel {
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(800, 600));
+        frame.setSize(new Dimension(800, 500));
         frame.add(panel);
         frame.setVisible(true);
 

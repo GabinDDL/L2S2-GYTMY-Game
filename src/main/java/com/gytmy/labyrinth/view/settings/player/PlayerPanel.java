@@ -27,7 +27,7 @@ public class PlayerPanel extends JPanel {
     private static final Color DEFAULT_BACKGROUND = Cell.WALL_COLOR;
     private static final Color BORDE_COLOR = Cell.PATH_COLOR;
     private static final String ADD_PLAYER_IMAGE_PATH = "src/resources/images/settings_menu/add_player.png";
-    private static final Dimension PANEL_DIMENSION = new Dimension(165, 165);
+    private static final Dimension PANEL_DIMENSION = new Dimension(160, 160);
 
     private static int playerCount = 0;
     private int id;

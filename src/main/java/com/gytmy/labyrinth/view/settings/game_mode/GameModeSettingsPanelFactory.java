@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.view.settings.game_mode;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -89,7 +90,8 @@ public class GameModeSettingsPanelFactory {
         private void initWidthLabel(JPanel settingsPanel, GridBagConstraints gbc) {
             gbc.gridx = 0;
             gbc.gridy = 0;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.insets = new Insets(30, 30, 30, 30);
+            gbc.fill = GridBagConstraints.BOTH;
             settingsPanel.add(widthLabel, gbc);
         }
 
