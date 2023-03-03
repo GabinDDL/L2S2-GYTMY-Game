@@ -62,7 +62,6 @@ public class UserInputFieldNumberInBounds extends UserInputField {
     public boolean isValidInput() {
         String strippedText = super.getText().strip();
         return super.isValidInput() &&
-                isValidInteger(strippedText) &&
                 isInRangeOfBounds(Integer.valueOf(strippedText));
     }
 
@@ -72,15 +71,6 @@ public class UserInputFieldNumberInBounds extends UserInputField {
      */
     private boolean isInRangeOfBounds(int value) {
         return lowerBound <= value && value <= upperBound;
-    }
-
-    private boolean isValidInteger(String input) {
-        try {
-            Integer.valueOf(input);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     public int getValue() {
