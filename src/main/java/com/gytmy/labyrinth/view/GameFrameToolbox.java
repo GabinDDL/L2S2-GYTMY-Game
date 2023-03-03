@@ -2,6 +2,8 @@ package com.gytmy.labyrinth.view;
 
 import javax.swing.JFrame;
 
+import com.gytmy.labyrinth.view.settings.SettingsMenu;
+
 public class GameFrameToolbox {
 
     public static final String GAME_TITLE = "Be AMazed";
@@ -21,4 +23,10 @@ public class GameFrameToolbox {
         frame.revalidate();
         frame.setTitle(GAME_TITLE + "\t( Menu )");
     }
+
+    public static void goToSettingsMenu(JFrame frame) {
+        frame.setContentPane(new SettingsMenu(frame));
+        GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
+    }
+
 }

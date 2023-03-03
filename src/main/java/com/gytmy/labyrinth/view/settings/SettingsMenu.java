@@ -110,7 +110,7 @@ public class SettingsMenu extends JPanel {
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
         GameData gameData = new GameData(gameModeSettings, gameMode, players);
 
-        LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData);
+        LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
         LabyrinthView labyrinthView = labyrinthController.getView();
 
         frame.setContentPane(labyrinthView);
