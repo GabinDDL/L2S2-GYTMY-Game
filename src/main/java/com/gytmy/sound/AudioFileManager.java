@@ -75,8 +75,15 @@ public class AudioFileManager {
      * Translate the user object to a yaml file
      */
     public static void writeYamlConfig(User user) {
+        writeYamlConfigAtCertainPath(user, user.yamlConfigPath());
+    }
+
+    /**
+     * Translate the user object to a yaml file at a certain path given as parameter
+     */
+    public static void writeYamlConfigAtCertainPath(User user, String path) {
         try {
-            YamlReader.write(user.yamlConfigPath(), user);
+            YamlReader.write(path, user);
         } catch (IllegalArgumentException e) {
             System.out.println("Error while creating the `.yaml` file for the user " + user + " : " + e.getMessage());
         }
@@ -220,6 +227,27 @@ public class AudioFileManager {
                 SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
         if (fileToDelete.exists()) {
             fileToDelete.delete();
+        }
+    }
+
+    /**
+     * To modify an existing user, we need to modify the yaml file and the
+     * directory name
+     * So, we rewrite the yaml file with data of the new user
+     * 
+     * @param userToEdit an old user that already exists
+     * @param user       the new user that will replace the old one
+     */
+    public static void editUser(User userToEdit, User user) {
+        List<User> allUsers = getUsers();
+
+        for (User currentUser : allUsers) {
+            if (currentUser.equals(userToEdit)) {
+                writeYamlConfigAtCertainPath(user, userToEdit.yamlConfigPath());
+
+                File oldUserDirectory = new File(userToEdit.audioFilesPath());
+                oldUserDirectory.renameTo(new File(user.audioFilesPath()));
+            }
         }
     }
 }
