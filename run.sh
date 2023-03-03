@@ -1,10 +1,13 @@
+wasCompile=false
 wasRun=false
+wasTestCompile=false
+wasTestRun=false
 
 compile() {
     echo "Compiling..."
     rm -rf bin
     find src/main/java/com/gytmy -name "*.java" >sources.txt
-    javac -cp lib/*:src -d bin @sources.txt && wasRun=true
+    javac -cp lib/*:src -d bin @sources.txt && wasCompile=true
     rm sources.txt
     echo "Done!"
 }
@@ -18,32 +21,33 @@ compileTests() {
     echo "Compiling tests..."
     rm -rf bin
     find -name "*.java" >sources.txt
-    javac --class-path="src:lib/*" -d bin @sources.txt && wasRun=true
+    javac --class-path="src:lib/*" -d bin @sources.txt && wasTestCompile=true
     rm sources.txt
     echo "Done!"
 }
 
 runTests() {
     echo "Running tests..."
-    java -cp classes:bin:lib/* org.junit.platform.console.ConsoleLauncher --scan-classpath && wasRun=true
+    java -cp classes:bin:lib/* org.junit.platform.console.ConsoleLauncher --scan-classpath && wasTestRun=true
 }
 
 case "$1" in
     "compile")
         compile
-        $wasRun && exit 0 || exit 1
+        $wasCompile && exit 0 || exit 1
     ;;
     "compileTests")
         compileTests
-        $wasRun && exit 0 || exit 1
+        $wasTestCompile && exit 0 || exit 1
     ;;
     "runTests" | "test")
         compileTests
         runTests
-        $wasRun && exit 0 || exit 1
+        $wasTestRun && exit 0 || exit 1
     ;;
     *)
         compile && run
         $wasRun && exit 0 || exit 1
     ;;
 esac
+
