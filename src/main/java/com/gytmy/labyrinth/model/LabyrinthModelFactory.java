@@ -13,6 +13,8 @@ public class LabyrinthModelFactory {
     public static final int MINIMUM_WIDTH_2D = 5;
     public static final int MAXIMUM_SIZE = 40;
 
+    private static final int ONE_DIMENSION_HEIGHT = 3;
+
     private LabyrinthModelFactory() {
     }
 
@@ -20,6 +22,8 @@ public class LabyrinthModelFactory {
         switch (gameData.getGameMode()) {
             case CLASSIC:
                 return createClassicLabyrinth(gameData);
+            case ONE_DIMENSION:
+                return createOneDimensionLabyrinth(gameData);
             default:
                 throw new IllegalArgumentException("Game mode not supported");
         }
@@ -33,8 +37,15 @@ public class LabyrinthModelFactory {
         return createLabyrinth(generator, null, null, gameData.getPlayers());
     }
 
+    private static LabyrinthModel createOneDimensionLabyrinth(GameData gameData) {
+        ClassicGameModeData classicGameModeData = (ClassicGameModeData) gameData.getGameModData();
+        int width = classicGameModeData.getWidth();
+        BoardGenerator generator = getBoardGenerator(width, ONE_DIMENSION_HEIGHT, null);
+        return createLabyrinth(generator, null, null, gameData.getPlayers());
+    }
+
     private static BoardGenerator getBoardGenerator(int width, int height, Coordinates initialCell) {
-        if (height <= 3) {
+        if (height <= ONE_DIMENSION_HEIGHT) {
             return new OneDimensionBoardGenerator(width);
         }
         return new DepthFirstGenerator(width, height, initialCell);

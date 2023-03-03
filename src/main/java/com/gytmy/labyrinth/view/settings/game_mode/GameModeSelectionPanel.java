@@ -12,6 +12,7 @@ import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.view.Cell;
 
+//TODO: make singleton
 public class GameModeSelectionPanel extends JPanel {
 
     public static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;

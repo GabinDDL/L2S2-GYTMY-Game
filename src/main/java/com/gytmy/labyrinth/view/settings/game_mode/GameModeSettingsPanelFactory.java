@@ -20,6 +20,8 @@ public class GameModeSettingsPanelFactory {
         switch (gameMode) {
             case CLASSIC:
                 return ClassicSettingsPanelHandler.getInstance();
+            case ONE_DIMENSION:
+                return OneDimensionSettingsPanelHandler.getInstance();
             default:
                 throw new IllegalArgumentException("Game mode not supported");
         }
@@ -41,9 +43,15 @@ public class GameModeSettingsPanelFactory {
 
         private static ClassicSettingsPanelHandler instance = null;
 
+        public static ClassicSettingsPanelHandler getInstance() {
+            if (instance == null) {
+                instance = new ClassicSettingsPanelHandler();
+            }
+            return instance;
+        }
+
         private ClassicSettingsPanelHandler() {
             initComponents();
-
         }
 
         private void initComponents() {
@@ -66,13 +74,6 @@ public class GameModeSettingsPanelFactory {
             heightLabel = new JLabel("Height: ");
             heightLabel.setBackground(BACKGROUND_COLOR);
             heightLabel.setForeground(FOREGROUND_COLOR);
-        }
-
-        public static ClassicSettingsPanelHandler getInstance() {
-            if (instance == null) {
-                instance = new ClassicSettingsPanelHandler();
-            }
-            return instance;
         }
 
         @Override
@@ -131,6 +132,50 @@ public class GameModeSettingsPanelFactory {
             return new ClassicGameModeData(Integer.parseInt(widthInputField.getText()),
                     Integer.parseInt(heightInputField.getText()));
         }
+    }
+
+    /**
+     * This class is a singleton. It is used to create the settings panel for the
+     * one-dimensional game mode.
+     */
+    private static class OneDimensionSettingsPanelHandler implements GameModeSettingsPanelHandler {
+
+        private static OneDimensionSettingsPanelHandler instance = null;
+
+        public static OneDimensionSettingsPanelHandler getInstance() {
+            if (instance == null) {
+                instance = new OneDimensionSettingsPanelHandler();
+            }
+            return instance;
+        }
+
+        private OneDimensionSettingsPanelHandler() {
+            initComponents();
+        }
+
+        private void initComponents() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'initComponents'");
+        }
+
+        @Override
+        public void initPanel(JPanel settingsPanel) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'initPanel'");
+        }
+
+        @Override
+        public void cleanPanel(JPanel settingsPanel) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'cleanPanel'");
+        }
+
+        @Override
+        public GameModeData getSettingsData() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'getSettingsData'");
+        }
+
     }
 
 }

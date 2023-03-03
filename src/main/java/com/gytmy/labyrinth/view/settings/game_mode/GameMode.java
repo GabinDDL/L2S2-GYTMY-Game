@@ -1,7 +1,8 @@
 package com.gytmy.labyrinth.view.settings.game_mode;
 
 public enum GameMode {
-    CLASSIC("Classic Mode");
+    CLASSIC("Classic Mode"),
+    ONE_DIMENSION("One-Dimensional Mode");
 
     private final String displayName;
 

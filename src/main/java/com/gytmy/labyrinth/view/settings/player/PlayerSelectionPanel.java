@@ -10,6 +10,7 @@ import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.model.player.Player;
 
+//TODO: make singleton
 public class PlayerSelectionPanel extends JPanel {
 
     private PlayerPanel[] playerPanels;
