@@ -94,7 +94,7 @@ public class SettingsMenu extends JPanel {
         gbc.gridy = 2;
         gbc.weightx = 0.7;
         gbc.insets = new Insets(20, 20, 20, 20);
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         add(startGameButton, gbc);
     }
 

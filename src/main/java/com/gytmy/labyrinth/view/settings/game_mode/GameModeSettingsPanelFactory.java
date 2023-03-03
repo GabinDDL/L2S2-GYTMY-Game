@@ -38,9 +38,6 @@ public class GameModeSettingsPanelFactory {
         private JTextField heightInputField;
         private JLabel heightLabel;
 
-        private static final Color BACKGROUND_COLOR = GameModeSelectionPanel.BACKGROUND_COLOR;
-        private static final Color FOREGROUND_COLOR = GameModeSelectionPanel.FOREGROUND_COLOR;
-
         private static ClassicSettingsPanelHandler instance = null;
 
         public static ClassicSettingsPanelHandler getInstance() {
@@ -140,6 +137,9 @@ public class GameModeSettingsPanelFactory {
      */
     private static class OneDimensionSettingsPanelHandler implements GameModeSettingsPanelHandler {
 
+        private JTextField widthInputField;
+        private JLabel widthLabel;
+
         private static OneDimensionSettingsPanelHandler instance = null;
 
         public static OneDimensionSettingsPanelHandler getInstance() {
@@ -154,26 +154,53 @@ public class GameModeSettingsPanelFactory {
         }
 
         private void initComponents() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'initComponents'");
+
+            widthInputField = new UserInputFieldNumberInBounds(LabyrinthModelFactory.MINIMUM_WIDTH_2D,
+                    LabyrinthModelFactory.MAXIMUM_SIZE).getTextField();
+            widthInputField.setBackground(BACKGROUND_COLOR);
+            widthInputField.setForeground(FOREGROUND_COLOR);
+
+            widthLabel = new JLabel("Width: ");
+            widthLabel.setBackground(BACKGROUND_COLOR);
+            widthLabel.setForeground(FOREGROUND_COLOR);
         }
 
         @Override
         public void initPanel(JPanel settingsPanel) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'initPanel'");
+            settingsPanel.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            initWidthLabel(settingsPanel, gbc);
+            initWidthTextField(settingsPanel, gbc);
+
+            updateGUI(settingsPanel);
+        }
+
+        private void initWidthLabel(JPanel settingsPanel, GridBagConstraints gbc) {
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.insets = new Insets(50, 50, 50, 50);
+            gbc.fill = GridBagConstraints.BOTH;
+            settingsPanel.add(widthLabel, gbc);
+        }
+
+        private void initWidthTextField(JPanel settingsPanel, GridBagConstraints gbc) {
+            gbc.gridx = 1;
+            gbc.weightx = 0.7;
+            gbc.weighty = 0.5;
+            settingsPanel.add(widthInputField, gbc);
         }
 
         @Override
         public void cleanPanel(JPanel settingsPanel) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'cleanPanel'");
+            settingsPanel.remove(widthLabel);
+            settingsPanel.remove(widthInputField);
+
+            updateGUI(settingsPanel);
         }
 
         @Override
         public GameModeData getSettingsData() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'getSettingsData'");
+            return new OneDimensionGameData(Integer.parseInt(widthInputField.getText()));
         }
 
     }

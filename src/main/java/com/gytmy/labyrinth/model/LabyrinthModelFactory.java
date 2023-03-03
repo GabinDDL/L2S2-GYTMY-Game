@@ -5,6 +5,7 @@ import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.model.generators.OneDimensionBoardGenerator;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.settings.game_mode.ClassicGameModeData;
+import com.gytmy.labyrinth.view.settings.game_mode.OneDimensionGameData;
 import com.gytmy.utils.Coordinates;
 
 public class LabyrinthModelFactory {
@@ -30,16 +31,16 @@ public class LabyrinthModelFactory {
     }
 
     private static LabyrinthModel createClassicLabyrinth(GameData gameData) {
-        ClassicGameModeData classicGameModeData = (ClassicGameModeData) gameData.getGameModData();
-        int width = classicGameModeData.getWidth();
-        int height = classicGameModeData.getHeight();
+        ClassicGameModeData gameModeData = (ClassicGameModeData) gameData.getGameModData();
+        int width = gameModeData.getWidth();
+        int height = gameModeData.getHeight();
         BoardGenerator generator = getBoardGenerator(width, height, null);
         return createLabyrinth(generator, null, null, gameData.getPlayers());
     }
 
     private static LabyrinthModel createOneDimensionLabyrinth(GameData gameData) {
-        ClassicGameModeData classicGameModeData = (ClassicGameModeData) gameData.getGameModData();
-        int width = classicGameModeData.getWidth();
+        OneDimensionGameData gameModeData = (OneDimensionGameData) gameData.getGameModData();
+        int width = gameModeData.getWidth();
         BoardGenerator generator = getBoardGenerator(width, ONE_DIMENSION_HEIGHT, null);
         return createLabyrinth(generator, null, null, gameData.getPlayers());
     }
