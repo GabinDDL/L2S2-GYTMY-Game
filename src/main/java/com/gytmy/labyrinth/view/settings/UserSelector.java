@@ -72,6 +72,11 @@ public class UserSelector extends JComboBox<User> {
         AvailableUsers.getInstance().removeObserver(this);
     }
 
+    /**
+     * This class exists only to override the toString method of the User class.
+     * This will allow the JComboBox to display the user name instead of the default
+     * toString method.
+     */
     private static class UserNameUser extends User {
 
         public UserNameUser(User user) {
