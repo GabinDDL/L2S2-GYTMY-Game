@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.view;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.gytmy.sound.AudioFileManager;
@@ -101,7 +102,7 @@ public class RecordPage extends JPanel {
     }
 
     private void startRecord() {
-        totalRecordedAudio++;
+        totalRecordedAudioLabel.setText("Total recorded: " + ++totalRecordedAudio);
         stopButton.setEnabled(true);
         recordButton.setEnabled(false);
 
@@ -165,7 +166,7 @@ public class RecordPage extends JPanel {
     private void initCancelButton(GridBagConstraints constraints) {
         cancelButton = new JButton("Cancel");
         cancelButton.setBackground(Cell.INITIAL_CELL_COLOR);
-        cancelButton.addActionListener(e -> cancel());
+        cancelButton.addActionListener(e -> sureToDelete());
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.weightx = 0.5;
@@ -173,11 +174,23 @@ public class RecordPage extends JPanel {
         add(cancelButton, constraints);
     }
 
+    private void sureToDelete() {
+        if (totalRecordedAudio == 0) {
+            goBackToAudioMenu();
+            return;
+        }
+
+        int sureToDelete = JOptionPane.showConfirmDialog(null,
+                "Are you sure you want to delete all the recordings you just recorded?",
+                "Sure to delete?", JOptionPane.YES_NO_OPTION);
+
+        if (sureToDelete == JOptionPane.YES_OPTION) {
+            cancel();
+        }
+    }
+
     private void cancel() {
-        System.out.println("totalRecordedAudio = " + totalRecordedAudio);
-        System.out.println("totalOfAudioWhenRecordStart = " + totalOfAudioWhenRecordStart);
         for (int i = 1; i <= totalRecordedAudio; i++) {
-            System.out.println("audio deleted = " + (totalOfAudioWhenRecordStart + i));
             AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
                     totalOfAudioWhenRecordStart + i);
         }
