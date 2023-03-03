@@ -2,7 +2,6 @@ package com.gytmy.labyrinth.view.settings;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
-import com.gytmy.utils.Coordinates;
 
 public class PlayerSelectorPanel extends JPanel {
 
