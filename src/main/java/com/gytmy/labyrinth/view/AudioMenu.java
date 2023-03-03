@@ -151,9 +151,13 @@ public class AudioMenu extends JPanel {
         actualJTreeRootPath = JTREE_ROOT_PATH;
         if (user == ALL_USERS) {
             deleteUserButton.setEnabled(false);
+            recordButton.setEnabled(false);
         } else {
             actualJTreeRootPath += user.getFirstName();
             deleteUserButton.setEnabled(true);
+            if (!wordSelector.getSelectedItem().equals("ALL")) {
+                recordButton.setEnabled(true);
+            }
         }
 
         loadFileNavigator();
@@ -214,7 +218,7 @@ public class AudioMenu extends JPanel {
 
     private void initWorldSelector(JComponent parentComponent) {
         addWordsToJComboBox(wordSelector);
-        wordSelector.addActionListener(e -> loadTotalOfWords());
+        wordSelector.addActionListener(e -> wordHasBeenChanged());
         initColors(wordSelector);
         ((JLabel) wordSelector.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         parentComponent.add(wordSelector);
@@ -231,12 +235,14 @@ public class AudioMenu extends JPanel {
         recordButton = new JButton("Record");
         recordButton.setToolTipText("Record a new audio for the selected word");
         recordButton.addActionListener(e -> recordAudio());
+        recordButton.setEnabled(false);
         initColors(recordButton);
         parentComponent.add(recordButton);
     }
 
     private void recordAudio() {
-        frame.setContentPane(new RecordPage(frame));
+        frame.setContentPane(
+                new RecordPage(frame, (User) userSelector.getSelectedItem(), (String) wordSelector.getSelectedItem()));
         frame.revalidate();
         frame.setTitle("RECORD STUDIO");
     }
@@ -285,6 +291,17 @@ public class AudioMenu extends JPanel {
         WordsToRecord[] words = WordsToRecord.values();
         for (WordsToRecord word : words) {
             wordSelector.addItem(word.name());
+        }
+    }
+
+    private void wordHasBeenChanged() {
+        loadTotalOfWords();
+
+        recordButton.setEnabled(false);
+        if (wordSelector.getSelectedItem().equals("ALL")) {
+            recordButton.setEnabled(false);
+        } else if ((User) userSelector.getSelectedItem() != ALL_USERS) {
+            recordButton.setEnabled(true);
         }
     }
 
