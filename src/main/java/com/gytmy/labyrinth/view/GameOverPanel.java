@@ -46,18 +46,17 @@ public class GameOverPanel extends JPanel {
     }
 
     private void initPlayAgainButton() {
-        initButton("Play again", e -> {
-            // TODO: play again methods
-            // Reset players
-            // Create a new labyrinth model
-            // Update the LabyrinthView
-        });
+        initButton("Play again",
+                e -> {
+                    GameFrameToolbox.goToSettingsMenu(frame, model.getNbPlayers());
+                });
     }
 
     private void initGoToStartMenuButton() {
-        initButton("Go to menu", e -> {
-            // TODO: go to StartMenu methods
-        });
+        initButton("Go to menu",
+                e -> {
+                    GameFrameToolbox.goToStartMenu(frame);
+                });
     }
 
     private void initButton(String text, ActionListener actionListener) {

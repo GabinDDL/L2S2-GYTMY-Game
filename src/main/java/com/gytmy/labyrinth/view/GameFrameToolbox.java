@@ -16,4 +16,16 @@ public class GameFrameToolbox {
         frame.setTitle(GAME_TITLE + "\t(" + subTitle + ")");
     }
 
+    public static void goToStartMenu(JFrame frame) {
+        frame.setContentPane(new StartMenu(frame));
+        frame.setSize(800, 500);
+        frame.revalidate();
+        frame.setTitle(GAME_TITLE + "\t( Menu )");
+    }
+
+    public static void goToSettingsMenu(JFrame frame, int nbPlayers) {
+        frame.setContentPane(new SettingsMenu(frame, nbPlayers));
+        GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
+    }
+
 }
