@@ -62,7 +62,7 @@ public class GameModeSelectionPanel extends JPanel {
     }
 
     public GameModeData getGameModeData() {
-        GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
+        GameModeSettingsPanelHandler handler = GameModeSettingsPanelHandlerFactory
                 .getGameModeSettingsPanel((GameMode) gameModeSelector.getSelectedItem());
         return handler.getSettingsData();
     }
@@ -91,7 +91,7 @@ public class GameModeSelectionPanel extends JPanel {
         private void updateGameModeSettingsPanel(GameMode gameMode) {
             cleanOldPanel();
             lastSelectedGameMode = (GameMode) getSelectedItem();
-            GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
+            GameModeSettingsPanelHandler handler = GameModeSettingsPanelHandlerFactory
                     .getGameModeSettingsPanel(gameMode);
             handler.initPanel(gameModeSettingsPanel);
         }
@@ -101,7 +101,7 @@ public class GameModeSelectionPanel extends JPanel {
                 return;
             }
 
-            GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
+            GameModeSettingsPanelHandler handler = GameModeSettingsPanelHandlerFactory
                     .getGameModeSettingsPanel(lastSelectedGameMode);
             handler.cleanPanel(gameModeSettingsPanel);
         }
