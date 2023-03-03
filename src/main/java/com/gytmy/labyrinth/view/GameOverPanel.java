@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.model.LabyrinthModel;
@@ -13,10 +14,12 @@ public class GameOverPanel extends JPanel {
 
     private LabyrinthModel model;
     private JPanel buttonsPanel;
+    private JFrame frame;
     // TODO: Add a ScoreBoardPanel attribute
 
-    public GameOverPanel(LabyrinthModel model) {
+    public GameOverPanel(LabyrinthModel model, JFrame frame) {
         this.model = model;
+        this.frame = frame;
         initComponents();
     }
 
@@ -39,7 +42,7 @@ public class GameOverPanel extends JPanel {
     }
 
     private void initQuitButton() {
-        initButton("Quit", e -> System.exit(0));
+        initButton("Quit", e -> frame.dispose());
     }
 
     private void initPlayAgainButton() {
