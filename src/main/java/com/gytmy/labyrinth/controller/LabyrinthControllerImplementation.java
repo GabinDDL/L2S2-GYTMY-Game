@@ -1,5 +1,8 @@
 package com.gytmy.labyrinth.controller;
 
+import java.awt.EventQueue;
+import java.lang.reflect.InvocationTargetException;
+
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.model.Direction;
@@ -110,7 +113,16 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
         if (model.isGameOver()) {
             view.stopTimer();
-            view.showGameOverPanel();
+            // EventQueue is used to pause a little bit before showing the game over panel
+            EventQueue.invokeLater(
+                    () -> {
+                        try {
+                            Thread.sleep(1000);
+                            view.showGameOverPanel();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
         }
     }
 
