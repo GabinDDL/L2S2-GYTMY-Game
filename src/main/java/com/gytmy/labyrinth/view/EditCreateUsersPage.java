@@ -114,7 +114,7 @@ public class EditCreateUsersPage extends JPanel {
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (isTextFieldInvalid(field.getText()) || field.getValue() == defaultValue) {
+                if (isTextFieldInvalid(field.getText())) {
                     field.setValue(defaultValue);
                 }
             }
