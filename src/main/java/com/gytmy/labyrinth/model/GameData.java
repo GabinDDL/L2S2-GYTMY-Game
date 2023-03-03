@@ -1,35 +1,31 @@
 package com.gytmy.labyrinth.model;
 
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.view.settings.game_mode.GameMode;
+import com.gytmy.labyrinth.view.settings.game_mode.GameModeData;
 
 public class GameData {
-    private static final int NO_HEIGHT = -1;
 
     private Player[] players;
-    private final int width;
-    private final int height;
+    private GameMode gameMode;
+    private GameModeData gameModeData;
 
-    public GameData(int width, Player[] players) {
-        this(width, NO_HEIGHT, players);
-    }
-
-    public GameData(int width, int height, Player[] players) {
-
+    public GameData(GameModeData gameModeData, GameMode gameMode, Player[] players) {
         this.players = players;
-        this.width = width;
-        this.height = height;
+        this.gameMode = gameMode;
+        this.gameModeData = gameModeData;
     }
 
     public Player[] getPlayers() {
         return players;
     }
 
-    public int getWidth() {
-        return width;
+    public GameModeData getGameModData() {
+        return gameModeData;
     }
 
-    public int getHeight() {
-        return height;
+    public GameMode getGameMode() {
+        return gameMode;
     }
 
 }
