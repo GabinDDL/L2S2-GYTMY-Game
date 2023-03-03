@@ -30,8 +30,6 @@ public class PlayerSelectorPanel extends JPanel {
     public static class PlayerPanel extends JPanel {
 
         private static final Color DEFAULT_BACKGROUND = Cell.WALL_COLOR;
-        private static final Color LETTER_COLOR = Color.WHITE;
-        private static final Font DEFAULT_FONT = new Font("Arial", Font.BOLD, 30);
         private static final String ADD_PLAYER_IMAGE_PATH = "src/resources/images/settings_menu/add_player.png";
 
         private Player player;
@@ -55,11 +53,7 @@ public class PlayerSelectorPanel extends JPanel {
 
         private void init() {
             setBackground(player.getColor());
-            JLabel playerNameLabel = new JLabel(player.getName());
-            playerNameLabel.setFont(DEFAULT_FONT);
-            playerNameLabel.setForeground(LETTER_COLOR);
             setLayout(new GridBagLayout());
-            add(playerNameLabel);
         }
 
     }
@@ -76,9 +70,23 @@ public class PlayerSelectorPanel extends JPanel {
         }
 
         private void updateUserList() {
-            for (User user : AvailableUsers.getInstance().getUsers()) {
-                addItem(new UserNameUser(user));
-            }
+            List<User> availableUsers = AvailableUsers.getInstance().getUsers();
+            availableUsers.forEach(user -> addItem(new UserNameUser(user)));
+        }
+
+        public void update() {
+            removeAllItems();
+            updateUserList();
+        }
+
+        public void lockChoice() {
+            setEnabled(false);
+            AvailableUsers.getInstance().removeUser((User) getSelectedItem());
+        }
+
+        public void unlockChoice() {
+            setEnabled(true);
+            AvailableUsers.getInstance().addUser((User) getSelectedItem());
         }
 
     }
@@ -120,8 +128,18 @@ public class PlayerSelectorPanel extends JPanel {
             return users;
         }
 
-        public void setUsers(List<User> users) {
-            this.users = users;
+        public void removeUser(User user) {
+            users.remove(user);
+            notifyObservers();
+        }
+
+        public void addUser(User user) {
+            users.add(user);
+            notifyObservers();
+        }
+
+        public void notifyObservers() {
+            observers.forEach(UserSelector::update);
         }
 
         public void addObserver(UserSelector observer) {
@@ -139,6 +157,10 @@ public class PlayerSelectorPanel extends JPanel {
     public static void main(String[] args) {
 
         // AudioFileManager.addUser(new User("Yago", "Iglesias", 12345, "Grep"));
+        // AudioFileManager.addUser(new User("Yago1", "Iglesias", 12345, "Grep1"));
+        // AudioFileManager.addUser(new User("Yago2", "Iglesias", 12345, "Grep2"));
+        // AudioFileManager.addUser(new User("Yago3", "Iglesias", 12345, "Grep3"));
+        // AudioFileManager.addUser(new User("Yago4", "Iglesias", 12345, "Grep4"));
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -150,10 +172,21 @@ public class PlayerSelectorPanel extends JPanel {
         // Color.RED, true);
         // PlayerPanel panel = new PlayerPanel(player);
 
-        UserSelector panel = new PlayerSelectorPanel().new UserSelector();
+        UserSelector panel1 = new PlayerSelectorPanel().new UserSelector();
+        UserSelector panel2 = new PlayerSelectorPanel().new UserSelector();
+        UserSelector panel3 = new PlayerSelectorPanel().new UserSelector();
+        UserSelector panel4 = new PlayerSelectorPanel().new UserSelector();
+
+        UserSelector[] panels = { panel1, panel2, panel3, panel4 };
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(panel3);
+        panel.add(panel4);
 
         frame.add(panel);
-
         frame.setVisible(true);
 
     }
