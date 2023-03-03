@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings;
+package com.gytmy.labyrinth.view.settings.game_mode;
 
 public class ClassicSettingsData implements SettingsData {
 

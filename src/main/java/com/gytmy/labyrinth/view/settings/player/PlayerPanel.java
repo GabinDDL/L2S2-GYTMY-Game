@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings;
+package com.gytmy.labyrinth.view.settings.player;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,10 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.Color;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;

@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings;
+package com.gytmy.labyrinth.view.settings.game_mode;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

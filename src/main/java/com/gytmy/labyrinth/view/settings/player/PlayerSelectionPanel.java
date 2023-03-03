@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings;
+package com.gytmy.labyrinth.view.settings.player;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
