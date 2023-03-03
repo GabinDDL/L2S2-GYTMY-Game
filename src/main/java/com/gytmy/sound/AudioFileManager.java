@@ -78,6 +78,9 @@ public class AudioFileManager {
         writeYamlConfigAtCertainPath(user, user.yamlConfigPath());
     }
 
+    /**
+     * Translate the user object to a yaml file at a certain path given as parameter
+     */
     public static void writeYamlConfigAtCertainPath(User user, String path) {
         try {
             YamlReader.write(path, user);
@@ -219,14 +222,23 @@ public class AudioFileManager {
         return files;
     }
 
+    /**
+     * To modify an existing user, we need to modify the yaml file and the
+     * directory name
+     * So, we rewrite the yaml file with data of the new user
+     * 
+     * @param userToEdit an old user that already exists
+     * @param user       the new user that will replace the old one
+     */
     public static void editUser(User userToEdit, User user) {
         List<User> allUsers = getUsers();
 
         for (User currentUser : allUsers) {
             if (currentUser.equals(userToEdit)) {
                 writeYamlConfigAtCertainPath(user, userToEdit.yamlConfigPath());
-                File userDirectory = new File(userToEdit.audioFilesPath());
-                userDirectory.renameTo(new File(user.audioFilesPath()));
+
+                File oldUserDirectory = new File(userToEdit.audioFilesPath());
+                oldUserDirectory.renameTo(new File(user.audioFilesPath()));
             }
         }
     }
