@@ -51,13 +51,15 @@ public class GameModeSelectorPanel extends JPanel {
         gbc.anchor = GridBagConstraints.PAGE_END;
         gbc.weightx = 1;
         gbc.weighty = 1;
-        add(gameModeSettingsPanel, gbc);
         gameModeSelector.updateGameModeSettingsPanel((GameMode) gameModeSelector.getSelectedItem());
+        add(gameModeSettingsPanel, gbc);
         revalidate();
         repaint();
     }
 
     public class GameModeSelector extends JComboBox<GameMode> {
+        GameMode lastSelectedGameMode;
+
         public GameModeSelector() {
             for (GameMode gameMode : GameMode.values()) {
                 addItem(gameMode);
@@ -65,15 +67,28 @@ public class GameModeSelectorPanel extends JPanel {
 
             addActionListener(e -> {
                 System.out.println("Game mode changed to " + getSelectedItem());
+
                 GameMode gameMode = (GameMode) getSelectedItem();
                 updateGameModeSettingsPanel(gameMode);
             });
         }
 
         private void updateGameModeSettingsPanel(GameMode gameMode) {
+            cleanOldPanel();
+            lastSelectedGameMode = (GameMode) getSelectedItem();
             GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
                     .getGameModeSettingsPanel(gameMode);
             handler.initPanel(gameModeSettingsPanel);
+        }
+
+        private void cleanOldPanel() {
+            if (lastSelectedGameMode == null) {
+                return;
+            }
+
+            GameModeSettingsPanelHandler handler = GameModeSettingsPanelFactory
+                    .getGameModeSettingsPanel(lastSelectedGameMode);
+            handler.cleanPanel(gameModeSettingsPanel);
 
         }
 
@@ -102,22 +117,26 @@ public class GameModeSelectorPanel extends JPanel {
 
         public SettingsData getSettingsData();
 
+        public default void updateGUI(JPanel settingsPanel) {
+            settingsPanel.revalidate();
+            settingsPanel.repaint();
+        }
+
     }
 
     public static class ClassicGameModeSettingsPanelHandler implements GameModeSettingsPanelHandler {
 
-        private JTextField widthInputField;
-        private JLabel widthLabel;
-        private JTextField heightInputField;
-        private JLabel heightLabel;
+        private static JTextField widthInputField = new UserInputFieldNumberInBounds(
+                LabyrinthModelFactory.MINIMUM_WIDTH_2D,
+                LabyrinthModelFactory.MAXIMUM_SIZE).getTextField();
+        private static JLabel widthLabel = new JLabel("Width: ");
+        private static JTextField heightInputField = new UserInputFieldNumberInBounds(
+                LabyrinthModelFactory.MINIMUM_WIDTH_2D,
+                LabyrinthModelFactory.MAXIMUM_SIZE).getTextField();
+        private static JLabel heightLabel = new JLabel("Height: ");
 
         public ClassicGameModeSettingsPanelHandler() {
-            widthInputField = new UserInputFieldNumberInBounds(LabyrinthModelFactory.MINIMUM_WIDTH_2D,
-                    LabyrinthModelFactory.MAXIMUM_SIZE).getTextField();
-            widthLabel = new JLabel("Width: ");
-            heightInputField = new UserInputFieldNumberInBounds(LabyrinthModelFactory.MINIMUM_WIDTH_2D,
-                    LabyrinthModelFactory.MAXIMUM_SIZE).getTextField();
-            heightLabel = new JLabel("Height: ");
+            // Empty constructor as the fields are static
         }
 
         @Override
@@ -140,6 +159,8 @@ public class GameModeSelectorPanel extends JPanel {
             gbc.gridx = 1;
             gbc.weightx = 0.7;
             settingsPanel.add(heightInputField, gbc);
+
+            updateGUI(settingsPanel);
         }
 
         @Override
@@ -149,6 +170,7 @@ public class GameModeSelectorPanel extends JPanel {
             settingsPanel.remove(heightLabel);
             settingsPanel.remove(heightInputField);
 
+            updateGUI(settingsPanel);
         }
 
         @Override
