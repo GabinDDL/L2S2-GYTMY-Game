@@ -214,4 +214,12 @@ public class AudioFileManager {
 
         return files;
     }
+
+    public static void deleteRecording(String firstName, String wordToRecord, int i) {
+        File fileToDelete = new File(
+                SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+        if (fileToDelete.exists()) {
+            fileToDelete.delete();
+        }
+    }
 }

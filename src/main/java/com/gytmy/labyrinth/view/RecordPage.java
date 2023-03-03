@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.AudioToFile;
 import com.gytmy.sound.User;
@@ -23,6 +24,7 @@ public class RecordPage extends JPanel {
     private String recordingStatusRecord;
 
     private JLabel statusRecordLabel;
+    private JLabel totalRecordedAudioLabel;
 
     private JButton cancelButton;
     private JButton saveButton;
@@ -30,6 +32,9 @@ public class RecordPage extends JPanel {
     private JButton stopButton;
 
     private TimerPanel timerPanel;
+
+    private int totalOfAudioWhenRecordStart;
+    private int totalRecordedAudio = 0;
 
     RecordPage(JFrame frame, User userRecording, String wordToRecord) {
         this.frame = frame;
@@ -39,12 +44,15 @@ public class RecordPage extends JPanel {
         pausedStatusRecord = String.format(statusRecord, wordToRecord, "∅ Stopped.");
         recordingStatusRecord = String.format(statusRecord, wordToRecord, "● Recording...");
 
+        totalOfAudioWhenRecordStart = AudioFileManager.numberOfRecordings(userRecording.getFirstName(), wordToRecord);
+
         setLayout(new GridBagLayout());
         setBackground(Cell.WALL_COLOR);
         GridBagConstraints constraints = new GridBagConstraints();
 
         initTimerPanel(constraints);
         initStatusRecordLabel(constraints);
+        initTotalRecordedAudioLabel(constraints);
         initCancelButton(constraints);
         initSaveButton(constraints);
         initRecordButton(constraints);
@@ -71,6 +79,16 @@ public class RecordPage extends JPanel {
         add(statusRecordLabel, constraints);
     }
 
+    private void initTotalRecordedAudioLabel(GridBagConstraints constraints) {
+        totalRecordedAudioLabel = new JLabel("Total recorded: " + totalRecordedAudio);
+        totalRecordedAudioLabel.setForeground(Cell.PATH_COLOR);
+        constraints.gridx = 4;
+        constraints.gridy = 0;
+        constraints.weightx = 0.5;
+        constraints.weighty = 0.5;
+        add(totalRecordedAudioLabel, constraints);
+    }
+
     private void initRecordButton(GridBagConstraints constraints) {
         recordButton = new JButton("○ Record");
         recordButton.setBackground(Cell.PATH_COLOR);
@@ -83,6 +101,7 @@ public class RecordPage extends JPanel {
     }
 
     private void startRecord() {
+        totalRecordedAudio++;
         stopButton.setEnabled(true);
         recordButton.setEnabled(false);
 
@@ -155,14 +174,21 @@ public class RecordPage extends JPanel {
     }
 
     private void cancel() {
-        // TO DO : remove the audio file
+        System.out.println("totalRecordedAudio = " + totalRecordedAudio);
+        System.out.println("totalOfAudioWhenRecordStart = " + totalOfAudioWhenRecordStart);
+        for (int i = 1; i <= totalRecordedAudio; i++) {
+            System.out.println("audio deleted = " + (totalOfAudioWhenRecordStart + i));
+            AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
+                    totalOfAudioWhenRecordStart + i);
+        }
         goBackToAudioMenu();
     }
 
     private void goBackToAudioMenu() {
         frame.setContentPane(new AudioMenu(frame));
         frame.revalidate();
-        // TO DO : change the title of the frame with GameFrameToolBox.GAME_TITLE
+        // TO DO : change the title of the frame with GameFrameToolBox.GAME_TITLE when
+        // merged
         frame.setTitle("Be AMazed" + "\t( AudioSettings )");
     }
 }
