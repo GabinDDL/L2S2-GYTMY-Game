@@ -44,7 +44,16 @@ public class PlayerSelectionPanel extends JPanel {
                 return false;
             }
         }
-        return true;
+        return isAtLeastOnePlayerActivated();
+    }
+
+    private boolean isAtLeastOnePlayerActivated() {
+        for (PlayerPanel playerPanel : playerPanels) {
+            if (playerPanel.isActivated()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // TODO:Remove this method
