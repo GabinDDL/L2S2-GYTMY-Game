@@ -36,8 +36,7 @@ public class PlayerSelectionPanel extends JPanel {
         return players.toArray(new Player[0]);
     }
 
-    // TODO:Remove this
-
+    // TODO:Remove this method
     public static void main(String[] args) {
 
         // AudioFileManager.addUser(new User("Yago", "Iglesias", 12345, "Grep"));
