@@ -31,7 +31,7 @@ public class GameOverPanel extends JPanel {
         GridLayout buttonsLayout = new GridLayout(1, 3, 5, 5);
         buttonsPanel.setLayout(buttonsLayout);
 
-        initGoToMenuButton();
+        initGoToStartMenuButton();
         initPlayAgainButton();
         initQuitButton();
 
@@ -45,12 +45,15 @@ public class GameOverPanel extends JPanel {
     private void initPlayAgainButton() {
         initButton("Play again", e -> {
             // TODO: play again methods
+            // Reset players
+            // Create a new labyrinth model
+            // Update the LabyrinthView
         });
     }
 
-    private void initGoToMenuButton() {
+    private void initGoToStartMenuButton() {
         initButton("Go to menu", e -> {
-            // TODO: go to menu methods
+            // TODO: go to StartMenu methods
         });
     }
 
