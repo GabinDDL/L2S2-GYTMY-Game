@@ -26,11 +26,15 @@ public class AudioToFile {
         }
 
         assertIsValidWordRecorded(recordedWord);
-        assertIsValidUserDirectory(user, recordedWord);
+
+        if (!assertIsValidUserDirectory(user, recordedWord)) {
+            AudioFileManager.createUserRecordedWordFile(user, recordedWord);
+
+        }
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
-        String path = user.audioFilesPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
+        String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
         new AudioRecorder(path).start();
     }
@@ -59,13 +63,14 @@ public class AudioToFile {
     /**
      * Asserts that the user folder contains the recorded word folder
      */
-    private static void assertIsValidUserDirectory(User user, String recordedWord) {
+    private static boolean assertIsValidUserDirectory(User user, String recordedWord) {
 
-        File userDirectory = new File(user.audioFilesPath());
+        File userDirectory = new File(user.audioPath());
         List<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
 
-        if (!userFiles.contains(new File(user.audioFilesPath() + recordedWord))) {
-            new File(user.audioFilesPath() + recordedWord).mkdir();
+        if (!userFiles.contains(new File(user.audioPath() + recordedWord))) {
+            return false;
         }
+        return true;
     }
 }

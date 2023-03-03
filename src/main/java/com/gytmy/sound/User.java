@@ -100,6 +100,14 @@ public class User {
         return AUDIO_ROOT_DIRECTORY + getFirstName() + "/";
     }
 
+    public String audioPath() {
+        return audioFilesPath() + "audio/";
+    }
+
+    public String modelPath() {
+        return audioFilesPath() + "model/";
+    }
+
     /**********************************/
 
     @Override

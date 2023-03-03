@@ -69,6 +69,24 @@ public class AudioFileManager {
         userDirectory.mkdir();
 
         writeYamlConfig(user);
+
+        File userAudioDirectory = new File(user.audioPath());
+        userAudioDirectory.mkdir();
+
+        File userModelDirectory = new File(user.modelPath());
+        userModelDirectory.mkdir();
+    }
+
+    /**
+     * Create the user recorded word file directory
+     */
+    public static void createUserRecordedWordFile(User user, String recordedWord) {
+        if (user == null) {
+            return;
+        }
+
+        new File(user.audioPath() + recordedWord).mkdir();
+        new File(user.modelPath() + recordedWord).mkdir();
     }
 
     /**
@@ -182,7 +200,7 @@ public class AudioFileManager {
             throw new IllegalArgumentException("Word does not exist");
         }
 
-        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/" + word);
+        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/audio/" + word);
 
         if (!userDirectory.exists()) {
             return 0;
@@ -241,5 +259,9 @@ public class AudioFileManager {
                 oldUserDirectory.renameTo(new File(user.audioFilesPath()));
             }
         }
+    }
+
+    public static void main(String[] args) {
+        addUser(new User("VAZQUEZ", "YAGO", 22, "yago"));
     }
 }
