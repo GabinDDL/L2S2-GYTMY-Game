@@ -128,22 +128,14 @@ public class EditCreateUsersPage extends JPanel {
     private void initFirstNameInput(GridBagConstraints constraints) {
         firstName = new UserInputField(DEFAULT_FIRST_NAME_TEXT);
         firstName.setBackground(Cell.PATH_COLOR);
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        constraints.weightx = 0.7;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        setConstraints(constraints, 1, 1, 0.7, 0.5);
         add(firstName.getTextField(), constraints);
     }
 
     private void initLastNameInput(GridBagConstraints constraints) {
         lastName = new UserInputField(DEFAULT_LAST_NAME_TEXT);
         lastName.setBackground(Cell.PATH_COLOR);
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        constraints.weightx = 0.7;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        setConstraints(constraints, 1, 2, 0.7, 0.5);
         add(lastName.getTextField(), constraints);
     }
 
@@ -151,23 +143,23 @@ public class EditCreateUsersPage extends JPanel {
         studentNumber = new UserInputFieldNumberInBounds(DEFAULT_STUDENT_NUMBER_VALUE, 99999999);
         studentNumber.setBackground(Cell.PATH_COLOR);
         studentNumber.setValue(0);
-        constraints.gridx = 1;
-        constraints.gridy = 3;
-        constraints.weightx = 0.7;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        setConstraints(constraints, 1, 3, 0.7, 0.5);
         add(studentNumber.getTextField(), constraints);
     }
 
     private void initUserNameInput(GridBagConstraints constraints) {
         userName = new UserInputField(DEFAULT_USER_NAME_TEXT);
         userName.setBackground(Cell.PATH_COLOR);
-        constraints.gridx = 1;
-        constraints.gridy = 4;
-        constraints.weightx = 0.7;
-        constraints.weighty = 0.5;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        setConstraints(constraints, 1, 4, 0.7, 0.5);
         add(userName.getTextField(), constraints);
+    }
+
+    private void setConstraints(GridBagConstraints constraints, int x, int y, double weightX, double weightY) {
+        constraints.gridx = x;
+        constraints.gridy = y;
+        constraints.weightx = weightX;
+        constraints.weighty = weightY;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
     }
 
     private void initCancelButton(GridBagConstraints constraints) {
