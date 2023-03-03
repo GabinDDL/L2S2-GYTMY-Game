@@ -115,10 +115,9 @@ public class AudioMenu extends JPanel {
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
 
-    private void editOrAddUser(String title, com.gytmy.labyrinth.view.EditCreateUsersPage page) {
+    private void editOrAddUser(String title, EditCreateUsersPage page) {
         frame.setContentPane(page);
         frame.setSize(800, 500);
-        frame.setLocationRelativeTo(null);
         frame.revalidate();
         frame.setTitle(title);
     }
@@ -335,7 +334,6 @@ public class AudioMenu extends JPanel {
     public void goBackToStartMenu() {
         frame.setContentPane(new StartMenu(frame));
         frame.setSize(800, 500);
-        frame.setLocationRelativeTo(null);
         frame.revalidate();
         frame.setTitle("Be AMazed" + "\t( Menu )");
     }
