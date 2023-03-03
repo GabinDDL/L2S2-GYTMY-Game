@@ -17,14 +17,12 @@ public class LabyrinthModelFactory {
     }
 
     public static LabyrinthModel createLabyrinth(GameData gameData) {
-
         switch (gameData.getGameMode()) {
             case CLASSIC:
                 return createClassicLabyrinth(gameData);
             default:
                 throw new IllegalArgumentException("Game mode not supported");
         }
-
     }
 
     private static LabyrinthModel createClassicLabyrinth(GameData gameData) {
