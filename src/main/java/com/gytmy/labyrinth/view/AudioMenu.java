@@ -33,11 +33,13 @@ import com.gytmy.utils.WordsToRecord;
 public class AudioMenu extends JPanel {
     private JFrame frame;
 
-    // User Panel components
+    private StartMenu startMenu;
+
     private JPanel userPanel;
     private JComboBox<User> userSelector;
     private JComboBox<String> wordSelector = new JComboBox<>();
 
+    // User Panel components
     private JButton deleteUserButton;
     private JButton editUserButton;
     private JButton addUserButton;
@@ -70,8 +72,10 @@ public class AudioMenu extends JPanel {
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
-    public AudioMenu(JFrame frame) {
+    public AudioMenu(JFrame frame, StartMenu startMenu) {
         this.frame = frame;
+        this.startMenu = startMenu;
+        this.frame.setTitle("Be AMazed" + "\t( AudioSettings )");
 
         setLayout(new BorderLayout());
 
@@ -115,28 +119,6 @@ public class AudioMenu extends JPanel {
         }
     }
 
-    private void userHasBeenChanged() {
-        if (!(userSelector.getSelectedItem() instanceof User)) {
-            return;
-        }
-
-        User user = (User) userSelector.getSelectedItem();
-
-        actualJTreeRootPath = JTREE_ROOT_PATH;
-        if (user == ALL_USERS) {
-            deleteUserButton.setEnabled(false);
-            editUserButton.setEnabled(false);
-        } else {
-            actualJTreeRootPath += user.getFirstName();
-            deleteUserButton.setEnabled(true);
-            editUserButton.setEnabled(true);
-        }
-
-        loadFileNavigator();
-        loadTotalOfWords();
-        revalidate();
-    }
-
     private void initDeleteButton(GridBagConstraints c) {
         deleteUserButton = new JButton("Delete");
         deleteUserButton.setToolTipText("This will delete the current user and all his recordings");
@@ -146,26 +128,13 @@ public class AudioMenu extends JPanel {
         addComponentToUserPanel(deleteUserButton, c, 1, 0, 0.1, true);
     }
 
-    private void deleteUser() {
-
-        String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
-        int userIsDeleted = JOptionPane.showConfirmDialog(frame, confirmationDialog, "DELETE USER ?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
-
-        if (userIsDeleted == JOptionPane.YES_OPTION) {
-            User user = (User) userSelector.getSelectedItem();
-            AudioFileManager.removeUser(user);
-            userSelector.removeItem(user);
-        }
-    }
-
     private void initEditButton(GridBagConstraints c) {
         editUserButton = new JButton("Edit");
         editUserButton.setToolTipText("This will edit the current user");
         editUserButton.setEnabled(false);
         editUserButton.addActionListener(
-                e -> editOrAddUser("Edit User", new EditCreateUsersPage(frame, (User) userSelector.getSelectedItem())));
+                e -> editOrAddUser("Edit User",
+                        new EditCreateUsersPage(frame, this, (User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -173,7 +142,7 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
-        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame)));
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame, this)));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
@@ -203,6 +172,47 @@ public class AudioMenu extends JPanel {
         if (setPreferredSize) {
             component.setPreferredSize(
                     new Dimension(component.getPreferredSize().height, component.getPreferredSize().height));
+        }
+    }
+
+    private void userHasBeenChanged() {
+        if (!(userSelector.getSelectedItem() instanceof User)) {
+            return;
+        }
+
+        User user = (User) userSelector.getSelectedItem();
+
+        actualJTreeRootPath = JTREE_ROOT_PATH;
+        if (user == ALL_USERS) {
+            deleteUserButton.setEnabled(false);
+            editUserButton.setEnabled(false);
+            recordButton.setEnabled(false);
+
+        } else {
+            actualJTreeRootPath += user.getFirstName();
+            deleteUserButton.setEnabled(true);
+            editUserButton.setEnabled(true);
+
+            if (!wordSelector.getSelectedItem().equals("ALL")) {
+                recordButton.setEnabled(true);
+            }
+        }
+
+        loadFileNavigator();
+        loadTotalOfWords();
+    }
+
+    private void deleteUser() {
+
+        String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
+        int userIsDeleted = JOptionPane.showConfirmDialog(frame, confirmationDialog, "DELETE USER ?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (userIsDeleted == JOptionPane.YES_OPTION) {
+            User user = (User) userSelector.getSelectedItem();
+            AudioFileManager.removeUser(user);
+            userSelector.removeItem(user);
         }
     }
 
@@ -240,6 +250,9 @@ public class AudioMenu extends JPanel {
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -267,10 +280,34 @@ public class AudioMenu extends JPanel {
 
     private void initWordSelector(JComponent parentComponent) {
         addWordsToJComboBox(wordSelector);
-        wordSelector.addActionListener(e -> loadTotalOfWords());
+        wordSelector.addActionListener(e -> wordHasBeenChanged());
         initColors(wordSelector);
         ((JLabel) wordSelector.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         parentComponent.add(wordSelector);
+    }
+
+    private void initCountOfWords(JComponent parenComponent) {
+        totalOfWords = new JLabel(getTotalOfWords());
+        initColors(totalOfWords);
+        totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
+        parenComponent.add(totalOfWords);
+    }
+
+    private void initRecordButton(JComponent parentComponent) {
+        recordButton = new JButton("Record");
+        recordButton.setToolTipText("Record a new audio for the selected word");
+        recordButton.addActionListener(e -> recordAudio());
+        recordButton.setEnabled(false);
+        initColors(recordButton);
+        parentComponent.add(recordButton);
+    }
+
+    private void recordAudio() {
+        frame.setContentPane(
+                new RecordPage(frame, this, (User) userSelector.getSelectedItem(),
+                        (String) wordSelector.getSelectedItem()));
+        frame.revalidate();
+        frame.setTitle("RECORD STUDIO");
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
@@ -283,11 +320,15 @@ public class AudioMenu extends JPanel {
         }
     }
 
-    private void initCountOfWords(JComponent parenComponent) {
-        totalOfWords = new JLabel(getTotalOfWords());
-        initColors(totalOfWords);
-        totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
-        parenComponent.add(totalOfWords);
+    private void wordHasBeenChanged() {
+        loadTotalOfWords();
+
+        recordButton.setEnabled(false);
+        if (wordSelector.getSelectedItem().equals("ALL")) {
+            recordButton.setEnabled(false);
+        } else if ((User) userSelector.getSelectedItem() != ALL_USERS) {
+            recordButton.setEnabled(true);
+        }
     }
 
     private void loadTotalOfWords() {
@@ -331,27 +372,31 @@ public class AudioMenu extends JPanel {
         deleteRecord = new JButton("Delete");
         deleteRecord.setToolTipText("Delete the selected audio");
         deleteRecord.setEnabled(false);
-        deleteRecord.addActionListener(e -> {
-            if (audioToLoad != null) {
-
-                String[] path = audioToLoad.split("/");
-                String userFirstName = path[3];
-                String word = path[4];
-
-                String wordIndex = extractNumberFromWord(path[5]);
-
-                int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
-                        userFirstName, word);
-                AudioFileManager.deleteRecording(audioToLoad);
-
-                AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
-                        totalRecordsBeforeDelete);
-                loadFileNavigator();
-                loadTotalOfWords();
-            }
-        });
+        deleteRecord.addActionListener(e -> deleteWAV());
         initColors(deleteRecord);
         parentComponent.add(deleteRecord);
+    }
+
+    private void deleteWAV() {
+        if (audioToLoad != null) {
+
+            String[] path = audioToLoad.split("/");
+            String userFirstName = path[3];
+            String word = path[4];
+
+            String wordIndex = extractNumberFromWord(path[5]);
+
+            int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
+                    userFirstName, word);
+            AudioFileManager.deleteRecording(audioToLoad);
+
+            AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
+                    totalRecordsBeforeDelete);
+            loadFileNavigator();
+            loadTotalOfWords();
+
+            playAndStopButton.setEnabled(false);
+        }
     }
 
     private String extractNumberFromWord(String string) {
@@ -363,13 +408,6 @@ public class AudioMenu extends JPanel {
             }
         }
         return newString;
-    }
-
-    private void initRecordButton(JComponent parentComponent) {
-        recordButton = new JButton("Record");
-        recordButton.setToolTipText("Record a new audio for the selected word");
-        initColors(recordButton);
-        parentComponent.add(recordButton);
     }
 
     private void initLabelDuration(JComponent parentComponent) {
@@ -465,9 +503,11 @@ public class AudioMenu extends JPanel {
     }
 
     public void goBackToStartMenu() {
-        if (isPlaying) {
-            stop();
-        }
-        GameFrameToolbox.goToStartMenu(frame);
+        frame.setContentPane(startMenu);
+        frame.revalidate();
+    }
+
+    public StartMenu getStartMenu() {
+        return startMenu;
     }
 }
