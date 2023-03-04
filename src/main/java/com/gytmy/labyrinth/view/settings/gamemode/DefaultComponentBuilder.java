@@ -39,8 +39,13 @@ public class DefaultComponentBuilder {
     public static JTextField buildInputField(int lowerBound, int upperBound) {
         JTextField inputField = new UserInputFieldNumberInBounds(lowerBound, upperBound).getTextField();
         inputField.setFont(FONT);
+        inputField.setText("" + getMiddleValue(lowerBound, upperBound));
         setBackgroundAndForeground(inputField);
         return inputField;
+    }
+
+    private static int getMiddleValue(int lowerBound, int upperBound) {
+        return (lowerBound + upperBound) / 2;
     }
 
     /**
