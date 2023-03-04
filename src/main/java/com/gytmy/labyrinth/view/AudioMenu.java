@@ -468,6 +468,6 @@ public class AudioMenu extends JPanel {
         if (isPlaying) {
             stop();
         }
-        GameFrameToolbox.goToStartMenu(frame);
+        GameFrameToolbox.goToStartMenu();
     }
 }

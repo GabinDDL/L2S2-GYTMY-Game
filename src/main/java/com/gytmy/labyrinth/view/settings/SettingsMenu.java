@@ -25,8 +25,6 @@ import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
 public class SettingsMenu extends JPanel {
 
-    private JFrame frame;
-
     private PlayerSelectionPanel playerSelectionPanel;
     private GameModeSelectionPanel gameModeSelectionPanel;
     private JLabel gameGifLabel;
@@ -35,8 +33,16 @@ public class SettingsMenu extends JPanel {
     private static final String ANIMATED_GAME_GIF_PATH = "src/resources/images/settings_menu/MAZE_LOGO_ROTATED.gif";
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
-    public SettingsMenu(JFrame frame) {
-        this.frame = frame;
+    private static SettingsMenu instance = null;
+
+    public static SettingsMenu getInstance() {
+        if (instance == null) {
+            instance = new SettingsMenu();
+        }
+        return instance;
+    }
+
+    private SettingsMenu() {
 
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
@@ -110,11 +116,13 @@ public class SettingsMenu extends JPanel {
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
         GameData gameData = new GameData(gameModeSettings, gameMode, players);
 
+        JFrame frame = GameFrameToolbox.getMainFrame();
+
         LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
         LabyrinthView labyrinthView = labyrinthController.getView();
 
         frame.setContentPane(labyrinthView);
-        GameFrameToolbox.frameUpdate(frame, "View Labyrinth" + gameMode);
+        GameFrameToolbox.frameUpdate("View Labyrinth" + gameMode);
 
     }
 
