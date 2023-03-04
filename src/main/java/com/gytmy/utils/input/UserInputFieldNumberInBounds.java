@@ -72,6 +72,12 @@ public class UserInputFieldNumberInBounds extends UserInputField {
                 String inputString = textField.getText() + typedChar;
                 int inputValue = Integer.parseInt(inputString);
 
+                if (inputString.length() > String.valueOf(upperBound).length()) {
+                    evt.consume();
+                    setValue(upperBound);
+                    return;
+                }
+
                 if (isInRangeOfBounds(inputValue)) {
                     return;
                 }
