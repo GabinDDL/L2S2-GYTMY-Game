@@ -2,7 +2,11 @@ package com.gytmy.labyrinth.view.settings.gamemode;
 
 import com.gytmy.labyrinth.model.gamemode.GameMode;
 
-//TODO: Document this factory
+/**
+ * Factory for creating panel handlers for game mode settings. It is used to
+ * separate the logic of creating panels from the logic of the game mode
+ * settings panel.
+ */
 public class PanelHandlerFactory {
     private PanelHandlerFactory() {
     }

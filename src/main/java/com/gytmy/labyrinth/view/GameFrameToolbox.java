@@ -36,6 +36,8 @@ public class GameFrameToolbox {
 
     public static void goToSettingsMenu() {
         mainFrame.setContentPane(SettingsMenu.getInstance());
+        mainFrame.setSize(800, 500);
+        mainFrame.revalidate();
         GameFrameToolbox.frameUpdate("SettingsMenu");
     }
 
