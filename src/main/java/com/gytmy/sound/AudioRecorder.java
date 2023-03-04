@@ -112,7 +112,6 @@ public class AudioRecorder {
      * Capture the sound and record it into a WAV file
      * 
      * @param targetLine
-     * @throws IOException
      */
     private void captureAndRecord(TargetDataLine targetLine) {
 
@@ -136,7 +135,6 @@ public class AudioRecorder {
      * Read the audio input stream and write it into a file
      * 
      * @param inputStream Audio input stream
-     * @throws IOException If the file is not found
      */
     private void record(AudioInputStream inputStream) {
 

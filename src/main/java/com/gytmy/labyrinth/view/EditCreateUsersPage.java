@@ -116,8 +116,10 @@ public class EditCreateUsersPage extends JPanel {
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (isTextFieldInvalid(field.getText()) || field.getValue() == defaultValue) {
+                if (isTextFieldInvalid(field.getText())) {
                     field.setValue(defaultValue);
+                } else if (field.getValue() > field.getUpperBound()) {
+                    field.setValue(field.getUpperBound());
                 }
             }
         });
@@ -206,7 +208,7 @@ public class EditCreateUsersPage extends JPanel {
                 AudioFileManager.editUser(userToEdit, user);
             }
 
-            frame.setContentPane(audioMenu);
+            frame.setContentPane(new AudioMenu(frame, audioMenu.getStartMenu()));
             frame.revalidate();
         });
 

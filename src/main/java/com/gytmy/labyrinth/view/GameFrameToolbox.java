@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class GameFrameToolbox {
 
-    private static final String GAME_TITLE = "Be AMazed";
+    public static final String GAME_TITLE = "Be AMazed";
 
     private GameFrameToolbox() {
     }
@@ -13,5 +13,12 @@ public class GameFrameToolbox {
         frame.pack();
         frame.revalidate();
         frame.setTitle(GAME_TITLE + "\t(" + subTitle + ")");
+    }
+
+    public static void goToStartMenu(JFrame frame) {
+        frame.setContentPane(new StartMenu(frame));
+        frame.setSize(800, 500);
+        frame.revalidate();
+        frame.setTitle(GAME_TITLE + "\t( Menu )");
     }
 }

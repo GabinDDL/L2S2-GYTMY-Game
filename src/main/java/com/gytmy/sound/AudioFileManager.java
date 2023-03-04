@@ -223,10 +223,45 @@ public class AudioFileManager {
     }
 
     public static void deleteRecording(String firstName, String wordToRecord, int i) {
-        File fileToDelete = new File(
-                SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+        deleteRecording(SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+    }
+
+    public static void deleteRecording(String filePath) {
+        File fileToDelete = new File(filePath);
         if (fileToDelete.exists()) {
             fileToDelete.delete();
+        }
+    }
+
+    /**
+     * Rename the audio files after a deletion of a recording
+     * For example, if in the directory of a user, there are 3 files named
+     * "word1.wav", "word2.wav" and "word3.wav".
+     * And we delete the file "word2.wav", the file "word3.wav" will be renamed
+     * "word2.wav"
+     * 
+     * @param wordIndex          the index of the file that has been deleted
+     * @param numberOfRecordings the number of recordings for the word before
+     *                           deleting the file
+     */
+    public static void renameAudioFiles(String firstName, String word, int wordIndex, int numberOfRecordings) {
+        File userDirectory = new File(SRC_DIR_PATH + firstName + "/" + word);
+
+        if (!userDirectory.exists()) {
+            return;
+        }
+
+        int diff = 1;
+        for (int index = wordIndex + 1; index <= numberOfRecordings; index++) {
+
+            File fileToRename = new File(userDirectory + "/" + word + index + ".wav");
+            File newFile = new File(userDirectory + "/" + word + (index - diff) + ".wav");
+
+            if (fileToRename.exists()) {
+                fileToRename.renameTo(newFile);
+            } else {
+                diff++;
+            }
         }
     }
 
