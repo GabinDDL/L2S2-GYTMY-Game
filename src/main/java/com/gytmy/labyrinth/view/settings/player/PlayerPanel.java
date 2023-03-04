@@ -17,6 +17,7 @@ import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.utils.ImageManipulator;
 
 //TODO: Refacctor thhs
+//TODO: Document this
 public class PlayerPanel extends JPanel {
     private static final Color[] COLORS = new Color[] {
             Color.decode("#b13e53"),

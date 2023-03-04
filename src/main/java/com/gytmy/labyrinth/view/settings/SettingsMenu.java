@@ -23,6 +23,9 @@ import com.gytmy.labyrinth.view.settings.game_mode.GameModeData;
 import com.gytmy.labyrinth.view.settings.game_mode.GameModeSelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
+//TODO: Document this class
+//TODO: Add a "back" button
+//TODO: Refactor this class
 public class SettingsMenu extends JPanel {
 
     private PlayerSelectionPanel playerSelectionPanel;

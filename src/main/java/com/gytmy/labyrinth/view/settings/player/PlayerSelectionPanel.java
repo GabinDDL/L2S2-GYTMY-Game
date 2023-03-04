@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import com.gytmy.labyrinth.model.player.Player;
 
 //TODO: Verify if this class implementation
+//TODO: Document this class
 public class PlayerSelectionPanel extends JPanel {
 
     private PlayerPanel[] playerPanels;

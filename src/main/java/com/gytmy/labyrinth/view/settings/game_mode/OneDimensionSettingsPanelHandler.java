@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 
+//TODO: Document this class
 /**
  * This class is a singleton. It is used to create the settings panel for the
  * one-dimensional game mode.

@@ -12,6 +12,7 @@ import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
 
+//TODO: Document this class
 /**
  * This class is used to select a user. It is part of a Observer pattern. It is
  * the Observer.

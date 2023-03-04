@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+//TODO: Document this interface
 public interface GameModeSettingsPanelHandler {
 
     public static final Color BACKGROUND_COLOR = GameModeSelectionPanel.BACKGROUND_COLOR;

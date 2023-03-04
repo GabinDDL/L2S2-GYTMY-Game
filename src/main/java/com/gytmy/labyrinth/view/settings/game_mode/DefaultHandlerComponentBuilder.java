@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
+//TODO: document this class
 public class DefaultHandlerComponentBuilder {
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
