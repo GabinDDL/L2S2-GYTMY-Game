@@ -8,6 +8,13 @@ import com.gytmy.labyrinth.view.settings.game_mode.ClassicGameModeData;
 import com.gytmy.labyrinth.view.settings.game_mode.OneDimensionGameData;
 import com.gytmy.utils.Coordinates;
 
+/**
+ * This class is used to create a {@code LabyrinthModel} instance. It is used
+ * by the {@code LabyrinthController} to create a new {@code LabyrinthModel}
+ * instance when the user starts a new game.
+ * 
+ * @see com.gytmy.labyrinth.view.settings.game_mode.GameMode
+ */
 public class LabyrinthModelFactory {
 
     public static final int MINIMUM_WIDTH_1D = 3;
