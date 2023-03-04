@@ -83,6 +83,10 @@ public class UserInputFieldNumberInBounds extends UserInputField {
         textField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent evt) {
+                if (textField.getText().isBlank()) {
+                    return;
+                }
+
                 String inputString = textField.getText();
                 int inputValue = Integer.parseInt(inputString);
 
