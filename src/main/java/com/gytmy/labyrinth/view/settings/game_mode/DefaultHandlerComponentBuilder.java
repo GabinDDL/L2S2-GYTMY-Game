@@ -2,6 +2,7 @@ package com.gytmy.labyrinth.view.settings.game_mode;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -16,19 +17,23 @@ public class DefaultHandlerComponentBuilder {
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
 
+    private static final Font FONT = new Font("Arial", Font.BOLD, 25);
+
     private DefaultHandlerComponentBuilder() {
     }
 
     public static JTextField buildInputField(int lowerBound, int upperBound) {
-        JTextField widthInputField = new UserInputFieldNumberInBounds(lowerBound, upperBound).getTextField();
-        setBackgroundAndForeground(widthInputField);
-        return widthInputField;
+        JTextField inputField = new UserInputFieldNumberInBounds(lowerBound, upperBound).getTextField();
+        inputField.setFont(FONT);
+        setBackgroundAndForeground(inputField);
+        return inputField;
     }
 
     public static JLabel buildLabel(String text) {
-        JLabel widthLabel = new JLabel(text);
-        setBackgroundAndForeground(widthLabel);
-        return widthLabel;
+        JLabel label = new JLabel(text);
+        label.setFont(FONT);
+        setBackgroundAndForeground(label);
+        return label;
     }
 
     public static GridBagConstraints buildGridBagConstraints(int gridx, int gridy) {

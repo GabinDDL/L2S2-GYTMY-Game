@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.view.settings.game_mode;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Font;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -69,9 +70,13 @@ public class GameModeSelectionPanel extends JPanel {
     }
 
     private class GameModeSelector extends JComboBox<GameMode> {
-        GameMode lastSelectedGameMode;
+        private GameMode lastSelectedGameMode;
+
+        private final Font FONT = new Font("Arial", Font.BOLD, 15);
 
         public GameModeSelector() {
+            setFont(FONT);
+
             for (GameMode gameMode : GameMode.values()) {
                 addItem(gameMode);
             }
