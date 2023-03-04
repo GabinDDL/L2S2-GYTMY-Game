@@ -8,19 +8,24 @@ import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.model.player.Player;
 
-//TODO: Verify if this class implementation
-//TODO: Document this class
+/**
+ * This class is used to display the player selection panel.
+ * It contains 5 {@link PlayerPanel} and allows to select the players.
+ */
 public class PlayerSelectionPanel extends JPanel {
 
+    private static final int NUMBER_OF_PLAYERS = 5;
     private PlayerPanel[] playerPanels;
 
     public PlayerSelectionPanel() {
-        playerPanels = new PlayerPanel[5];
-        setLayout(new GridLayout(1, 5));
-        for (int i = 0; i < 5; i++) {
+        setLayout(new GridLayout(1, NUMBER_OF_PLAYERS));
+        playerPanels = new PlayerPanel[NUMBER_OF_PLAYERS];
+
+        for (int i = 0; i < playerPanels.length; i++) {
             playerPanels[i] = new PlayerPanel();
             add(playerPanels[i]);
         }
+
         revalidate();
         repaint();
     }
@@ -36,6 +41,9 @@ public class PlayerSelectionPanel extends JPanel {
         return players.toArray(new Player[0]);
     }
 
+    /**
+     * Returns {@code true} if all activated players are ready.
+     */
     public boolean arePlayersReady() {
         for (PlayerPanel playerPanel : playerPanels) {
             if (!playerPanel.isReady() && playerPanel.isActivated()) {
@@ -45,6 +53,9 @@ public class PlayerSelectionPanel extends JPanel {
         return isAtLeastOnePlayerActivated();
     }
 
+    /**
+     * Returns {@code true} if at least one player is activated.
+     */
     private boolean isAtLeastOnePlayerActivated() {
         for (PlayerPanel playerPanel : playerPanels) {
             if (playerPanel.isActivated()) {
