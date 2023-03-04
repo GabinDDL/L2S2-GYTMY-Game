@@ -50,23 +50,26 @@ public class UserInputFieldNumberInBounds extends UserInputField {
 
     private void initTextFieldKeyListener() {
         textField.addKeyListener(new KeyAdapter() {
+
+            char typedChar;
+
             @Override
             public void keyTyped(KeyEvent evt) {
 
-                char c = evt.getKeyChar();
-                handleEnteredCharacter(c, evt);
+                typedChar = evt.getKeyChar();
+                handleEnteredCharacter(evt);
 
             }
 
-            private void handleEnteredCharacter(char c, KeyEvent evt) {
-                if (!isDigitCharacter(c)) {
-                    if (!isDeletionCharacter(c)) {
+            private void handleEnteredCharacter(KeyEvent evt) {
+                if (!isDigitCharacter(typedChar)) {
+                    if (!isDeletionCharacter(typedChar)) {
                         evt.consume();
                     }
                     return;
                 }
 
-                String inputString = textField.getText() + c;
+                String inputString = textField.getText() + typedChar;
                 int inputValue = Integer.parseInt(inputString);
 
                 if (isInRangeOfBounds(inputValue)) {
