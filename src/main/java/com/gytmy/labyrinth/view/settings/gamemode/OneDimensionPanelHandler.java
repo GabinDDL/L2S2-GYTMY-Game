@@ -16,23 +16,23 @@ import com.gytmy.labyrinth.model.gamemode.OneDimensionGameData;
  * This class is a singleton. It is used to create the settings panel
  * for the OneDimension game mode.
  */
-class OneDimensionanelHandler implements PanelHandler {
+class OneDimensionPanelHandler implements PanelHandler {
 
     private JPanel settingsPanel;
 
     private JTextField widthInputField;
     private JLabel widthLabel;
 
-    private static OneDimensionanelHandler instance = null;
+    private static OneDimensionPanelHandler instance = null;
 
-    public static OneDimensionanelHandler getInstance() {
+    public static OneDimensionPanelHandler getInstance() {
         if (instance == null) {
-            instance = new OneDimensionanelHandler();
+            instance = new OneDimensionPanelHandler();
         }
         return instance;
     }
 
-    private OneDimensionanelHandler() {
+    private OneDimensionPanelHandler() {
         initComponents();
     }
 
