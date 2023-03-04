@@ -12,6 +12,7 @@ public class LabyrinthModelFactory {
 
     public static final int MINIMUM_WIDTH_1D = 3;
     public static final int MINIMUM_WIDTH_2D = 5;
+    public static final int MINIMUM_HEIGHT_2D = 5;
     public static final int MAXIMUM_SIZE = 40;
 
     private static final int ONE_DIMENSION_HEIGHT = 3;
