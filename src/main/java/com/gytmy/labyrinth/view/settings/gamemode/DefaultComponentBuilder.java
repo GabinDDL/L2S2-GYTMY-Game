@@ -65,19 +65,6 @@ public class DefaultComponentBuilder {
     }
 
     /**
-     * Builds a GridBagConstraints with the given gridx and gridy. The default
-     * options are used:
-     * <ul>
-     * <li>Insets: 20px on all sides</li>
-     * <li>Fill: {@link GridBagConstraints#BOTH}</li>
-     * </ul>
-     * 
-     */
-    public static GridBagConstraints buildGridBagConstraints(int gridx, int gridy) {
-        return buildGridBagConstraints(gridx, gridy, new Insets(20, 20, 20, 20));
-    }
-
-    /**
      * Builds a GridBagConstraints with the given gridx, gridy and insets. The
      * default options are used:
      * <ul>
