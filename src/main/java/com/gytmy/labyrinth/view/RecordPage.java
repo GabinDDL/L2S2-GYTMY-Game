@@ -108,6 +108,8 @@ public class RecordPage extends JPanel {
         totalRecordedAudioLabel.setText("Total recorded: " + ++totalRecordedAudio);
         stopButton.setEnabled(true);
         recordButton.setEnabled(false);
+        discardButton.setEnabled(true);
+        discardAllButton.setEnabled(true);
 
         statusRecordLabel.setText(recordingStatusRecord);
         AudioToFile.record(userRecording, wordToRecord.toString());
@@ -157,6 +159,7 @@ public class RecordPage extends JPanel {
         discardButton = new JButton("Discard");
         discardButton.setBackground(Cell.INITIAL_CELL_COLOR);
         discardButton.addActionListener(e -> discard());
+        discardButton.setEnabled(false);
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.weightx = 0.5;
@@ -165,16 +168,30 @@ public class RecordPage extends JPanel {
     }
 
     private void discard() {
+        if (totalRecordedAudio == 0) {
+            return;
+        }
+
+        if (AudioRecorder.isRecording()) {
+            stopRecord();
+        }
+
         AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
                 totalOfAudioWhenRecordStart + (totalRecordedAudio--));
 
         totalRecordedAudioLabel.setText("Total recorded: " + totalRecordedAudio);
+
+        if (totalRecordedAudio == 0) {
+            discardAllButton.setEnabled(false);
+            discardButton.setEnabled(false);
+        }
     }
 
     private void initDiscardAllButton(GridBagConstraints constraints) {
         discardAllButton = new JButton("Discard All");
         discardAllButton.setBackground(Cell.INITIAL_CELL_COLOR);
         discardAllButton.addActionListener(e -> sureToDelete());
+        discardAllButton.setEnabled(false);
         constraints.gridx = 3;
         constraints.gridy = 2;
         constraints.weightx = 0.5;
@@ -198,6 +215,10 @@ public class RecordPage extends JPanel {
 
     private void discardAll() {
 
+        if (AudioRecorder.isRecording()) {
+            stopRecord();
+        }
+
         for (int i = 1; i <= totalRecordedAudio; i++) {
             AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
                     totalOfAudioWhenRecordStart + i);
@@ -205,6 +226,9 @@ public class RecordPage extends JPanel {
 
         totalRecordedAudio = 0;
         totalRecordedAudioLabel.setText("Total recorded: " + totalRecordedAudio);
+
+        discardButton.setEnabled(false);
+        discardAllButton.setEnabled(false);
     }
 
     private void initGoBackButton(GridBagConstraints constraints) {

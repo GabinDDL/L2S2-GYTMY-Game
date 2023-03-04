@@ -82,8 +82,6 @@ public class AudioRecorder {
             try {
                 Thread.sleep(MAX_RECORD_DURATION_MILLISECONDS);
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
-                System.out.println("Error: Recording was interrupted");
             }
             finish();
         });
@@ -148,10 +146,17 @@ public class AudioRecorder {
         }).start();
     }
 
+    public static boolean isRecording() {
+        return stopper.isAlive();
+    }
+
     /**
      * Closes the target data line to finish capturing and recording
      */
     public void finish() {
+
+        stopper.interrupt();
+
         channel.stop();
         channel.close();
     }
