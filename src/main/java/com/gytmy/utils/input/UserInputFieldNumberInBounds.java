@@ -124,7 +124,7 @@ public class UserInputFieldNumberInBounds extends UserInputField {
     @Override
     public void setText(String text) throws NumberFormatException {
         if (text != null && text.isEmpty()) {
-            setValue(lowerBound);
+            super.setText("");
             return;
         }
         setValue(Integer.valueOf(text));
