@@ -200,7 +200,6 @@ public class AudioMenu extends JPanel {
 
         loadFileNavigator();
         loadTotalOfWords();
-        revalidate();
     }
 
     private void deleteUser() {
@@ -251,6 +250,9 @@ public class AudioMenu extends JPanel {
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -370,27 +372,31 @@ public class AudioMenu extends JPanel {
         deleteRecord = new JButton("Delete");
         deleteRecord.setToolTipText("Delete the selected audio");
         deleteRecord.setEnabled(false);
-        deleteRecord.addActionListener(e -> {
-            if (audioToLoad != null) {
-
-                String[] path = audioToLoad.split("/");
-                String userFirstName = path[3];
-                String word = path[4];
-
-                String wordIndex = extractNumberFromWord(path[5]);
-
-                int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
-                        userFirstName, word);
-                AudioFileManager.deleteRecording(audioToLoad);
-
-                AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
-                        totalRecordsBeforeDelete);
-                loadFileNavigator();
-                loadTotalOfWords();
-            }
-        });
+        deleteRecord.addActionListener(e -> deleteWAV());
         initColors(deleteRecord);
         parentComponent.add(deleteRecord);
+    }
+
+    private void deleteWAV() {
+        if (audioToLoad != null) {
+
+            String[] path = audioToLoad.split("/");
+            String userFirstName = path[3];
+            String word = path[4];
+
+            String wordIndex = extractNumberFromWord(path[5]);
+
+            int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
+                    userFirstName, word);
+            AudioFileManager.deleteRecording(audioToLoad);
+
+            AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
+                    totalRecordsBeforeDelete);
+            loadFileNavigator();
+            loadTotalOfWords();
+
+            playAndStopButton.setEnabled(false);
+        }
     }
 
     private String extractNumberFromWord(String string) {
