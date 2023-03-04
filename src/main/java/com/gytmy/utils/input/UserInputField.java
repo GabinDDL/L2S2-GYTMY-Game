@@ -26,9 +26,8 @@ public class UserInputField implements InputField {
 
     @Override
     public boolean isValidInput() {
-        String text = textField.getText();
-        String strippedText = text.strip();
-        return !strippedText.equals("");
+        return textField.getText() != null &&
+                !textField.getText().isBlank();
     }
 
     public String getText() {
