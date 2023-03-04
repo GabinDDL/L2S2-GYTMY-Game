@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.controller.LabyrinthController;
@@ -23,10 +24,6 @@ import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
-//TODO: Solve issue with poorly sized frame when returning to the settings menu
-//TODO: Document this class
-//TODO: Add a "back" button
-//TODO: Refactor this class
 public class SettingsMenu extends JPanel {
 
     private PlayerSelectionPanel playerSelectionPanel;
@@ -61,11 +58,8 @@ public class SettingsMenu extends JPanel {
 
     private void initPlayerSelectionPanel() {
         playerSelectionPanel = new PlayerSelectionPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        GridBagConstraints gbc = getDefaultConstraints(0, 0);
         gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 0.3;
         add(playerSelectionPanel, gbc);
@@ -75,21 +69,15 @@ public class SettingsMenu extends JPanel {
         gameGifLabel = new JLabel();
         ImageIcon imageIcon = new ImageIcon(ANIMATED_GAME_GIF_PATH);
         gameGifLabel.setIcon(imageIcon);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        GridBagConstraints gbc = getDefaultConstraints(0, 1);
         gbc.gridheight = 2;
-        gbc.fill = GridBagConstraints.BOTH;
         add(gameGifLabel, gbc);
     }
 
     private void initGameSelectionPanel() {
         gameModeSelectionPanel = new SelectionPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        GridBagConstraints gbc = getDefaultConstraints(1, 1);
         gbc.weightx = 0.7;
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(20, 20, 20, 20);
         add(gameModeSelectionPanel, gbc);
     }
@@ -97,23 +85,27 @@ public class SettingsMenu extends JPanel {
     private void initStartGameButton() {
         startGameButton = new JButton("Start Game");
         startGameButton.addActionListener(e -> startGame());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 2;
+        GridBagConstraints gbc = getDefaultConstraints(1, 2);
         gbc.weightx = 0.7;
         gbc.insets = new Insets(20, 20, 20, 20);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(startGameButton, gbc);
     }
 
+    private GridBagConstraints getDefaultConstraints(int gridx, int gridy) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.fill = GridBagConstraints.BOTH;
+        return gbc;
+    }
+
     private void startGame() {
 
         if (!playerSelectionPanel.arePlayersReady()) {
-            // TODO: Add error message
+            JOptionPane.showMessageDialog(this, "Not all players are ready", "", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // TODO: Handle wrong inputs
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
