@@ -39,8 +39,7 @@ public class PlayerNumberSelectionMenu extends JPanel {
         playButton.addActionListener(event -> {
             if (nbPlayersField.isValidInput()) {
                 int nbPlayers = nbPlayersField.getValue();
-                frame.setContentPane(new SettingsMenu(frame, nbPlayers));
-                GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
+                GameFrameToolbox.goToPlayerNumberSelectionMenu(frame, nbPlayers);
             }
         });
         add(playButton, BorderLayout.SOUTH);

@@ -273,7 +273,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void startGame() {
-        LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData);
+        LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
         LabyrinthView labyrinthView = labyrinthController.getView();
 
         frame.setContentPane(labyrinthView);
