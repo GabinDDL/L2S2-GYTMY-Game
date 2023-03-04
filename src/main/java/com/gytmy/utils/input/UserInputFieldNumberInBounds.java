@@ -59,7 +59,10 @@ public class UserInputFieldNumberInBounds extends UserInputField {
             }
 
             private void handleEnteredCharacter(char c, KeyEvent evt) {
-                if (!isDigitCharacter(c) || isDeletionCharacter(c)) {
+                if (!isDigitCharacter(c)) {
+                    if (!isDeletionCharacter(c)) {
+                        evt.consume();
+                    }
                     return;
                 }
 
