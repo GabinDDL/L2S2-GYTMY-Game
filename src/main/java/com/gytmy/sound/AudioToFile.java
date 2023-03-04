@@ -27,10 +27,7 @@ public class AudioToFile {
 
         assertIsValidWordRecorded(recordedWord);
 
-        if (!assertIsValidUserDirectory(user, recordedWord)) {
-            AudioFileManager.createUserRecordedWordFile(user, recordedWord);
-
-        }
+        AudioFileManager.tryToCreateUserWordDirectory(user, recordedWord);
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
@@ -58,19 +55,5 @@ public class AudioToFile {
                 || !WordsToRecord.exists(recordedWord)) {
             throw new IllegalArgumentException("Invalid recorded word");
         }
-    }
-
-    /**
-     * Asserts that the user folder contains the recorded word folder
-     */
-    private static boolean assertIsValidUserDirectory(User user, String recordedWord) {
-
-        File userDirectory = new File(user.audioPath());
-        List<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
-
-        if (!userFiles.contains(new File(user.audioPath() + recordedWord))) {
-            return false;
-        }
-        return true;
     }
 }

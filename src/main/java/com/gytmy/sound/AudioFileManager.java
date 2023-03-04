@@ -78,18 +78,6 @@ public class AudioFileManager {
     }
 
     /**
-     * Create the user recorded word file directory
-     */
-    public static void createUserRecordedWordFile(User user, String recordedWord) {
-        if (user == null) {
-            return;
-        }
-
-        new File(user.audioPath() + recordedWord).mkdir();
-        new File(user.modelPath() + recordedWord).mkdir();
-    }
-
-    /**
      * Translate the user object to a yaml file
      */
     public static void writeYamlConfig(User user) {
@@ -261,7 +249,39 @@ public class AudioFileManager {
         }
     }
 
-    public static void main(String[] args) {
-        addUser(new User("VAZQUEZ", "YAGO", 22, "yago"));
+    /**
+     * Create the user word directory if it does not exist
+     */
+    public static boolean tryToCreateUserWordDirectory(User user, String word) {
+        if (user == null) {
+            return false;
+        }
+
+        boolean aDirectoryIsCreated = false; // True if at least one of word directory is created
+
+        File userAudioDirectory = new File(user.audioPath());
+
+        if (!doesFileInDirectoryExist(userAudioDirectory, user.audioPath() + word)) {
+            new File(user.audioPath() + word).mkdir();
+            aDirectoryIsCreated = true;
+        }
+
+        File userModelDirectory = new File(user.modelPath());
+
+        if (!doesFileInDirectoryExist(userModelDirectory, user.modelPath() + word)) {
+            new File(user.modelPath() + word).mkdir();
+            aDirectoryIsCreated = true;
+        }
+
+        return aDirectoryIsCreated;
+    }
+
+    /**
+     * Return true if file is inside directory
+     */
+    public static boolean doesFileInDirectoryExist(File directory, String file) {
+        List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
+
+        return files.contains(new File(file));
     }
 }
