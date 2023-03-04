@@ -12,10 +12,9 @@ import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.gamemode.OneDimensionGameData;
 
-//TODO: Document this class
 /**
- * This class is a singleton. It is used to create the settings panel for the
- * one-dimensional game mode.
+ * This class is a singleton. It is used to create the settings panel
+ * for the OneDimension game mode.
  */
 class OneDimensionanelHandler implements PanelHandler {
 

@@ -1,9 +1,8 @@
 package com.gytmy.labyrinth.model.gamemode;
 
-//TODO: add documentation
 /**
  * Empty interface representing data for settings. Similar to
- * {@link com.gytmy.labyrinth.model.score.ScoreInfo}
+ * {@link com.gytmy.labyrinth.model.score.ScoreInfo}.
  */
 public interface GameModeData {
 

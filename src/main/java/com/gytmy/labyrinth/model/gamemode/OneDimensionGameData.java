@@ -1,6 +1,8 @@
 package com.gytmy.labyrinth.model.gamemode;
 
-//TODO: Document this class
+/**
+ * Implementation of {@link GameModeData} for the one dimension game mode.
+ */
 public class OneDimensionGameData implements GameModeData {
 
     private int width;
