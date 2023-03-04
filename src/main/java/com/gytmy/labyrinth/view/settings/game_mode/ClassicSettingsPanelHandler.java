@@ -11,7 +11,6 @@ import javax.swing.JTextField;
 
 import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 
-// TODO: Refactor this
 /**
  * This class is a singleton. It is used to create the settings panel for the
  * classic game mode.

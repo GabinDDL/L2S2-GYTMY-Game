@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.model.player.Player;
 
-//TODO: make singleton
+//TODO: Verify if this class implementation
 public class PlayerSelectionPanel extends JPanel {
 
     private PlayerPanel[] playerPanels;

@@ -79,7 +79,7 @@ public class UserSelector extends JComboBox<User> {
 
     /**
      * This class is used to store the available users in the system. It uses the
-     * Singleton pattern and is part of a Observer pattern. It is the subject.
+     * Singleton pattern and is part of an Observer pattern. It is the subject.
      */
     private static class AvailableUsers {
 

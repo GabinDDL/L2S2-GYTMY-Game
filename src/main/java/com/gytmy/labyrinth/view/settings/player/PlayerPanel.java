@@ -16,7 +16,7 @@ import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.utils.ImageManipulator;
 
-//TODO: make singleton
+//TODO: Refacctor thhs
 public class PlayerPanel extends JPanel {
     private static final Color[] COLORS = new Color[] {
             Color.decode("#b13e53"),

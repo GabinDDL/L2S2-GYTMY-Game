@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.view.Cell;
 
-//TODO: make singleton
+//TODO: Refacctor this
 public class GameModeSelectionPanel extends JPanel {
 
     public static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
