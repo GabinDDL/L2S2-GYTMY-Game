@@ -4,13 +4,19 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import com.gytmy.labyrinth.controller.LabyrinthController;
 import com.gytmy.labyrinth.controller.LabyrinthControllerImplementation;
@@ -24,6 +30,7 @@ import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
+//TODO: remove singleton pattern
 /**
  * This class is used to display the settings menu. It is a singleton.
  */
@@ -56,11 +63,13 @@ public class SettingsMenu extends JPanel {
         initGameSelectionPanel();
         initStartGameButton();
 
+        addEscapeKeyBind();
+
         updateGUI();
     }
 
     private void initPlayerSelectionPanel() {
-        playerSelectionPanel = new PlayerSelectionPanel();
+        playerSelectionPanel = PlayerSelectionPanel.getInstance();
         GridBagConstraints gbc = getDefaultConstraints(0, 0);
         gbc.gridwidth = 2;
         gbc.weightx = 1.0;
@@ -120,6 +129,22 @@ public class SettingsMenu extends JPanel {
 
         frame.setContentPane(labyrinthView);
         GameFrameToolbox.frameUpdate("View Labyrinth" + gameMode);
+    }
+
+    private void addEscapeKeyBind() {
+        // define the action to be performed when the shortcut is pressed
+        Action action = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                GameFrameToolbox.goToStartMenu();
+            }
+        };
+
+        // create a KeyStroke object to represent the key combination (Escape key)
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+
+        // map the key combination to the action using the component's input map
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, "customAction");
+        getActionMap().put("customAction", action);
     }
 
     private void updateGUI() {

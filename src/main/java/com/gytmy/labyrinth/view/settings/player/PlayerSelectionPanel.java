@@ -11,13 +11,23 @@ import com.gytmy.labyrinth.model.player.Player;
 /**
  * This class is used to display the player selection panel.
  * It contains 5 {@link PlayerPanel} and allows to select the players.
+ * It is a Singleton.
  */
 public class PlayerSelectionPanel extends JPanel {
 
     public static final int MAX_OF_PLAYERS = 5;
     private PlayerPanel[] playerPanels;
 
-    public PlayerSelectionPanel() {
+    private static PlayerSelectionPanel instance = null;
+
+    public static PlayerSelectionPanel getInstance() {
+        if (instance == null) {
+            instance = new PlayerSelectionPanel();
+        }
+        return instance;
+    }
+
+    private PlayerSelectionPanel() {
         setLayout(new GridLayout(1, MAX_OF_PLAYERS));
         playerPanels = new PlayerPanel[MAX_OF_PLAYERS];
 
