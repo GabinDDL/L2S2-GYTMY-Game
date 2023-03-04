@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.view.settings.game_mode;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,7 +39,6 @@ class ClassicSettingsPanelHandler implements GameModeSettingsPanelHandler {
     }
 
     private void initComponents() {
-
         widthInputField = DefaultHandlerComponentBuilder.buildInputField(
                 LabyrinthModelFactory.MINIMUM_WIDTH_2D, LabyrinthModelFactory.MAXIMUM_SIZE);
         widthLabel = DefaultHandlerComponentBuilder.buildLabel("Width: ");
@@ -62,29 +62,30 @@ class ClassicSettingsPanelHandler implements GameModeSettingsPanelHandler {
     }
 
     private void initWidthLabel() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(0, 0);
-
+        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(0, 0,
+                new Insets(20, 20, 20, 0));
         settingsPanel.add(widthLabel, gbc);
     }
 
     private void initWidthTextField() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(1, 0);
+        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(1, 0,
+                new Insets(20, 0, 20, 20));
         gbc.weightx = 0.7;
         gbc.weighty = 0.5;
-
         settingsPanel.add(widthInputField, gbc);
     }
 
     private void initHeightLabel() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(0, 1);
-        gbc.weightx = 0.3;
-        gbc.weighty = 0.5;
+        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(0, 1,
+                new Insets(20, 20, 20, 0));
         settingsPanel.add(heightLabel, gbc);
     }
 
     private void initHeightTextField() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(1, 1);
+        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(1, 1,
+                new Insets(20, 0, 20, 20));
         gbc.weightx = 0.7;
+        gbc.weighty = 0.5;
         settingsPanel.add(heightInputField, gbc);
     }
 
