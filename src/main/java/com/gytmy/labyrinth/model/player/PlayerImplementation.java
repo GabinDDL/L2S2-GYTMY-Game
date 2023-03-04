@@ -6,7 +6,6 @@ import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.utils.Coordinates;
 
 public class PlayerImplementation implements Player {
-    private static int idCounter = 0;
 
     private Coordinates coordinates;
     private String name;
@@ -15,8 +14,6 @@ public class PlayerImplementation implements Player {
 
     private int numberOfMovements;
     private int timePassedInSeconds;
-
-    private final int id;
 
     public PlayerImplementation(Coordinates coordinates) {
         this(coordinates.copy(),
@@ -52,8 +49,6 @@ public class PlayerImplementation implements Player {
         this.numberOfMovements = 0;
         this.timePassedInSeconds = 0;
 
-        this.id = idCounter;
-        ++idCounter;
     }
 
     @Override
@@ -84,11 +79,6 @@ public class PlayerImplementation implements Player {
     @Override
     public boolean isReady() {
         return ready;
-    }
-
-    @Override
-    public int getId() {
-        return id;
     }
 
     @Override
