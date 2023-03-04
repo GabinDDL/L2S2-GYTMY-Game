@@ -2,6 +2,8 @@ package com.gytmy.utils.input;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -14,6 +16,13 @@ public class UserInputFieldNumberInBounds extends UserInputField {
 
     public UserInputFieldNumberInBounds(int lowerBound, int upperBound)
             throws IllegalArgumentException {
+
+        if (lowerBound >= upperBound) {
+            throw new IllegalArgumentException("Lower bound must be smaller than upper bound");
+        }
+
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
 
         this.textField = new JTextField() {
             @Override
@@ -35,29 +44,58 @@ public class UserInputFieldNumberInBounds extends UserInputField {
             }
         };
 
-        if (lowerBound >= upperBound) {
-            throw new IllegalArgumentException("Lower bound must be smaller than upper bound");
-        }
+        initTextFieldKeyListener();
+        initTextFieldFocusListener();
+    }
 
-        this.lowerBound = lowerBound;
-        this.upperBound = upperBound;
-        textField.setText("0");
-
+    private void initTextFieldKeyListener() {
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent evt) {
 
                 char c = evt.getKeyChar();
+                handleEnteredCharacter(c, evt);
 
-                if (!((c >= '0') && (c <= '9') ||
-                        (c == KeyEvent.VK_BACK_SPACE) ||
-                        (c == KeyEvent.VK_DELETE))) {
-                    evt.consume();
+            }
+
+            private void handleEnteredCharacter(char c, KeyEvent evt) {
+                if (!isDigitCharacter(c) || isDeletionCharacter(c)) {
+                    return;
                 }
 
-                if (textField.getText().length() >= String.valueOf(upperBound).length()) {
+                String inputString = textField.getText() + c;
+                int inputValue = Integer.parseInt(inputString);
+
+                if (isInRangeOfBounds(inputValue)) {
+                    return;
+                }
+
+                evt.consume();
+                if (inputValue > upperBound) {
                     setValue(upperBound);
-                    evt.consume();
+                } else if (inputValue < lowerBound) {
+                    setValue(lowerBound);
+                }
+            }
+
+            private boolean isDigitCharacter(char c) {
+                return (c >= '0') && (c <= '9');
+            }
+
+            private boolean isDeletionCharacter(char c) {
+                return (c == KeyEvent.VK_BACK_SPACE) ||
+                        (c == KeyEvent.VK_DELETE);
+            }
+
+        });
+    }
+
+    private void initTextFieldFocusListener() {
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent evt) {
+                if (!isValidInput()) {
+                    setValue(lowerBound);
                 }
             }
         });
