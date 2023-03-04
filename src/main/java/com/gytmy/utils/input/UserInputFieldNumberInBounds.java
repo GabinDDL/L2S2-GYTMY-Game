@@ -62,32 +62,9 @@ public class UserInputFieldNumberInBounds extends UserInputField {
             }
 
             private void handleEnteredCharacter(KeyEvent evt) {
-                if (!isDigitCharacter(typedChar)) {
-                    if (!isDeletionCharacter(typedChar)) {
-                        evt.consume();
-                    }
-                    return;
-                }
-
-                String inputString = textField.getText() + typedChar;
-                int inputValue = Integer.parseInt(inputString);
-
-                if (inputString.length() > String.valueOf(upperBound).length()) {
+                if (!isDigitCharacter(typedChar) &&
+                        !isDeletionCharacter(typedChar))
                     evt.consume();
-                    setValue(upperBound);
-                    return;
-                }
-
-                if (isInRangeOfBounds(inputValue)) {
-                    return;
-                }
-
-                evt.consume();
-                if (inputValue > upperBound) {
-                    setValue(upperBound);
-                } else if (inputValue < lowerBound) {
-                    setValue(lowerBound);
-                }
             }
 
             private boolean isDigitCharacter(char c) {
@@ -98,15 +75,24 @@ public class UserInputFieldNumberInBounds extends UserInputField {
                 return (c == KeyEvent.VK_BACK_SPACE) ||
                         (c == KeyEvent.VK_DELETE);
             }
-
         });
+
     }
 
     private void initTextFieldFocusListener() {
         textField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent evt) {
-                if (!isValidInput()) {
+                String inputString = textField.getText();
+                int inputValue = Integer.parseInt(inputString);
+
+                if (isInRangeOfBounds(inputValue)) {
+                    return;
+                }
+
+                if (inputValue > upperBound) {
+                    setValue(upperBound);
+                } else if (inputValue < lowerBound) {
                     setValue(lowerBound);
                 }
             }
