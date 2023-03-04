@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth.view.settings.game_mode;
 
+//TODO: Make textfields bigger
 public class GameModeSettingsPanelHandlerFactory {
     private GameModeSettingsPanelHandlerFactory() {
     }
