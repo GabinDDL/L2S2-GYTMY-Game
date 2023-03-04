@@ -30,7 +30,6 @@ import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
-//TODO: remove singleton pattern
 /**
  * This class is used to display the settings menu. It is a singleton.
  */
