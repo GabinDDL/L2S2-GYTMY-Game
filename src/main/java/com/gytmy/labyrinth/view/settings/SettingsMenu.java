@@ -24,6 +24,9 @@ import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
+/**
+ * This class is used to display the settings menu. It is a singleton.
+ */
 public class SettingsMenu extends JPanel {
 
     private PlayerSelectionPanel playerSelectionPanel;
@@ -101,7 +104,6 @@ public class SettingsMenu extends JPanel {
     }
 
     private void startGame() {
-
         if (!playerSelectionPanel.arePlayersReady()) {
             JOptionPane.showMessageDialog(this, "Not all players are ready", "", JOptionPane.WARNING_MESSAGE);
             return;
@@ -113,13 +115,11 @@ public class SettingsMenu extends JPanel {
         GameData gameData = new GameData(gameModeSettings, gameMode, players);
 
         JFrame frame = GameFrameToolbox.getMainFrame();
-
         LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
         LabyrinthView labyrinthView = labyrinthController.getView();
 
         frame.setContentPane(labyrinthView);
         GameFrameToolbox.frameUpdate("View Labyrinth" + gameMode);
-
     }
 
     private void updateGUI() {
