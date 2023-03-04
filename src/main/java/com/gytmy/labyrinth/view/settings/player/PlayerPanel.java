@@ -14,6 +14,7 @@ import javax.swing.event.MouseInputAdapter;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.GameFrameToolbox;
 import com.gytmy.utils.ImageManipulator;
 
 //TODO: Refacctor thhs
@@ -26,111 +27,24 @@ public class PlayerPanel extends JPanel {
             Color.decode("#41a6f6"),
             Color.decode("#29366f")
     };
+
     private static final Color DEFAULT_BACKGROUND = Cell.WALL_COLOR;
     private static final Color BORDE_COLOR = Cell.PATH_COLOR;
-    private static final String ADD_PLAYER_IMAGE_PATH = "src/resources/images/settings_menu/add_player.png";
-    private static final Dimension PANEL_DIMENSION = new Dimension(160, 160);
 
-    private static int playerCount = 0;
+    private static final String ADD_PLAYER_IMAGE_PATH = "src/resources/images/settings_menu/add_player.png";
+
     private int id;
     private UserSelector userSelector;
     private boolean isPlayerReady = false;
 
-    public PlayerPanel() {
-        id = playerCount;
-        playerCount++;
+    public PlayerPanel(int id) {
+        this.id = id;
 
         setBorder(BorderFactory.createLineBorder(BORDE_COLOR));
-        setPreferredSize(PANEL_DIMENSION);
         setLayout(new GridBagLayout());
 
-        userSelector = null;
-        initializeMouseBehavior();
         initEmpty();
-    }
-
-    private void initializeMouseBehavior() {
-        MouseInputAdapter adapter = new MouseInputAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                switch (e.getButton()) {
-                    case MouseEvent.BUTTON1:
-                        handleLeftClick();
-                        break;
-                    case MouseEvent.BUTTON3:
-                        handleRightClick();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            private void handleLeftClick() {
-                if (userSelector == null) {
-                    initNonEmpty();
-                    initUserSelector();
-                } else {
-                    updateReadyStatus();
-                }
-            }
-
-            private void handleRightClick() {
-                if (userSelector == null) {
-                    return;
-                }
-                remove(userSelector);
-                userSelector.unlockChoice();
-                userSelector.cleanData();
-                userSelector = null;
-                initEmpty();
-            }
-        };
-
-        addMouseListener(adapter);
-    }
-
-    private void initNonEmpty() {
-        removeAll();
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        JPanel panel = new JPanel();
-        panel.setBackground(COLORS[id]);
-        add(panel, gbc);
-
-        updateGUI();
-    }
-
-    private void initUserSelector() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.PAGE_END;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
-
-        userSelector = new UserSelector();
-        add(userSelector, gbc);
-
-        updateGUI();
-    }
-
-    private void updateReadyStatus() {
-        // TODO: Temporal fix waiting for a better solution
-        // @lacenne should be able to fix this
-        isPlayerReady = !isPlayerReady;
-        if (isPlayerReady) {
-            userSelector.lockChoice();
-        } else {
-            userSelector.unlockChoice();
-        }
-        updateGUI();
-
+        addMouseListener(new PanelMouseListener());
     }
 
     private void initEmpty() {
@@ -142,6 +56,95 @@ public class PlayerPanel extends JPanel {
         label.setIcon(ImageManipulator.resizeImage(ADD_PLAYER_IMAGE_PATH, new Dimension(imageWidth, imageHeight)));
         add(label);
         updateGUI();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        // This size allows the panel to be square and to fit in the frame
+        int frameWidth = GameFrameToolbox.getMainFrame().getWidth();
+        int size = frameWidth / PlayerSelectionPanel.MAX_OF_PLAYERS;
+        return new Dimension(size, size);
+    }
+
+    private class PanelMouseListener extends MouseInputAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            switch (e.getButton()) {
+                case MouseEvent.BUTTON1:
+                    handleLeftClick();
+                    break;
+                case MouseEvent.BUTTON3:
+                    handleRightClick();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void handleLeftClick() {
+            if (userSelector == null) {
+                initNonEmpty();
+                initUserSelector();
+            } else {
+                updateReadyStatus();
+            }
+        }
+
+        private void handleRightClick() {
+            if (userSelector == null) {
+                return;
+            }
+            remove(userSelector);
+            userSelector.unlockChoice();
+            userSelector.cleanData();
+            userSelector = null;
+            initEmpty();
+        }
+
+        private void initNonEmpty() {
+            removeAll();
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.weightx = 1;
+            gbc.weighty = 1;
+            gbc.fill = GridBagConstraints.BOTH;
+
+            JPanel panel = new JPanel();
+            panel.setBackground(COLORS[id]);
+            add(panel, gbc);
+
+            updateGUI();
+        }
+
+        private void initUserSelector() {
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.anchor = GridBagConstraints.PAGE_END;
+            gbc.weightx = 1;
+            gbc.weighty = 0;
+
+            userSelector = new UserSelector();
+            add(userSelector, gbc);
+
+            updateGUI();
+        }
+
+        private void updateReadyStatus() {
+            // TODO: Temporal fix waiting for a better solution
+            // @lacenne should be able to fix this, adding an icon
+            // to display the ready status
+            isPlayerReady = !isPlayerReady;
+            if (isPlayerReady) {
+                userSelector.lockChoice();
+            } else {
+                userSelector.unlockChoice();
+            }
+            updateGUI();
+
+        }
     }
 
     private void updateGUI() {

@@ -14,15 +14,15 @@ import com.gytmy.labyrinth.model.player.Player;
  */
 public class PlayerSelectionPanel extends JPanel {
 
-    private static final int NUMBER_OF_PLAYERS = 5;
+    public static final int MAX_OF_PLAYERS = 5;
     private PlayerPanel[] playerPanels;
 
     public PlayerSelectionPanel() {
-        setLayout(new GridLayout(1, NUMBER_OF_PLAYERS));
-        playerPanels = new PlayerPanel[NUMBER_OF_PLAYERS];
+        setLayout(new GridLayout(1, MAX_OF_PLAYERS));
+        playerPanels = new PlayerPanel[MAX_OF_PLAYERS];
 
         for (int i = 0; i < playerPanels.length; i++) {
-            playerPanels[i] = new PlayerPanel();
+            playerPanels[i] = new PlayerPanel(i);
             add(playerPanels[i]);
         }
 
