@@ -12,7 +12,6 @@ import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
 
-//TODO: Document this class
 /**
  * This class is used to select a user. It is part of a Observer pattern. It is
  * the Observer.
@@ -43,6 +42,7 @@ public class UserSelector extends JComboBox<User> {
 
         removeAllItems();
         updateUserList();
+
         revalidate();
         repaint();
     }
@@ -57,6 +57,11 @@ public class UserSelector extends JComboBox<User> {
         AvailableUsers.getInstance().addUser((User) getSelectedItem());
     }
 
+    /**
+     * This method is used to clean the data of the class. It is used when the
+     * class is no longer used. It is used to remove the observer from the
+     * AvailableUsers class.
+     */
     public void cleanData() {
         AvailableUsers.getInstance().removeObserver(this);
     }
