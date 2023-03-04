@@ -17,8 +17,9 @@ import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.labyrinth.view.GameFrameToolbox;
 import com.gytmy.utils.ImageManipulator;
 
-//TODO: Refacctor thhs
-//TODO: Document this
+/**
+ * This class represents a panel that allows the user to select a player.
+ */
 public class PlayerPanel extends JPanel {
     private static final Color[] COLORS = new Color[] {
             Color.decode("#b13e53"),
@@ -29,18 +30,18 @@ public class PlayerPanel extends JPanel {
     };
 
     private static final Color DEFAULT_BACKGROUND = Cell.WALL_COLOR;
-    private static final Color BORDE_COLOR = Cell.PATH_COLOR;
+    private static final Color BORDER_COLOR = Cell.PATH_COLOR;
 
     private static final String ADD_PLAYER_IMAGE_PATH = "src/resources/images/settings_menu/add_player.png";
 
     private int id;
     private UserSelector userSelector;
-    private boolean isPlayerReady = false;
+    private boolean isPlayerReady;
 
     public PlayerPanel(int id) {
         this.id = id;
 
-        setBorder(BorderFactory.createLineBorder(BORDE_COLOR));
+        setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
         setLayout(new GridBagLayout());
 
         initEmpty();
@@ -50,11 +51,19 @@ public class PlayerPanel extends JPanel {
     private void initEmpty() {
         removeAll();
         setBackground(DEFAULT_BACKGROUND);
+
+        // Setting the user selector to null is important
+        // because it allows the garbage collector to free the memory
+        userSelector = null;
+        isPlayerReady = false;
+
         JLabel label = new JLabel();
+        // This size allows the image to be square and to fit in the panel
         int imageWidth = getPreferredSize().width / 2;
         int imageHeight = getPreferredSize().height / 2;
         label.setIcon(ImageManipulator.resizeImage(ADD_PLAYER_IMAGE_PATH, new Dimension(imageWidth, imageHeight)));
         add(label);
+
         updateGUI();
     }
 
@@ -97,7 +106,7 @@ public class PlayerPanel extends JPanel {
             remove(userSelector);
             userSelector.unlockChoice();
             userSelector.cleanData();
-            userSelector = null;
+
             initEmpty();
         }
 
@@ -124,7 +133,6 @@ public class PlayerPanel extends JPanel {
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.anchor = GridBagConstraints.PAGE_END;
             gbc.weightx = 1;
-            gbc.weighty = 0;
 
             userSelector = new UserSelector();
             add(userSelector, gbc);
@@ -142,8 +150,8 @@ public class PlayerPanel extends JPanel {
             } else {
                 userSelector.unlockChoice();
             }
-            updateGUI();
 
+            updateGUI();
         }
     }
 
