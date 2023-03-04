@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings.game_mode;
+package com.gytmy.labyrinth.model.gamemode;
 
 public class ClassicGameModeData implements GameModeData {
 

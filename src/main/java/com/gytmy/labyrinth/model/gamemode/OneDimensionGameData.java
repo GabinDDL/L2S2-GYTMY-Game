@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings.game_mode;
+package com.gytmy.labyrinth.model.gamemode;
 
 //TODO: Document this class
 public class OneDimensionGameData implements GameModeData {

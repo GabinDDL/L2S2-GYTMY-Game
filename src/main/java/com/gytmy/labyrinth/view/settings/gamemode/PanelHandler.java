@@ -1,8 +1,10 @@
-package com.gytmy.labyrinth.view.settings.game_mode;
+package com.gytmy.labyrinth.view.settings.gamemode;
 
 import java.awt.Color;
 
 import javax.swing.JPanel;
+
+import com.gytmy.labyrinth.model.gamemode.GameModeData;
 
 /**
  * This interface represents a handler for a game mode settings panel.
@@ -13,10 +15,10 @@ import javax.swing.JPanel;
  * The handler is also responsible for updating the GUI. This is done
  * by calling the updateGUI method.
  */
-public interface GameModeSettingsPanelHandler {
+public interface PanelHandler {
 
-    public static final Color BACKGROUND_COLOR = GameModeSelectionPanel.BACKGROUND_COLOR;
-    public static final Color FOREGROUND_COLOR = GameModeSelectionPanel.FOREGROUND_COLOR;
+    public static final Color BACKGROUND_COLOR = SelectionPanel.BACKGROUND_COLOR;
+    public static final Color FOREGROUND_COLOR = SelectionPanel.FOREGROUND_COLOR;
 
     /**
      * This method initializes the settings panel. It is called when the user

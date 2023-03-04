@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings.game_mode;
+package com.gytmy.labyrinth.view.settings.gamemode;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,14 +16,14 @@ import com.gytmy.utils.input.UserInputFieldNumberInBounds;
  * This class is used to build default components for the GameModeHandlers. It
  * is used to avoid code duplication.
  */
-public class DefaultHandlerComponentBuilder {
+public class DefaultComponentBuilder {
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
 
     private static final Font FONT = new Font("Arial", Font.BOLD, 25);
 
-    private DefaultHandlerComponentBuilder() {
+    private DefaultComponentBuilder() {
     }
 
     /**

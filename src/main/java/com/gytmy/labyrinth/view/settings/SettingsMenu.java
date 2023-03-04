@@ -14,22 +14,23 @@ import javax.swing.JPanel;
 import com.gytmy.labyrinth.controller.LabyrinthController;
 import com.gytmy.labyrinth.controller.LabyrinthControllerImplementation;
 import com.gytmy.labyrinth.model.GameData;
+import com.gytmy.labyrinth.model.gamemode.GameMode;
+import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.labyrinth.view.GameFrameToolbox;
 import com.gytmy.labyrinth.view.LabyrinthView;
-import com.gytmy.labyrinth.view.settings.game_mode.GameMode;
-import com.gytmy.labyrinth.view.settings.game_mode.GameModeData;
-import com.gytmy.labyrinth.view.settings.game_mode.GameModeSelectionPanel;
+import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
+//TODO: Solve issue with poorly sized frame when returning to the settings menu
 //TODO: Document this class
 //TODO: Add a "back" button
 //TODO: Refactor this class
 public class SettingsMenu extends JPanel {
 
     private PlayerSelectionPanel playerSelectionPanel;
-    private GameModeSelectionPanel gameModeSelectionPanel;
+    private SelectionPanel gameModeSelectionPanel;
     private JLabel gameGifLabel;
     private JButton startGameButton;
 
@@ -83,7 +84,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initGameSelectionPanel() {
-        gameModeSelectionPanel = new GameModeSelectionPanel();
+        gameModeSelectionPanel = new SelectionPanel();
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;

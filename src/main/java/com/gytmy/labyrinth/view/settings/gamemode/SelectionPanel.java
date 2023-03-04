@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings.game_mode;
+package com.gytmy.labyrinth.view.settings.gamemode;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -8,9 +8,11 @@ import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import com.gytmy.labyrinth.model.gamemode.GameMode;
+import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.view.Cell;
 
-public class GameModeSelectionPanel extends JPanel {
+public class SelectionPanel extends JPanel {
 
     public static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     public static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
@@ -18,7 +20,7 @@ public class GameModeSelectionPanel extends JPanel {
     private GameModeSelector gameModeSelector;
     protected JPanel gameModeSettingsPanel;
 
-    public GameModeSelectionPanel() {
+    public SelectionPanel() {
         setBackground(BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
 
@@ -68,7 +70,7 @@ public class GameModeSelectionPanel extends JPanel {
     }
 
     public GameModeData getGameModeData() {
-        GameModeSettingsPanelHandler handler = GameModeSettingsPanelHandlerFactory
+        PanelHandler handler = PanelHandlerFactory
                 .getGameModeSettingsPanel((GameMode) gameModeSelector.getSelectedItem());
         return handler.getSettingsData();
     }
@@ -111,7 +113,7 @@ public class GameModeSelectionPanel extends JPanel {
             cleanOldPanel();
 
             lastSelectedGameMode = (GameMode) getSelectedItem();
-            GameModeSettingsPanelHandler handler = GameModeSettingsPanelHandlerFactory
+            PanelHandler handler = PanelHandlerFactory
                     .getGameModeSettingsPanel(gameMode);
             handler.initPanel(gameModeSettingsPanel);
         }
@@ -121,7 +123,7 @@ public class GameModeSelectionPanel extends JPanel {
                 return;
             }
 
-            GameModeSettingsPanelHandler handler = GameModeSettingsPanelHandlerFactory
+            PanelHandler handler = PanelHandlerFactory
                     .getGameModeSettingsPanel(lastSelectedGameMode);
             handler.cleanPanel(gameModeSettingsPanel);
         }

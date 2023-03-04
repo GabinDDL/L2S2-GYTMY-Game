@@ -1,5 +1,5 @@
 
-package com.gytmy.labyrinth.view.settings.game_mode;
+package com.gytmy.labyrinth.view.settings.gamemode;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,12 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.gytmy.labyrinth.model.LabyrinthModelFactory;
+import com.gytmy.labyrinth.model.gamemode.ClassicGameModeData;
+import com.gytmy.labyrinth.model.gamemode.GameModeData;
 
 /**
  * This class is a singleton. It is used to create the settings panel for the
  * classic game mode.
  */
-class ClassicSettingsPanelHandler implements GameModeSettingsPanelHandler {
+class ClassicPanelHandler implements PanelHandler {
 
     private JPanel settingsPanel;
 
@@ -24,27 +26,27 @@ class ClassicSettingsPanelHandler implements GameModeSettingsPanelHandler {
     private JTextField heightInputField;
     private JLabel heightLabel;
 
-    private static ClassicSettingsPanelHandler instance = null;
+    private static ClassicPanelHandler instance = null;
 
-    public static ClassicSettingsPanelHandler getInstance() {
+    public static ClassicPanelHandler getInstance() {
         if (instance == null) {
-            instance = new ClassicSettingsPanelHandler();
+            instance = new ClassicPanelHandler();
         }
         return instance;
     }
 
-    private ClassicSettingsPanelHandler() {
+    private ClassicPanelHandler() {
         initComponents();
     }
 
     private void initComponents() {
-        widthInputField = DefaultHandlerComponentBuilder.buildInputField(
+        widthInputField = DefaultComponentBuilder.buildInputField(
                 LabyrinthModelFactory.MINIMUM_WIDTH_2D, LabyrinthModelFactory.MAXIMUM_SIZE);
-        widthLabel = DefaultHandlerComponentBuilder.buildLabel("Width: ");
+        widthLabel = DefaultComponentBuilder.buildLabel("Width: ");
 
-        heightInputField = DefaultHandlerComponentBuilder.buildInputField(
+        heightInputField = DefaultComponentBuilder.buildInputField(
                 LabyrinthModelFactory.MINIMUM_HEIGHT_2D, LabyrinthModelFactory.MAXIMUM_SIZE);
-        heightLabel = DefaultHandlerComponentBuilder.buildLabel("Height: ");
+        heightLabel = DefaultComponentBuilder.buildLabel("Height: ");
     }
 
     @Override
@@ -61,13 +63,13 @@ class ClassicSettingsPanelHandler implements GameModeSettingsPanelHandler {
     }
 
     private void initWidthLabel() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(0, 0,
+        GridBagConstraints gbc = DefaultComponentBuilder.buildGridBagConstraints(0, 0,
                 new Insets(20, 20, 20, 0));
         settingsPanel.add(widthLabel, gbc);
     }
 
     private void initWidthTextField() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(1, 0,
+        GridBagConstraints gbc = DefaultComponentBuilder.buildGridBagConstraints(1, 0,
                 new Insets(20, 0, 20, 20));
         gbc.weightx = 0.7;
         gbc.weighty = 0.5;
@@ -75,13 +77,13 @@ class ClassicSettingsPanelHandler implements GameModeSettingsPanelHandler {
     }
 
     private void initHeightLabel() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(0, 1,
+        GridBagConstraints gbc = DefaultComponentBuilder.buildGridBagConstraints(0, 1,
                 new Insets(20, 20, 20, 0));
         settingsPanel.add(heightLabel, gbc);
     }
 
     private void initHeightTextField() {
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(1, 1,
+        GridBagConstraints gbc = DefaultComponentBuilder.buildGridBagConstraints(1, 1,
                 new Insets(20, 0, 20, 20));
         gbc.weightx = 0.7;
         gbc.weighty = 0.5;

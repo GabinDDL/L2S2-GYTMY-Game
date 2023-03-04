@@ -1,8 +1,8 @@
 package com.gytmy.labyrinth.model;
 
+import com.gytmy.labyrinth.model.gamemode.GameMode;
+import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.labyrinth.view.settings.game_mode.GameMode;
-import com.gytmy.labyrinth.view.settings.game_mode.GameModeData;
 
 public class GameData {
 

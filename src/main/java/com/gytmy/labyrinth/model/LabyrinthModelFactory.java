@@ -1,11 +1,11 @@
 package com.gytmy.labyrinth.model;
 
+import com.gytmy.labyrinth.model.gamemode.ClassicGameModeData;
+import com.gytmy.labyrinth.model.gamemode.OneDimensionGameData;
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
 import com.gytmy.labyrinth.model.generators.DepthFirstGenerator;
 import com.gytmy.labyrinth.model.generators.OneDimensionBoardGenerator;
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.labyrinth.view.settings.game_mode.ClassicGameModeData;
-import com.gytmy.labyrinth.view.settings.game_mode.OneDimensionGameData;
 import com.gytmy.utils.Coordinates;
 
 /**
@@ -13,7 +13,7 @@ import com.gytmy.utils.Coordinates;
  * by the {@code LabyrinthController} to create a new {@code LabyrinthModel}
  * instance when the user starts a new game.
  * 
- * @see com.gytmy.labyrinth.view.settings.game_mode.GameMode
+ * @see com.gytmy.labyrinth.model.gamemode.GameMode
  */
 public class LabyrinthModelFactory {
 

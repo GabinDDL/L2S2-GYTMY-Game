@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view.settings.game_mode;
+package com.gytmy.labyrinth.view.settings.gamemode;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,37 +9,39 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.gytmy.labyrinth.model.LabyrinthModelFactory;
+import com.gytmy.labyrinth.model.gamemode.GameModeData;
+import com.gytmy.labyrinth.model.gamemode.OneDimensionGameData;
 
 //TODO: Document this class
 /**
  * This class is a singleton. It is used to create the settings panel for the
  * one-dimensional game mode.
  */
-class OneDimensionSettingsPanelHandler implements GameModeSettingsPanelHandler {
+class OneDimensionanelHandler implements PanelHandler {
 
     private JPanel settingsPanel;
 
     private JTextField widthInputField;
     private JLabel widthLabel;
 
-    private static OneDimensionSettingsPanelHandler instance = null;
+    private static OneDimensionanelHandler instance = null;
 
-    public static OneDimensionSettingsPanelHandler getInstance() {
+    public static OneDimensionanelHandler getInstance() {
         if (instance == null) {
-            instance = new OneDimensionSettingsPanelHandler();
+            instance = new OneDimensionanelHandler();
         }
         return instance;
     }
 
-    private OneDimensionSettingsPanelHandler() {
+    private OneDimensionanelHandler() {
         initComponents();
     }
 
     private void initComponents() {
 
-        widthInputField = DefaultHandlerComponentBuilder.buildInputField(
+        widthInputField = DefaultComponentBuilder.buildInputField(
                 LabyrinthModelFactory.MINIMUM_WIDTH_1D, LabyrinthModelFactory.MAXIMUM_SIZE);
-        widthLabel = DefaultHandlerComponentBuilder.buildLabel("Width: ");
+        widthLabel = DefaultComponentBuilder.buildLabel("Width: ");
     }
 
     @Override
@@ -56,13 +58,13 @@ class OneDimensionSettingsPanelHandler implements GameModeSettingsPanelHandler {
     private void initWidthLabel() {
         Insets insets = new Insets(50, 50, 50, 0);
 
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(0, 0, insets);
+        GridBagConstraints gbc = DefaultComponentBuilder.buildGridBagConstraints(0, 0, insets);
         settingsPanel.add(widthLabel, gbc);
     }
 
     private void initWidthTextField() {
         Insets insets = new Insets(50, 0, 50, 50);
-        GridBagConstraints gbc = DefaultHandlerComponentBuilder.buildGridBagConstraints(1, 0, insets);
+        GridBagConstraints gbc = DefaultComponentBuilder.buildGridBagConstraints(1, 0, insets);
         gbc.weightx = 0.7;
         gbc.weighty = 0.5;
         gbc.fill = GridBagConstraints.BOTH;
