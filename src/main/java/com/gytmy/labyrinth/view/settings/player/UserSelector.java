@@ -40,8 +40,14 @@ public class UserSelector extends JComboBox<User> {
             return;
         }
 
+        User lastUser = (User) getSelectedItem();
+
         removeAllItems();
         updateUserList();
+
+        if (AvailableUsers.getInstance().getUsers().contains(lastUser)) {
+            setSelectedItem(lastUser);
+        }
 
         revalidate();
         repaint();
