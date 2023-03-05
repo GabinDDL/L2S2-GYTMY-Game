@@ -1,5 +1,7 @@
 package com.gytmy.labyrinth.view;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.view.settings.SettingsMenu;
@@ -36,9 +38,11 @@ public class GameFrameToolbox {
 
     public static void goToSettingsMenu() {
         mainFrame.setContentPane(SettingsMenu.getInstance());
-        mainFrame.setSize(800, 500);
-        mainFrame.revalidate();
+        // Ensure hat the frame remains the same default size
+        mainFrame.setPreferredSize(new Dimension(800, 500));
         GameFrameToolbox.frameUpdate("SettingsMenu");
+        // Allow other components to resize the frame
+        mainFrame.setPreferredSize(null);
     }
 
 }
