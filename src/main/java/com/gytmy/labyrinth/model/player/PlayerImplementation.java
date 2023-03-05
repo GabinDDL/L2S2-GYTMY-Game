@@ -6,7 +6,6 @@ import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.utils.Coordinates;
 
 public class PlayerImplementation implements Player {
-    private static int idCounter = 0;
 
     private Coordinates coordinates;
     private String name;
@@ -15,21 +14,6 @@ public class PlayerImplementation implements Player {
 
     private int numberOfMovements;
     private int timePassedInSeconds;
-
-    private final int id;
-
-    public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
-        this.coordinates = coordinates;
-        this.name = name;
-        this.color = color;
-        this.ready = ready;
-
-        this.numberOfMovements = 0;
-        this.timePassedInSeconds = 0;
-
-        this.id = idCounter;
-        ++idCounter;
-    }
 
     public PlayerImplementation(Coordinates coordinates) {
         this(coordinates.copy(),
@@ -50,6 +34,21 @@ public class PlayerImplementation implements Player {
                 Player.UNNAMED_PLAYER,
                 Player.UNINITIALIZED_COLOR,
                 false);
+    }
+
+    public PlayerImplementation(String name, Color color) {
+        this(Coordinates.UNINITIALIZED_COORDINATES, name, color, true);
+    }
+
+    public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
+        this.coordinates = coordinates;
+        this.name = name;
+        this.color = color;
+        this.ready = ready;
+
+        this.numberOfMovements = 0;
+        this.timePassedInSeconds = 0;
+
     }
 
     @Override
@@ -80,11 +79,6 @@ public class PlayerImplementation implements Player {
     @Override
     public boolean isReady() {
         return ready;
-    }
-
-    @Override
-    public int getId() {
-        return id;
     }
 
     @Override
