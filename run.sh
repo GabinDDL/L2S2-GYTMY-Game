@@ -1,44 +1,53 @@
-compile (){
+wasCompile=false
+wasRun=false
+wasTestCompile=false
+wasTestRun=false
+
+compile() {
     echo "Compiling..."
-    find src/main/java/com/gytmy -name "*.java"  > sources.txt
-    javac -cp src:lib -d bin @sources.txt
-    echo "Done!"
-}
-
-
-run (){
-    echo "Launching..."
-    java -cp bin/ com.gytmy.Main
-}
-
-compileTests (){
-    echo "Compiling tests..."
-    find -name "*.java" > sources.txt
-    javac --class-path="src:lib/junit-platform-console-standalone-1.9.2.jar" -d bin @sources.txt
+    rm -rf bin
+    find src/main/java/com/gytmy -name "*.java" >sources.txt
+    javac -cp lib/*:src -d bin @sources.txt && wasCompile=true
     rm sources.txt
     echo "Done!"
 }
 
-runTests (){
-    echo "Running tests..."
-    java -jar lib/junit-platform-console-standalone-1.9.2.jar --classpath=bin --scan-classpath --include-classname='.*';
+run() {
+    echo "Launching..."
+    java -cp lib/*:bin com.gytmy.Main && wasRun=true
 }
 
+compileTests() {
+    echo "Compiling tests..."
+    rm -rf bin
+    find -name "*.java" >sources.txt
+    javac --class-path="src:lib/*" -d bin @sources.txt && wasTestCompile=true
+    rm sources.txt
+    echo "Done!"
+}
+
+runTests() {
+    echo "Running tests..."
+    java -cp classes:bin:lib/* org.junit.platform.console.ConsoleLauncher --scan-classpath && wasTestRun=true
+}
 
 case "$1" in
     "compile")
         compile
-        exit
+        $wasCompile && exit 0 || exit 1
     ;;
     "compileTests")
         compileTests
-        exit
+        $wasTestCompile && exit 0 || exit 1
     ;;
-    "runTests"| "test")
+    "runTests" | "test")
         compileTests
         runTests
-        exit
+        $wasTestRun && exit 0 || exit 1
     ;;
     *)
         compile && run
+        $wasRun && exit 0 || exit 1
+    ;;
 esac
+
