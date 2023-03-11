@@ -1,6 +1,7 @@
 package com.gytmy.sound;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -299,5 +300,15 @@ public class AudioFileManager {
         List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
 
         return files.contains(new File(file));
+    }
+
+    public boolean tryToCreateListFile(User user, String recordedWord) {
+        File lstFile = new File(user.modelPath() + recordedWord + "/lst/List.lst");
+        try {
+            return lstFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
