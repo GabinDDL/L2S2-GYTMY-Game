@@ -75,6 +75,18 @@ public class AudioFileManager {
 
         File userModelDirectory = new File(user.modelPath());
         userModelDirectory.mkdir();
+
+        File userPRMDirectory = new File(user.modelPath() + "prm/");
+        userPRMDirectory.mkdir();
+
+        File userNORMPRMDirectory = new File(user.modelPath() + "normprm/");
+        userNORMPRMDirectory.mkdir();
+
+        File userLBLDirectory = new File(user.modelPath() + "lbl/");
+        userLBLDirectory.mkdir();
+
+        File userGMMDirectory = new File(user.modelPath() + "gmm/");
+        userGMMDirectory.mkdir();
     }
 
     /**
