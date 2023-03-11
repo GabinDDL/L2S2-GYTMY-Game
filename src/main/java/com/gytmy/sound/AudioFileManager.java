@@ -302,7 +302,7 @@ public class AudioFileManager {
         return files.contains(new File(file));
     }
 
-    public boolean tryToCreateListFile(User user, String recordedWord) {
+    public static boolean tryToCreateListFile(User user, String recordedWord) {
         File lstFile = new File(user.modelPath() + recordedWord + "/lst/List.lst");
         try {
             return lstFile.createNewFile();
