@@ -75,21 +75,6 @@ public class AudioFileManager {
 
         File userModelDirectory = new File(user.modelPath());
         userModelDirectory.mkdir();
-
-        File userPRMDirectory = new File(user.modelPath() + "prm/");
-        userPRMDirectory.mkdir();
-
-        File userLSTDirectory = new File(user.modelPath() + "lst/");
-        userLSTDirectory.mkdir();
-
-        File userNORMPRMDirectory = new File(user.modelPath() + "normprm/");
-        userNORMPRMDirectory.mkdir();
-
-        File userLBLDirectory = new File(user.modelPath() + "lbl/");
-        userLBLDirectory.mkdir();
-
-        File userGMMDirectory = new File(user.modelPath() + "gmm/");
-        userGMMDirectory.mkdir();
     }
 
     /**
@@ -285,6 +270,22 @@ public class AudioFileManager {
 
         if (!doesFileInDirectoryExist(userModelDirectory, user.modelPath() + word)) {
             new File(user.modelPath() + word).mkdir();
+
+            File userPRMDirectory = new File(user.modelPath() + word + "/prm/");
+            userPRMDirectory.mkdir();
+
+            File userLSTDirectory = new File(user.modelPath() + word + "/lst/");
+            userLSTDirectory.mkdir();
+
+            File userNORMPRMDirectory = new File(user.modelPath() + word + "/normprm/");
+            userNORMPRMDirectory.mkdir();
+
+            File userLBLDirectory = new File(user.modelPath() + word + "/lbl/");
+            userLBLDirectory.mkdir();
+
+            File userGMMDirectory = new File(user.modelPath() + word + "/gmm/");
+            userGMMDirectory.mkdir();
+
             aDirectoryIsCreated = true;
         }
 
