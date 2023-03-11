@@ -34,6 +34,8 @@ public class AudioToFile {
         String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
         new AudioRecorder(path).start();
+
+        addAudioToLST(user, recordedWord, numberOfRecordings);
     }
 
     /**
