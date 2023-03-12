@@ -58,6 +58,7 @@ public class GameFrameToolbox {
     public static void goToAudioMenu() {
         mainFrame.setContentPane(audioMenu);
         // Ensure hat the frame remains the same default size
+        mainFrame.setPreferredSize(new Dimension(800, 500));
         GameFrameToolbox.frameUpdate("AudioMenu");
         mainFrame.revalidate();
         mainFrame.repaint();
