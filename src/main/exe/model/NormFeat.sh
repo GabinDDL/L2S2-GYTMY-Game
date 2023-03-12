@@ -1,1 +1,1 @@
-./NormFeat --config ./cfg/NormFeat.cfg --featureFilesPath $1 --inputFeatureFilename $2 --labelFilesPath $3
+./NormFeat --config ./cfg/NormFeat.cfg --inputFeatureFilename $1 --featureFilesPath $2 --labelFilesPath $3
