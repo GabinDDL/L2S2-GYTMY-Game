@@ -1,6 +1,8 @@
 package com.gytmy.sound;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import com.gytmy.utils.WordsToRecord;
@@ -38,6 +40,19 @@ public class AudioToFile {
         addAudioToLST(user, recordedWord, numberOfRecordings);
     }
 
+    private static void addAudioToLST(User user, String recordedWord, int numberOfRecordings) {
+        AudioFileManager.tryToCreateListFile(user, recordedWord);
+
+        try {
+            FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);
+            writer.append(recordedWord + numberOfRecordings);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Asserts that the user is not null
      */
@@ -57,5 +72,10 @@ public class AudioToFile {
                 || !WordsToRecord.exists(recordedWord)) {
             throw new IllegalArgumentException("Invalid recorded word");
         }
+    }
+
+    public static void main(String[] args) {
+        User user = new User();
+        record(user, "HAUT");
     }
 }
