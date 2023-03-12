@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.view.GameFrameToolbox;
-import com.gytmy.labyrinth.view.StartMenu;
 
 public class GraphicalLauncher implements Runnable {
 
@@ -18,9 +17,9 @@ public class GraphicalLauncher implements Runnable {
 
         GameFrameToolbox.setMainFrame(frame);
 
-        StartMenu menu = new StartMenu(frame);
-        frame.add(menu);
-        GameFrameToolbox.frameUpdate("Menu");
+        GameFrameToolbox.goToStartMenu();
+
+        GameFrameToolbox.initMenus();
 
         try {
             frame.setIconImage(ImageIO.read(new File("src/resources/images/gytmy_logo.png")));

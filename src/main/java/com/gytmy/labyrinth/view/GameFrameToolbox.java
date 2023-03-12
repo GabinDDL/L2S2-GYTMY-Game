@@ -12,15 +12,24 @@ public class GameFrameToolbox {
 
     private static JFrame mainFrame;
 
+    private static StartMenu startMenu = StartMenu.getInstance();
+    private static SettingsMenu settingsMenu;
+    private static AudioMenu audioMenu;
+
+    private GameFrameToolbox() {
+    }
+
     public static JFrame getMainFrame() {
         return mainFrame;
     }
 
     public static void setMainFrame(JFrame mainFrame) {
         GameFrameToolbox.mainFrame = mainFrame;
+
     }
 
-    private GameFrameToolbox() {
+    public static void initMenus() {
+        settingsMenu = SettingsMenu.getInstance();
     }
 
     public static void frameUpdate(String subTitle) {
@@ -30,7 +39,7 @@ public class GameFrameToolbox {
     }
 
     public static void goToStartMenu() {
-        mainFrame.setContentPane(new StartMenu(mainFrame));
+        mainFrame.setContentPane(startMenu);
         mainFrame.setSize(800, 500);
         mainFrame.revalidate();
         mainFrame.setTitle(GAME_TITLE + "\t( Menu )");

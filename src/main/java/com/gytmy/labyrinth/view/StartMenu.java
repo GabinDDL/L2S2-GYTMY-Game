@@ -2,18 +2,15 @@ package com.gytmy.labyrinth.view;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JPanel;
 
 import com.gytmy.utils.Bounds;
 import com.gytmy.utils.HelpWindow;
 
 public class StartMenu extends JPanel {
-    private JFrame frame;
 
     private static final String[] IMAGES = {
             "src/resources/images/menu/MazeMenu.jpg",
@@ -35,8 +32,16 @@ public class StartMenu extends JPanel {
 
     private JPanelWithImages menu;
 
-    public StartMenu(JFrame frame) {
-        this.frame = frame;
+    private static StartMenu instance;
+
+    public static StartMenu getInstance() {
+        if (instance == null) {
+            instance = new StartMenu();
+        }
+        return instance;
+    }
+
+    public StartMenu() {
 
         setLayout(new BorderLayout());
 
@@ -67,8 +72,7 @@ public class StartMenu extends JPanel {
                     showHelp();
 
                 } else if (IMAGES_BOUNDS[3].isInside(xClick, yClick)) {
-                    frame.setContentPane(new AudioMenu(frame, StartMenu.this));
-                    frame.revalidate();
+                    GameFrameToolbox.goToAudioMenu();
                 }
             }
 
