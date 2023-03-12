@@ -31,9 +31,8 @@ import com.gytmy.utils.FileTree;
 import com.gytmy.utils.WordsToRecord;
 
 public class AudioMenu extends JPanel {
-    private JFrame frame;
 
-    private StartMenu startMenu;
+    private JFrame mainFrame = GameFrameToolbox.getMainFrame();
 
     private JPanel userPanel;
     private JComboBox<User> userSelector;
@@ -72,10 +71,17 @@ public class AudioMenu extends JPanel {
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
-    public AudioMenu(JFrame frame, StartMenu startMenu) {
-        this.frame = frame;
-        this.startMenu = startMenu;
-        this.frame.setTitle("Be AMazed" + "\t( AudioSettings )");
+    private static AudioMenu instance = null;
+
+    public static AudioMenu getInstance() {
+        if (instance == null) {
+            instance = new AudioMenu();
+        }
+        return instance;
+    }
+
+    public AudioMenu() {
+        this.mainFrame.setTitle("Be AMazed" + "\t( AudioSettings )");
 
         setLayout(new BorderLayout());
 
@@ -134,7 +140,7 @@ public class AudioMenu extends JPanel {
         editUserButton.setEnabled(false);
         editUserButton.addActionListener(
                 e -> editOrAddUser("Edit User",
-                        new EditCreateUsersPage(frame, this, (User) userSelector.getSelectedItem())));
+                        new EditCreateUsersPage(mainFrame, this, (User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -142,16 +148,16 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
-        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame, this)));
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(mainFrame, this)));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
 
     private void editOrAddUser(String title, EditCreateUsersPage page) {
-        frame.setContentPane(page);
-        frame.setSize(800, 500);
-        frame.revalidate();
-        frame.setTitle(title);
+        mainFrame.setContentPane(page);
+        mainFrame.setSize(800, 500);
+        mainFrame.revalidate();
+        mainFrame.setTitle(title);
     }
 
     private void initColors(JComponent component) {
@@ -205,7 +211,7 @@ public class AudioMenu extends JPanel {
     private void deleteUser() {
 
         String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
-        int userIsDeleted = JOptionPane.showConfirmDialog(frame, confirmationDialog, "DELETE USER ?",
+        int userIsDeleted = JOptionPane.showConfirmDialog(mainFrame, confirmationDialog, "DELETE USER ?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
@@ -303,11 +309,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void recordAudio() {
-        frame.setContentPane(
-                new RecordPage(frame, this, (User) userSelector.getSelectedItem(),
+        mainFrame.setContentPane(
+                new RecordPage(mainFrame, this, (User) userSelector.getSelectedItem(),
                         (String) wordSelector.getSelectedItem()));
-        frame.revalidate();
-        frame.setTitle("RECORD STUDIO");
+        mainFrame.revalidate();
+        mainFrame.setTitle("RECORD STUDIO");
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
@@ -496,18 +502,10 @@ public class AudioMenu extends JPanel {
     private void initBackButton(JComponent parentComponent) {
         JButton goBackButton = new JButton("Go back");
         goBackButton.setToolTipText("Go back to start menu");
-        goBackButton.addActionListener(e -> goBackToStartMenu());
+        goBackButton.addActionListener(e -> GameFrameToolbox.goToStartMenu());
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
         parentComponent.add(goBackButton);
     }
 
-    public void goBackToStartMenu() {
-        frame.setContentPane(startMenu);
-        frame.revalidate();
-    }
-
-    public StartMenu getStartMenu() {
-        return startMenu;
-    }
 }

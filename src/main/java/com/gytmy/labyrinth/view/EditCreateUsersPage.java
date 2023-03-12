@@ -208,8 +208,7 @@ public class EditCreateUsersPage extends JPanel {
                 AudioFileManager.editUser(userToEdit, user);
             }
 
-            frame.setContentPane(new AudioMenu(frame, audioMenu.getStartMenu()));
-            frame.revalidate();
+            GameFrameToolbox.goToAudioMenu();
         });
 
         constraints.gridx = 2;

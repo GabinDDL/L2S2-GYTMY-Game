@@ -30,6 +30,7 @@ public class GameFrameToolbox {
 
     public static void initMenus() {
         settingsMenu = SettingsMenu.getInstance();
+        audioMenu = AudioMenu.getInstance();
     }
 
     public static void frameUpdate(String subTitle) {
@@ -52,6 +53,14 @@ public class GameFrameToolbox {
         GameFrameToolbox.frameUpdate("SettingsMenu");
         // Allow other components to resize the frame
         mainFrame.setPreferredSize(null);
+    }
+
+    public static void goToAudioMenu() {
+        mainFrame.setContentPane(audioMenu);
+        // Ensure hat the frame remains the same default size
+        GameFrameToolbox.frameUpdate("AudioMenu");
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
 
 }
