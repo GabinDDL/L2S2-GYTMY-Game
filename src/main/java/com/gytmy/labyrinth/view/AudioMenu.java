@@ -32,7 +32,7 @@ import com.gytmy.utils.WordsToRecord;
 
 public class AudioMenu extends JPanel {
 
-    private JFrame mainFrame = GameFrameToolbox.getMainFrame();
+    private JFrame mainFrame = GameFrameHandler.getMainFrame();
 
     private JPanel userPanel;
     private JComboBox<User> userSelector;
@@ -502,7 +502,7 @@ public class AudioMenu extends JPanel {
     private void initBackButton(JComponent parentComponent) {
         JButton goBackButton = new JButton("Go back");
         goBackButton.setToolTipText("Go back to start menu");
-        goBackButton.addActionListener(e -> GameFrameToolbox.goToStartMenu());
+        goBackButton.addActionListener(e -> GameFrameHandler.goToStartMenu());
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
         parentComponent.add(goBackButton);

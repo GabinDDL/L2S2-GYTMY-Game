@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.view.settings.SettingsMenu;
 
-public class GameFrameToolbox {
+public class GameFrameHandler {
 
     public static final String GAME_TITLE = "Be AMazed";
 
@@ -16,7 +16,7 @@ public class GameFrameToolbox {
     private static SettingsMenu settingsMenu;
     private static AudioMenu audioMenu;
 
-    private GameFrameToolbox() {
+    private GameFrameHandler() {
     }
 
     public static JFrame getMainFrame() {
@@ -24,7 +24,7 @@ public class GameFrameToolbox {
     }
 
     public static void setMainFrame(JFrame mainFrame) {
-        GameFrameToolbox.mainFrame = mainFrame;
+        GameFrameHandler.mainFrame = mainFrame;
 
     }
 
@@ -50,7 +50,7 @@ public class GameFrameToolbox {
         mainFrame.setContentPane(settingsMenu);
         // Ensure hat the frame remains the same default size
         mainFrame.setPreferredSize(new Dimension(800, 500));
-        GameFrameToolbox.frameUpdate("SettingsMenu");
+        GameFrameHandler.frameUpdate("SettingsMenu");
         // Allow other components to resize the frame
         mainFrame.setPreferredSize(null);
     }
@@ -59,7 +59,7 @@ public class GameFrameToolbox {
         mainFrame.setContentPane(audioMenu);
         // Ensure hat the frame remains the same default size
         mainFrame.setPreferredSize(new Dimension(800, 500));
-        GameFrameToolbox.frameUpdate("AudioMenu");
+        GameFrameHandler.frameUpdate("AudioMenu");
         mainFrame.revalidate();
         mainFrame.repaint();
     }

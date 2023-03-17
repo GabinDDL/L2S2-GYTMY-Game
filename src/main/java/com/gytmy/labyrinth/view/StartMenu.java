@@ -66,13 +66,13 @@ public class StartMenu extends JPanel {
                 int yClick = mouseEvent.getY();
 
                 if (IMAGES_BOUNDS[1].isInside(xClick, yClick)) {
-                    GameFrameToolbox.goToSettingsMenu();
+                    GameFrameHandler.goToSettingsMenu();
 
                 } else if (IMAGES_BOUNDS[2].isInside(xClick, yClick)) {
                     showHelp();
 
                 } else if (IMAGES_BOUNDS[3].isInside(xClick, yClick)) {
-                    GameFrameToolbox.goToAudioMenu();
+                    GameFrameHandler.goToAudioMenu();
                 }
             }
 
