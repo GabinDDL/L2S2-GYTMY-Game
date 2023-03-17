@@ -62,4 +62,9 @@ public class LabyrinthViewImplementation extends LabyrinthView {
         GameFrameToolbox.frameUpdate("Game Over");
     }
 
+    @Override
+    public void notifyGameStarted() {
+        // For this view, nothing needs to be done.
+    }
+
 }

@@ -18,4 +18,6 @@ public interface LabyrinthController {
 
     public ScoreCalculator getScoreCalculator(ScoreType type, Player player);
 
+    public void notifyGameStarted();
+
 }

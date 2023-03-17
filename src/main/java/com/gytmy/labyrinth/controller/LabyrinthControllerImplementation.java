@@ -21,6 +21,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private LabyrinthModel model;
     private LabyrinthView view;
     private JFrame frame;
+    private boolean hasCountdownEnded = false;
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -38,7 +39,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private void initGame() {
         model = LabyrinthModelFactory.createLabyrinth(gameData);
         initPlayersInitialCell(model.getPlayers());
-        view = new LabyrinthClassicView(model, frame);
+        view = new LabyrinthClassicView(model, frame, this);
     }
 
     private void initPlayersInitialCell(Player[] players) {
@@ -95,7 +96,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
             view.stopTimer();
             return false;
         }
-        return view.isTimerCounting();
+        return hasCountdownEnded;
     }
 
     /**
@@ -133,5 +134,11 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     @Override
     public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
         return model.getScoreCalculator(type, player);
+    }
+
+    @Override
+    public void notifyGameStarted() {
+        hasCountdownEnded = true;
+        view.notifyGameStarted();
     }
 }
