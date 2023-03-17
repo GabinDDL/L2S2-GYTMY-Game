@@ -47,7 +47,7 @@ public class GameFrameToolbox {
     }
 
     public static void goToSettingsMenu() {
-        mainFrame.setContentPane(SettingsMenu.getInstance());
+        mainFrame.setContentPane(settingsMenu);
         // Ensure hat the frame remains the same default size
         mainFrame.setPreferredSize(new Dimension(800, 500));
         GameFrameToolbox.frameUpdate("SettingsMenu");
