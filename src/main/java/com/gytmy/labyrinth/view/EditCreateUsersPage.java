@@ -170,10 +170,7 @@ public class EditCreateUsersPage extends JPanel {
         cancel = new JButton("Cancel");
         cancel.setBackground(Cell.INITIAL_CELL_COLOR);
 
-        cancel.addActionListener(e -> {
-            frame.setContentPane(audioMenu);
-            frame.revalidate();
-        });
+        cancel.addActionListener(e -> GameFrameToolbox.goToAudioMenu());
 
         constraints.gridx = 0;
         constraints.gridy = 5;
