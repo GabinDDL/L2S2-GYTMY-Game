@@ -1,7 +1,6 @@
 package com.gytmy.labyrinth.view.game;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
@@ -14,34 +13,19 @@ import com.gytmy.labyrinth.view.GameOverPanel;
 import com.gytmy.labyrinth.view.TimerPanel;
 
 public class LabyrinthViewImplementation extends LabyrinthView {
-    private LabyrinthModel model;
-    private LabyrinthPanel labyrinthPanel;
-    private GameOverPanel gameOverPanel;
-    private TimerPanel timerPanel;
+    protected LabyrinthModel model;
+    protected LabyrinthPanel labyrinthPanel;
+    protected TimerPanel timerPanel;
     private JFrame frame;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
-    public LabyrinthViewImplementation(LabyrinthModel model, JFrame frame) {
+    protected LabyrinthViewImplementation(LabyrinthModel model, JFrame frame) {
         this.model = model;
         this.frame = frame;
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
         labyrinthPanel = new LabyrinthPanel(model);
-        initComponents();
-    }
-
-    private void initComponents() {
-        GridBagConstraints c = new GridBagConstraints();
-        timerPanel = new TimerPanel();
-        c.gridx = 0;
-        c.gridy = 0;
-        add(timerPanel, c);
-        startTimer();
-
-        c.gridx = 0;
-        c.gridy = 1;
-        add(labyrinthPanel, c);
     }
 
     public void startTimer() {
