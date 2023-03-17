@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view;
+package com.gytmy.labyrinth.view.game;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.view.GameFrameToolbox;
+import com.gytmy.labyrinth.view.GameOverPanel;
+import com.gytmy.labyrinth.view.TimerPanel;
 
 public class LabyrinthViewImplementation extends LabyrinthView {
     private LabyrinthModel model;

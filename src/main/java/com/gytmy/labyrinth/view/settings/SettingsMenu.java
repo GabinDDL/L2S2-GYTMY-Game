@@ -24,9 +24,9 @@ import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.labyrinth.view.GameFrameToolbox;
-import com.gytmy.labyrinth.view.LabyrinthView;
+import com.gytmy.labyrinth.view.game.Cell;
+import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 

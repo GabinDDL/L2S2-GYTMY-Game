@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
-import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.game.Cell;
 
 public class SelectionPanel extends JPanel {
 

@@ -13,8 +13,8 @@ import javax.swing.event.MouseInputAdapter;
 
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
-import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.labyrinth.view.GameFrameToolbox;
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.utils.ImageManipulator;
 
 /**

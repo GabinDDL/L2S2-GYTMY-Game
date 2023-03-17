@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.gytmy.labyrinth.view.game.Cell;
+
 public class TimerPanel extends JPanel implements ActionListener {
     private JLabel timerLabel;
     private Timer timer;
