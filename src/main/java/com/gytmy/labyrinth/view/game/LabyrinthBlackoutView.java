@@ -22,12 +22,9 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
     private boolean isFlashing = false;
 
     private static final Color BLACKOUT_COLOR = Cell.WALL_COLOR;
-    private static final int BLACKOUT_INITIAL_COUNTDOWN = 3;
-    private static final int FLASH_INTERVAL = 10;
-    private static final int FLASH_DURATION = 2;
-
-    // TODO: solve unit for the time constants (BLACKOUT_INITIAL_COUNTDOWN,
-    // FLASH_INTERVAL, FLASH_DURATION)
+    private static final int BLACKOUT_INITIAL_COUNTDOWN_SECONDS = 10;
+    private static final int FLASH_INTERVAL_SECONDS = 23;
+    private static final int FLASH_DURATION_SECONDS = 2;
 
     public LabyrinthBlackoutView(LabyrinthModel model, JFrame frame, LabyrinthController controller) {
         super(model, frame);
@@ -38,7 +35,7 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
     private void initComponents() {
         GridBagConstraints c = new GridBagConstraints();
-        timerPanel = new TimerPanel(BLACKOUT_INITIAL_COUNTDOWN, controller);
+        timerPanel = new TimerPanel(BLACKOUT_INITIAL_COUNTDOWN_SECONDS, controller);
         c.gridx = 0;
         c.gridy = 0;
         add(timerPanel, c);
@@ -57,12 +54,20 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
         gamePanel.add(labyrinthPanel);
     }
 
+    @Override
+    public void notifyGameStarted() {
+        super.notifyGameStarted();
+        switchToBlackout();
+        startFlash();
+    }
+
     public void startFlash() {
         isFlashing = true;
+        // This thread is used to count the time between flashes
         new Thread(() -> {
             while (isFlashing) {
                 try {
-                    Thread.sleep(FLASH_INTERVAL * 1000);
+                    Thread.sleep(FLASH_INTERVAL_SECONDS * 1000);
                     flash();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -71,15 +76,12 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
         }).start();
     }
 
-    public void stopFlash() {
-        isFlashing = false;
-    }
-
     private void flash() {
         switchToGame();
+        // The flash is done in a new thread to avoid blocking the main thread
         new Thread(() -> {
             try {
-                Thread.sleep(FLASH_DURATION * 1000);
+                Thread.sleep(FLASH_DURATION_SECONDS * 1000);
                 switchToBlackout();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -105,11 +107,8 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
         this.repaint();
     }
 
-    @Override
-    public void notifyGameStarted() {
-        super.notifyGameStarted();
-        switchToBlackout();
-        startFlash();
+    public void stopFlash() {
+        isFlashing = false;
     }
 
 }
