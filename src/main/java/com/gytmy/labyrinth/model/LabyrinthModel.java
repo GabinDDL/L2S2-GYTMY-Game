@@ -89,4 +89,6 @@ public interface LabyrinthModel {
      */
     ScoreCalculator getScoreCalculator(Player player);
 
+    int getScore(Player player);
+
 }

@@ -358,4 +358,10 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     public ScoreCalculator getScoreCalculator(Player player) {
         return getScoreCalculator(scoreType, player);
     }
+
+    @Override
+    public int getScore(Player player) {
+        ScoreCalculator calculator = getScoreCalculator(player);
+        return calculator.getScore();
+    }
 }
