@@ -39,7 +39,7 @@ public class LabyrinthModelFactory {
     }
 
     private static LabyrinthModel createClassicLabyrinth(GameData gameData) {
-        ClassicGameModeData gameModeData = (ClassicGameModeData) gameData.getGameModData();
+        ClassicGameModeData gameModeData = (ClassicGameModeData) gameData.getGameModeData();
         int width = gameModeData.getWidth();
         int height = gameModeData.getHeight();
         BoardGenerator generator = getBoardGenerator(width, height, null);
@@ -47,7 +47,7 @@ public class LabyrinthModelFactory {
     }
 
     private static LabyrinthModel createOneDimensionLabyrinth(GameData gameData) {
-        OneDimensionGameData gameModeData = (OneDimensionGameData) gameData.getGameModData();
+        OneDimensionGameData gameModeData = (OneDimensionGameData) gameData.getGameModeData();
         int width = gameModeData.getWidth();
         BoardGenerator generator = getBoardGenerator(width, ONE_DIMENSION_HEIGHT, null);
         return createLabyrinth(generator, null, null, gameData.getPlayers());

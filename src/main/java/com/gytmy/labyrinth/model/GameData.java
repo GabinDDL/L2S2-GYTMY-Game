@@ -20,7 +20,7 @@ public class GameData {
         return players;
     }
 
-    public GameModeData getGameModData() {
+    public GameModeData getGameModeData() {
         return gameModeData;
     }
 
