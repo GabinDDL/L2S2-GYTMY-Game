@@ -23,8 +23,8 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
     private static final Color BLACKOUT_COLOR = Cell.WALL_COLOR;
     private static final int BLACKOUT_INITIAL_COUNTDOWN_SECONDS = 10;
-    private static final int FLASH_INTERVAL_SECONDS = 23;
-    private static final int FLASH_DURATION_SECONDS = 2;
+    private static final int FLASH_INTERVAL_SECONDS = 20;
+    private static final int FLASH_DURATION_SECONDS = 5;
 
     public LabyrinthBlackoutView(LabyrinthModel model, JFrame frame, LabyrinthController controller) {
         super(model, frame);
