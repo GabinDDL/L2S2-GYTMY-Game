@@ -84,4 +84,9 @@ public interface LabyrinthModel {
      */
     ScoreCalculator getScoreCalculator(ScoreType type, Player player);
 
+    /**
+     * @return the initialized ScoreCalculator for the given Player
+     */
+    ScoreCalculator getScoreCalculator(Player player);
+
 }

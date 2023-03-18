@@ -353,4 +353,9 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
         return ScoreCalculatorFactory.getScoreCalculator(info);
     }
+
+    @Override
+    public ScoreCalculator getScoreCalculator(Player player) {
+        return getScoreCalculator(scoreType, player);
+    }
 }
