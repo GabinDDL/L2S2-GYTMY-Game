@@ -16,6 +16,8 @@ public class GameFrameHandler {
     private static SettingsMenu settingsMenu;
     private static AudioMenu audioMenu;
 
+    private static final Dimension DEFAULT_DIMENSION = new Dimension(800, 500);
+
     private GameFrameHandler() {
     }
 
@@ -41,15 +43,15 @@ public class GameFrameHandler {
 
     public static void goToStartMenu() {
         mainFrame.setContentPane(startMenu);
-        mainFrame.setSize(800, 500);
+        mainFrame.setSize(DEFAULT_DIMENSION);
         mainFrame.revalidate();
         mainFrame.setTitle(GAME_TITLE + "\t( Menu )");
     }
 
     public static void goToSettingsMenu() {
         mainFrame.setContentPane(settingsMenu);
-        // Ensure hat the frame remains the same default size
-        mainFrame.setPreferredSize(new Dimension(800, 500));
+        // Ensure that the frame remains the same default size
+        mainFrame.setPreferredSize(DEFAULT_DIMENSION);
         GameFrameHandler.frameUpdate("SettingsMenu");
         // Allow other components to resize the frame
         mainFrame.setPreferredSize(null);
@@ -58,7 +60,7 @@ public class GameFrameHandler {
     public static void goToAudioMenu() {
         mainFrame.setContentPane(audioMenu);
         // Ensure hat the frame remains the same default size
-        mainFrame.setPreferredSize(new Dimension(800, 500));
+        mainFrame.setPreferredSize(DEFAULT_DIMENSION);
         GameFrameHandler.frameUpdate("AudioMenu");
         mainFrame.revalidate();
         mainFrame.repaint();
