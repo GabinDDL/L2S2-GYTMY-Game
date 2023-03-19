@@ -47,12 +47,12 @@ public class GameOverPanel extends JPanel {
 
     private void initPlayAgainButton() {
         initButton("Play again",
-                e -> GameFrameToolbox.goToSettingsMenu());
+                e -> GameFrameHandler.goToSettingsMenu());
     }
 
     private void initGoToStartMenuButton() {
         initButton("Go to menu",
-                e -> GameFrameToolbox.goToStartMenu());
+                e -> GameFrameHandler.goToStartMenu());
     }
 
     private void initButton(String text, ActionListener actionListener) {
