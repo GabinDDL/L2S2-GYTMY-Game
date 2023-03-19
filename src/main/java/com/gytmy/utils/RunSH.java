@@ -1,4 +1,4 @@
-package com.gytmy.utils.input;
+package com.gytmy.utils;
 
 import java.io.IOException;
 import java.util.Arrays;
