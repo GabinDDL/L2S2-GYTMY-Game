@@ -6,7 +6,7 @@ public class ClassicGameModeData implements GameModeData {
 
     private int width;
     private int height;
-    private ScoreType scoreType = ScoreType.SIMPLE_KEYBOARD;
+    private ScoreType scoreType;
 
     public ClassicGameModeData(int width, int height) {
         this.width = width;
@@ -24,6 +24,11 @@ public class ClassicGameModeData implements GameModeData {
     @Override
     public ScoreType getScoreType() {
         return scoreType;
+    }
+
+    @Override
+    public void setScoreType(ScoreType scoreType) {
+        this.scoreType = scoreType;
     }
 
 }

@@ -8,7 +8,7 @@ import com.gytmy.labyrinth.model.score.ScoreType;
 public class OneDimensionGameData implements GameModeData {
 
     private int width;
-    private ScoreType scoreType = ScoreType.SIMPLE_KEYBOARD;
+    private ScoreType scoreType;
 
     public OneDimensionGameData(int width) {
         this.width = width;
@@ -22,6 +22,11 @@ public class OneDimensionGameData implements GameModeData {
     @Override
     public ScoreType getScoreType() {
         return scoreType;
+    }
+
+    @Override
+    public void setScoreType(ScoreType scoreType) {
+        this.scoreType = scoreType;
     }
 
 }

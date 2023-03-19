@@ -10,4 +10,6 @@ public interface GameModeData {
 
     ScoreType getScoreType();
 
+    void setScoreType(ScoreType scoreType);
+
 }

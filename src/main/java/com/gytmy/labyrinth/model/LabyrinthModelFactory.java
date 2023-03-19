@@ -44,14 +44,14 @@ public class LabyrinthModelFactory {
         int width = gameModeData.getWidth();
         int height = gameModeData.getHeight();
         BoardGenerator generator = getBoardGenerator(width, height, null);
-        return createLabyrinth(generator, null, null, gameData.getPlayers(), gameData.getGameModeData().getScoreType());
+        return createLabyrinth(generator, null, null, gameData.getPlayers(), gameData.getScoreType());
     }
 
     private static LabyrinthModel createOneDimensionLabyrinth(GameData gameData) {
         OneDimensionGameData gameModeData = (OneDimensionGameData) gameData.getGameModeData();
         int width = gameModeData.getWidth();
         BoardGenerator generator = getBoardGenerator(width, ONE_DIMENSION_HEIGHT, null);
-        return createLabyrinth(generator, null, null, gameData.getPlayers(), gameData.getGameModeData().getScoreType());
+        return createLabyrinth(generator, null, null, gameData.getPlayers(), gameData.getScoreType());
     }
 
     private static BoardGenerator getBoardGenerator(int width, int height, Coordinates initialCell) {
