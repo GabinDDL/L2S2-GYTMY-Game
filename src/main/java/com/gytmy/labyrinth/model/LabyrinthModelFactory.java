@@ -58,10 +58,10 @@ public class LabyrinthModelFactory {
     }
 
     private static LabyrinthModel createBlackoutLabyrinth(GameData gameData) {
-        BlackoutGameData gameModeData = (BlackoutGameData) gameData.getGameModData();
+        BlackoutGameData gameModeData = (BlackoutGameData) gameData.getGameModeData();
         int size = gameModeData.getDifficulty().getSize();
         BoardGenerator generator = getBoardGenerator(size, size, null);
-        return createLabyrinth(generator, null, null, gameData.getPlayers());
+        return createLabyrinth(generator, null, null, gameData.getPlayers(), gameData.getScoreType());
     }
 
     private static BoardGenerator getBoardGenerator(int width, int height, Coordinates initialCell) {
