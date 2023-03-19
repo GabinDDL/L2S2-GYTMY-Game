@@ -1,4 +1,4 @@
-package com.gytmy.utils.input;
+package com.gytmy.utils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,9 +6,7 @@ import org.junit.Test;
 
 public class TestRunSh {
 
-    public static final String TEST_SH_PATH = "./TestRunSh.sh";
-    // public static final String TEST_SH_PATH =
-    // "src/test/bash/com/gytmy/utils/TestRunSh.sh";
+    public static final String TEST_SH_PATH = "src/main/java/com/gytmy/utils/TestRunSh.sh";
 
     @Test
     public void testRun() {
@@ -22,6 +20,6 @@ public class TestRunSh {
         assertEquals(3, RunSH.run(TEST_SH_PATH, args3));
 
         String[] args4 = { "exit", "exit2", "exit" };
-        assertEquals(2, RunSH.run(TEST_SH_PATH, args3));
+        assertEquals(2, RunSH.run(TEST_SH_PATH, args4));
     }
 }
