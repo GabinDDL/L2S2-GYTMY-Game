@@ -61,18 +61,14 @@ public class StartMenu extends JPanel {
                 int yClick = mouseEvent.getY();
 
                 if (IMAGES_BOUNDS[1].isInside(xClick, yClick)) {
-                    frame.setContentPane(new PlayerNumberSelectionMenu(frame));
-                    GameFrameToolbox.frameUpdate(frame, "SettingsMenu");
+                    GameFrameToolbox.goToSettingsMenu();
 
                 } else if (IMAGES_BOUNDS[2].isInside(xClick, yClick)) {
                     showHelp();
 
                 } else if (IMAGES_BOUNDS[3].isInside(xClick, yClick)) {
-                    frame.setContentPane(new AudioMenu(frame));
-
-                    frame.setSize(800, 500);
+                    frame.setContentPane(new AudioMenu(frame, StartMenu.this));
                     frame.revalidate();
-                    frame.setTitle("Be AMazed" + "\t( AudioSettings )");
                 }
             }
 

@@ -9,6 +9,8 @@ import com.gytmy.utils.WordsToRecord;
 
 public class AudioToFile {
 
+    private static AudioRecorder audioRecorder;
+
     private AudioToFile() {
     }
 
@@ -35,7 +37,8 @@ public class AudioToFile {
 
         String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
-        new AudioRecorder(path).start();
+        audioRecorder = new AudioRecorder(path);
+        audioRecorder.start();
 
         addAudioToLST(user, recordedWord, numberOfRecordings);
     }
@@ -50,7 +53,10 @@ public class AudioToFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void stop() {
+        audioRecorder.finish();
     }
 
     /**

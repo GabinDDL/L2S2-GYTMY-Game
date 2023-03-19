@@ -185,6 +185,11 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         return players;
     }
 
+    @Override
+    public int getNbPlayers() {
+        return players.length;
+    }
+
     public List<Player> getPlayersAtCoordinates(Coordinates coordinates) {
         List<Player> res = new ArrayList<>();
         for (Player player : players) {

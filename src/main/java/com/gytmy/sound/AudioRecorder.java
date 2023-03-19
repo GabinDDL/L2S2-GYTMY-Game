@@ -82,8 +82,6 @@ public class AudioRecorder {
             try {
                 Thread.sleep(MAX_RECORD_DURATION_MILLISECONDS);
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
-                System.out.println("Error: Recording was interrupted");
             }
             finish();
         });
@@ -112,7 +110,6 @@ public class AudioRecorder {
      * Capture the sound and record it into a WAV file
      * 
      * @param targetLine
-     * @throws IOException
      */
     private void captureAndRecord(TargetDataLine targetLine) {
 
@@ -136,7 +133,6 @@ public class AudioRecorder {
      * Read the audio input stream and write it into a file
      * 
      * @param inputStream Audio input stream
-     * @throws IOException If the file is not found
      */
     private void record(AudioInputStream inputStream) {
 
@@ -150,11 +146,22 @@ public class AudioRecorder {
         }).start();
     }
 
+    public static boolean isRecording() {
+        return stopper.isAlive();
+    }
+
     /**
      * Closes the target data line to finish capturing and recording
      */
     public void finish() {
+
+        stopper.interrupt();
+
         channel.stop();
         channel.close();
+    }
+
+    public static int getTotalDurationInSeconds() {
+        return (int) ((MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
     }
 }

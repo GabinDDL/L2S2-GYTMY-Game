@@ -1,5 +1,9 @@
 package com.gytmy.labyrinth.controller;
 
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.LabyrinthModel;
@@ -16,6 +20,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private GameData gameData;
     private LabyrinthModel model;
     private LabyrinthView view;
+    private JFrame frame;
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -23,8 +28,9 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         KEYBOARD
     }
 
-    public LabyrinthControllerImplementation(GameData gameData) {
+    public LabyrinthControllerImplementation(GameData gameData, JFrame frame) {
         this.gameData = gameData;
+        this.frame = frame;
         initGame();
         initializeMovementController();
     }
@@ -32,7 +38,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private void initGame() {
         model = LabyrinthModelFactory.createLabyrinth(gameData);
         initPlayersInitialCell(model.getPlayers());
-        view = new LabyrinthViewImplementation(model);
+        view = new LabyrinthViewImplementation(model, frame);
     }
 
     private void initPlayersInitialCell(Player[] players) {
@@ -106,7 +112,16 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
         if (model.isGameOver()) {
             view.stopTimer();
-
+            // EventQueue is used to pause a little bit before showing the game over panel
+            EventQueue.invokeLater(
+                    () -> {
+                        try {
+                            Thread.sleep(1000);
+                            view.showGameOverPanel();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
         }
     }
 

@@ -22,6 +22,8 @@ public interface LabyrinthModel {
 
     Player[] getPlayers();
 
+    int getNbPlayers();
+
     public List<Player> getPlayersAtCoordinates(Coordinates coordinates);
 
     boolean isInitialCell(Coordinates coordinates);

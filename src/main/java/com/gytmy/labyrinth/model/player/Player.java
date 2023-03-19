@@ -20,8 +20,6 @@ public interface Player {
 
     public Color getColor();
 
-    public int getId();
-
     public int getNumberOfMovements();
 
     public int getTimePassedInSeconds();

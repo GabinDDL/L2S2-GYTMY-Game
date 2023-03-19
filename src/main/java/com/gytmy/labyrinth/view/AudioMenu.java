@@ -6,8 +6,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.List;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -21,6 +24,8 @@ import javax.swing.JTree;
 import javax.swing.SwingConstants;
 
 import com.gytmy.sound.AudioFileManager;
+import com.gytmy.sound.AudioPlayer;
+import com.gytmy.sound.PlayingTimer;
 import com.gytmy.sound.User;
 import com.gytmy.utils.FileTree;
 import com.gytmy.utils.WordsToRecord;
@@ -28,32 +33,49 @@ import com.gytmy.utils.WordsToRecord;
 public class AudioMenu extends JPanel {
     private JFrame frame;
 
-    private JPanel userPanel;
+    private StartMenu startMenu;
 
+    private JPanel userPanel;
     private JComboBox<User> userSelector;
     private JComboBox<String> wordSelector = new JComboBox<>();
 
-    private JScrollPane scrollPane;
-    private JTree fileNavigator;
-
-    private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
-    private String actualJTreeRootPath = JTREE_ROOT_PATH;
-
-    private static final User ALL_USERS = new User("ALL", "USERS", 0, "EVERYONE");
-
+    // User Panel components
     private JButton deleteUserButton;
     private JButton editUserButton;
     private JButton addUserButton;
 
+    // File Tree Panel Components
+    private JScrollPane scrollPane;
+    private JTree fileNavigator;
+    private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
+    private String actualJTreeRootPath = JTREE_ROOT_PATH;
+    private static final User ALL_USERS = new User("ALL", "USERS", 0, "EVERYONE");
+
+    // Word Panel Components
     private JLabel totalOfWords;
     private JButton recordButton;
+    private JButton deleteRecord;
 
+    private JProgressBar timeProgress;
+    private JLabel labelDuration = new JLabel("00:00");
+    private AudioPlayer player = new AudioPlayer();
+    private Thread playbackThread;
+    private PlayingTimer timer;
+    private boolean isPlaying = false;
+
+    private JButton playAndStopButton;
+
+    private String audioToLoad = "";
+
+    // Colors
     private static final Color BUTTON_COLOR = Cell.WALL_COLOR;
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
-    public AudioMenu(JFrame frame) {
+    public AudioMenu(JFrame frame, StartMenu startMenu) {
         this.frame = frame;
+        this.startMenu = startMenu;
+        this.frame.setTitle("Be AMazed" + "\t( AudioSettings )");
 
         setLayout(new BorderLayout());
 
@@ -88,6 +110,15 @@ public class AudioMenu extends JPanel {
         addComponentToUserPanel(userSelector, c, 0, 0, 0.46, false);
     }
 
+    private void addUsersToJComboBox(JComboBox<User> userSelector) {
+        List<User> users = AudioFileManager.getUsers();
+        userSelector.addItem(ALL_USERS);
+
+        for (User user : users) {
+            userSelector.addItem(user);
+        }
+    }
+
     private void initDeleteButton(GridBagConstraints c) {
         deleteUserButton = new JButton("Delete");
         deleteUserButton.setToolTipText("This will delete the current user and all his recordings");
@@ -102,7 +133,8 @@ public class AudioMenu extends JPanel {
         editUserButton.setToolTipText("This will edit the current user");
         editUserButton.setEnabled(false);
         editUserButton.addActionListener(
-                e -> editOrAddUser("Edit User", new EditCreateUsersPage(frame, (User) userSelector.getSelectedItem())));
+                e -> editOrAddUser("Edit User",
+                        new EditCreateUsersPage(frame, this, (User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -110,7 +142,7 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton("Add");
         addUserButton.setToolTipText("This will add a new user");
-        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame)));
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame, this)));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
@@ -125,15 +157,6 @@ public class AudioMenu extends JPanel {
     private void initColors(JComponent component) {
         component.setBackground(BUTTON_COLOR);
         component.setForeground(TEXT_COLOR);
-    }
-
-    private void addUsersToJComboBox(JComboBox<User> userSelector) {
-        List<User> users = AudioFileManager.getUsers();
-        userSelector.addItem(ALL_USERS);
-
-        for (User user : users) {
-            userSelector.addItem(user);
-        }
     }
 
     private void addComponentToUserPanel(JComponent component, GridBagConstraints c, int gridx, int gridy,
@@ -163,15 +186,20 @@ public class AudioMenu extends JPanel {
         if (user == ALL_USERS) {
             deleteUserButton.setEnabled(false);
             editUserButton.setEnabled(false);
+            recordButton.setEnabled(false);
+
         } else {
             actualJTreeRootPath += user.getFirstName();
             deleteUserButton.setEnabled(true);
             editUserButton.setEnabled(true);
+
+            if (!wordSelector.getSelectedItem().equals("ALL")) {
+                recordButton.setEnabled(true);
+            }
         }
 
         loadFileNavigator();
         loadTotalOfWords();
-        revalidate();
     }
 
     private void deleteUser() {
@@ -198,10 +226,33 @@ public class AudioMenu extends JPanel {
             remove(scrollPane);
         }
 
+        audioToLoad = "";
+
+        if (deleteRecord != null) {
+            deleteRecord.setEnabled(false);
+        }
+
         fileNavigator = new FileTree(actualJTreeRootPath);
+        fileNavigator.addTreeSelectionListener(e -> {
+            if (isPlaying) {
+                stop();
+            }
+            audioToLoad = ((FileTree) fileNavigator).getSelectedFilePath();
+            if (audioToLoad.endsWith(".wav")) {
+                playAndStopButton.setEnabled(true);
+                deleteRecord.setEnabled(true);
+            } else {
+                playAndStopButton.setEnabled(false);
+                deleteRecord.setEnabled(false);
+            }
+        });
+
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -212,12 +263,14 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
-        JPanel audioPanel = new JPanel(new GridLayout(6, 1));
+        JPanel audioPanel = new JPanel(new GridLayout(8, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
-        initWorldSelector(audioPanel);
+        initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
+        initDeleteRecordButton(audioPanel);
         initRecordButton(audioPanel);
+        initLabelDuration(audioPanel);
         initProgressBar(audioPanel);
         initMediaPlayer(audioPanel);
         initBackButton(audioPanel);
@@ -225,9 +278,9 @@ public class AudioMenu extends JPanel {
         add(audioPanel, BorderLayout.EAST);
     }
 
-    private void initWorldSelector(JComponent parentComponent) {
+    private void initWordSelector(JComponent parentComponent) {
         addWordsToJComboBox(wordSelector);
-        wordSelector.addActionListener(e -> loadTotalOfWords());
+        wordSelector.addActionListener(e -> wordHasBeenChanged());
         initColors(wordSelector);
         ((JLabel) wordSelector.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         parentComponent.add(wordSelector);
@@ -243,45 +296,18 @@ public class AudioMenu extends JPanel {
     private void initRecordButton(JComponent parentComponent) {
         recordButton = new JButton("Record");
         recordButton.setToolTipText("Record a new audio for the selected word");
+        recordButton.addActionListener(e -> recordAudio());
+        recordButton.setEnabled(false);
         initColors(recordButton);
         parentComponent.add(recordButton);
     }
 
-    private void initProgressBar(JComponent parentComponent) {
-        JProgressBar progressBar = new JProgressBar(0, 10);
-        parentComponent.add(progressBar);
-    }
-
-    private void initBackButton(JComponent parentComponent) {
-        JButton goBackButton = new JButton("Go back");
-        goBackButton.setToolTipText("Go back to start menu");
-        goBackButton.addActionListener(e -> goBackToStartMenu());
-        goBackButton.setBackground(BACK_BUTTON_COLOR);
-        goBackButton.setForeground(TEXT_COLOR);
-        parentComponent.add(goBackButton);
-    }
-
-    private void initMediaPlayer(JComponent parentComponent) {
-        JPanel playPausePanel = new JPanel(new GridLayout(1, 5));
-        JButton previousButton = new JButton("<<");
-        JButton fiveSecondsBackButton = new JButton("-5s");
-        JButton playButton = new JButton("||");
-        JButton fiveSecondsForwardButton = new JButton("+5s");
-        JButton nextButton = new JButton(">>");
-
-        initColors(previousButton);
-        initColors(fiveSecondsBackButton);
-        initColors(playButton);
-        initColors(fiveSecondsForwardButton);
-        initColors(nextButton);
-
-        playPausePanel.add(previousButton);
-        playPausePanel.add(fiveSecondsBackButton);
-        playPausePanel.add(playButton);
-        playPausePanel.add(fiveSecondsForwardButton);
-        playPausePanel.add(nextButton);
-
-        parentComponent.add(playPausePanel);
+    private void recordAudio() {
+        frame.setContentPane(
+                new RecordPage(frame, this, (User) userSelector.getSelectedItem(),
+                        (String) wordSelector.getSelectedItem()));
+        frame.revalidate();
+        frame.setTitle("RECORD STUDIO");
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
@@ -291,6 +317,17 @@ public class AudioMenu extends JPanel {
         WordsToRecord[] words = WordsToRecord.values();
         for (WordsToRecord word : words) {
             wordSelector.addItem(word.name());
+        }
+    }
+
+    private void wordHasBeenChanged() {
+        loadTotalOfWords();
+
+        recordButton.setEnabled(false);
+        if (wordSelector.getSelectedItem().equals("ALL")) {
+            recordButton.setEnabled(false);
+        } else if ((User) userSelector.getSelectedItem() != ALL_USERS) {
+            recordButton.setEnabled(true);
         }
     }
 
@@ -331,10 +368,146 @@ public class AudioMenu extends JPanel {
         return totalForASpecificWord;
     }
 
+    private void initDeleteRecordButton(JComponent parentComponent) {
+        deleteRecord = new JButton("Delete");
+        deleteRecord.setToolTipText("Delete the selected audio");
+        deleteRecord.setEnabled(false);
+        deleteRecord.addActionListener(e -> deleteWAV());
+        initColors(deleteRecord);
+        parentComponent.add(deleteRecord);
+    }
+
+    private void deleteWAV() {
+        if (audioToLoad != null) {
+
+            String[] path = audioToLoad.split("/");
+            String userFirstName = path[3];
+            String word = path[4];
+
+            String wordIndex = extractNumberFromWord(path[5]);
+
+            int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
+                    userFirstName, word);
+            AudioFileManager.deleteRecording(audioToLoad);
+
+            AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
+                    totalRecordsBeforeDelete);
+            loadFileNavigator();
+            loadTotalOfWords();
+
+            playAndStopButton.setEnabled(false);
+        }
+    }
+
+    private String extractNumberFromWord(String string) {
+        String newString = "";
+
+        for (int i = 0; i < string.length(); i++) {
+            if (Character.isDigit(string.charAt(i))) {
+                newString += string.charAt(i);
+            }
+        }
+        return newString;
+    }
+
+    private void initLabelDuration(JComponent parentComponent) {
+        initColors(labelDuration);
+        labelDuration.setHorizontalAlignment(SwingConstants.CENTER);
+        parentComponent.add(labelDuration);
+    }
+
+    private void initProgressBar(JComponent parentComponent) {
+        timeProgress = new JProgressBar();
+        timeProgress.setEnabled(false);
+        timeProgress.setValue(0);
+        parentComponent.add(timeProgress);
+    }
+
+    private void initMediaPlayer(JComponent parentComponent) {
+        JPanel playPausePanel = new JPanel(new GridLayout(1, 1));
+        playAndStopButton = new JButton("|>");
+
+        initColors(playAndStopButton);
+
+        playAndStopButton.setEnabled(false);
+        playAndStopButton.addActionListener(e -> {
+            if (!isPlaying) {
+                play();
+            } else {
+                stop();
+            }
+        });
+
+        playPausePanel.add(playAndStopButton);
+
+        parentComponent.add(playPausePanel);
+    }
+
+    private void play() {
+        timer = new PlayingTimer(labelDuration, timeProgress);
+        timer.start();
+        isPlaying = true;
+        playbackThread = new Thread(() -> {
+            try {
+                initAudioPlaying();
+
+            } catch (UnsupportedAudioFileException ex) {
+                displayExceptionMessage("The audio format is unsupported!");
+            } catch (LineUnavailableException ex) {
+                displayExceptionMessage("Could not play the audio file because line is unavailable!");
+            } catch (IOException ex) {
+                displayExceptionMessage("I/O error while playing the audio file!");
+            } finally {
+                stop();
+            }
+        });
+
+        playbackThread.start();
+    }
+
+    private void initAudioPlaying()
+            throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        playAndStopButton.setText("||");
+        playAndStopButton.setEnabled(true);
+
+        player.load(audioToLoad);
+        timer.setAudioClip(player.getAudioClip());
+        timeProgress.setMaximum((int) player.getClipSecondLength());
+
+        player.play();
+    }
+
+    private void displayExceptionMessage(String errorMessage) {
+        JOptionPane.showMessageDialog(AudioMenu.this,
+                errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void stop() {
+        timer.reset();
+        timer.interrupt();
+
+        playAndStopButton.setText("|>");
+        isPlaying = false;
+
+        player.stop();
+        playbackThread.interrupt();
+    }
+
+    private void initBackButton(JComponent parentComponent) {
+        JButton goBackButton = new JButton("Go back");
+        goBackButton.setToolTipText("Go back to start menu");
+        goBackButton.addActionListener(e -> goBackToStartMenu());
+        goBackButton.setBackground(BACK_BUTTON_COLOR);
+        goBackButton.setForeground(TEXT_COLOR);
+        parentComponent.add(goBackButton);
+    }
+
     public void goBackToStartMenu() {
-        frame.setContentPane(new StartMenu(frame));
-        frame.setSize(800, 500);
+        frame.setContentPane(startMenu);
         frame.revalidate();
-        frame.setTitle("Be AMazed" + "\t( Menu )");
+    }
+
+    public StartMenu getStartMenu() {
+        return startMenu;
     }
 }

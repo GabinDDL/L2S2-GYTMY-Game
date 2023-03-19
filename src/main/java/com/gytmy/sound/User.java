@@ -19,6 +19,14 @@ public class User {
     private int studentNumber;
     private String userName;
 
+    public User(User user) {
+        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
+    }
+
+    public User() {
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME);
+    }
+
     public User(String firstName, String lastName, int studentNumber, String userName) {
         handleInvalidArguments(firstName, lastName, studentNumber, userName);
 
@@ -26,10 +34,6 @@ public class User {
         this.lastName = lastName.toUpperCase();
         this.studentNumber = studentNumber;
         this.userName = userName;
-    }
-
-    public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME);
     }
 
     private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {

@@ -2,6 +2,8 @@ package com.gytmy.utils.input;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -11,10 +13,16 @@ public class UserInputFieldNumberInBounds extends UserInputField {
 
     private int lowerBound;
     private int upperBound;
-    public static final int NO_VALUE = -1;
 
     public UserInputFieldNumberInBounds(int lowerBound, int upperBound)
             throws IllegalArgumentException {
+
+        if (lowerBound >= upperBound) {
+            throw new IllegalArgumentException("Lower bound must be smaller than upper bound");
+        }
+
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
 
         this.textField = new JTextField() {
             @Override
@@ -36,23 +44,60 @@ public class UserInputFieldNumberInBounds extends UserInputField {
             }
         };
 
-        if (lowerBound >= upperBound) {
-            throw new IllegalArgumentException("Lower bound must be smaller than upper bound");
-        }
+        initTextFieldKeyListener();
+        initTextFieldFocusListener();
+    }
 
-        this.lowerBound = lowerBound;
-        this.upperBound = upperBound;
-
+    private void initTextFieldKeyListener() {
         textField.addKeyListener(new KeyAdapter() {
+
+            char typedChar;
+
             @Override
             public void keyTyped(KeyEvent evt) {
 
-                char c = evt.getKeyChar();
+                typedChar = evt.getKeyChar();
+                handleEnteredCharacter(evt);
 
-                if (!((c >= '0') && (c <= '9') ||
-                        (c == KeyEvent.VK_BACK_SPACE) ||
-                        (c == KeyEvent.VK_DELETE))) {
+            }
+
+            private void handleEnteredCharacter(KeyEvent evt) {
+                if (!isDigitCharacter(typedChar) &&
+                        !isDeletionCharacter(typedChar))
                     evt.consume();
+            }
+
+            private boolean isDigitCharacter(char c) {
+                return (c >= '0') && (c <= '9');
+            }
+
+            private boolean isDeletionCharacter(char c) {
+                return (c == KeyEvent.VK_BACK_SPACE) ||
+                        (c == KeyEvent.VK_DELETE);
+            }
+        });
+
+    }
+
+    private void initTextFieldFocusListener() {
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent evt) {
+                if (textField.getText().isBlank()) {
+                    return;
+                }
+
+                String inputString = textField.getText();
+                int inputValue = Integer.parseInt(inputString);
+
+                if (isInRangeOfBounds(inputValue)) {
+                    return;
+                }
+
+                if (inputValue > upperBound) {
+                    setValue(upperBound);
+                } else if (inputValue < lowerBound) {
+                    setValue(lowerBound);
                 }
             }
         });
@@ -60,9 +105,8 @@ public class UserInputFieldNumberInBounds extends UserInputField {
 
     @Override
     public boolean isValidInput() {
-        String strippedText = super.getText().strip();
         return super.isValidInput() &&
-                isInRangeOfBounds(Integer.valueOf(strippedText));
+                isInRangeOfBounds(Integer.valueOf(super.getText()));
     }
 
     /**
@@ -73,16 +117,24 @@ public class UserInputFieldNumberInBounds extends UserInputField {
         return lowerBound <= value && value <= upperBound;
     }
 
-    public int getValue() {
-        if (isValidInput()) {
-            return Integer.valueOf(super.getText().strip());
+    @Override
+    public void setText(String text) throws NumberFormatException {
+        if (text != null && text.isEmpty()) {
+            super.setText("");
+            return;
         }
-        return NO_VALUE;
+        setValue(Integer.valueOf(text));
+    }
+
+    public int getValue() {
+        return Integer.valueOf(super.getText());
     }
 
     public void setValue(int value) {
         if (isInRangeOfBounds(value)) {
             super.setText(String.valueOf(value));
+        } else {
+            super.setText(String.valueOf(value > upperBound ? upperBound : lowerBound));
         }
     }
 
@@ -101,9 +153,4 @@ public class UserInputFieldNumberInBounds extends UserInputField {
     public void setUpperBound(int upperBound) {
         this.upperBound = upperBound;
     }
-
-    public static int getNoValue() {
-        return NO_VALUE;
-    }
-
 }
