@@ -79,16 +79,16 @@ public interface LabyrinthModel {
      */
     int getMinimumPathLength();
 
-    /**
-     * @return the initialized ScoreCalculator for the given ScoreType and Player
-     */
-    ScoreCalculator getScoreCalculator(ScoreType type, Player player);
+    int getScore(Player player);
 
     /**
      * @return the initialized ScoreCalculator for the given Player
      */
     ScoreCalculator getScoreCalculator(Player player);
 
-    int getScore(Player player);
+    /**
+     * @return the initialized ScoreCalculator for the given ScoreType and Player
+     */
+    ScoreCalculator getScoreCalculator(ScoreType type, Player player);
 
 }

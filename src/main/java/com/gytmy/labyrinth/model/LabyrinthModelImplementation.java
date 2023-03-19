@@ -340,6 +340,17 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     }
 
     @Override
+    public int getScore(Player player) {
+        ScoreCalculator calculator = getScoreCalculator(player);
+        return calculator.getScore();
+    }
+
+    @Override
+    public ScoreCalculator getScoreCalculator(Player player) {
+        return getScoreCalculator(scoreType, player);
+    }
+
+    @Override
     public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
         ScoreInfo info;
 
@@ -354,14 +365,4 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
         return ScoreCalculatorFactory.getScoreCalculator(info);
     }
 
-    @Override
-    public ScoreCalculator getScoreCalculator(Player player) {
-        return getScoreCalculator(scoreType, player);
-    }
-
-    @Override
-    public int getScore(Player player) {
-        ScoreCalculator calculator = getScoreCalculator(player);
-        return calculator.getScore();
-    }
 }
