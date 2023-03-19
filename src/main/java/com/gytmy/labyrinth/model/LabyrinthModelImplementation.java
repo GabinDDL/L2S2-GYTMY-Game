@@ -352,6 +352,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     @Override
     public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
+        // Fixme: Null Poionter Exception
         ScoreInfo info;
 
         switch (type) {
