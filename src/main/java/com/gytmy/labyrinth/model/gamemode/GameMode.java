@@ -24,7 +24,8 @@ package com.gytmy.labyrinth.model.gamemode;
  */
 public enum GameMode {
     CLASSIC("Classic Mode"),
-    ONE_DIMENSION("One-Dimensional Mode");
+    ONE_DIMENSION("One-Dimensional Mode"),
+    BLACKOUT("Blackout Mode");
 
     private final String displayName;
 

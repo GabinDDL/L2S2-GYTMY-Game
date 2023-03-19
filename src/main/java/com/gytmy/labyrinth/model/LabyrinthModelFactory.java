@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth.model;
 
+import com.gytmy.labyrinth.model.gamemode.BlackoutGameData;
 import com.gytmy.labyrinth.model.gamemode.ClassicGameModeData;
 import com.gytmy.labyrinth.model.gamemode.OneDimensionGameData;
 import com.gytmy.labyrinth.model.generators.BoardGenerator;
@@ -33,6 +34,8 @@ public class LabyrinthModelFactory {
                 return createClassicLabyrinth(gameData);
             case ONE_DIMENSION:
                 return createOneDimensionLabyrinth(gameData);
+            case BLACKOUT:
+                return createBlackoutLabyrinth(gameData);
             default:
                 throw new IllegalArgumentException("Game mode not supported");
         }
@@ -50,6 +53,13 @@ public class LabyrinthModelFactory {
         OneDimensionGameData gameModeData = (OneDimensionGameData) gameData.getGameModData();
         int width = gameModeData.getWidth();
         BoardGenerator generator = getBoardGenerator(width, ONE_DIMENSION_HEIGHT, null);
+        return createLabyrinth(generator, null, null, gameData.getPlayers());
+    }
+
+    private static LabyrinthModel createBlackoutLabyrinth(GameData gameData) {
+        BlackoutGameData gameModeData = (BlackoutGameData) gameData.getGameModData();
+        int size = gameModeData.getDifficulty().getSize();
+        BoardGenerator generator = getBoardGenerator(size, size, null);
         return createLabyrinth(generator, null, null, gameData.getPlayers());
     }
 
