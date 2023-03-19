@@ -54,6 +54,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         switch (selectedMovementControllerType) {
             case KEYBOARD:
                 initializeKeyboardMovementController();
+                gameData.setScoreType(ScoreType.SIMPLE_KEYBOARD);
                 break;
             default:
                 break;
@@ -132,8 +133,8 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     @Override
-    public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
-        return model.getScoreCalculator(type, player);
+    public ScoreCalculator getScoreCalculator(ScoreType scoreType, Player player) {
+        return model.getScoreCalculator(scoreType, player);
     }
 
     @Override

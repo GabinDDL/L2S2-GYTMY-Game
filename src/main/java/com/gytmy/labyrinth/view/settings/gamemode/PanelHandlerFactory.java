@@ -17,6 +17,8 @@ public class PanelHandlerFactory {
                 return ClassicPanelHandler.getInstance();
             case ONE_DIMENSION:
                 return OneDimensionPanelHandler.getInstance();
+            case BLACKOUT:
+                return ClassicPanelHandler.getInstance();
             default:
                 throw new IllegalArgumentException("Game mode not supported");
         }

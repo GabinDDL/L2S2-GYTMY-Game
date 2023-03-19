@@ -1,5 +1,7 @@
 package com.gytmy.labyrinth.model.gamemode;
 
+import com.gytmy.labyrinth.model.score.ScoreType;
+
 public class BlackoutGameData implements GameModeData {
 
     public enum Difficulty {
@@ -18,6 +20,7 @@ public class BlackoutGameData implements GameModeData {
     }
 
     private Difficulty difficulty;
+    private ScoreType scoreType;
 
     public BlackoutGameData(Difficulty difficulty) {
         this.difficulty = difficulty;
@@ -25,6 +28,16 @@ public class BlackoutGameData implements GameModeData {
 
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    @Override
+    public ScoreType getScoreType() {
+        return scoreType;
+    }
+
+    @Override
+    public void setScoreType(ScoreType scoreType) {
+        this.scoreType = scoreType;
     }
 
 }

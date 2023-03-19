@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
-import com.gytmy.labyrinth.view.GameFrameToolbox;
+import com.gytmy.labyrinth.view.GameFrameHandler;
 import com.gytmy.labyrinth.view.GameOverPanel;
 import com.gytmy.labyrinth.view.TimerPanel;
 
@@ -59,7 +59,7 @@ public class LabyrinthViewImplementation extends LabyrinthView {
     @Override
     public void showGameOverPanel() {
         frame.setContentPane(new GameOverPanel(model, frame));
-        GameFrameToolbox.frameUpdate("Game Over");
+        GameFrameHandler.frameUpdate("Game Over");
     }
 
     @Override
