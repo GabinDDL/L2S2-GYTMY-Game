@@ -135,7 +135,7 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
             return 1;
         }
 
-        return (value - upperBound) / upperBound;
+        return (upperBound - value) / upperBound;
     }
 
     public void updateInfo(ScoreInfo info) {
