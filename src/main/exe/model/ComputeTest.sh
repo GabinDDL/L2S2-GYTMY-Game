@@ -1,0 +1,1 @@
+./ComputeTest --config ./cfg/ComputeTest.cfg --mixtureFilesPath $1 --inputWorldFilename $2 --outputFilename $3
