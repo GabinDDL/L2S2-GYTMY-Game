@@ -21,11 +21,9 @@ public class GameOverPanel extends JPanel {
 
     private LabyrinthModel model;
     private JPanel buttonsPanel;
-    private JFrame frame;
 
-    public GameOverPanel(LabyrinthModel model, JFrame frame) {
+    public GameOverPanel(LabyrinthModel model) {
         this.model = model;
-        this.frame = frame;
 
         initComponents();
     }
@@ -69,7 +67,7 @@ public class GameOverPanel extends JPanel {
     }
 
     private void initQuitButton() {
-        initButton("Quit", e -> frame.dispose());
+        initButton("Quit", e -> GameFrameHandler.quitGame());
     }
 
     private void initPlayAgainButton() {
