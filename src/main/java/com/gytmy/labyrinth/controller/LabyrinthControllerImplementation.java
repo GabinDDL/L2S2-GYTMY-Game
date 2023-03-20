@@ -11,7 +11,6 @@ import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
-import com.gytmy.labyrinth.view.game.LabyrinthClassicView;
 import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
 import com.gytmy.utils.Coordinates;
