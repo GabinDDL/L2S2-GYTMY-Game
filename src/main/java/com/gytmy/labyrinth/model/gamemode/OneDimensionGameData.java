@@ -29,4 +29,9 @@ public class OneDimensionGameData implements GameModeData {
         this.scoreType = scoreType;
     }
 
+    @Override
+    public GameMode getGameMode() {
+        return GameMode.ONE_DIMENSION;
+    }
+
 }
