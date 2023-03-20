@@ -3,6 +3,11 @@ package com.gytmy.labyrinth.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,12 +52,37 @@ public class ScoreBoardPanel extends JPanel {
     }
 
     private void initInformations() {
-        for (Player player : model.getPlayers()) {
-            createTextLabel(player.getName());
+        Map<Player, Integer> sortedPlayerScoresMap = getSortedPlayersByScoresMap();
 
-            String playerScore = String.valueOf(model.getScore(player));
+        for (Entry<Player, Integer> entry : sortedPlayerScoresMap.entrySet()) {
+            String playerName = entry.getKey().getName();
+            createTextLabel(playerName);
+
+            String playerScore = String.valueOf(entry.getValue());
             createTextLabel(playerScore);
         }
+    }
+
+    private Map<Player, Integer> getSortedPlayersByScoresMap() {
+        Map<Player, Integer> playerScoresMap = new LinkedHashMap<>();
+
+        for (Player player : model.getPlayers()) {
+            playerScoresMap.put(player, model.getScore(player));
+        }
+
+        return sortByValue(playerScoresMap);
+    }
+
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue())); // Descending order
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 
     private void createTextLabel(String text) {
