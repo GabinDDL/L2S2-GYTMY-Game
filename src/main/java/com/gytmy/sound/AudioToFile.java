@@ -1,9 +1,7 @@
 package com.gytmy.sound;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import com.gytmy.utils.WordsToRecord;
 
@@ -44,7 +42,7 @@ public class AudioToFile {
     }
 
     private static void addAudioToLST(User user, String recordedWord, int numberOfRecordings) {
-        AudioFileManager.tryToCreateListFile(user, recordedWord);
+        ModelManager.tryToCreateListFile(user, recordedWord);
 
         try {
             FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);
