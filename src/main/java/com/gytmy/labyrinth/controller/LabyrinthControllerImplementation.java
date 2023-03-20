@@ -13,6 +13,7 @@ import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.labyrinth.view.game.LabyrinthClassicView;
 import com.gytmy.labyrinth.view.game.LabyrinthView;
+import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
 import com.gytmy.utils.Coordinates;
 
 public class LabyrinthControllerImplementation implements LabyrinthController {
@@ -39,7 +40,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private void initGame() {
         model = LabyrinthModelFactory.createLabyrinth(gameData);
         initPlayersInitialCell(model.getPlayers());
-        view = new LabyrinthClassicView(model, frame, this);
+        view = LabyrinthViewFactory.createLabyrinthView(gameData, model, frame, this);
     }
 
     private void initPlayersInitialCell(Player[] players) {
