@@ -1,1 +1,1 @@
-./EnergyDetector --config ./cfg/EnergyDetectory.cfg --inputFeatureFilename $1 --featureFilesPath $2 --labelFilesPath $3 --mixtureFilesPath $4
+./EnergyDetector --config ./cfg/EnergyDetectory.cfg --inputFeatureFilename $1
