@@ -65,4 +65,22 @@ public class TestSimpleKeyboardScoreCalculator {
         assertTrue(score <= MAX_SCORE);
     }
 
+    @Test
+    public void testIsNormalizedSmallDeviationInTime() {
+        SimpleKeyboardScoreInfo scoreInfo = new SimpleKeyboardScoreInfo(21, 21, 3);
+        SimpleKeyboardScoreCalculator calculator = new SimpleKeyboardScoreCalculator(scoreInfo);
+        int score = calculator.getScore();
+        assertTrue(score >= 0);
+        assertTrue(score <= MAX_SCORE);
+    }
+
+    @Test
+    public void testIsNormalizedSmallDeviationInMovements() {
+        SimpleKeyboardScoreInfo scoreInfo = new SimpleKeyboardScoreInfo(500, 505, 500);
+        SimpleKeyboardScoreCalculator calculator = new SimpleKeyboardScoreCalculator(scoreInfo);
+        int score = calculator.getScore();
+        assertTrue(score >= 0);
+        assertTrue(score <= MAX_SCORE);
+    }
+
 }
