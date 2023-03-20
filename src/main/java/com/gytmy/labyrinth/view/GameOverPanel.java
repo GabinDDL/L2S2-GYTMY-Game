@@ -59,6 +59,7 @@ public class GameOverPanel extends JPanel {
         buttonsPanel = new JPanel();
         GridLayout buttonsLayout = new GridLayout(1, 3, 5, 5);
         buttonsPanel.setLayout(buttonsLayout);
+        buttonsPanel.setBackground(BACKGROUND_COLOR);
 
         initGoToStartMenuButton();
         initPlayAgainButton();
@@ -84,6 +85,8 @@ public class GameOverPanel extends JPanel {
     private void initButton(String text, ActionListener actionListener) {
         JButton button = new JButton(text);
         button.addActionListener(actionListener);
+        button.setBackground(FOREGROUND_COLOR);
+        button.setForeground(BACKGROUND_COLOR);
         buttonsPanel.add(button);
     }
 
