@@ -310,17 +310,7 @@ public class AudioFileManager {
             aDirectoryIsCreated = true;
         }
 
-        File userModelDirectory = new File(user.modelPath());
-
-        if (!doesFileInDirectoryExist(userModelDirectory, user.modelPath() + word)) {
-            new File(user.modelPath() + word).mkdir();
-
-            File userWorldWordDirectory = new File(user.modelPath() + word + "/gmm/");
-            userWorldWordDirectory.mkdir();
-
-            aDirectoryIsCreated = true;
-        }
-
+        aDirectoryIsCreated = ModelManager.tryToCreateModelDirectory(user, word);
         return aDirectoryIsCreated;
     }
 
@@ -331,15 +321,5 @@ public class AudioFileManager {
         List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
 
         return files.contains(new File(file));
-    }
-
-    public static boolean tryToCreateListFile(User user, String recordedWord) {
-        File lstFile = new File(user.modelPath() + recordedWord + "/lst/List.lst");
-        try {
-            return lstFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }
