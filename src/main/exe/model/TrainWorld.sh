@@ -1,1 +1,1 @@
-./TrainWorld --config ./cfg/TrainWorld.cfg --inputFeatureFilename $1 --featureFilesPath $2 --labelFilesPath $3 --mixtureFilesPath $4
+./TrainWorld --config ./cfg/TrainWorld.cfg --inputFeatureFilename $1 --mixtureFilesPath $2
