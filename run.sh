@@ -36,11 +36,11 @@ case "$1" in
     compile
     $wasCompile && exit 0 || exit 1
     ;;
-"compileTests")
+"compileTest" | "compileTests")
     compileTests
     $wasTestCompile && exit 0 || exit 1
     ;;
-"runTests" | "test" | "tests")
+"runTest" | "runTests" | "test" | "tests")
     compileTests
     runTests
     $wasTestRun && exit 0 || exit 1
