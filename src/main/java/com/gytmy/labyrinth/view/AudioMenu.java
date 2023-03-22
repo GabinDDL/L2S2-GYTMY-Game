@@ -81,8 +81,6 @@ public class AudioMenu extends JPanel {
     }
 
     public AudioMenu() {
-        MenuFrameHandler.setSubtitle("Audio Menu");
-
         setLayout(new BorderLayout());
 
         initUserPanel();
