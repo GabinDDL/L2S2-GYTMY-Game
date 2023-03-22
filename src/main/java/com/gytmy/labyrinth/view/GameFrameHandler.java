@@ -16,7 +16,7 @@ public class GameFrameHandler {
     private static SettingsMenu settingsMenu;
     private static AudioMenu audioMenu;
 
-    private static final Dimension DEFAULT_DIMENSION = new Dimension(800, 500);
+    public static final Dimension DEFAULT_DIMENSION = new Dimension(800, 500);
 
     private GameFrameHandler() {
     }
