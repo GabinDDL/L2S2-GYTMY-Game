@@ -33,7 +33,7 @@ public class ScoreBoardPanel extends JPanel {
 
         GridLayout layout = new GridLayout(
                 model.getNbPlayers() + 1, 2,
-                20, 5);
+                10, 5);
 
         setLayout(layout);
         setBackground(BACKGROUND_COLOR);
