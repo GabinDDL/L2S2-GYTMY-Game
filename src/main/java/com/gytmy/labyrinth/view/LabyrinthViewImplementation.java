@@ -71,7 +71,10 @@ public class LabyrinthViewImplementation extends LabyrinthView {
 
     @Override
     public void showGameOverPanel() {
-        GameFrameHandler.goToGameOverPanel(model);
+        frame.setContentPane(new GameOverPanel(model));
+        frame.setTitle(GameFrameHandler.GAME_TITLE + " - Game over");
+        frame.revalidate();
+        frame.repaint();
     }
 
 }
