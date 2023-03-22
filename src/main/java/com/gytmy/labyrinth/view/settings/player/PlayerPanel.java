@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth.view.settings.player;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -7,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
@@ -31,12 +33,19 @@ public class PlayerPanel extends JPanel {
 
     private static final Color DEFAULT_BACKGROUND = Cell.WALL_COLOR;
     private static final Color BORDER_COLOR = Cell.PATH_COLOR;
+    private static final int ICON_HEIGHT = 40;
+    private static final int ICON_WIDTH = 40;
 
     private static final String ADD_PLAYER_IMAGE_PATH = "src/resources/images/settings_menu/add_player.png";
+    private static final ImageIcon READY_PLAYER_MARK_ICON = ImageManipulator
+            .resizeImage("src/resources/images/settings_menu/check-mark.png", ICON_WIDTH, ICON_HEIGHT);
+    private static final ImageIcon NOT_READY_PLAYER_MARK_ICON = ImageManipulator
+            .resizeImage("src/resources/images/settings_menu/cross-mark.png", ICON_WIDTH, ICON_HEIGHT);
 
     private int id;
     private UserSelector userSelector;
     private boolean isPlayerReady;
+    private JLabel isPlayerReadyLabel;
 
     public PlayerPanel(int id) {
         this.id = id;
@@ -117,19 +126,26 @@ public class PlayerPanel extends JPanel {
             gbc.gridy = 0;
             gbc.weightx = 1;
             gbc.weighty = 1;
+            gbc.gridwidth = 2;
             gbc.fill = GridBagConstraints.BOTH;
 
-            JPanel panel = new JPanel();
+            JPanel panel = new JPanel(new BorderLayout());
             panel.setBackground(COLORS[id]);
             add(panel, gbc);
+
+            isPlayerReadyLabel = new JLabel(NOT_READY_PLAYER_MARK_ICON);
+            isPlayerReadyLabel.setBackground(COLORS[id]);
+            panel.add(isPlayerReadyLabel, BorderLayout.CENTER);
 
             updateGUI();
         }
 
         private void initUserSelector() {
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
+
+            gbc.gridx = 1;
             gbc.gridy = 1;
+
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.anchor = GridBagConstraints.PAGE_END;
             gbc.weightx = 1;
@@ -141,9 +157,13 @@ public class PlayerPanel extends JPanel {
         }
 
         private void updateReadyStatus() {
-            // TODO: Temporal fix waiting for a better solution
-            // @lacenne should be able to fix this, adding an icon
-            // to display the ready status
+
+            if (isPlayerReady) {
+                isPlayerReadyLabel.setIcon(NOT_READY_PLAYER_MARK_ICON);
+            } else {
+                isPlayerReadyLabel.setIcon(READY_PLAYER_MARK_ICON);
+            }
+
             isPlayerReady = !isPlayerReady;
             if (isPlayerReady) {
                 userSelector.lockChoice();
