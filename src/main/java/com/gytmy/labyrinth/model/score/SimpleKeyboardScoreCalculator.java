@@ -56,7 +56,7 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
     private SimpleKeyboardScoreInfo info;
     private int bestTime;
 
-    private static final int MAX_SCORE = 1000;
+    public static final int MAX_SCORE = 1000;
 
     // The factor to compute the movement penalty
     private static final double MOVEMENTS_FACTOR = 2.5;
@@ -135,7 +135,7 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
             return 1;
         }
 
-        return (value - upperBound) / upperBound;
+        return (upperBound - value) / upperBound;
     }
 
     public void updateInfo(ScoreInfo info) {
