@@ -74,6 +74,7 @@ public class LabyrinthViewImplementation extends LabyrinthView {
         frame.setContentPane(new GameOverPanel(model));
         frame.setPreferredSize(GameFrameHandler.DEFAULT_DIMENSION);
         frame.setTitle(GameFrameHandler.GAME_TITLE + " - Game over");
+        frame.pack();
         frame.revalidate();
         frame.repaint();
     }
