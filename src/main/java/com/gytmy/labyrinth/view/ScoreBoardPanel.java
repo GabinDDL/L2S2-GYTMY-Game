@@ -70,10 +70,10 @@ public class ScoreBoardPanel extends JPanel {
             playerScoresMap.put(player, model.getScore(player));
         }
 
-        return sortByValue(playerScoresMap);
+        return sortByValueDescendingOrder(playerScoresMap);
     }
 
-    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValueDescendingOrder(Map<K, V> map) {
         List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue())); // Descending order
 
