@@ -52,7 +52,7 @@ public class ScoreBoardPanel extends JPanel {
     }
 
     private void initInformations() {
-        Map<Player, Integer> sortedPlayerScoresMap = getSortedPlayersByScoresMap();
+        Map<Player, Integer> sortedPlayerScoresMap = new ScoreMap();
 
         for (Entry<Player, Integer> entry : sortedPlayerScoresMap.entrySet()) {
             String playerName = entry.getKey().getName();
@@ -63,26 +63,26 @@ public class ScoreBoardPanel extends JPanel {
         }
     }
 
-    private Map<Player, Integer> getSortedPlayersByScoresMap() {
-        Map<Player, Integer> playerScoresMap = new LinkedHashMap<>();
+    private class ScoreMap extends LinkedHashMap<Player, Integer> {
+        public ScoreMap() {
+            super();
 
-        for (Player player : model.getPlayers()) {
-            playerScoresMap.put(player, model.getScore(player));
+            for (Player player : model.getPlayers()) {
+                put(player, model.getScore(player));
+            }
+
+            this.sortByScoreDescendingOrder();
         }
 
-        return sortByValueDescendingOrder(playerScoresMap);
-    }
+        private void sortByScoreDescendingOrder() {
+            List<Entry<Player, Integer>> list = new ArrayList<>(entrySet());
+            list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue())); // Descending order
 
-    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValueDescendingOrder(Map<K, V> map) {
-        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
-        list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue())); // Descending order
-
-        Map<K, V> result = new LinkedHashMap<>();
-        for (Entry<K, V> entry : list) {
-            result.put(entry.getKey(), entry.getValue());
+            clear();
+            for (Entry<Player, Integer> entry : list) {
+                put(entry.getKey(), entry.getValue());
+            }
         }
-
-        return result;
     }
 
     private void createTextLabel(String text) {
