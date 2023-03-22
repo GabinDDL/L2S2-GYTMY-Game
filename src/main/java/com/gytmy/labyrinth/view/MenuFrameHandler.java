@@ -41,7 +41,7 @@ public class MenuFrameHandler {
     }
 
     public static void goToSettingsMenu() {
-        changeJPanel(settingsMenu, "Setting");
+        changeJPanel(settingsMenu, "Settings");
     }
 
     public static void goToAudioMenu() {
