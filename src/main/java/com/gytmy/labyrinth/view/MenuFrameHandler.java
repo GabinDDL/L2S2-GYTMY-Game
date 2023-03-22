@@ -37,15 +37,15 @@ public class MenuFrameHandler {
     }
 
     public static void goToStartMenu() {
-        changeJPanel(startMenu, "StartMenu");
+        changeJPanel(startMenu, "Start");
     }
 
     public static void goToSettingsMenu() {
-        changeJPanel(settingsMenu, "SettingsMenu");
+        changeJPanel(settingsMenu, "Setting");
     }
 
     public static void goToAudioMenu() {
-        changeJPanel(audioMenu, "AudioMenu");
+        changeJPanel(audioMenu, "Audio");
     }
 
     private static void changeJPanel(JPanel panel, String subtitle) {
