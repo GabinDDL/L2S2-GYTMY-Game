@@ -72,7 +72,7 @@ public class LabyrinthViewImplementation extends LabyrinthView {
     public void showGameOverPanel() {
         frame.setContentPane(new GameOverPanel(model));
         frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
-        MenuFrameHandler.frameUpdate("Game Over");
+        MenuFrameHandler.frameUpdate("GameOver");
     }
 
 }
