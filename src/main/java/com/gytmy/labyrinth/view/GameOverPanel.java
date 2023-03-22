@@ -66,17 +66,17 @@ public class GameOverPanel extends JPanel {
     }
 
     private void initQuitButton() {
-        initButton("Quit", e -> GameFrameHandler.quitGame());
+        initButton("Quit", e -> MenuFrameHandler.quitGame());
     }
 
     private void initPlayAgainButton() {
         initButton("Play again",
-                e -> GameFrameHandler.goToSettingsMenu());
+                e -> MenuFrameHandler.goToSettingsMenu());
     }
 
     private void initGoToStartMenuButton() {
         initButton("Go to menu",
-                e -> GameFrameHandler.goToStartMenu());
+                e -> MenuFrameHandler.goToStartMenu());
     }
 
     private void initButton(String text, ActionListener actionListener) {

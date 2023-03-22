@@ -25,7 +25,7 @@ import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.Cell;
-import com.gytmy.labyrinth.view.GameFrameHandler;
+import com.gytmy.labyrinth.view.MenuFrameHandler;
 import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
@@ -122,12 +122,12 @@ public class SettingsMenu extends JPanel {
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
         GameData gameData = new GameData(gameModeSettings, gameMode, players);
 
-        JFrame frame = GameFrameHandler.getMainFrame();
+        JFrame frame = MenuFrameHandler.getMainFrame();
         LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
         LabyrinthView labyrinthView = labyrinthController.getView();
 
         frame.setContentPane(labyrinthView);
-        GameFrameHandler.setSubtitle("Labyrinth View");
+        MenuFrameHandler.setSubtitle("Labyrinth View");
 
         frame.pack();
         frame.revalidate();
@@ -138,7 +138,7 @@ public class SettingsMenu extends JPanel {
         // define the action to be performed when the shortcut is pressed
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                GameFrameHandler.goToStartMenu();
+                MenuFrameHandler.goToStartMenu();
             }
         };
 

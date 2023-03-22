@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.view.settings.SettingsMenu;
 
-public class GameFrameHandler {
+public class MenuFrameHandler {
 
     public static final String GAME_TITLE = "Be AMazed";
 
@@ -19,7 +19,7 @@ public class GameFrameHandler {
 
     public static final Dimension DEFAULT_DIMENSION = new Dimension(800, 500);
 
-    private GameFrameHandler() {
+    private MenuFrameHandler() {
     }
 
     public static JFrame getMainFrame() {
@@ -27,7 +27,7 @@ public class GameFrameHandler {
     }
 
     public static void setMainFrame(JFrame mainFrame) {
-        GameFrameHandler.mainFrame = mainFrame;
+        MenuFrameHandler.mainFrame = mainFrame;
 
     }
 
