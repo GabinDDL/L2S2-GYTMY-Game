@@ -81,7 +81,7 @@ public class AudioMenu extends JPanel {
     }
 
     public AudioMenu() {
-        this.mainFrame.setTitle("Be AMazed" + "\t( AudioSettings )");
+        MenuFrameHandler.setSubtitle("Audio Menu");
 
         setLayout(new BorderLayout());
 
