@@ -63,6 +63,13 @@ public class MenuFrameHandler {
         mainFrame.setPreferredSize(null);
     }
 
+    public static void frameUpdate(String subTitle) {
+        mainFrame.pack();
+        mainFrame.revalidate();
+        mainFrame.repaint();
+        setSubtitle(subTitle);
+    }
+
     public static void setSubtitle(String subtitle) {
         mainFrame.setTitle(GAME_TITLE + " - " + subtitle);
     }
@@ -70,5 +77,4 @@ public class MenuFrameHandler {
     public static void quitGame() {
         mainFrame.dispose();
     }
-
 }

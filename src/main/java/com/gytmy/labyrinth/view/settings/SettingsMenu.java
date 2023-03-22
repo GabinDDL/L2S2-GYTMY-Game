@@ -127,11 +127,8 @@ public class SettingsMenu extends JPanel {
         LabyrinthView labyrinthView = labyrinthController.getView();
 
         frame.setContentPane(labyrinthView);
-        MenuFrameHandler.setSubtitle("Labyrinth View");
 
-        frame.pack();
-        frame.revalidate();
-        frame.repaint();
+        MenuFrameHandler.frameUpdate(gameMode + "");
     }
 
     private void addEscapeKeyBind() {
