@@ -4,7 +4,6 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.view.settings.SettingsMenu;
 
 public class GameFrameHandler {
@@ -63,15 +62,6 @@ public class GameFrameHandler {
         // Ensure hat the frame remains the same default size
         mainFrame.setPreferredSize(DEFAULT_DIMENSION);
         GameFrameHandler.frameUpdate("AudioMenu");
-        mainFrame.revalidate();
-        mainFrame.repaint();
-    }
-
-    public static void goToGameOverPanel(LabyrinthModel model) {
-        mainFrame.setContentPane(new GameOverPanel(model));
-        // Ensure hat the frame remains the same default size
-        mainFrame.setPreferredSize(DEFAULT_DIMENSION);
-        GameFrameHandler.frameUpdate("GameOverPanel");
         mainFrame.revalidate();
         mainFrame.repaint();
     }
