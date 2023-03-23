@@ -97,19 +97,19 @@ public class User {
      ***********************************/
 
     public String yamlConfigPath() {
-        return audioFilesPath() + "config.yaml";
+        return getAudioFilesPath() + "config.yaml";
     }
 
-    public String audioFilesPath() {
+    public String getAudioFilesPath() {
         return AUDIO_ROOT_DIRECTORY + getFirstName() + "/";
     }
 
-    public String audioPath() {
-        return audioFilesPath() + "audio/";
+    public String getAudioPath() {
+        return getAudioFilesPath() + "audio/";
     }
 
-    public String modelPath() {
-        return audioFilesPath() + "model/";
+    public String getModelPath() {
+        return getAudioFilesPath() + "model/";
     }
 
     /**********************************/

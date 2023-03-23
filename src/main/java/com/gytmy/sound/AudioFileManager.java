@@ -58,7 +58,7 @@ public class AudioFileManager {
     }
 
     public static boolean doesUserAlreadyExist(User user) {
-        return new File(user.audioFilesPath()).exists();
+        return new File(user.getAudioFilesPath()).exists();
     }
 
     /**
@@ -66,15 +66,15 @@ public class AudioFileManager {
      */
     public static void createUserFiles(User user) {
 
-        File userDirectory = new File(user.audioFilesPath());
+        File userDirectory = new File(user.getAudioFilesPath());
         userDirectory.mkdir();
 
         writeYamlConfig(user);
 
-        File userAudioDirectory = new File(user.audioPath());
+        File userAudioDirectory = new File(user.getAudioPath());
         userAudioDirectory.mkdir();
 
-        File userModelDirectory = new File(user.modelPath());
+        File userModelDirectory = new File(user.getModelPath());
         userModelDirectory.mkdir();
     }
 
@@ -143,7 +143,7 @@ public class AudioFileManager {
      * Delete the user directory and all the files in it
      */
     private static void deleteFiles(User user) {
-        File userDirectory = new File(user.audioFilesPath());
+        File userDirectory = new File(user.getAudioFilesPath());
         clearDirectory(userDirectory);
         userDirectory.delete();
     }
@@ -288,8 +288,8 @@ public class AudioFileManager {
             if (currentUser.equals(userToEdit)) {
                 writeYamlConfigAtCertainPath(user, userToEdit.yamlConfigPath());
 
-                File oldUserDirectory = new File(userToEdit.audioFilesPath());
-                oldUserDirectory.renameTo(new File(user.audioFilesPath()));
+                File oldUserDirectory = new File(userToEdit.getAudioFilesPath());
+                oldUserDirectory.renameTo(new File(user.getAudioFilesPath()));
             }
         }
     }
@@ -304,14 +304,19 @@ public class AudioFileManager {
 
         boolean aDirectoryIsCreated = false; // True if at least one of word directory is created
 
-        File userAudioDirectory = new File(user.audioPath());
+        File userAudioDirectory = new File(user.getAudioPath());
 
-        if (!doesFileInDirectoryExist(userAudioDirectory, user.audioPath() + word)) {
-            new File(user.audioPath() + word).mkdir();
+        if (!userAudioDirectory.exists()) {
+            userAudioDirectory.mkdir();
+        }
+
+        if (!doesFileInDirectoryExist(userAudioDirectory, user.getAudioPath() + word)) {
+            new File(user.getAudioPath() + word).mkdir();
             aDirectoryIsCreated = true;
         }
 
-        aDirectoryIsCreated = ModelManager.tryToCreateModelDirectory(user, word);
+        aDirectoryIsCreated = ModelManager.tryToCreateModelDirectory(user, word) || aDirectoryIsCreated;
+
         return aDirectoryIsCreated;
     }
 

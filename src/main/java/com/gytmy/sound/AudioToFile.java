@@ -33,7 +33,7 @@ public class AudioToFile {
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
-        String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
+        String path = user.getAudioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
         audioRecorder = new AudioRecorder(path);
         audioRecorder.start();
@@ -45,7 +45,7 @@ public class AudioToFile {
         ModelManager.tryToCreateListFile(user, recordedWord);
 
         try {
-            FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);
+            FileWriter writer = new FileWriter(user.getModelPath() + recordedWord + "/lst/List.lst", true);
             writer.append(recordedWord + numberOfRecordings + "\n");
             writer.close();
         } catch (IOException e) {
