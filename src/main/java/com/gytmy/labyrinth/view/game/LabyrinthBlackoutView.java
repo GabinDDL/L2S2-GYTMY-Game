@@ -21,6 +21,7 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
     private BlackoutLabyrinthPanel blackoutPanel;
 
     private boolean isFlashing = false;
+    private Thread flashThread;
 
     public static final Color BLACKOUT_COLOR = Cell.WALL_COLOR;
     private static final int BLACKOUT_INITIAL_COUNTDOWN_SECONDS = 3;
@@ -63,16 +64,18 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
     public void startFlash() {
         isFlashing = true;
         // This thread is used to count the time between flashes
-        new Thread(() -> {
+        flashThread = new Thread(() -> {
             while (isFlashing) {
                 try {
                     Thread.sleep(FLASH_INTERVAL_SECONDS * 1000);
                     flash();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    // We don't care about this exception because we interrupt the thread when the
+                    // game is over
                 }
             }
-        }).start();
+        });
+        flashThread.start();
     }
 
     private void flash() {
@@ -83,7 +86,8 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
                 Thread.sleep(FLASH_DURATION_SECONDS * 1000);
                 switchToBlackout();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                // We don't care about this exception because we interrupt the thread when the
+                // game is over
             }
         }).start();
     }
@@ -108,6 +112,7 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
     public void stopFlash() {
         isFlashing = false;
+        flashThread.interrupt();
     }
 
     @Override
