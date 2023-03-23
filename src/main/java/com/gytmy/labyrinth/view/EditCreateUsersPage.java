@@ -215,7 +215,9 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private boolean inputsAreValid() {
-        return !firstName.getText().equals("First name") && !lastName.getText().equals("Last name")
-                && Integer.valueOf(studentNumber.getText()) != 0 && !userName.getText().equals("Username");
+        return !firstName.getText().equals(DEFAULT_FIRST_NAME_TEXT)
+                && !lastName.getText().equals(DEFAULT_LAST_NAME_TEXT)
+                && Integer.valueOf(studentNumber.getText()) != DEFAULT_STUDENT_NUMBER_VALUE
+                && !userName.getText().equals(DEFAULT_USER_NAME_TEXT);
     }
 }
