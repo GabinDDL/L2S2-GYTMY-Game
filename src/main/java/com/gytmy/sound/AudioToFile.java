@@ -77,9 +77,4 @@ public class AudioToFile {
             throw new IllegalArgumentException("Invalid recorded word");
         }
     }
-
-    public static void main(String[] args) {
-        User user = new User();
-        record(user, "HAUT");
-    }
 }
