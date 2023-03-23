@@ -6,8 +6,8 @@ exit 1
 fi
 
 SPRO_BIN_DIR="."
-# SPH_DIR="./data"
-# PRM_DIR="./prm"
+SPH_DIR="./data"
+PRM_DIR="./prm"
 PRM_EXT=".prm"
 SPH_EXT=".wav"
 echo $SPRO_BIN_DIR
@@ -51,7 +51,7 @@ fi
 
 for i in `cat $1`;do
 
-	./sfbcep $OPTS $3/$i$SPH_EXT $4/$i$PRM_EXT
+	./sfbcep $OPTS $SPH_DIR/$i$SPH_EXT $PRM_DIR/$i$PRM_EXT
 	
 	
 done
