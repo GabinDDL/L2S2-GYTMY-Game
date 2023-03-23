@@ -12,6 +12,7 @@ import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.TimerPanel;
 
+// TODO: show player even if no movement has been made
 public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
     private LabyrinthController controller;
