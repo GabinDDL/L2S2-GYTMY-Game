@@ -46,7 +46,7 @@ public class AudioToFile {
 
         try {
             FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);
-            writer.append(recordedWord + numberOfRecordings);
+            writer.append(recordedWord + numberOfRecordings + "\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
