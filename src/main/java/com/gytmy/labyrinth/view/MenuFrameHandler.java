@@ -3,10 +3,11 @@ package com.gytmy.labyrinth.view;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.view.settings.SettingsMenu;
 
-public class GameFrameHandler {
+public class MenuFrameHandler {
 
     public static final String GAME_TITLE = "Be AMazed";
 
@@ -16,9 +17,9 @@ public class GameFrameHandler {
     private static SettingsMenu settingsMenu;
     private static AudioMenu audioMenu;
 
-    private static final Dimension DEFAULT_DIMENSION = new Dimension(800, 500);
+    public static final Dimension DEFAULT_DIMENSION = new Dimension(800, 500);
 
-    private GameFrameHandler() {
+    private MenuFrameHandler() {
     }
 
     public static JFrame getMainFrame() {
@@ -26,7 +27,7 @@ public class GameFrameHandler {
     }
 
     public static void setMainFrame(JFrame mainFrame) {
-        GameFrameHandler.mainFrame = mainFrame;
+        MenuFrameHandler.mainFrame = mainFrame;
 
     }
 
@@ -35,35 +36,45 @@ public class GameFrameHandler {
         audioMenu = AudioMenu.getInstance();
     }
 
-    public static void frameUpdate(String subTitle) {
-        mainFrame.pack();
-        mainFrame.revalidate();
-        mainFrame.setTitle(GAME_TITLE + "\t(" + subTitle + ")");
-    }
-
     public static void goToStartMenu() {
-        mainFrame.setContentPane(startMenu);
-        mainFrame.setSize(DEFAULT_DIMENSION);
-        mainFrame.revalidate();
-        mainFrame.setTitle(GAME_TITLE + "\t( Menu )");
+        changeJPanel(startMenu, "Start");
     }
 
     public static void goToSettingsMenu() {
-        mainFrame.setContentPane(settingsMenu);
+        changeJPanel(settingsMenu, "Settings");
+    }
+
+    public static void goToAudioMenu() {
+        changeJPanel(audioMenu, "Audio");
+    }
+
+    private static void changeJPanel(JPanel panel, String subtitle) {
+        mainFrame.setContentPane(panel);
+
         // Ensure that the frame remains the same default size
         mainFrame.setPreferredSize(DEFAULT_DIMENSION);
-        GameFrameHandler.frameUpdate("SettingsMenu");
+
+        setSubtitle(subtitle);
+        mainFrame.pack();
+        mainFrame.revalidate();
+        mainFrame.repaint();
+
         // Allow other components to resize the frame
         mainFrame.setPreferredSize(null);
     }
 
-    public static void goToAudioMenu() {
-        mainFrame.setContentPane(audioMenu);
-        // Ensure hat the frame remains the same default size
-        mainFrame.setPreferredSize(DEFAULT_DIMENSION);
-        GameFrameHandler.frameUpdate("AudioMenu");
+    public static void frameUpdate(String subTitle) {
+        mainFrame.pack();
         mainFrame.revalidate();
         mainFrame.repaint();
+        setSubtitle(subTitle);
     }
 
+    public static void setSubtitle(String subtitle) {
+        mainFrame.setTitle(GAME_TITLE + " - " + subtitle);
+    }
+
+    public static void quitGame() {
+        mainFrame.dispose();
+    }
 }

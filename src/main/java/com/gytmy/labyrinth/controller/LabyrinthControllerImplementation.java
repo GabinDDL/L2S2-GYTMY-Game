@@ -37,9 +37,20 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     private void initGame() {
+        initScoreType();
         model = LabyrinthModelFactory.createLabyrinth(gameData);
         initPlayersInitialCell(model.getPlayers());
         view = LabyrinthViewFactory.createLabyrinthView(gameData, model, frame, this);
+    }
+
+    private void initScoreType() {
+        switch (selectedMovementControllerType) {
+            case KEYBOARD:
+                gameData.setScoreType(ScoreType.SIMPLE_KEYBOARD);
+                break;
+            default:
+                break;
+        }
     }
 
     private void initPlayersInitialCell(Player[] players) {
@@ -54,7 +65,6 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         switch (selectedMovementControllerType) {
             case KEYBOARD:
                 initializeKeyboardMovementController();
-                gameData.setScoreType(ScoreType.SIMPLE_KEYBOARD);
                 break;
             default:
                 break;

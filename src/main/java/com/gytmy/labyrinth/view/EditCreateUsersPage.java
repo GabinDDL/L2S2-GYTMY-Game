@@ -171,7 +171,7 @@ public class EditCreateUsersPage extends JPanel {
         cancel = new JButton("Cancel");
         cancel.setBackground(Cell.INITIAL_CELL_COLOR);
 
-        cancel.addActionListener(e -> GameFrameHandler.goToAudioMenu());
+        cancel.addActionListener(e -> MenuFrameHandler.goToAudioMenu());
 
         constraints.gridx = 0;
         constraints.gridy = 5;
@@ -206,7 +206,7 @@ public class EditCreateUsersPage extends JPanel {
                 AudioFileManager.editUser(userToEdit, user);
             }
 
-            GameFrameHandler.goToAudioMenu();
+            MenuFrameHandler.goToAudioMenu();
         });
 
         constraints.gridx = 2;
