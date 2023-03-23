@@ -64,37 +64,40 @@ public class AudioMenu extends JPanel {
     private PlayingTimer timer;
     private boolean isPlaying = false;
 
+    private static final int ICON_HEIGHT = 20;
+    private static final int ICON_WIDTH = 20;
+
     private static final ImageIcon deleteUserIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/delete-button.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
 
     private static final ImageIcon editUserIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/edit.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
 
     private static final ImageIcon addUserIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/add-user.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
 
     private static final ImageIcon recordIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/rec-button.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
 
     private static final ImageIcon deleteIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/bin.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
 
     private static final ImageIcon playIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/play-button.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
     private static final ImageIcon pauseIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/pause-button.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
     private JButton playAndStopButton;
 
     private static final ImageIcon goBackIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/go-back-arrow.png",
-            20, 20);
+            ICON_WIDTH, ICON_HEIGHT);
 
     private String audioToLoad = "";
 
