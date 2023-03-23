@@ -15,8 +15,10 @@ import com.gytmy.labyrinth.model.player.Player;
  */
 public class PlayerSelectionPanel extends JPanel {
 
-    public static final int MAX_OF_PLAYERS = 5;
+    private int numberOfPlayers;
     private PlayerPanel[] playerPanels;
+
+    public static final int MAX_OF_PLAYERS = 5;
 
     private static PlayerSelectionPanel instance = null;
 
@@ -43,6 +45,8 @@ public class PlayerSelectionPanel extends JPanel {
     public void changeNumberOfPlayers(int numberOfPlayers) {
         removeAll();
 
+        this.numberOfPlayers = numberOfPlayers;
+
         setLayout(new GridLayout(1, numberOfPlayers));
         for (int i = 0; i < numberOfPlayers; i++) {
             add(playerPanels[i]);
@@ -54,12 +58,13 @@ public class PlayerSelectionPanel extends JPanel {
 
     public Player[] getSelectedPlayers() {
         List<Player> players = new ArrayList<>();
-        for (PlayerPanel playerPanel : playerPanels) {
-            Player player = playerPanel.getPlayer();
+        for (int playerPosition = 0; playerPosition < numberOfPlayers; playerPosition++) {
+            Player player = playerPanels[playerPosition].getPlayer();
             if (player != null) {
                 players.add(player);
             }
         }
+
         return players.toArray(new Player[0]);
     }
 
@@ -67,11 +72,14 @@ public class PlayerSelectionPanel extends JPanel {
      * Returns {@code true} if all activated players are ready.
      */
     public boolean arePlayersReady() {
-        for (PlayerPanel playerPanel : playerPanels) {
+
+        for (int playerPosition = 0; playerPosition < numberOfPlayers; playerPosition++) {
+            PlayerPanel playerPanel = playerPanels[playerPosition];
             if (!playerPanel.isReady() && playerPanel.isActivated()) {
                 return false;
             }
         }
+
         return isAtLeastOnePlayerActivated();
     }
 
@@ -79,8 +87,8 @@ public class PlayerSelectionPanel extends JPanel {
      * Returns {@code true} if at least one player is activated.
      */
     private boolean isAtLeastOnePlayerActivated() {
-        for (PlayerPanel playerPanel : playerPanels) {
-            if (playerPanel.isActivated()) {
+        for (int playerPosition = 0; playerPosition < numberOfPlayers; playerPosition++) {
+            if (playerPanels[playerPosition].isActivated()) {
                 return true;
             }
         }
