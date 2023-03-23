@@ -230,7 +230,8 @@ public class AudioFileManager {
     }
 
     public static void deleteRecording(String firstName, String wordToRecord, int i) {
-        deleteRecording(SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+        deleteRecording(
+                SRC_DIR_PATH + firstName.toUpperCase() + "/audio/" + wordToRecord + "/" + wordToRecord + i + ".wav");
     }
 
     public static void deleteRecording(String filePath) {
@@ -252,7 +253,7 @@ public class AudioFileManager {
      *                           deleting the file
      */
     public static void renameAudioFiles(String firstName, String word, int wordIndex, int numberOfRecordings) {
-        File userDirectory = new File(SRC_DIR_PATH + firstName + "/" + word);
+        File userDirectory = new File(SRC_DIR_PATH + firstName + "/audio/" + word);
 
         if (!userDirectory.exists()) {
             return;
