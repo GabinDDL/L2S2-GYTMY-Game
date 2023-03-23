@@ -14,7 +14,7 @@ import javax.swing.event.MouseInputAdapter;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.labyrinth.view.Cell;
-import com.gytmy.labyrinth.view.GameFrameHandler;
+import com.gytmy.labyrinth.view.MenuFrameHandler;
 import com.gytmy.utils.ImageManipulator;
 
 /**
@@ -70,7 +70,7 @@ public class PlayerPanel extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         // This size allows the panel to be square and to fit in the frame
-        int frameWidth = GameFrameHandler.getMainFrame().getWidth();
+        int frameWidth = MenuFrameHandler.getMainFrame().getWidth();
         int size = frameWidth / PlayerSelectionPanel.MAX_OF_PLAYERS;
         return new Dimension(size, size);
     }
