@@ -1,15 +1,21 @@
 package com.gytmy.labyrinth.view.game;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.controller.LabyrinthController;
+import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.TimerPanel;
+
+// TODO:Show the player
+// TODO: Add trail 
+
+//TODO: Show labyrinth at the end of the game
 
 public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
@@ -17,12 +23,12 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
     private JPanel gamePanel;
 
-    private JPanel blackoutPanel;
+    private BlackoutLabyrinthPanel blackoutPanel;
 
     private boolean isFlashing = false;
 
-    private static final Color BLACKOUT_COLOR = Cell.WALL_COLOR;
-    private static final int BLACKOUT_INITIAL_COUNTDOWN_SECONDS = 10;
+    public static final Color BLACKOUT_COLOR = Cell.WALL_COLOR;
+    private static final int BLACKOUT_INITIAL_COUNTDOWN_SECONDS = 3; // TODO: Make the right configuration
     private static final int FLASH_INTERVAL_SECONDS = 20;
     private static final int FLASH_DURATION_SECONDS = 5;
 
@@ -47,9 +53,7 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
         c.gridy = 1;
         add(gamePanel, c);
 
-        blackoutPanel = new JPanel();
-        blackoutPanel.setBackground(BLACKOUT_COLOR);
-        blackoutPanel.setPreferredSize(labyrinthPanel.getPreferredSize());
+        blackoutPanel = new BlackoutLabyrinthPanel(labyrinthPanel);
 
         gamePanel.add(labyrinthPanel);
     }
@@ -109,6 +113,15 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
     public void stopFlash() {
         isFlashing = false;
+    }
+
+    @Override
+    public void update(Player player, Direction direction) {
+        super.update(player, direction);
+        blackoutPanel.update(player);
+
+        revalidate();
+        repaint();
     }
 
 }

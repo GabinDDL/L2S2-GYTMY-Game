@@ -93,4 +93,8 @@ public class LabyrinthPanel extends JPanel {
     private Cell getCell(Coordinates coordinates) {
         return cells[coordinates.getY()][coordinates.getX()];
     }
+
+    public Dimension getLabyrinthSize() {
+        return new Dimension(nbCols, nbRows);
+    }
 }
