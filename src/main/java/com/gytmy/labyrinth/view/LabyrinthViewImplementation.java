@@ -13,7 +13,6 @@ import com.gytmy.labyrinth.model.player.Player;
 public class LabyrinthViewImplementation extends LabyrinthView {
     private LabyrinthModel model;
     private LabyrinthPanel labyrinthPanel;
-    private GameOverPanel gameOverPanel;
     private TimerPanel timerPanel;
     private JFrame frame;
 
@@ -71,8 +70,9 @@ public class LabyrinthViewImplementation extends LabyrinthView {
 
     @Override
     public void showGameOverPanel() {
-        frame.setContentPane(new GameOverPanel(model, frame));
-        GameFrameHandler.frameUpdate("Game Over");
+        frame.setContentPane(new GameOverPanel(model));
+        frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        MenuFrameHandler.frameUpdate("Game Over");
     }
 
 }

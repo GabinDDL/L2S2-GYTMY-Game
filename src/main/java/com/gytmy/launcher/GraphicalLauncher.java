@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import com.gytmy.labyrinth.view.GameFrameHandler;
+import com.gytmy.labyrinth.view.MenuFrameHandler;
 
 public class GraphicalLauncher implements Runnable {
 
@@ -15,13 +15,13 @@ public class GraphicalLauncher implements Runnable {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        GameFrameHandler.setMainFrame(frame);
+        MenuFrameHandler.setMainFrame(frame);
 
-        GameFrameHandler.goToStartMenu();
+        MenuFrameHandler.goToStartMenu();
         // We need to init the menus after the frame is set, if not, the menus will be
         // not be initialized properly. In particular, the frame size would be either
         // null our (0,0).
-        GameFrameHandler.initMenus();
+        MenuFrameHandler.initMenus();
 
         try {
             frame.setIconImage(ImageIO.read(new File("src/resources/images/gytmy_logo.png")));
