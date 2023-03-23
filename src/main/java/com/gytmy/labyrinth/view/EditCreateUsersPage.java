@@ -1,7 +1,6 @@
 package com.gytmy.labyrinth.view;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -18,9 +17,6 @@ import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 public class EditCreateUsersPage extends JPanel {
-    private JFrame frame;
-    private AudioMenu audioMenu;
-
     private User userToEdit;
 
     private JButton saveOrCreate;
@@ -35,13 +31,11 @@ public class EditCreateUsersPage extends JPanel {
     private static final int DEFAULT_STUDENT_NUMBER_VALUE = 0;
     private static final String DEFAULT_USER_NAME_TEXT = "User name";
 
-    EditCreateUsersPage(JFrame frame, AudioMenu audioMenu) {
-        this(frame, audioMenu, null);
+    EditCreateUsersPage() {
+        this(null);
     }
 
-    EditCreateUsersPage(JFrame frame, AudioMenu audioMenu, User userToEdit) {
-        this.frame = frame;
-        this.audioMenu = audioMenu;
+    EditCreateUsersPage(User userToEdit) {
 
         this.userToEdit = userToEdit;
 

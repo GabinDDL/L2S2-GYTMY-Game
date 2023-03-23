@@ -21,7 +21,7 @@ public class RecordPage extends JPanel {
 
     private User userRecording;
     private String wordToRecord;
-    private static final String statusRecord = "[%s] --> %s";
+    private static final String STATUS_RECORD = "[%s] --> %s";
     private String pausedStatusRecord;
     private String recordingStatusRecord;
 
@@ -45,8 +45,8 @@ public class RecordPage extends JPanel {
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
 
-        pausedStatusRecord = String.format(statusRecord, wordToRecord, "∅ Stopped.");
-        recordingStatusRecord = String.format(statusRecord, wordToRecord, "● Recording...");
+        pausedStatusRecord = String.format(STATUS_RECORD, wordToRecord, "∅ Stopped.");
+        recordingStatusRecord = String.format(STATUS_RECORD, wordToRecord, "● Recording...");
 
         totalOfAudioWhenRecordStart = AudioFileManager.numberOfRecordings(userRecording.getFirstName(), wordToRecord);
 
