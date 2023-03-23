@@ -1,6 +1,7 @@
 package com.gytmy.labyrinth.view.game;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
@@ -66,6 +67,20 @@ public class LabyrinthViewImplementation extends LabyrinthView {
     @Override
     public void notifyGameStarted() {
         // For this view, nothing needs to be done.
+    }
+
+    @Override
+    public void notifyGameOver() {
+        // EventQueue is used to pause a little bit before showing the game over panel
+        EventQueue.invokeLater(
+                () -> {
+                    try {
+                        Thread.sleep(2000);
+                        showGameOverPanel();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
 }

@@ -124,16 +124,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
         if (model.isGameOver()) {
             view.stopTimer();
-            // EventQueue is used to pause a little bit before showing the game over panel
-            EventQueue.invokeLater(
-                    () -> {
-                        try {
-                            Thread.sleep(1000);
-                            view.showGameOverPanel();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+            view.notifyGameOver();
         }
     }
 

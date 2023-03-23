@@ -12,9 +12,6 @@ import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.TimerPanel;
 
-// TODO:Show the player
-// TODO: Add trail 
-
 //TODO: Show labyrinth at the end of the game
 
 public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
@@ -122,6 +119,13 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void notifyGameOver() {
+        stopFlash();
+        switchToGame();
+        super.notifyGameOver();
     }
 
 }
