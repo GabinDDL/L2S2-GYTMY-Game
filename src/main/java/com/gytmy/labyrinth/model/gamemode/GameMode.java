@@ -42,7 +42,7 @@ public enum GameMode {
         return displayName;
     }
 
-    public int getNumberOfPlayers() {
+    public int getMaxNumberOfPlayers() {
         switch (this) {
             case CLASSIC:
             case ONE_DIMENSION:

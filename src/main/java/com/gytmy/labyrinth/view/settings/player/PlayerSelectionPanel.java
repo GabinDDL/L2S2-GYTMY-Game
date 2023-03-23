@@ -28,11 +28,23 @@ public class PlayerSelectionPanel extends JPanel {
     }
 
     private PlayerSelectionPanel() {
-        setLayout(new GridLayout(1, MAX_OF_PLAYERS));
+        initPlayerPanels();
+        changeNumberOfPlayers(MAX_OF_PLAYERS);
+    }
+
+    private void initPlayerPanels() {
         playerPanels = new PlayerPanel[MAX_OF_PLAYERS];
 
         for (int i = 0; i < playerPanels.length; i++) {
             playerPanels[i] = new PlayerPanel(i);
+        }
+    }
+
+    public void changeNumberOfPlayers(int numberOfPlayers) {
+        removeAll();
+
+        setLayout(new GridLayout(1, numberOfPlayers));
+        for (int i = 0; i < numberOfPlayers; i++) {
             add(playerPanels[i]);
         }
 
