@@ -12,8 +12,6 @@ import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.TimerPanel;
 
-//TODO: Show labyrinth at the end of the game
-
 public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
 
     private LabyrinthController controller;
@@ -25,9 +23,9 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
     private boolean isFlashing = false;
 
     public static final Color BLACKOUT_COLOR = Cell.WALL_COLOR;
-    private static final int BLACKOUT_INITIAL_COUNTDOWN_SECONDS = 3; // TODO: Make the right configuration
+    private static final int BLACKOUT_INITIAL_COUNTDOWN_SECONDS = 3;
     private static final int FLASH_INTERVAL_SECONDS = 20;
-    private static final int FLASH_DURATION_SECONDS = 5;
+    private static final int FLASH_DURATION_SECONDS = 3;
 
     public LabyrinthBlackoutView(LabyrinthModel model, JFrame frame, LabyrinthController controller) {
         super(model, frame);

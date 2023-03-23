@@ -17,9 +17,6 @@ import com.gytmy.labyrinth.view.MenuFrameHandler;
 import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.utils.ImageManipulator;
 
-// TODO: Allow display of only one player
-// TODO: Allow choose number of players to display
-
 /**
  * This class represents a panel that allows the user to select a player.
  */
