@@ -21,11 +21,11 @@ Sami Boutamine (sami.boutamine@utc.fr)
 
 | Student ID # | Last Name | First Name | Group | Email |
 |:-:|:-:|:-:|:-:|:-:|
-| 22103458 | Dudillieu | Gabin  | MI2 | gdudillieu@gmail.com |
-| 22101699 | Iglesias Vazquez | Yago | MI2 | yagoiglesias7@gmail.com |
-| 22107803 | Soan | Tony Ly | MI2 | tony-ly.soan@etu.u-paris.fr |
-| 22112498 | Selvakumar | Mathusan | MI2 | mathusan.selvakumar@gmail.com |
-| 22103173 | Lacenne | Yanis | MI2 | yanis.lacenne@etu.u-paris.fr |
+| 22103458 | DUDILLIEU | Gabin  | MI2 | gdudillieu@gmail.com |
+| 22101699 | IGLESIAS VAZQUEZ | Yago | MI2 | yagoiglesias7@gmail.com |
+| 22107803 | SOAN | Tony Ly | MI2 | tony-ly.soan@etu.u-paris.fr |
+| 22112498 | SELVAKUMAR | Mathusan | MI2 | mathusan.selvakumar@gmail.com |
+| 22103173 | LACENNE | Yanis | MI2 | yanis.lacenne@etu.u-paris.fr |
 
 ## What is this project about ?
 
