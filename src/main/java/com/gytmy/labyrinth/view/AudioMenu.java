@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import com.gytmy.sound.AudioPlayer;
 import com.gytmy.sound.PlayingTimer;
 import com.gytmy.sound.User;
 import com.gytmy.utils.FileTree;
+import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.WordsToRecord;
 
 public class AudioMenu extends JPanel {
@@ -86,6 +88,8 @@ public class AudioMenu extends JPanel {
         initUserPanel();
         loadFileNavigator();
         initWordPanel();
+
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu);
     }
 
     /**

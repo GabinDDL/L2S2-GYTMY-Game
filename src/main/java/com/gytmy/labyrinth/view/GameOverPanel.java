@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.utils.HotkeyAdder;
 
 public class GameOverPanel extends JPanel {
 
@@ -36,6 +38,8 @@ public class GameOverPanel extends JPanel {
         initHeader();
         initScoreboard();
         initButtons();
+
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu);
     }
 
     private void initHeader() {
