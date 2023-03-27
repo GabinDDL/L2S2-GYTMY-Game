@@ -11,10 +11,12 @@ import java.awt.GridBagConstraints;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 
 import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
+import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
@@ -67,6 +69,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.insets = new Insets(0, 5, 10, 0);
         initSaveCreateButton(constraints);
         initCancelButton(constraints);
+
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToAudioMenu);
+
     }
 
     private void setTextValues() {
