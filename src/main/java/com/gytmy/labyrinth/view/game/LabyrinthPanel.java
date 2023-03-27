@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view;
+package com.gytmy.labyrinth.view.game;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -92,5 +92,9 @@ public class LabyrinthPanel extends JPanel {
 
     private Cell getCell(Coordinates coordinates) {
         return cells[coordinates.getY()][coordinates.getX()];
+    }
+
+    public Dimension getLabyrinthSize() {
+        return new Dimension(nbCols, nbRows);
     }
 }

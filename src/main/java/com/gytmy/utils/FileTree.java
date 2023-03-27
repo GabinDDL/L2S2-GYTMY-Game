@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
 
-import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.game.Cell;
 
 /**
  * 

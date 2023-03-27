@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view;
+package com.gytmy.labyrinth.view.game;
 
 import java.awt.Color;
 import java.awt.Dimension;

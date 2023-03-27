@@ -40,4 +40,9 @@ public class BlackoutGameData implements GameModeData {
         this.scoreType = scoreType;
     }
 
+    @Override
+    public GameMode getGameMode() {
+        return GameMode.BLACKOUT;
+    }
+
 }

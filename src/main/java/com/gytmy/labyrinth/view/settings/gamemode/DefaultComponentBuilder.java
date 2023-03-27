@@ -9,7 +9,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 /**
