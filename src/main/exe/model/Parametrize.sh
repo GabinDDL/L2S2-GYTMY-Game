@@ -13,3 +13,5 @@ OPTS="-F pcm16 -p 17 -f 16000 -e"
 for i in `cat $1`;do
 	$EXE_DIR/sfbcep $OPTS $2/$i$SPH_EXT $PRM_DIR/$i$PRM_EXT
 done
+
+exit 0
