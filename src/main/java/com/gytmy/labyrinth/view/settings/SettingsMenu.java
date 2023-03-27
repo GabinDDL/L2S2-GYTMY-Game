@@ -118,6 +118,11 @@ public class SettingsMenu extends JPanel {
         }
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
+
+        for (String name : playerSelectionPanel.getFirstNameUsers()) {
+            System.out.println(name);
+        }
+
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
         GameData gameData = new GameData(gameModeSettings, gameMode, players);

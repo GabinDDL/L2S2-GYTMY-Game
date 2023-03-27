@@ -16,6 +16,7 @@ import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.labyrinth.view.GameFrameToolbox;
 import com.gytmy.utils.ImageManipulator;
+import com.gytmy.sound.User;
 
 /**
  * This class represents a panel that allows the user to select a player.
@@ -167,6 +168,19 @@ public class PlayerPanel extends JPanel {
         String userName = userSelector.getSelectedItem().toString();
         Color color = COLORS[id];
         return new PlayerImplementation(userName, color);
+    }
+
+    public String getFirstNameUser() {
+        if (userSelector == null) {
+            return null;
+        }
+
+        User user = (User) (userSelector.getSelectedItem());
+
+        if (user != null) {
+            return user.getFirstName();
+        }
+        return null;
     }
 
     public boolean isReady() {
