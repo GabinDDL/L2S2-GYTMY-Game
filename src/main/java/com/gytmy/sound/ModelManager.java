@@ -62,8 +62,7 @@ public class ModelManager {
 
         public static void createAllModelOfUsers(String[] firstNames) {
                 for (String firstName : firstNames) {
-                        User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config/yaml");
-
+                        User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
                         if (user.getUpToDate()) {
                                 createAllModelOfRecordedWord(user);
 
@@ -123,7 +122,6 @@ public class ModelManager {
         }
 
         private static void trainWorld(User user, String recordedWord) {
-
                 String[] argsTrainWorld = {
                                 user.modelPath() + recordedWord + LIST_PATH,
                                 user.modelPath() + recordedWord + GMM_PATH
