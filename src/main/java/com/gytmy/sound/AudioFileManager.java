@@ -1,7 +1,6 @@
 package com.gytmy.sound;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -230,8 +229,11 @@ public class AudioFileManager {
     }
 
     public static void deleteRecording(String firstName, String wordToRecord, int i) {
-        deleteRecording(
-                SRC_DIR_PATH + firstName.toUpperCase() + "/audio/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+        User user = YamlReader.read(SRC_DIR_PATH + firstName.toUpperCase() + "/config.yaml");
+
+        deleteRecording(user.audioPath() + wordToRecord + "/" + wordToRecord + i + ".wav");
+
+        user.updateAudioDirectoryChanged(true);
     }
 
     public static void deleteRecording(String filePath) {
