@@ -92,22 +92,33 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
         }).start();
     }
 
+    private enum ViewType {
+        GAME, BLACKOUT
+    }
+
     private void switchToBlackout() {
-        gamePanel.remove(labyrinthPanel);
-        gamePanel.add(blackoutPanel);
-        gamePanel.revalidate();
-        gamePanel.repaint();
-        this.revalidate();
-        this.repaint();
+        switchView(ViewType.BLACKOUT);
     }
 
     private void switchToGame() {
-        gamePanel.remove(blackoutPanel);
-        gamePanel.add(labyrinthPanel);
+        switchView(ViewType.GAME);
+    }
+
+    private void switchView(ViewType viewType) {
+        switch (viewType) {
+            case BLACKOUT:
+                gamePanel.remove(labyrinthPanel);
+                gamePanel.add(blackoutPanel);
+                break;
+            case GAME:
+                gamePanel.remove(blackoutPanel);
+                gamePanel.add(labyrinthPanel);
+                break;
+        }
         gamePanel.revalidate();
         gamePanel.repaint();
-        this.revalidate();
-        this.repaint();
+        revalidate();
+        repaint();
     }
 
     public void stopFlash() {
