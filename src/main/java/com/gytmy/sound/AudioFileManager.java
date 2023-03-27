@@ -58,7 +58,7 @@ public class AudioFileManager {
     }
 
     public static boolean doesUserAlreadyExist(User user) {
-        return new File(user.getAudioFilesPath()).exists();
+        return new File(user.audioFilesPath()).exists();
     }
 
     /**
@@ -66,15 +66,15 @@ public class AudioFileManager {
      */
     public static void createUserFiles(User user) {
 
-        File userDirectory = new File(user.getAudioFilesPath());
+        File userDirectory = new File(user.audioFilesPath());
         userDirectory.mkdir();
 
         writeYamlConfig(user);
 
-        File userAudioDirectory = new File(user.getAudioPath());
+        File userAudioDirectory = new File(user.audioPath());
         userAudioDirectory.mkdir();
 
-        File userModelDirectory = new File(user.getModelPath());
+        File userModelDirectory = new File(user.modelPath());
         userModelDirectory.mkdir();
     }
 
@@ -82,7 +82,7 @@ public class AudioFileManager {
      * Translate the user object to a yaml file
      */
     public static void writeYamlConfig(User user) {
-        writeYamlConfigAtCertainPath(user, user.getYamlConfigPath());
+        writeYamlConfigAtCertainPath(user, user.yamlConfigPath());
     }
 
     /**
@@ -143,7 +143,7 @@ public class AudioFileManager {
      * Delete the user directory and all the files in it
      */
     private static void deleteFiles(User user) {
-        File userDirectory = new File(user.getAudioFilesPath());
+        File userDirectory = new File(user.audioFilesPath());
         clearDirectory(userDirectory);
         userDirectory.delete();
     }
@@ -286,10 +286,10 @@ public class AudioFileManager {
 
         for (User currentUser : allUsers) {
             if (currentUser.equals(userToEdit)) {
-                writeYamlConfigAtCertainPath(user, userToEdit.getYamlConfigPath());
+                writeYamlConfigAtCertainPath(user, userToEdit.yamlConfigPath());
 
-                File oldUserDirectory = new File(userToEdit.getAudioFilesPath());
-                oldUserDirectory.renameTo(new File(user.getAudioFilesPath()));
+                File oldUserDirectory = new File(userToEdit.audioFilesPath());
+                oldUserDirectory.renameTo(new File(user.audioFilesPath()));
             }
         }
     }
@@ -304,14 +304,14 @@ public class AudioFileManager {
 
         boolean aDirectoryIsCreated = false; // True if at least one of word directory is created
 
-        File userAudioDirectory = new File(user.getAudioPath());
+        File userAudioDirectory = new File(user.audioPath());
 
         if (!userAudioDirectory.exists()) {
             userAudioDirectory.mkdir();
         }
 
-        if (!doesFileInDirectoryExist(userAudioDirectory, user.getAudioPath() + word)) {
-            new File(user.getAudioPath() + word).mkdir();
+        if (!doesFileInDirectoryExist(userAudioDirectory, user.audioPath() + word)) {
+            new File(user.audioPath() + word).mkdir();
             aDirectoryIsCreated = true;
         }
 

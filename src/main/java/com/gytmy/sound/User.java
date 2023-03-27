@@ -96,20 +96,20 @@ public class User {
      * to put `get` in the method name *
      ***********************************/
 
-    public String getYamlConfigPath() {
-        return getAudioFilesPath() + "config.yaml";
+    public String yamlConfigPath() {
+        return audioFilesPath() + "config.yaml";
     }
 
-    public String getAudioFilesPath() {
+    public String audioFilesPath() {
         return AUDIO_ROOT_DIRECTORY + getFirstName() + "/";
     }
 
-    public String getAudioPath() {
-        return getAudioFilesPath() + "audio/";
+    public String audioPath() {
+        return audioFilesPath() + "audio/";
     }
 
-    public String getModelPath() {
-        return getAudioFilesPath() + "model/";
+    public String modelPath() {
+        return audioFilesPath() + "model/";
     }
 
     /**********************************/

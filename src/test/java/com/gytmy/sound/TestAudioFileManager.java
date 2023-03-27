@@ -82,8 +82,8 @@ public class TestAudioFileManager {
 
         int totalAudioFiles = AudioFileManager.totalNumberOfAudioFiles();
 
-        File up = new File(user.getAudioPath(), "HAUT");
-        File down = new File(user.getAudioPath(), "BAS");
+        File up = new File(user.audioPath(), "HAUT");
+        File down = new File(user.audioPath(), "BAS");
         up.mkdir();
         down.mkdir();
 
@@ -105,10 +105,10 @@ public class TestAudioFileManager {
         TestingUtils.assertArgumentExceptionMessage(
                 this::addUserTwice, "User already exists");
 
-        assertTrue(new File(user.getAudioFilesPath()).exists());
+        assertTrue(new File(user.audioFilesPath()).exists());
 
         AudioFileManager.removeUser(user);
-        assertFalse(new File(user.getAudioFilesPath()).exists());
+        assertFalse(new File(user.audioFilesPath()).exists());
     }
 
     private void addUserTwice() {
