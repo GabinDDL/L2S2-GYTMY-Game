@@ -95,4 +95,10 @@ public class PlayerSelectionPanel extends JPanel {
         return false;
     }
 
+    public void setPlayersToUnready() {
+        for (PlayerPanel playerPanel : playerPanels) {
+            playerPanel.setPlayersToUnready();
+        }
+    }
+
 }

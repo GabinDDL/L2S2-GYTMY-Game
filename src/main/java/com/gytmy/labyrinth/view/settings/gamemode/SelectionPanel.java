@@ -107,6 +107,7 @@ public class SelectionPanel extends JPanel {
                 updateGameModeSettingsPanel(gameMode);
                 PlayerSelectionPanel playerSelectionPanel = PlayerSelectionPanel.getInstance();
                 playerSelectionPanel.changeNumberOfPlayers(gameMode.getMaxNumberOfPlayers());
+                playerSelectionPanel.setPlayersToUnready();
             });
 
             setBackground(BACKGROUND_COLOR);

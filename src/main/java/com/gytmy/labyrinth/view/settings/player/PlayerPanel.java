@@ -196,4 +196,15 @@ public class PlayerPanel extends JPanel {
     public boolean isActivated() {
         return userSelector != null;
     }
+
+    public void setPlayersToUnready() {
+        if (userSelector == null) {
+            return;
+        }
+        isPlayerReady = false;
+        isPlayerReadyLabel.setIcon(NOT_READY_PLAYER_MARK_ICON);
+        userSelector.unlockChoice();
+        updateGUI();
+    }
+
 }
