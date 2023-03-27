@@ -19,6 +19,8 @@ public class User {
     private int studentNumber;
     private String userName;
 
+    private boolean audioDirectoryChanged = false;
+
     public User(User user) {
         this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
     }
@@ -56,6 +58,14 @@ public class User {
 
     private boolean isNameInvalid(String name) {
         return name == null || name.isEmpty() || name.isBlank();
+    }
+
+    public boolean hasAudioDirectoryChanged() {
+        return audioDirectoryChanged;
+    }
+
+    public void updateAudioDirectoryChanged(boolean isChanged) {
+        audioDirectoryChanged = isChanged;
     }
 
     public String getFirstName() {
