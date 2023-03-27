@@ -58,6 +58,14 @@ public class ModelManager {
                 return false;
         }
 
+        public static void createAllModelOfRecordedWord(User user) {
+                for (String word : WordsToRecord.getWordsToRecord()) {
+                        createModelOfRecordedWord(user, word);
+                }
+
+                user.updateAudioDirectoryChanged(false);
+        }
+
         public static void createModelOfRecordedWord(User user, String recordedWord) {
                 if (!WordsToRecord.exists(recordedWord)) {
                         return;
@@ -76,7 +84,8 @@ public class ModelManager {
                 String[] argsParametrize = { user.modelPath() + recordedWord + LIST_PATH,
                                 user.audioPath() + recordedWord + "/" };
 
-                RunSH.run(PARAMETRIZE_SH_PATH, argsParametrize);
+                int exitValue = RunSH.run(PARAMETRIZE_SH_PATH, argsParametrize);
+                handleErrorProgram("parametrize (sfbcep)", exitValue);
         }
 
         private static void energyDetector(User user, String recordedWord) {
@@ -84,7 +93,8 @@ public class ModelManager {
                                 user.modelPath() + recordedWord + LIST_PATH
                 };
 
-                RunSH.run(ENERGY_DETECTOR_SH_PATH, argsEnergyDetector);
+                int exitValue = RunSH.run(ENERGY_DETECTOR_SH_PATH, argsEnergyDetector);
+                handleErrorProgram("energyDetector", exitValue);
         }
 
         private static void normFeat(User user, String recordedWord) {
@@ -92,7 +102,8 @@ public class ModelManager {
                                 user.modelPath() + recordedWord + LIST_PATH
                 };
 
-                RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
+                int exitValue = RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
+                handleErrorProgram("normFeat", exitValue);
         }
 
         private static void trainWorld(User user, String recordedWord) {
@@ -102,7 +113,18 @@ public class ModelManager {
                                 user.modelPath() + recordedWord + GMM_PATH
                 };
 
-                RunSH.run(TRAIN_WORLD_SH_PATH, argsTrainWorld);
+                int exitValue = RunSH.run(TRAIN_WORLD_SH_PATH, argsTrainWorld);
+                handleErrorProgram("trainWorld", exitValue);
+        }
+
+        private static void handleErrorProgram(String program, int exitValue) {
+                if (exitValue != 0) {
+                        printErrorRun(program);
+                }
+        }
+
+        private static void printErrorRun(String program) {
+                System.out.println("There is a problem with the program " + program);
         }
 
         public static void resetModeler() {
