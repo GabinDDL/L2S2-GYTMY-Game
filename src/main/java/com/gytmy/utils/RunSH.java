@@ -27,8 +27,8 @@ public class RunSH {
             return exitCode;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            return 1;
         }
-        return 1;
     }
 
     public static String getCommand(String path, String[] args) {
