@@ -19,7 +19,7 @@ public class TestYamlReader {
 
         User user = null;
         try {
-            user = YamlReader.read(userTest.yamlConfigPath());
+            user = YamlReader.read(userTest.getYamlConfigPath());
         } catch (Exception e) {
         }
         AudioFileManager.removeUser(userTest);

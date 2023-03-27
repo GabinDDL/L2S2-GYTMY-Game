@@ -96,7 +96,7 @@ public class User {
      * to put `get` in the method name *
      ***********************************/
 
-    public String yamlConfigPath() {
+    public String getYamlConfigPath() {
         return getAudioFilesPath() + "config.yaml";
     }
 

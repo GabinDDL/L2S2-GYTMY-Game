@@ -82,7 +82,7 @@ public class AudioFileManager {
      * Translate the user object to a yaml file
      */
     public static void writeYamlConfig(User user) {
-        writeYamlConfigAtCertainPath(user, user.yamlConfigPath());
+        writeYamlConfigAtCertainPath(user, user.getYamlConfigPath());
     }
 
     /**
@@ -286,7 +286,7 @@ public class AudioFileManager {
 
         for (User currentUser : allUsers) {
             if (currentUser.equals(userToEdit)) {
-                writeYamlConfigAtCertainPath(user, userToEdit.yamlConfigPath());
+                writeYamlConfigAtCertainPath(user, userToEdit.getYamlConfigPath());
 
                 File oldUserDirectory = new File(userToEdit.getAudioFilesPath());
                 oldUserDirectory.renameTo(new File(user.getAudioFilesPath()));
