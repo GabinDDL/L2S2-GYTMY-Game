@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.FileSystem;
 
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.WordsToRecord;
 
 public class ModelManager {
 
@@ -46,6 +47,9 @@ public class ModelManager {
         }
 
         public static boolean tryToCreateListFile(User user, String recordedWord) {
+                if (!WordsToRecord.exists(recordedWord)) {
+                        return false;
+                }
                 File lstFile = new File(user.modelPath() + recordedWord + LIST_PATH);
                 try {
                         return lstFile.createNewFile();
@@ -56,6 +60,11 @@ public class ModelManager {
         }
 
         public static void createModelOfRecordedWord(User user, String recordedWord) {
+                if (!WordsToRecord.exists(recordedWord)) {
+                        return;
+                }
+                resetWorldOfWord(user, recordedWord);
+
                 parametrize(user, recordedWord);
                 energyDetector(user, recordedWord);
                 normFeat(user, recordedWord);
@@ -64,14 +73,14 @@ public class ModelManager {
                 resetModeler();
         }
 
-        public static void parametrize(User user, String recordedWord) {
+        private static void parametrize(User user, String recordedWord) {
                 String[] argsParametrize = { user.modelPath() + recordedWord + LIST_PATH,
                                 user.audioPath() + recordedWord + "/" };
 
                 RunSH.run(PARAMETRIZE_SH_PATH, argsParametrize);
         }
 
-        public static void energyDetector(User user, String recordedWord) {
+        private static void energyDetector(User user, String recordedWord) {
                 String[] argsEnergyDetector = {
                                 user.modelPath() + recordedWord + LIST_PATH
                 };
@@ -79,7 +88,7 @@ public class ModelManager {
                 RunSH.run(ENERGY_DETECTOR_SH_PATH, argsEnergyDetector);
         }
 
-        public static void normFeat(User user, String recordedWord) {
+        private static void normFeat(User user, String recordedWord) {
                 String[] argsNormFeat = {
                                 user.modelPath() + recordedWord + LIST_PATH
                 };
@@ -87,7 +96,7 @@ public class ModelManager {
                 RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
         }
 
-        public static void trainWorld(User user, String recordedWord) {
+        private static void trainWorld(User user, String recordedWord) {
 
                 String[] argsTrainWorld = {
                                 user.modelPath() + recordedWord + LIST_PATH,
@@ -102,9 +111,25 @@ public class ModelManager {
                 clearDirectory(new File(LBL_PATH));
         }
 
+        public static void resetWorldOfWord(User user, String word) {
+                if (WordsToRecord.exists(word)) {
+                        if (new File(user.modelPath() + word + "/").exists()) {
+                                clearDirectory(new File(user.modelPath() + word + GMM_PATH));
+                        }
+                }
+        }
+
+        public static void resetWorldOfAllWord(User user) {
+                for (String word : WordsToRecord.getWordsToRecord()) {
+                        if (new File(user.modelPath() + word + "/").exists()) {
+                                clearDirectory(new File(user.modelPath() + word + GMM_PATH));
+                        }
+                }
+        }
+
         private static void clearDirectory(File directory) {
                 for (File file : directory.listFiles()) {
-                        if (file.isDirectory())
+                        if (file.exists() && file.isDirectory())
                                 clearDirectory(file);
                         file.delete();
                 }
