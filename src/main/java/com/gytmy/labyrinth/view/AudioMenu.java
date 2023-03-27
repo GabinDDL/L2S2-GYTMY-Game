@@ -278,7 +278,11 @@ public class AudioMenu extends JPanel {
             deleteRecord.setIcon(null);
         }
 
-        fileNavigator = new FileTree(actualJTreeRootPath);
+        try {
+            fileNavigator = new FileTree(actualJTreeRootPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         fileNavigator.addTreeSelectionListener(e -> {
             if (isPlaying) {
                 stop();
