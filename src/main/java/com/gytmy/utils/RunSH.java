@@ -10,17 +10,14 @@ public class RunSH {
 
     public static int run(String path, String[] args) {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path);
-            processBuilder.command().addAll(Arrays.asList(args));
-            Process process = processBuilder.start();
+            Process process = Runtime.getRuntime().exec(getCommand(path, args));
 
-            // Read output from the process if needed
-            InputStream inputStream = process.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+            while ((line = reader.readLine()) != null) { // Clean the BufferReader
+                // System.out.println(line);
             }
+            reader.close();
 
             int exitCode = process.waitFor();
 
@@ -29,5 +26,15 @@ public class RunSH {
             e.printStackTrace();
         }
         return 1;
+    }
+
+    public static String getCommand(String path, String[] args) {
+        String command = path;
+
+        for (String arg : args) {
+            command += " " + arg;
+        }
+
+        return command;
     }
 }
