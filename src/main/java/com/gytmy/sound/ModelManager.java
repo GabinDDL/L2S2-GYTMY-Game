@@ -11,6 +11,8 @@ public class ModelManager {
         private ModelManager() {
         }
 
+        public static final String AUDIO_FILES_PATH = "src/resources/audioFiles/";
+
         public static final String EXE_PATH = "src/main/exe/model/";
         public static final String PARAMETRIZE_SH_PATH = EXE_PATH + "Parametrize.sh";
         public static final String ENERGY_DETECTOR_SH_PATH = EXE_PATH + "EnergyDetector.sh";
@@ -58,12 +60,26 @@ public class ModelManager {
                 return false;
         }
 
+        public static void createAllModelOfUsers(String[] firstNames) {
+                for (String firstName : firstNames) {
+                        User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config/yaml");
+
+                        if (user.getUpToDate()) {
+                                createAllModelOfRecordedWord(user);
+
+                                user.setUpToDate(false);
+                                YamlReader.write(user.yamlConfigPath(), user);
+                        }
+                }
+        }
+
         public static void createAllModelOfRecordedWord(User user) {
                 for (String word : WordsToRecord.getWordsToRecord()) {
                         createModelOfRecordedWord(user, word);
                 }
 
-                user.updateAudioDirectoryChanged(false);
+                user.setUpToDate(false);
+                YamlReader.write(user.yamlConfigPath(), user);
         }
 
         public static void createModelOfRecordedWord(User user, String recordedWord) {

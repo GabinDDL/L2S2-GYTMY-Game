@@ -29,6 +29,7 @@ import com.gytmy.labyrinth.view.GameFrameToolbox;
 import com.gytmy.labyrinth.view.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
+import com.gytmy.sound.ModelManager;
 
 /**
  * This class is used to display the settings menu. It is a singleton.
@@ -119,9 +120,7 @@ public class SettingsMenu extends JPanel {
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
 
-        for (String name : playerSelectionPanel.getFirstNameUsers()) {
-            System.out.println(name);
-        }
+        ModelManager.createAllModelOfUsers(playerSelectionPanel.getFirstNameUsers());
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();

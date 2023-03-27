@@ -38,7 +38,8 @@ public class AudioToFile {
         audioRecorder = new AudioRecorder(path);
         audioRecorder.start();
 
-        user.updateAudioDirectoryChanged(true);
+        user.setUpToDate(true);
+        YamlReader.write(user.yamlConfigPath(), user);
 
         addAudioToLST(user, recordedWord, numberOfRecordings);
     }

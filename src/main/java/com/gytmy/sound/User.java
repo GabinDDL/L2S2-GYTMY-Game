@@ -18,8 +18,7 @@ public class User {
     private String lastName;
     private int studentNumber;
     private String userName;
-
-    private boolean audioDirectoryChanged = false;
+    private boolean upToDate = false;
 
     public User(User user) {
         this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
@@ -60,14 +59,6 @@ public class User {
         return name == null || name.isEmpty() || name.isBlank();
     }
 
-    public boolean hasAudioDirectoryChanged() {
-        return audioDirectoryChanged;
-    }
-
-    public void updateAudioDirectoryChanged(boolean isChanged) {
-        audioDirectoryChanged = isChanged;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -98,6 +89,14 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public boolean getUpToDate() {
+        return upToDate;
+    }
+
+    public void setUpToDate(boolean upToDate) {
+        this.upToDate = upToDate;
     }
 
     /***********************************

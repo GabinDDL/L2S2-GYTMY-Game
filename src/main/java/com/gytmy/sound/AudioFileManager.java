@@ -233,7 +233,8 @@ public class AudioFileManager {
 
         deleteRecording(user.audioPath() + wordToRecord + "/" + wordToRecord + i + ".wav");
 
-        user.updateAudioDirectoryChanged(true);
+        user.setUpToDate(true);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     public static void deleteRecording(String filePath) {
