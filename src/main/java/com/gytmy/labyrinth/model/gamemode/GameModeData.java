@@ -8,6 +8,8 @@ import com.gytmy.labyrinth.model.score.ScoreType;
  */
 public interface GameModeData {
 
+    GameMode getGameMode();
+
     ScoreType getScoreType();
 
     void setScoreType(ScoreType scoreType);

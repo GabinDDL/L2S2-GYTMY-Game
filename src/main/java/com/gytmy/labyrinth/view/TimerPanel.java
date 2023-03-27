@@ -9,9 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.gytmy.labyrinth.controller.LabyrinthController;
+import com.gytmy.labyrinth.view.game.Cell;
+
 public class TimerPanel extends JPanel implements ActionListener {
     private JLabel timerLabel;
     private Timer timer;
+    private LabyrinthController controller;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color COUNTDOWN_COLOR = Cell.EXIT_CELL_COLOR;
@@ -33,6 +37,16 @@ public class TimerPanel extends JPanel implements ActionListener {
         this(DEFAULT_COUNTDOWN_TIME_SECONDS, DEFAULT_STARTING_TIME_SECONDS);
     }
 
+    public TimerPanel(LabyrinthController controller) {
+        this(DEFAULT_COUNTDOWN_TIME_SECONDS, DEFAULT_STARTING_TIME_SECONDS);
+        this.controller = controller;
+    }
+
+    public TimerPanel(int countdownTime, LabyrinthController controller) {
+        this(countdownTime, DEFAULT_STARTING_TIME_SECONDS);
+        this.controller = controller;
+    }
+
     public TimerPanel(int countdownTime) {
         this(countdownTime, DEFAULT_STARTING_TIME_SECONDS);
     }
@@ -49,6 +63,11 @@ public class TimerPanel extends JPanel implements ActionListener {
         timerLabel.setForeground(COUNTDOWN_COLOR);
         add(timerLabel);
 
+        initTimerCountdown();
+
+    }
+
+    private void initTimerCountdown() {
         // Timer for the countdown
         timer = new Timer(1000, event -> {
             if (countdownInSeconds > 0) {
@@ -60,6 +79,10 @@ public class TimerPanel extends JPanel implements ActionListener {
                 // and the timer for the game starts
                 timer.stop();
 
+                if (controller != null) {
+                    controller.notifyGameStarted();
+                }
+
                 timerLabel.setForeground(FOREGROUND_COLOR);
                 timerLabel.setText(getStringTime(counterInSeconds));
                 timer = new Timer(1000, this);
@@ -67,7 +90,6 @@ public class TimerPanel extends JPanel implements ActionListener {
                 timer.start();
             }
         });
-
     }
 
     @Override

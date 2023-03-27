@@ -41,4 +41,16 @@ public enum GameMode {
     public String toString() {
         return displayName;
     }
+
+    public int getMaxNumberOfPlayers() {
+        switch (this) {
+            case CLASSIC:
+            case ONE_DIMENSION:
+                return 5;
+            case BLACKOUT:
+                return 1;
+            default:
+                throw new IllegalStateException("Unexpected value: " + this);
+        }
+    }
 }

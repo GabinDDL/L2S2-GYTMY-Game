@@ -31,4 +31,9 @@ public class ClassicGameModeData implements GameModeData {
         this.scoreType = scoreType;
     }
 
+    @Override
+    public GameMode getGameMode() {
+        return GameMode.CLASSIC;
+    }
+
 }

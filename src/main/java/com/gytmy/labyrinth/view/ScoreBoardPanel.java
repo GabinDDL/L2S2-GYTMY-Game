@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.view.game.Cell;
 
 public class ScoreBoardPanel extends JPanel {
 
