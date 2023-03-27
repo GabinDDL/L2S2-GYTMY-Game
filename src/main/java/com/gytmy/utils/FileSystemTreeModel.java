@@ -27,8 +27,7 @@ public class FileSystemTreeModel implements TreeModel {
     @Override
     public Object getChild(Object parent, int index) {
         File file = (File) parent;
-        // File[] children = file.listFiles();
-        ArrayList<File> children = new ArrayList<File>();
+        ArrayList<File> children = new ArrayList<>();
 
         for (File f : file.listFiles()) {
             if (!f.getName().matches(regex)) {
@@ -36,7 +35,6 @@ public class FileSystemTreeModel implements TreeModel {
             }
         }
 
-        // Arrays.sort(children);
         return children.get(index);
     }
 
@@ -47,6 +45,7 @@ public class FileSystemTreeModel implements TreeModel {
             String[] children = file.list();
             return children != null ? count(children) : 0;
         }
+
         return 0;
     }
 
