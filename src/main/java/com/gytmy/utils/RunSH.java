@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 
 public class RunSH {
 
+    private RunSH() {
+    }
+
     public static int run(String path, String[] args) {
         try {
             Process process = Runtime.getRuntime().exec(getCommand(path, args));
