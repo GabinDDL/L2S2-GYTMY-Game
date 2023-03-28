@@ -36,12 +36,22 @@ The goal of this project is to be able to control the movements of characters in
 
 ### "Classic Mode"
 
+![Image Classic Mode](images/ClassicMode.png)
+
 A simple single or multi-player mode where you have to reach the end of the maze.
 
+You can also choose the width and the height of the labyrinth.
+
 ### "One-Dimensional Mode"
+
+![Image One-Dimensional Mode](images/OneDimensionalMode.png)
 
 An extremely simple single or multi-player mode where you have to reach the end of the corridor.
 
 ### "Blackout Mode"
+
+Lights on             |  Lights out
+:-------------------------:|:-------------------------:
+![Image Blackout Mode Light](images/BlackoutModeLight.png) | ![Image Blackout Mode Dark](images/BlackoutModeDark.png)
 
 A fun single-player mode where your memory skills will comme in handy to get yourself through the darkness.
