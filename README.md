@@ -48,6 +48,8 @@ You can also choose the width and the height of the labyrinth.
 
 An extremely simple single or multi-player mode where you have to reach the end of the corridor.
 
+You can also choose the length of the labyrinth.
+
 ### "Blackout Mode"
 
 Lights on             |  Lights out
@@ -55,3 +57,5 @@ Lights on             |  Lights out
 ![Image Blackout Mode Light](images/BlackoutModeLight.png) | ![Image Blackout Mode Dark](images/BlackoutModeDark.png)
 
 A fun single-player mode where your memory skills will comme in handy to get yourself through the darkness.
+
+There are 3 difficulties available : `EASY`, `NORMAL` and `HARD`.
