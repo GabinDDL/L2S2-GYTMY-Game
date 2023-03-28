@@ -6,10 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -33,10 +31,9 @@ public class SettingsMenu extends JPanel {
 
     private PlayerSelectionPanel playerSelectionPanel;
     private SelectionPanel gameModeSelectionPanel;
-    private JLabel gameGifLabel;
+    private GameGIFLabel gameGifLabel;
     private JButton startGameButton;
 
-    private static final String ANIMATED_GAME_GIF_PATH = "src/resources/images/settings_menu/MAZE_LOGO_ROTATED.gif";
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
     private static SettingsMenu instance = null;
@@ -73,9 +70,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initGameGifLabel() {
-        gameGifLabel = new JLabel();
-        ImageIcon imageIcon = new ImageIcon(ANIMATED_GAME_GIF_PATH);
-        gameGifLabel.setIcon(imageIcon);
+        gameGifLabel = GameGIFLabel.getInstance();
         GridBagConstraints gbc = getDefaultConstraints(0, 1);
         gbc.gridheight = 2;
         add(gameGifLabel, gbc);
