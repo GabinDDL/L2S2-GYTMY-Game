@@ -32,22 +32,21 @@ runTests() {
 }
 
 case "$1" in
-    "compile")
-        compile
-        $wasCompile && exit 0 || exit 1
+"compile")
+    compile
+    $wasCompile && exit 0 || exit 1
     ;;
-    "compileTests")
-        compileTests
-        $wasTestCompile && exit 0 || exit 1
+"compileTest" | "compileTests")
+    compileTests
+    $wasTestCompile && exit 0 || exit 1
     ;;
-    "runTests" | "test")
-        compileTests
-        runTests
-        $wasTestRun && exit 0 || exit 1
+"runTest" | "runTests" | "test" | "tests")
+    compileTests
+    runTests
+    $wasTestRun && exit 0 || exit 1
     ;;
-    *)
-        compile && run
-        $wasRun && exit 0 || exit 1
+*)
+    compile && run
+    $wasRun && exit 0 || exit 1
     ;;
 esac
-

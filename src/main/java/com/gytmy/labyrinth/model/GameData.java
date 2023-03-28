@@ -3,6 +3,7 @@ package com.gytmy.labyrinth.model;
 import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.model.score.ScoreType;
 
 public class GameData {
 
@@ -20,12 +21,20 @@ public class GameData {
         return players;
     }
 
-    public GameModeData getGameModData() {
+    public GameModeData getGameModeData() {
         return gameModeData;
     }
 
     public GameMode getGameMode() {
         return gameMode;
+    }
+
+    public ScoreType getScoreType() {
+        return gameModeData.getScoreType();
+    }
+
+    public void setScoreType(ScoreType scoreType) {
+        gameModeData.setScoreType(scoreType);
     }
 
 }
