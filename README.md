@@ -1,13 +1,10 @@
-# Table of contents
+# 2022-SB1-GA-GYTMY
 
-- [Table of contents](#table-of-contents)
 - [2022-SB1-GA-GYTMY](#2022-sb1-ga-gytmy)
   - [Project: `Voice-controlled movements of characters`](#project-voice-controlled-movements-of-characters)
   - [Assigned professor](#assigned-professor)
   - [Students](#students)
   - [What is this project about ?](#what-is-this-project-about-)
-
-# 2022-SB1-GA-GYTMY
 
 This project was realized by GYTMY for the unit `Projet de programmation (PI4)` during Year 2 Second Semester of `Double Licence Mathématiques-Informatique` (2022-2023).
 
