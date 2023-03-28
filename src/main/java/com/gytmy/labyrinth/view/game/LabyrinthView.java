@@ -1,4 +1,4 @@
-package com.gytmy.labyrinth.view;
+package com.gytmy.labyrinth.view.game;
 
 import java.awt.EventQueue;
 import java.awt.event.KeyListener;
@@ -21,6 +21,10 @@ public abstract class LabyrinthView extends JPanel {
     public abstract void stopTimer();
 
     public abstract void showGameOverPanel();
+
+    public abstract void notifyGameStarted();
+
+    public abstract void notifyGameOver();
 
     public void addKeyController(KeyListener keyController) {
         // The EventQueue is used to ensure that the key listener is added after the

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.utils.HotkeyAdder;
 
 public class GameOverPanel extends JPanel {

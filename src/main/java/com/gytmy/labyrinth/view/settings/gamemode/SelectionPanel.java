@@ -10,12 +10,15 @@ import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
-import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.game.Cell;
+import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
 public class SelectionPanel extends JPanel {
 
     public static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     public static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
+
+    public static final Font COMBO_BOX_FONT = new Font("Arial", Font.BOLD, 15);
 
     private GameModeSelector gameModeSelector;
     protected JPanel gameModeSettingsPanel;
@@ -93,8 +96,7 @@ public class SelectionPanel extends JPanel {
         private GameMode lastSelectedGameMode;
 
         public GameModeSelector() {
-            Font font = new Font("Arial", Font.BOLD, 15);
-            setFont(font);
+            setFont(COMBO_BOX_FONT);
 
             for (GameMode gameMode : GameMode.values()) {
                 addItem(gameMode);
@@ -103,6 +105,9 @@ public class SelectionPanel extends JPanel {
             addActionListener(e -> {
                 GameMode gameMode = (GameMode) getSelectedItem();
                 updateGameModeSettingsPanel(gameMode);
+                PlayerSelectionPanel playerSelectionPanel = PlayerSelectionPanel.getInstance();
+                playerSelectionPanel.changeNumberOfPlayers(gameMode.getMaxNumberOfPlayers());
+                playerSelectionPanel.setPlayersToUnready();
             });
 
             setBackground(BACKGROUND_COLOR);

@@ -15,8 +15,8 @@ import javax.swing.event.MouseInputAdapter;
 
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
-import com.gytmy.labyrinth.view.Cell;
 import com.gytmy.labyrinth.view.MenuFrameHandler;
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.utils.ImageManipulator;
 
 /**
@@ -196,4 +196,15 @@ public class PlayerPanel extends JPanel {
     public boolean isActivated() {
         return userSelector != null;
     }
+
+    public void setPlayersToUnready() {
+        if (userSelector == null) {
+            return;
+        }
+        isPlayerReady = false;
+        isPlayerReadyLabel.setIcon(NOT_READY_PLAYER_MARK_ICON);
+        userSelector.unlockChoice();
+        updateGUI();
+    }
+
 }
