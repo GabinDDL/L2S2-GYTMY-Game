@@ -1,14 +1,18 @@
 # 2022-SB1-GA-GYTMY
 
 - [2022-SB1-GA-GYTMY](#2022-sb1-ga-gytmy)
-  - [Project: `Voice-controlled movements of characters`](#project-voice-controlled-movements-of-characters)
+  - [Project: `Voice-controlled movement of characters`](#project-voice-controlled-movement-of-characters)
   - [Assigned professor](#assigned-professor)
   - [Students](#students)
   - [What is this project about ?](#what-is-this-project-about-)
+  - [Game modes](#game-modes)
+    - ["Classic Mode"](#classic-mode)
+    - ["One-Dimensional Mode"](#one-dimensional-mode)
+    - ["Blackout Mode"](#blackout-mode)
 
 This project was realized by GYTMY for the unit `Projet de programmation (PI4)` during Year 2 Second Semester of `Double Licence Mathématiques-Informatique` (2022-2023).
 
-## Project: `Voice-controlled movements of characters`
+## Project: `Voice-controlled movement of characters`
 
 ## Assigned professor
 
@@ -27,3 +31,17 @@ Sami Boutamine (sami.boutamine@utc.fr)
 ## What is this project about ?
 
 The goal of this project is to be able to control the movements of characters in a Maze game using real-time voice commands such as saying out loud `Up`, `Down`, `Left` or `Right`.
+
+## Game modes
+
+### "Classic Mode"
+
+A simple single or multi-player mode where you have to reach the end of the maze.
+
+### "One-Dimensional Mode"
+
+An extremely simple single or multi-player mode where you have to reach the end of the corridor.
+
+### "Blackout Mode"
+
+A fun single-player mode where your memory skills will comme in handy to get yourself through the darkness.
