@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.view.game.Cell;
+import com.gytmy.labyrinth.view.settings.GameGIFLabel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
 public class SelectionPanel extends JPanel {
@@ -108,6 +109,9 @@ public class SelectionPanel extends JPanel {
                 PlayerSelectionPanel playerSelectionPanel = PlayerSelectionPanel.getInstance();
                 playerSelectionPanel.changeNumberOfPlayers(gameMode.getMaxNumberOfPlayers());
                 playerSelectionPanel.setPlayersToUnready();
+
+                GameGIFLabel gameGIFLabel = GameGIFLabel.getInstance();
+                gameGIFLabel.updateGIF(gameMode);
             });
 
             setBackground(BACKGROUND_COLOR);
