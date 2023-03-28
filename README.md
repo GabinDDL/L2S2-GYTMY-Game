@@ -6,9 +6,9 @@
   - [Students](#students)
   - [What is this project about ?](#what-is-this-project-about-)
   - [Game modes](#game-modes)
-    - ["Classic Mode"](#classic-mode)
-    - ["One-Dimensional Mode"](#one-dimensional-mode)
-    - ["Blackout Mode"](#blackout-mode)
+    - [`"Classic Mode"`](#classic-mode)
+    - [`"One-Dimensional Mode"`](#one-dimensional-mode)
+    - [`"Blackout Mode"`](#blackout-mode)
 
 This project was realized by GYTMY for the unit `Projet de programmation (PI4)` during Year 2 Second Semester of `Double Licence Mathématiques-Informatique` (2022-2023).
 
@@ -34,23 +34,23 @@ The goal of this project is to be able to control the movements of characters in
 
 ## Game modes
 
-### "Classic Mode"
+### `"Classic Mode"`
 
 ![Image Classic Mode](images/ClassicMode.png)
 
 A simple single or multi-player mode where you have to reach the end of the maze.
 
-You can also choose the width and the height of the labyrinth.
+You can also choose the `width` and the `height` of the labyrinth.
 
-### "One-Dimensional Mode"
+### `"One-Dimensional Mode"`
 
 ![Image One-Dimensional Mode](images/OneDimensionalMode.png)
 
 An extremely simple single or multi-player mode where you have to reach the end of the corridor.
 
-You can also choose the length of the labyrinth.
+You can also choose the `length` of the labyrinth.
 
-### "Blackout Mode"
+### `"Blackout Mode"`
 
 Lights on             |  Lights out
 :-------------------------:|:-------------------------:
