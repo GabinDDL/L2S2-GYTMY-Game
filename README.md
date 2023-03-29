@@ -23,7 +23,7 @@ Sami Boutamine (sami.boutamine@utc.fr)
 | Student ID # | Last Name | First Name | Group | Email |
 |:-:|:-:|:-:|:-:|:-:|
 | 22103458 | DUDILLIEU | Gabin  | MI2 | gdudillieu@gmail.com |
-| 22101699 | IGLESIAS VAZQUEZ | Yago | MI2 | yagoiglesias7@gmail.com |
+| 22101699 | IGLESIAS VAZQUEZ | Yago | MI2 | yago.iglesias-vazquez@etu.u-paris.fr |
 | 22107803 | SOAN | Tony Ly | MI2 | tony-ly.soan@etu.u-paris.fr |
 | 22112498 | SELVAKUMAR | Mathusan | MI2 | mathusan.selvakumar@gmail.com |
 | 22103173 | LACENNE | Yanis | MI2 | yanis.lacenne@etu.u-paris.fr |
