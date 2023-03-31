@@ -72,6 +72,7 @@ public class AudioRecorder {
         }
     }
 
+    // TODO: Look at this method
     /**
      * Creates a new thread that waits for a specified delay before stopping record
      * 

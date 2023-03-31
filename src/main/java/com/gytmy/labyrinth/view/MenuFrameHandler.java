@@ -48,6 +48,7 @@ public class MenuFrameHandler {
         changeJPanel(audioMenu, "Audio");
     }
 
+    // TODO: Look at this method
     private static void changeJPanel(JPanel panel, String subtitle) {
         mainFrame.setContentPane(panel);
 

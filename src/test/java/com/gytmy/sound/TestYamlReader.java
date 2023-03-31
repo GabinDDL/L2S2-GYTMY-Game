@@ -26,6 +26,7 @@ public class TestYamlReader {
 
         assertEquals(userTest.toString(), user.toString());
     }
+    // TODO: Look at this constant repetition
 
     @Test
     public void testWrite() {
