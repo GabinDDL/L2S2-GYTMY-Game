@@ -6,8 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -23,6 +23,7 @@ import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 import com.gytmy.utils.HotkeyAdder;
+import com.gytmy.utils.ImageManipulator;
 
 /**
  * This class is used to display the settings menu. It is a singleton.
@@ -32,7 +33,8 @@ public class SettingsMenu extends JPanel {
     private PlayerSelectionPanel playerSelectionPanel;
     private SelectionPanel gameModeSelectionPanel;
     private GameGIFLabel gameGifLabel;
-    private JButton startGameButton;
+    private JLabel startGameButton;
+    // private JButton startGameButton;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
@@ -85,13 +87,35 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initStartGameButton() {
-        startGameButton = new JButton("Start Game");
-        startGameButton.addActionListener(e -> startGame());
+        // startGameButton = new JButton("Start Game");
+        // startGameButton.addActionListener(e -> startGame());
+
+        startGameButton = new JLabel();
+        startGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                startGame();
+            }
+        });
+        startGameButton.setIcon(ImageManipulator.resizeImage("src/resources/images/menu/StartButton.png", 128, 56));
+
+        GridBagConstraints gbc = getStartButtonGridBagConstraints();
+        add(startGameButton, gbc);
+    }
+
+    public void updateStartButtonPosition() {
+        GridBagConstraints gbc = getStartButtonGridBagConstraints();
+        remove(startGameButton);
+        add(startGameButton, gbc);
+        updateGUI();
+    }
+
+    private GridBagConstraints getStartButtonGridBagConstraints() {
         GridBagConstraints gbc = getDefaultConstraints(1, 2);
         gbc.weightx = 0.7;
-        gbc.insets = new Insets(20, 20, 20, 20);
+        gbc.insets = new Insets(20,
+                (MenuFrameHandler.getMainFrame().getWidth() - gameGifLabel.getIcon().getIconWidth() - 64) / 2, 20, 20);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(startGameButton, gbc);
+        return gbc;
     }
 
     private GridBagConstraints getDefaultConstraints(int gridx, int gridy) {
@@ -130,5 +154,4 @@ public class SettingsMenu extends JPanel {
         revalidate();
         repaint();
     }
-
 }
