@@ -1,8 +1,10 @@
 package com.gytmy.utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -10,9 +12,11 @@ import javax.swing.tree.TreePath;
 public class FileSystemTreeModel implements TreeModel {
 
     private File root;
+    private String regex;
 
-    public FileSystemTreeModel(File root) {
+    public FileSystemTreeModel(File root, String regex) {
         this.root = root;
+        this.regex = regex;
     }
 
     @Override
@@ -23,9 +27,15 @@ public class FileSystemTreeModel implements TreeModel {
     @Override
     public Object getChild(Object parent, int index) {
         File file = (File) parent;
-        File[] children = file.listFiles();
-        Arrays.sort(children);
-        return children[index];
+        ArrayList<File> children = new ArrayList<>();
+
+        for (File f : file.listFiles()) {
+            if (!f.getName().matches(regex)) {
+                children.add(f);
+            }
+        }
+
+        return children.get(index);
     }
 
     @Override
@@ -33,10 +43,21 @@ public class FileSystemTreeModel implements TreeModel {
         File file = (File) parent;
         if (file.isDirectory()) {
             String[] children = file.list();
-            return children != null ? children.length : 0;
-        } else {
-            return 0;
+            return children != null ? count(children) : 0;
         }
+
+        return 0;
+    }
+
+    private int count(String[] children) {
+        int total = 0;
+
+        for (String child : children) {
+            if (!child.matches(regex)) {
+                total++;
+            }
+        }
+        return total;
     }
 
     @Override

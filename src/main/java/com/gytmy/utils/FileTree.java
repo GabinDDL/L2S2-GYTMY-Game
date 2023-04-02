@@ -2,12 +2,11 @@ package com.gytmy.utils;
 
 import java.awt.Color;
 import java.io.File;
-
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
 
-import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.game.Cell;
 
 /**
  * 
@@ -25,12 +24,14 @@ import com.gytmy.labyrinth.view.Cell;
  */
 public class FileTree extends JTree {
 
+    private static final String REGEX = ".*(wrld|\\.yaml)";
+
     private static final Color BACKGROUND_COLOR = Cell.PATH_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color SELECTION_COLOR = Cell.INITIAL_CELL_COLOR;
 
     public FileTree(String rootPath) {
-        super(new FileSystemTreeModel(new File(rootPath)));
+        super(new FileSystemTreeModel(new File(rootPath), REGEX));
 
         setBackground(BACKGROUND_COLOR);
 
