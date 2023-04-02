@@ -40,20 +40,6 @@ public class AudioToFile {
 
         user.setUpToDate(true);
         YamlReader.write(user.yamlConfigPath(), user);
-
-        addAudioToLST(user, recordedWord, numberOfRecordings);
-    }
-
-    private static void addAudioToLST(User user, String recordedWord, int numberOfRecordings) {
-        ModelManager.tryToInitLstFile(user, recordedWord);
-
-        try {
-            FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);
-            writer.append(recordedWord + numberOfRecordings + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void stop() {
