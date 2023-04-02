@@ -1,10 +1,13 @@
 package com.gytmy.labyrinth.view.settings;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -89,11 +92,24 @@ public class SettingsMenu extends JPanel {
     private void initStartGameButton() {
 
         startGameButton = new JLabel();
-        startGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        startGameButton.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 startGame();
             }
         });
+
+        startGameButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent evt) {
+                SettingsMenu.getInstance().setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt) {
+                SettingsMenu.getInstance().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
         startGameButton
                 .setIcon(ImageManipulator.resizeImage(START_GAME_BUTTON_IMAGE_PATH, 128, 56));
 
@@ -113,7 +129,7 @@ public class SettingsMenu extends JPanel {
         gbc.weightx = 0.7;
         gbc.insets = new Insets(20,
                 (MenuFrameHandler.getMainFrame().getWidth() - gameGifLabel.getIcon().getIconWidth() - 128) / 2, 20, 0);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        // gbc.fill = GridBagConstraints.HORIZONTAL;
         return gbc;
     }
 
