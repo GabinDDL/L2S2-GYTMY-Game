@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Predicate;
 
 import com.gytmy.utils.RunSH;
 import com.gytmy.utils.WordsToRecord;
@@ -50,6 +49,14 @@ public class ModelManager {
                 return false;
         }
 
+        /**
+         * Try to create the new file if it doesn't exist
+         * Try to reset if it does
+         * 
+         * @param user
+         * @param recordedWord
+         * @return false if there is an error with the initialisation
+         */
         public static boolean tryToInitLstFile(User user, String recordedWord) {
                 if (!WordsToRecord.exists(recordedWord)) {
                         return false;
@@ -59,7 +66,7 @@ public class ModelManager {
                         if (!lstFile.exists()) {
                                 return lstFile.createNewFile();
                         } else {
-                                return resetLstFile(user, recordedWord);
+                                return tryToResetLstFile(user, recordedWord);
                         }
                 } catch (IOException e) {
                         e.printStackTrace();
@@ -67,9 +74,16 @@ public class ModelManager {
                 return false;
         }
 
-        public static boolean resetLstFile(User user, String recordedWord) {
+        /**
+         * Try to clear the lst file (it should exist)
+         * 
+         * @param user
+         * @param recordedWord
+         * @return false if there is a problem with the file of the word of the user
+         */
+        public static boolean tryToResetLstFile(User user, String recordedWord) {
                 try {
-                        FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", false);
+                        FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_PATH, false);
                         writer.append("");
                         writer.close();
                         return true;
@@ -78,6 +92,15 @@ public class ModelManager {
                 }
         }
 
+        /**
+         * Try to update the data of lst file with the data of the recordedWord of the
+         * User
+         * (append all the files name without extension in the lst file)
+         * 
+         * @param user
+         * @param recordedWord
+         * @return false if there is a problem with the file of the user's word
+         */
         public static boolean tryToUpdateLstFile(User user, String recordedWord) {
                 File dataDirectory = new File(user.audioPath() + recordedWord + "/");
 
@@ -86,16 +109,22 @@ public class ModelManager {
                 }
                 List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
 
-                tryToAddAudiosToLst(user, recordedWord, list);
-
-                return true;
+                return tryToAddAudiosToLst(user, recordedWord, list);
         }
 
-        public static boolean tryToAddAudiosToLst(User user, String recordedWord, List<File> list) {
+        /**
+         * Append all the audio files name into the lst file
+         * 
+         * @param user
+         * @param recordedWord
+         * @param audioList    List of audio files
+         * @return
+         */
+        public static boolean tryToAddAudiosToLst(User user, String recordedWord, List<File> audioList) {
                 try {
                         FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);
 
-                        for (File file : list) {
+                        for (File file : audioList) {
                                 writer.append(getNameOfFileWithoutExtension(file) + "\n");
                         }
                         writer.close();
@@ -106,10 +135,23 @@ public class ModelManager {
                 }
         }
 
+        /**
+         * An audio file, in our project, is a .wav file
+         * 
+         * @param file
+         * @return
+         */
         private static boolean isAudioFile(File file) {
                 return file.isFile() && file.getName().endsWith(".wav");
         }
 
+        /**
+         * Give the name of the file without the exemple :
+         * for exemple with a file named "test.wav", return "test"
+         * 
+         * @param file
+         * @return
+         */
         private static String getNameOfFileWithoutExtension(File file) {
                 for (int i = 0; i < file.getName().length(); ++i) {
                         if (file.getName().charAt(i) == '.') {
@@ -119,9 +161,19 @@ public class ModelManager {
                 return file.getName();
         }
 
-        public static void createAllModelOfUsers(String[] firstNames) {
-                for (String firstName : firstNames) {
+        /**
+         * Create all models of users given
+         * 
+         * @param firstNameOfUsers
+         */
+        public static void createAllModelOfUsers(String[] firstNameOfUsers) {
+                if (firstNameOfUsers == null) {
+                        return;
+                }
+
+                for (String firstName : firstNameOfUsers) {
                         User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
+
                         if (user.getUpToDate()) {
                                 createAllModelOfRecordedWord(user);
 
@@ -131,6 +183,11 @@ public class ModelManager {
                 }
         }
 
+        /**
+         * Use the data of WordsToRecord to create all models of the user's word
+         * 
+         * @param user
+         */
         public static void createAllModelOfRecordedWord(User user) {
                 for (String word : WordsToRecord.getWordsToRecord()) {
                         createModelOfRecordedWord(user, word);
@@ -140,7 +197,14 @@ public class ModelManager {
                 YamlReader.write(user.yamlConfigPath(), user);
         }
 
-        public static boolean tryToInitModelOfRecordedWord(User user, String recordedWord) {
+        /**
+         * Verify if the word exist to reset the world and init lstFiles
+         * 
+         * @param user
+         * @param recordedWord
+         * @return
+         */
+        private static boolean tryToInitModelOfRecordedWord(User user, String recordedWord) {
                 if (!WordsToRecord.exists(recordedWord)) {
                         return false;
                 }
@@ -148,6 +212,14 @@ public class ModelManager {
                 return tryToInitLstFile(user, recordedWord);
         }
 
+        /**
+         * If it can, create the model :
+         * 
+         * Init the model with the update of lst and reset if
+         * 
+         * @param user
+         * @param recordedWord
+         */
         public static void createModelOfRecordedWord(User user, String recordedWord) {
                 if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitModelOfRecordedWord(user, recordedWord)) {
                         return;
@@ -165,10 +237,19 @@ public class ModelManager {
                 resetModeler();
         }
 
+        /**
+         * @param user
+         * @param recordedWord
+         * @return true if the user's word file exists
+         */
         public static boolean doesUserHaveDataOfWord(User user, String recordedWord) {
                 return new File(user.audioPath() + recordedWord + "/").exists();
         }
 
+        /**
+         * @param user
+         * @param recordedWord
+         */
         private static void parametrize(User user, String recordedWord) {
                 String[] argsParametrize = { user.modelPath() + recordedWord + LIST_PATH,
                                 user.audioPath() + recordedWord + "/" };
@@ -177,6 +258,10 @@ public class ModelManager {
                 handleErrorProgram("parametrize (sfbcep)", exitValue, user.getFirstName(), recordedWord);
         }
 
+        /**
+         * @param user
+         * @param recordedWord
+         */
         private static void energyDetector(User user, String recordedWord) {
                 String[] argsEnergyDetector = {
                                 user.modelPath() + recordedWord + LIST_PATH
@@ -186,6 +271,10 @@ public class ModelManager {
                 handleErrorProgram("energyDetector", exitValue, user.getFirstName(), recordedWord);
         }
 
+        /**
+         * @param user
+         * @param recordedWord
+         */
         private static void normFeat(User user, String recordedWord) {
                 String[] argsNormFeat = {
                                 user.modelPath() + recordedWord + LIST_PATH
@@ -195,6 +284,10 @@ public class ModelManager {
                 handleErrorProgram("normFeat", exitValue, user.getFirstName(), recordedWord);
         }
 
+        /**
+         * @param user
+         * @param recordedWord
+         */
         private static void trainWorld(User user, String recordedWord) {
                 String[] argsTrainWorld = {
                                 user.modelPath() + recordedWord + LIST_PATH,
@@ -205,12 +298,27 @@ public class ModelManager {
                 handleErrorProgram("trainWorld", exitValue, user.getFirstName(), recordedWord);
         }
 
+        /**
+         * handle the error of modeling programs
+         * 
+         * @param program
+         * @param exitValue
+         * @param userName
+         * @param recoredWord
+         */
         private static void handleErrorProgram(String program, int exitValue, String userName, String recoredWord) {
                 if (exitValue != 0) {
                         printErrorRun(program, userName, recoredWord);
                 }
         }
 
+        /**
+         * print the error message of the program
+         * 
+         * @param program
+         * @param userName
+         * @param recordedWord
+         */
         private static void printErrorRun(String program, String userName, String recordedWord) {
                 System.out.println("There is a problem with the program : " + program +
                                 "\nThe problem happens when the program try to modeling " + recordedWord
@@ -219,12 +327,18 @@ public class ModelManager {
                                 "(there must be no empty or too short audio)");
         }
 
-        public static void resetModeler() {
+        private static void resetModeler() {
                 clearDirectory(new File(PRM_PATH));
                 clearDirectory(new File(LBL_PATH));
         }
 
-        public static void resetWorldOfWord(User user, String word) {
+        /**
+         * Reset the gmm file of a user's word
+         * 
+         * @param user
+         * @param word
+         */
+        private static void resetWorldOfWord(User user, String word) {
                 if (WordsToRecord.exists(word)) {
                         if (new File(user.modelPath() + word + "/").exists()) {
                                 clearDirectory(new File(user.modelPath() + word + GMM_PATH));
@@ -232,7 +346,12 @@ public class ModelManager {
                 }
         }
 
-        public static void resetWorldOfAllWord(User user) {
+        /**
+         * Reset all user's word gmm files
+         *
+         * @param user
+         */
+        private static void resetWorldOfAllWord(User user) {
                 for (String word : WordsToRecord.getWordsToRecord()) {
                         if (new File(user.modelPath() + word + "/").exists()) {
                                 clearDirectory(new File(user.modelPath() + word + GMM_PATH));
@@ -240,9 +359,14 @@ public class ModelManager {
                 }
         }
 
+        /**
+         * Delete all files of a directory
+         * 
+         * @param directory
+         */
         private static void clearDirectory(File directory) {
                 for (File file : directory.listFiles()) {
-                        if (file.exists() && file.isDirectory())
+                        if (file.exists() && file.isDirectory() && file.canWrite())
                                 clearDirectory(file);
                         file.delete();
                 }
