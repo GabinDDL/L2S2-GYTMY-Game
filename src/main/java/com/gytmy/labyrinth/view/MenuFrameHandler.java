@@ -48,17 +48,14 @@ public class MenuFrameHandler {
         changeJPanel(audioMenu, "Audio");
     }
 
-    // TODO: Look at this method
     private static void changeJPanel(JPanel panel, String subtitle) {
         mainFrame.setContentPane(panel);
 
         // Ensure that the frame remains the same default size
         mainFrame.setPreferredSize(DEFAULT_DIMENSION);
 
-        setSubtitle(subtitle);
-        mainFrame.pack();
-        mainFrame.revalidate();
-        mainFrame.repaint();
+        // Update the frame
+        frameUpdate(subtitle);
 
         // Allow other components to resize the frame
         mainFrame.setPreferredSize(null);
