@@ -34,9 +34,9 @@ public class SettingsMenu extends JPanel {
     private SelectionPanel gameModeSelectionPanel;
     private GameGIFLabel gameGifLabel;
     private JLabel startGameButton;
-    // private JButton startGameButton;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
+    private static final String START_GAME_BUTTON_IMAGE_PATH = "src/main/resources/images/start_game_button.png";
 
     private static SettingsMenu instance = null;
 
@@ -87,8 +87,6 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initStartGameButton() {
-        // startGameButton = new JButton("Start Game");
-        // startGameButton.addActionListener(e -> startGame());
 
         startGameButton = new JLabel();
         startGameButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -96,7 +94,8 @@ public class SettingsMenu extends JPanel {
                 startGame();
             }
         });
-        startGameButton.setIcon(ImageManipulator.resizeImage("src/resources/images/menu/StartButton.png", 128, 56));
+        startGameButton
+                .setIcon(ImageManipulator.resizeImage(START_GAME_BUTTON_IMAGE_PATH, 128, 56));
 
         GridBagConstraints gbc = getStartButtonGridBagConstraints();
         add(startGameButton, gbc);
@@ -113,7 +112,7 @@ public class SettingsMenu extends JPanel {
         GridBagConstraints gbc = getDefaultConstraints(1, 2);
         gbc.weightx = 0.7;
         gbc.insets = new Insets(20,
-                (MenuFrameHandler.getMainFrame().getWidth() - gameGifLabel.getIcon().getIconWidth() - 64) / 2, 20, 20);
+                (MenuFrameHandler.getMainFrame().getWidth() - gameGifLabel.getIcon().getIconWidth() - 128) / 2, 20, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         return gbc;
     }
