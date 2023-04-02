@@ -2,8 +2,6 @@ package com.gytmy.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 import java.io.InputStreamReader;
 
 public class RunSH {
