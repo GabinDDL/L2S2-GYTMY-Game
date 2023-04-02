@@ -45,7 +45,7 @@ public class AudioToFile {
     }
 
     private static void addAudioToLST(User user, String recordedWord, int numberOfRecordings) {
-        ModelManager.tryToCreateListFile(user, recordedWord);
+        ModelManager.tryToInitLstFile(user, recordedWord);
 
         try {
             FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);

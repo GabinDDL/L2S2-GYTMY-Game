@@ -318,7 +318,7 @@ public class AudioFileManager {
             aDirectoryIsCreated = true;
         }
 
-        aDirectoryIsCreated = ModelManager.tryToCreateModelDirectory(user, word) || aDirectoryIsCreated;
+        aDirectoryIsCreated = ModelManager.tryToCreateModelDirectoryOfWord(user, word) || aDirectoryIsCreated;
 
         return aDirectoryIsCreated;
     }
