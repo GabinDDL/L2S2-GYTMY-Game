@@ -106,6 +106,8 @@ public class TestAudioFileManager {
                 this::addUserTwice, "User already exists");
 
         assertTrue(new File(user.audioFilesPath()).exists());
+        assertTrue(new File(user.audioPath()).exists());
+        assertTrue(new File(user.modelPath()).exists());
 
         AudioFileManager.removeUser(user);
         assertFalse(new File(user.audioFilesPath()).exists());
