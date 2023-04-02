@@ -36,7 +36,7 @@ public class SettingsMenu extends JPanel {
     private JLabel startGameButton;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
-    private static final String START_GAME_BUTTON_IMAGE_PATH = "src/main/resources/images/start_game_button.png";
+    private static final String START_GAME_BUTTON_IMAGE_PATH = "src/resources/images/settings_menu/StartButton.png";
 
     private static SettingsMenu instance = null;
 
