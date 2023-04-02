@@ -197,6 +197,18 @@ public class ModelManager {
                 YamlReader.write(user.yamlConfigPath(), user);
         }
 
+        public static boolean doesAudioFilesHaveAGoodLength(User user, String recordedWord) {
+                double upperLength = 3.5;
+
+                File dataDirectory = new File(user.audioPath() + recordedWord + "/");
+                List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+
+                if (AudioFileManager.getTotalOfAudiosLength(list) < upperLength) {
+                        return false;
+                }
+                return true;
+        }
+
         /**
          * Verify if the word exist to reset the world and init lstFiles
          * 
@@ -208,6 +220,15 @@ public class ModelManager {
                 if (!WordsToRecord.exists(recordedWord)) {
                         return false;
                 }
+
+                if (!doesUserHaveDataOfWord(user, recordedWord)) {
+                        return false;
+                }
+
+                if (!doesAudioFilesHaveAGoodLength(user, recordedWord)) {
+                        return false;
+                }
+
                 resetWorldOfWord(user, recordedWord);
                 return tryToInitLstFile(user, recordedWord);
         }

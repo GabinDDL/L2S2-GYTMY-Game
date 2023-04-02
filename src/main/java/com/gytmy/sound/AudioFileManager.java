@@ -1,9 +1,15 @@
 package com.gytmy.sound;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.gytmy.utils.WordsToRecord;
 
@@ -330,5 +336,32 @@ public class AudioFileManager {
         List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
 
         return files.contains(new File(file));
+    }
+
+    /**
+     * @param audioFiles
+     * @return the value of the duration of all files added in second
+     */
+    public static float getTotalOfAudiosLength(List<File> audioFiles) {
+        float durationOfAllFilesInSeconds = 0;
+        System.out.println(durationOfAllFilesInSeconds);
+
+        if (audioFiles == null) {
+            return durationOfAllFilesInSeconds;
+        }
+
+        for (File file : audioFiles) {
+            try {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+                AudioFormat format = audioInputStream.getFormat();
+                long audioFileLength = file.length();
+                int frameSize = format.getFrameSize();
+                float frameRate = format.getFrameRate();
+                durationOfAllFilesInSeconds += (audioFileLength / (frameSize * frameRate));
+            } catch (UnsupportedAudioFileException | IOException e) {
+            }
+        }
+        System.out.println(durationOfAllFilesInSeconds);
+        return durationOfAllFilesInSeconds;
     }
 }
