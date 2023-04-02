@@ -6,11 +6,13 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -23,17 +25,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioPlayer;
 import com.gytmy.sound.PlayingTimer;
 import com.gytmy.sound.User;
 import com.gytmy.utils.FileTree;
+import com.gytmy.utils.ImageManipulator;
+import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.WordsToRecord;
 
 public class AudioMenu extends JPanel {
-    private JFrame frame;
 
-    private StartMenu startMenu;
+    private JFrame mainFrame = MenuFrameHandler.getMainFrame();
 
     private JPanel userPanel;
     private JComboBox<User> userSelector;
@@ -63,7 +67,40 @@ public class AudioMenu extends JPanel {
     private PlayingTimer timer;
     private boolean isPlaying = false;
 
+    private static final int ICON_HEIGHT = 20;
+    private static final int ICON_WIDTH = 20;
+
+    private static final ImageIcon deleteUserIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/delete-button.png",
+            ICON_WIDTH, ICON_HEIGHT);
+
+    private static final ImageIcon editUserIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/edit.png",
+            ICON_WIDTH, ICON_HEIGHT);
+
+    private static final ImageIcon addUserIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/add-user.png",
+            ICON_WIDTH, ICON_HEIGHT);
+
+    private static final ImageIcon recordIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/rec-button.png",
+            ICON_WIDTH, ICON_HEIGHT);
+
+    private static final ImageIcon deleteIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/bin.png",
+            ICON_WIDTH, ICON_HEIGHT);
+
+    private static final ImageIcon playIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/play-button.png",
+            ICON_WIDTH, ICON_HEIGHT);
+    private static final ImageIcon pauseIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/pause-button.png",
+            ICON_WIDTH, ICON_HEIGHT);
     private JButton playAndStopButton;
+
+    private static final ImageIcon goBackIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/go-back-arrow.png",
+            ICON_WIDTH, ICON_HEIGHT);
 
     private String audioToLoad = "";
 
@@ -72,16 +109,23 @@ public class AudioMenu extends JPanel {
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
-    public AudioMenu(JFrame frame, StartMenu startMenu) {
-        this.frame = frame;
-        this.startMenu = startMenu;
-        this.frame.setTitle("Be AMazed" + "\t( AudioSettings )");
+    private static AudioMenu instance = null;
 
+    public static AudioMenu getInstance() {
+        if (instance == null) {
+            instance = new AudioMenu();
+        }
+        return instance;
+    }
+
+    public AudioMenu() {
         setLayout(new BorderLayout());
 
         initUserPanel();
         loadFileNavigator();
         initWordPanel();
+
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu);
     }
 
     /**
@@ -120,7 +164,8 @@ public class AudioMenu extends JPanel {
     }
 
     private void initDeleteButton(GridBagConstraints c) {
-        deleteUserButton = new JButton("Delete");
+        deleteUserButton = new JButton(deleteUserIcon);
+
         deleteUserButton.setToolTipText("This will delete the current user and all his recordings");
         deleteUserButton.setEnabled(false);
         deleteUserButton.addActionListener(e -> deleteUser());
@@ -129,29 +174,29 @@ public class AudioMenu extends JPanel {
     }
 
     private void initEditButton(GridBagConstraints c) {
-        editUserButton = new JButton("Edit");
+        editUserButton = new JButton(editUserIcon);
         editUserButton.setToolTipText("This will edit the current user");
         editUserButton.setEnabled(false);
         editUserButton.addActionListener(
                 e -> editOrAddUser("Edit User",
-                        new EditCreateUsersPage(frame, this, (User) userSelector.getSelectedItem())));
+                        new EditCreateUsersPage(mainFrame, this, (User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
 
     private void initAddButton(GridBagConstraints c) {
-        addUserButton = new JButton("Add");
+        addUserButton = new JButton(addUserIcon);
         addUserButton.setToolTipText("This will add a new user");
-        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(frame, this)));
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(mainFrame, this)));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
 
     private void editOrAddUser(String title, EditCreateUsersPage page) {
-        frame.setContentPane(page);
-        frame.setSize(800, 500);
-        frame.revalidate();
-        frame.setTitle(title);
+        mainFrame.setContentPane(page);
+        mainFrame.setSize(800, 500);
+        mainFrame.revalidate();
+        mainFrame.setTitle(title);
     }
 
     private void initColors(JComponent component) {
@@ -205,7 +250,7 @@ public class AudioMenu extends JPanel {
     private void deleteUser() {
 
         String confirmationDialog = "Are you sure you want to delete this user? Everything will be lost.";
-        int userIsDeleted = JOptionPane.showConfirmDialog(frame, confirmationDialog, "DELETE USER ?",
+        int userIsDeleted = JOptionPane.showConfirmDialog(mainFrame, confirmationDialog, "DELETE USER ?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
@@ -230,6 +275,8 @@ public class AudioMenu extends JPanel {
 
         if (deleteRecord != null) {
             deleteRecord.setEnabled(false);
+            deleteRecord.setText("D̶e̶l̶e̶t̶e̶");
+            deleteRecord.setIcon(null);
         }
 
         fileNavigator = new FileTree(actualJTreeRootPath);
@@ -241,9 +288,13 @@ public class AudioMenu extends JPanel {
             if (audioToLoad.endsWith(".wav")) {
                 playAndStopButton.setEnabled(true);
                 deleteRecord.setEnabled(true);
+                deleteRecord.setIcon(deleteIcon);
+                deleteRecord.setText("Delete");
             } else {
                 playAndStopButton.setEnabled(false);
                 deleteRecord.setEnabled(false);
+                deleteRecord.setText("D̶e̶l̶e̶t̶e̶");
+                deleteRecord.setIcon(null);
             }
         });
 
@@ -294,7 +345,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void initRecordButton(JComponent parentComponent) {
-        recordButton = new JButton("Record");
+        recordButton = new JButton("R̶e̶c̶o̶r̶d̶");
         recordButton.setToolTipText("Record a new audio for the selected word");
         recordButton.addActionListener(e -> recordAudio());
         recordButton.setEnabled(false);
@@ -303,11 +354,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void recordAudio() {
-        frame.setContentPane(
-                new RecordPage(frame, this, (User) userSelector.getSelectedItem(),
+        mainFrame.setContentPane(
+                new RecordPage(mainFrame, this, (User) userSelector.getSelectedItem(),
                         (String) wordSelector.getSelectedItem()));
-        frame.revalidate();
-        frame.setTitle("RECORD STUDIO");
+        mainFrame.revalidate();
+        mainFrame.setTitle("RECORD STUDIO");
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
@@ -324,10 +375,14 @@ public class AudioMenu extends JPanel {
         loadTotalOfWords();
 
         recordButton.setEnabled(false);
+        recordButton.setText("R̶e̶c̶o̶r̶d̶");
+        recordButton.setIcon(null);
         if (wordSelector.getSelectedItem().equals("ALL")) {
             recordButton.setEnabled(false);
         } else if ((User) userSelector.getSelectedItem() != ALL_USERS) {
             recordButton.setEnabled(true);
+            recordButton.setText("Record");
+            recordButton.setIcon(recordIcon);
         }
     }
 
@@ -369,7 +424,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void initDeleteRecordButton(JComponent parentComponent) {
-        deleteRecord = new JButton("Delete");
+        deleteRecord = new JButton("D̶e̶l̶e̶t̶e̶");
         deleteRecord.setToolTipText("Delete the selected audio");
         deleteRecord.setEnabled(false);
         deleteRecord.addActionListener(e -> deleteWAV());
@@ -425,7 +480,7 @@ public class AudioMenu extends JPanel {
 
     private void initMediaPlayer(JComponent parentComponent) {
         JPanel playPausePanel = new JPanel(new GridLayout(1, 1));
-        playAndStopButton = new JButton("|>");
+        playAndStopButton = new JButton(playIcon);
 
         initColors(playAndStopButton);
 
@@ -467,7 +522,7 @@ public class AudioMenu extends JPanel {
 
     private void initAudioPlaying()
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        playAndStopButton.setText("||");
+        playAndStopButton.setIcon(pauseIcon);
         playAndStopButton.setEnabled(true);
 
         player.load(audioToLoad);
@@ -486,7 +541,7 @@ public class AudioMenu extends JPanel {
         timer.reset();
         timer.interrupt();
 
-        playAndStopButton.setText("|>");
+        playAndStopButton.setIcon(playIcon);
         isPlaying = false;
 
         player.stop();
@@ -495,19 +550,12 @@ public class AudioMenu extends JPanel {
 
     private void initBackButton(JComponent parentComponent) {
         JButton goBackButton = new JButton("Go back");
+        goBackButton.setIcon(goBackIcon);
         goBackButton.setToolTipText("Go back to start menu");
-        goBackButton.addActionListener(e -> goBackToStartMenu());
+        goBackButton.addActionListener(e -> MenuFrameHandler.goToStartMenu());
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
         parentComponent.add(goBackButton);
     }
 
-    public void goBackToStartMenu() {
-        frame.setContentPane(startMenu);
-        frame.revalidate();
-    }
-
-    public StartMenu getStartMenu() {
-        return startMenu;
-    }
 }

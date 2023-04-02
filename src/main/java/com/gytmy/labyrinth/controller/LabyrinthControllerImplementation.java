@@ -11,8 +11,8 @@ import com.gytmy.labyrinth.model.LabyrinthModelFactory;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
-import com.gytmy.labyrinth.view.LabyrinthView;
-import com.gytmy.labyrinth.view.LabyrinthViewImplementation;
+import com.gytmy.labyrinth.view.game.LabyrinthView;
+import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
 import com.gytmy.utils.Coordinates;
 
 public class LabyrinthControllerImplementation implements LabyrinthController {
@@ -21,6 +21,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private LabyrinthModel model;
     private LabyrinthView view;
     private JFrame frame;
+    private boolean hasCountdownEnded = false;
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -36,9 +37,20 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     private void initGame() {
+        initScoreType();
         model = LabyrinthModelFactory.createLabyrinth(gameData);
         initPlayersInitialCell(model.getPlayers());
-        view = new LabyrinthViewImplementation(model, frame);
+        view = LabyrinthViewFactory.createLabyrinthView(gameData, model, frame, this);
+    }
+
+    private void initScoreType() {
+        switch (selectedMovementControllerType) {
+            case KEYBOARD:
+                gameData.setScoreType(ScoreType.SIMPLE_KEYBOARD);
+                break;
+            default:
+                break;
+        }
     }
 
     private void initPlayersInitialCell(Player[] players) {
@@ -95,7 +107,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
             view.stopTimer();
             return false;
         }
-        return view.isTimerCounting();
+        return hasCountdownEnded;
     }
 
     /**
@@ -112,16 +124,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
 
         if (model.isGameOver()) {
             view.stopTimer();
-            // EventQueue is used to pause a little bit before showing the game over panel
-            EventQueue.invokeLater(
-                    () -> {
-                        try {
-                            Thread.sleep(1000);
-                            view.showGameOverPanel();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+            view.notifyGameOver();
         }
     }
 
@@ -131,7 +134,13 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     @Override
-    public ScoreCalculator getScoreCalculator(ScoreType type, Player player) {
-        return model.getScoreCalculator(type, player);
+    public ScoreCalculator getScoreCalculator(ScoreType scoreType, Player player) {
+        return model.getScoreCalculator(scoreType, player);
+    }
+
+    @Override
+    public void notifyGameStarted() {
+        hasCountdownEnded = true;
+        view.notifyGameStarted();
     }
 }

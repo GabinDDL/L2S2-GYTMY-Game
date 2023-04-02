@@ -1,7 +1,7 @@
-package com.gytmy.labyrinth.view;
+package com.gytmy.labyrinth.view.game;
 
 import java.awt.Color;
-import java.awt.GridBagConstraints;
+import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
@@ -9,36 +9,24 @@ import javax.swing.JFrame;
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.LabyrinthModel;
 import com.gytmy.labyrinth.model.player.Player;
+import com.gytmy.labyrinth.view.GameOverPanel;
+import com.gytmy.labyrinth.view.MenuFrameHandler;
+import com.gytmy.labyrinth.view.TimerPanel;
 
 public class LabyrinthViewImplementation extends LabyrinthView {
-    private LabyrinthModel model;
-    private LabyrinthPanel labyrinthPanel;
-    private GameOverPanel gameOverPanel;
-    private TimerPanel timerPanel;
+    protected LabyrinthModel model;
+    protected LabyrinthPanel labyrinthPanel;
+    protected TimerPanel timerPanel;
     private JFrame frame;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
-    public LabyrinthViewImplementation(LabyrinthModel model, JFrame frame) {
+    protected LabyrinthViewImplementation(LabyrinthModel model, JFrame frame) {
         this.model = model;
         this.frame = frame;
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
         labyrinthPanel = new LabyrinthPanel(model);
-        initComponents();
-    }
-
-    private void initComponents() {
-        GridBagConstraints c = new GridBagConstraints();
-        timerPanel = new TimerPanel();
-        c.gridx = 0;
-        c.gridy = 0;
-        add(timerPanel, c);
-        startTimer();
-
-        c.gridx = 0;
-        c.gridy = 1;
-        add(labyrinthPanel, c);
     }
 
     public void startTimer() {
@@ -71,8 +59,28 @@ public class LabyrinthViewImplementation extends LabyrinthView {
 
     @Override
     public void showGameOverPanel() {
-        frame.setContentPane(new GameOverPanel(model, frame));
-        GameFrameToolbox.frameUpdate("Game Over");
+        frame.setContentPane(new GameOverPanel(model));
+        frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        MenuFrameHandler.frameUpdate("Game Over");
+    }
+
+    @Override
+    public void notifyGameStarted() {
+        // For this view, nothing needs to be done.
+    }
+
+    @Override
+    public void notifyGameOver() {
+        // EventQueue is used to pause a little bit before showing the game over panel
+        EventQueue.invokeLater(
+                () -> {
+                    try {
+                        Thread.sleep(2000);
+                        showGameOverPanel();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
 }

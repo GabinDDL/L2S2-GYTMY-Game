@@ -6,12 +6,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.AudioToFile;
 import com.gytmy.sound.User;
+import com.gytmy.utils.HotkeyAdder;
 
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
 import java.awt.GridBagConstraints;
 
 public class RecordPage extends JPanel {
@@ -62,6 +65,8 @@ public class RecordPage extends JPanel {
         initDiscardButton(constraints);
         initDiscardAllButton(constraints);
         initGoBackButton(constraints);
+
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu);
     }
 
     private void initTimerPanel(GridBagConstraints constraints) {

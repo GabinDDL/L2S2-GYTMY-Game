@@ -8,7 +8,7 @@ import java.util.Set;
 
 import javax.swing.JComboBox;
 
-import com.gytmy.labyrinth.view.Cell;
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
 

@@ -11,9 +11,12 @@ import java.awt.GridBagConstraints;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 
+import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.User;
+import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
@@ -66,6 +69,9 @@ public class EditCreateUsersPage extends JPanel {
         constraints.insets = new Insets(0, 5, 10, 0);
         initSaveCreateButton(constraints);
         initCancelButton(constraints);
+
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToAudioMenu);
+
     }
 
     private void setTextValues() {
@@ -170,10 +176,7 @@ public class EditCreateUsersPage extends JPanel {
         cancel = new JButton("Cancel");
         cancel.setBackground(Cell.INITIAL_CELL_COLOR);
 
-        cancel.addActionListener(e -> {
-            frame.setContentPane(audioMenu);
-            frame.revalidate();
-        });
+        cancel.addActionListener(e -> MenuFrameHandler.goToAudioMenu());
 
         constraints.gridx = 0;
         constraints.gridy = 5;
@@ -208,8 +211,7 @@ public class EditCreateUsersPage extends JPanel {
                 AudioFileManager.editUser(userToEdit, user);
             }
 
-            frame.setContentPane(new AudioMenu(frame, audioMenu.getStartMenu()));
-            frame.revalidate();
+            MenuFrameHandler.goToAudioMenu();
         });
 
         constraints.gridx = 2;

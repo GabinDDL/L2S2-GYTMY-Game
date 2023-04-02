@@ -41,14 +41,17 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     private Player[] players;
 
+    private ScoreType scoreType;
+
     public LabyrinthModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
-            Player[] players) {
+            Player[] players, ScoreType scoreType) {
         this.board = generator.generate();
         handleNullArguments();
         handleInvalidBoardSize();
         this.initialCell = determineInitialCell(initialCell);
         this.exitCell = determineExitCell(exitCell);
         this.players = players;
+        this.scoreType = scoreType;
         this.minimumPathLength = calculateMinimumPathLength();
     }
 
@@ -334,6 +337,17 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
     @Override
     public int getMinimumPathLength() {
         return minimumPathLength;
+    }
+
+    @Override
+    public int getScore(Player player) {
+        ScoreCalculator calculator = getScoreCalculator(player);
+        return calculator.getScore();
+    }
+
+    @Override
+    public ScoreCalculator getScoreCalculator(Player player) {
+        return getScoreCalculator(scoreType, player);
     }
 
     @Override
