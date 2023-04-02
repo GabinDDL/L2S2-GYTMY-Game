@@ -299,7 +299,7 @@ public class ModelManager {
         }
 
         /**
-         * handle the error of modeling programs
+         * Handle the error of modeling programs
          * 
          * @param program
          * @param exitValue
@@ -313,7 +313,7 @@ public class ModelManager {
         }
 
         /**
-         * print the error message of the program
+         * Print the error message of the program
          * 
          * @param program
          * @param userName

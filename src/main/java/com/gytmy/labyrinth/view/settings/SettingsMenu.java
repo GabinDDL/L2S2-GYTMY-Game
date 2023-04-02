@@ -112,6 +112,7 @@ public class SettingsMenu extends JPanel {
         Player[] players = playerSelectionPanel.getSelectedPlayers();
 
         ModelManager.createAllModelOfUsers(playerSelectionPanel.getFirstNameUsers());
+        // Create all datas of user's models
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
