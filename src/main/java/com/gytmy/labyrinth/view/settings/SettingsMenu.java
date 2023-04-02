@@ -93,6 +93,7 @@ public class SettingsMenu extends JPanel {
 
         startGameButton = new JLabel();
         startGameButton.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent evt) {
                 startGame();
             }
