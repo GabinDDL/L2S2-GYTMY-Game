@@ -50,6 +50,115 @@ public class ModelManager {
         }
 
         /**
+         * Create all models of users given
+         * 
+         * @param firstNameOfUsers
+         */
+        public static void createAllModelOfUsers(String[] firstNameOfUsers) {
+                if (firstNameOfUsers == null) {
+                        return;
+                }
+
+                for (String firstName : firstNameOfUsers) {
+                        User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
+
+                        if (user.getUpToDate()) {
+                                createAllModelOfRecordedWord(user);
+
+                                user.setUpToDate(false);
+                                YamlReader.write(user.yamlConfigPath(), user);
+                        }
+                }
+        }
+
+        /**
+         * Use the data of WordsToRecord to create all models of the user's word
+         * 
+         * @param user
+         */
+        public static void createAllModelOfRecordedWord(User user) {
+                for (String word : WordsToRecord.getWordsToRecord()) {
+                        createModelOfRecordedWord(user, word);
+                }
+
+                user.setUpToDate(false);
+                YamlReader.write(user.yamlConfigPath(), user);
+        }
+
+        /**
+         * Verify if the word exist to reset the world and init lstFiles
+         * 
+         * @param user
+         * @param recordedWord
+         * @return
+         */
+        private static boolean tryToInitModelOfRecordedWord(User user, String recordedWord) {
+                if (!WordsToRecord.exists(recordedWord)) {
+                        return false;
+                }
+
+                if (!doesAudioFilesHaveAGoodLength(user, recordedWord)) {
+                        return false;
+                }
+
+                resetWorldOfWord(user, recordedWord);
+                return tryToInitLstFile(user, recordedWord);
+        }
+
+        /**
+         * Return if the total length of audios word is upper to upperLength
+         * 
+         * @param user
+         * @param recordedWord
+         * @return
+         */
+        public static boolean doesAudioFilesHaveAGoodLength(User user, String recordedWord) {
+                double upperLength = 3.5;
+
+                File dataDirectory = new File(user.audioPath() + recordedWord + "/");
+                List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+
+                if (AudioFileManager.getTotalOfAudiosLength(list) < upperLength) {
+                        return false;
+                }
+                return true;
+        }
+
+        /**
+         * If it can, create the model :
+         * 
+         * Init the model with the update of lst and reset if
+         * 
+         * @param user
+         * @param recordedWord
+         */
+        public static void createModelOfRecordedWord(User user, String recordedWord) {
+                if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitModelOfRecordedWord(user, recordedWord)) {
+                        return;
+                }
+
+                if (!tryToUpdateLstFile(user, recordedWord)) {
+                        return;
+                }
+
+                parametrize(user, recordedWord);
+                energyDetector(user, recordedWord);
+                normFeat(user, recordedWord);
+                trainWorld(user, recordedWord);
+
+                resetModeler();
+        }
+
+        /**
+         * @param user
+         * @param recordedWord
+         * @return true if the user's word file exists
+         */
+        public static boolean doesUserHaveDataOfWord(User user, String recordedWord) {
+                return new File(user.audioPath() + recordedWord + "/").exists();
+        }
+
+        /**
          * Try to create the new file if it doesn't exist
          * Try to reset if it does
          * 
@@ -113,6 +222,16 @@ public class ModelManager {
         }
 
         /**
+         * An audio file, in our project, is a .wav file
+         * 
+         * @param file
+         * @return
+         */
+        private static boolean isAudioFile(File file) {
+                return file.isFile() && file.getName().endsWith(".wav");
+        }
+
+        /**
          * Append all the audio files name into the lst file
          * 
          * @param user
@@ -136,16 +255,6 @@ public class ModelManager {
         }
 
         /**
-         * An audio file, in our project, is a .wav file
-         * 
-         * @param file
-         * @return
-         */
-        private static boolean isAudioFile(File file) {
-                return file.isFile() && file.getName().endsWith(".wav");
-        }
-
-        /**
          * Give the name of the file without the exemple :
          * for exemple with a file named "test.wav", return "test"
          * 
@@ -159,112 +268,6 @@ public class ModelManager {
                         }
                 }
                 return file.getName();
-        }
-
-        /**
-         * Create all models of users given
-         * 
-         * @param firstNameOfUsers
-         */
-        public static void createAllModelOfUsers(String[] firstNameOfUsers) {
-                if (firstNameOfUsers == null) {
-                        return;
-                }
-
-                for (String firstName : firstNameOfUsers) {
-                        User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
-
-                        if (user.getUpToDate()) {
-                                createAllModelOfRecordedWord(user);
-
-                                user.setUpToDate(false);
-                                YamlReader.write(user.yamlConfigPath(), user);
-                        }
-                }
-        }
-
-        /**
-         * Use the data of WordsToRecord to create all models of the user's word
-         * 
-         * @param user
-         */
-        public static void createAllModelOfRecordedWord(User user) {
-                for (String word : WordsToRecord.getWordsToRecord()) {
-                        createModelOfRecordedWord(user, word);
-                }
-
-                user.setUpToDate(false);
-                YamlReader.write(user.yamlConfigPath(), user);
-        }
-
-        public static boolean doesAudioFilesHaveAGoodLength(User user, String recordedWord) {
-                double upperLength = 3.5;
-
-                File dataDirectory = new File(user.audioPath() + recordedWord + "/");
-                List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
-
-                if (AudioFileManager.getTotalOfAudiosLength(list) < upperLength) {
-                        return false;
-                }
-                return true;
-        }
-
-        /**
-         * Verify if the word exist to reset the world and init lstFiles
-         * 
-         * @param user
-         * @param recordedWord
-         * @return
-         */
-        private static boolean tryToInitModelOfRecordedWord(User user, String recordedWord) {
-                if (!WordsToRecord.exists(recordedWord)) {
-                        return false;
-                }
-
-                if (!doesUserHaveDataOfWord(user, recordedWord)) {
-                        return false;
-                }
-
-                if (!doesAudioFilesHaveAGoodLength(user, recordedWord)) {
-                        return false;
-                }
-
-                resetWorldOfWord(user, recordedWord);
-                return tryToInitLstFile(user, recordedWord);
-        }
-
-        /**
-         * If it can, create the model :
-         * 
-         * Init the model with the update of lst and reset if
-         * 
-         * @param user
-         * @param recordedWord
-         */
-        public static void createModelOfRecordedWord(User user, String recordedWord) {
-                if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitModelOfRecordedWord(user, recordedWord)) {
-                        return;
-                }
-
-                if (!tryToUpdateLstFile(user, recordedWord)) {
-                        return;
-                }
-
-                parametrize(user, recordedWord);
-                energyDetector(user, recordedWord);
-                normFeat(user, recordedWord);
-                trainWorld(user, recordedWord);
-
-                resetModeler();
-        }
-
-        /**
-         * @param user
-         * @param recordedWord
-         * @return true if the user's word file exists
-         */
-        public static boolean doesUserHaveDataOfWord(User user, String recordedWord) {
-                return new File(user.audioPath() + recordedWord + "/").exists();
         }
 
         /**

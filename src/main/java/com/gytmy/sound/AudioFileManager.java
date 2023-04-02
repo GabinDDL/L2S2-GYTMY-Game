@@ -344,7 +344,6 @@ public class AudioFileManager {
      */
     public static float getTotalOfAudiosLength(List<File> audioFiles) {
         float durationOfAllFilesInSeconds = 0;
-        System.out.println(durationOfAllFilesInSeconds);
 
         if (audioFiles == null) {
             return durationOfAllFilesInSeconds;
@@ -361,7 +360,6 @@ public class AudioFileManager {
             } catch (UnsupportedAudioFileException | IOException e) {
             }
         }
-        System.out.println(durationOfAllFilesInSeconds);
         return durationOfAllFilesInSeconds;
     }
 }
