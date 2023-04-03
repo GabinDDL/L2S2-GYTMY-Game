@@ -10,7 +10,6 @@ public class PlayerImplementation implements Player {
     private Coordinates coordinates;
     private String name;
     private Color color;
-    private boolean ready;
 
     private int numberOfMovements;
     private int timePassedInSeconds;
@@ -44,7 +43,6 @@ public class PlayerImplementation implements Player {
         this.coordinates = coordinates;
         this.name = name;
         this.color = color;
-        this.ready = ready;
 
         this.numberOfMovements = 0;
         this.timePassedInSeconds = 0;
@@ -77,11 +75,6 @@ public class PlayerImplementation implements Player {
     }
 
     @Override
-    public boolean isReady() {
-        return ready;
-    }
-
-    @Override
     public void setX(int x) {
         coordinates.setX(x);
     }
@@ -104,11 +97,6 @@ public class PlayerImplementation implements Player {
     @Override
     public void setColor(Color color) {
         this.color = color;
-    }
-
-    @Override
-    public void setReady(boolean ready) {
-        this.ready = ready;
     }
 
     @Override
