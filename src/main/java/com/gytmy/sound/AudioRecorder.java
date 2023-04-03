@@ -15,50 +15,32 @@ public class AudioRecorder {
     // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
     private static final long MAX_RECORD_DURATION_MILLISECONDS = 11000;
-    private static Thread stopper;
 
+    private Thread stopper;
     private File wavFile; // The file that will store the recorded sound
 
     // A TargetDataLine represents a mono or multi-channel audio feed
     // from which audio data can be read.
     private TargetDataLine channel;
 
-    public AudioRecorder(String audioFilePath) {
+    private static AudioRecorder instance;
 
-        this.wavFile = new File(audioFilePath);
-
-        // Make sure the file exists
-        if (!wavFile.exists()) {
-            try {
-                wavFile.createNewFile();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Error: File cannot be created");
-            }
+    public static AudioRecorder getInstance() {
+        if (instance == null) {
+            instance = new AudioRecorder();
         }
+        return instance;
     }
 
-    /**
-     * Defines an audio format
-     * We want the format to be 16kHz, 8-bit and mono
-     */
-    private static AudioFormat getAudioFormat() {
-        float sampleRate = 16000;
-        int sampleSizeInBits = 8;
-        int channels = 1;
-        boolean signed = true;
-        boolean bigEndian = true;
-        AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
-                channels, signed, bigEndian);
-        return format;
+    private AudioRecorder() {
+
     }
 
     /**
      * Opens the channel and starts recording
      */
-    public void start() {
-
+    public void start(String audioFilePath) {
+        initFile(audioFilePath);
         initiateStopper();
 
         try {
@@ -72,7 +54,20 @@ public class AudioRecorder {
         }
     }
 
-    // TODO: Look at this method
+    private void initFile(String audioFilePath) {
+        this.wavFile = new File(audioFilePath);
+
+        // Make sure the file exists
+        if (!wavFile.exists()) {
+            try {
+                wavFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error: File cannot be created");
+            }
+        }
+    }
+
     /**
      * Creates a new thread that waits for a specified delay before stopping record
      * 
@@ -105,6 +100,21 @@ public class AudioRecorder {
         channel = (TargetDataLine) AudioSystem.getLine(info);
         channel.open(format);
         channel.start(); // start capturing
+    }
+
+    /**
+     * Defines an audio format
+     * We want the format to be 16kHz, 8-bit and mono
+     */
+    private static AudioFormat getAudioFormat() {
+        float sampleRate = 16000;
+        int sampleSizeInBits = 8;
+        int channels = 1;
+        boolean signed = true;
+        boolean bigEndian = true;
+        AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
+                channels, signed, bigEndian);
+        return format;
     }
 
     /**
@@ -148,7 +158,7 @@ public class AudioRecorder {
     }
 
     public static boolean isRecording() {
-        return stopper.isAlive();
+        return getInstance().stopper.isAlive();
     }
 
     /**
