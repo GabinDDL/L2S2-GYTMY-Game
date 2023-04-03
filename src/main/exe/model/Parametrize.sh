@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Arg 1 : Path of the list (list)
-# Arg 2 : Path of data
+LIST_PATH=$1
+DATA_PATH=$2
 
 EXE_DIR="./src/main/exe/model"
 PRM_DIR="./src/main/exe/model/prm"
@@ -10,8 +10,8 @@ SPH_EXT=".wav"
 OPTS="-F pcm16 -p 17 -f 16000 -e"
 
 
-for i in `cat $1`;do
-	$EXE_DIR/sfbcep $OPTS $2/$i$SPH_EXT $PRM_DIR/$i$PRM_EXT
+for i in `cat $LIST_PATH`;do
+	$EXE_DIR/sfbcep $OPTS $DATA_PATH/$i$SPH_EXT $PRM_DIR/$i$PRM_EXT
 done
 
 exit 0
