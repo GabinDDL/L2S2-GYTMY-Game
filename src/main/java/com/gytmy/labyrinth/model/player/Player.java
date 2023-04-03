@@ -24,16 +24,6 @@ public interface Player {
 
     public int getTimePassedInSeconds();
 
-    public boolean isReady();
-
-    public static boolean areAllPlayersReady(Player... players) {
-        for (Player player : players) {
-            if (player == null || !player.isReady())
-                return false;
-        }
-        return true;
-    }
-
     public void setX(int x);
 
     public void setY(int y);
@@ -51,8 +41,6 @@ public interface Player {
     public void setName(String name);
 
     public void setColor(Color color);
-
-    public void setReady(boolean ready);
 
     public void setTimePassedInSeconds(int timePassedInSeconds);
 

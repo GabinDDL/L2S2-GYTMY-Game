@@ -1,7 +1,6 @@
 package com.gytmy.labyrinth.view;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -21,9 +20,6 @@ import com.gytmy.utils.input.UserInputField;
 import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 public class EditCreateUsersPage extends JPanel {
-    private JFrame frame;
-    private AudioMenu audioMenu;
-
     private User userToEdit;
 
     private JButton saveOrCreate;
@@ -38,13 +34,11 @@ public class EditCreateUsersPage extends JPanel {
     private static final int DEFAULT_STUDENT_NUMBER_VALUE = 0;
     private static final String DEFAULT_USER_NAME_TEXT = "User name";
 
-    EditCreateUsersPage(JFrame frame, AudioMenu audioMenu) {
-        this(frame, audioMenu, null);
+    EditCreateUsersPage() {
+        this(null);
     }
 
-    EditCreateUsersPage(JFrame frame, AudioMenu audioMenu, User userToEdit) {
-        this.frame = frame;
-        this.audioMenu = audioMenu;
+    EditCreateUsersPage(User userToEdit) {
 
         this.userToEdit = userToEdit;
 
@@ -227,7 +221,9 @@ public class EditCreateUsersPage extends JPanel {
     }
 
     private boolean inputsAreValid() {
-        return !firstName.getText().equals("First name") && !lastName.getText().equals("Last name")
-                && Integer.valueOf(studentNumber.getText()) != 0 && !userName.getText().equals("Username");
+        return !firstName.getText().equals(DEFAULT_FIRST_NAME_TEXT)
+                && !lastName.getText().equals(DEFAULT_LAST_NAME_TEXT)
+                && Integer.valueOf(studentNumber.getText()) != DEFAULT_STUDENT_NUMBER_VALUE
+                && !userName.getText().equals(DEFAULT_USER_NAME_TEXT);
     }
 }

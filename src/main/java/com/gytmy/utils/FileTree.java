@@ -24,6 +24,7 @@ import com.gytmy.labyrinth.view.game.Cell;
  */
 public class FileTree extends JTree {
 
+    // The regex pattern to filter the files and directories to be displayed
     private static final String REGEX = ".*(wrld|\\.yaml)";
 
     private static final Color BACKGROUND_COLOR = Cell.PATH_COLOR;

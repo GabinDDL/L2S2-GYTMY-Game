@@ -20,7 +20,7 @@ public class HotkeyAdder {
             }
         };
 
-        // create a KeyStroke object to represent the key combination (Escape key)
+        // create a KeyStroke object to represent the key combination
         KeyStroke keyStroke = KeyStroke.getKeyStroke(key, 0);
 
         // map the key combination to the action using the component's input map

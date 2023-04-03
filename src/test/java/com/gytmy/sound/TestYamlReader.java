@@ -11,6 +11,8 @@ import com.gytmy.TestingUtils;
 
 public class TestYamlReader {
 
+    private static final String TEST_FILE_PATH = "./test.yaml";
+
     @Test
     public void testReadYAML() {
 
@@ -24,6 +26,7 @@ public class TestYamlReader {
         }
         AudioFileManager.removeUser(userTest);
 
+        assertTrue(user != null);
         assertEquals(userTest.toString(), user.toString());
     }
 
@@ -31,14 +34,14 @@ public class TestYamlReader {
     public void testWrite() {
         User user = new User();
 
-        YamlReader.write("./test.yaml", user);
+        YamlReader.write(TEST_FILE_PATH, user);
 
         User userTest = null;
         try {
-            userTest = YamlReader.read("./test.yaml");
+            userTest = YamlReader.read(TEST_FILE_PATH);
         } catch (Exception e) {
         }
-        new File("./test.yaml").delete();
+        new File(TEST_FILE_PATH).delete();
 
         assertTrue(user.equals(userTest));
     }
