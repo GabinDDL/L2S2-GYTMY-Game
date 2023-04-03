@@ -185,7 +185,8 @@ public class ModelManager {
          * 
          * @param user
          * @param recordedWord
-         * @return false if there is a problem with the file of the word of the user
+         * @return false if there is a problem while handling the user's word file
+
          */
         public static boolean tryToResetLstFile(User user, String recordedWord) {
                 try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_PATH, false);) {
