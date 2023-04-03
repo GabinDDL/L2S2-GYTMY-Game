@@ -371,19 +371,6 @@ public class ModelManager {
         }
 
         /**
-         * Reset all user's word gmm files
-         *
-         * @param user
-         */
-        private static void resetWorldOfAllWord(User user) {
-                for (String word : WordsToRecord.getWordsToRecord()) {
-                        if (new File(user.modelPath() + word + "/").exists()) {
-                                clearDirectory(new File(user.modelPath() + word + GMM_PATH));
-                        }
-                }
-        }
-
-        /**
          * Delete all files of a directory
          * 
          * @param directory
