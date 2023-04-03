@@ -19,7 +19,6 @@ import java.awt.GridBagConstraints;
 
 public class RecordPage extends JPanel {
 
-    private JFrame frame;
     private AudioMenu audioMenu;
 
     private User userRecording;
@@ -42,8 +41,7 @@ public class RecordPage extends JPanel {
     private int totalOfAudioWhenRecordStart;
     private int totalRecordedAudio = 0;
 
-    public RecordPage(JFrame frame, AudioMenu audioMenu, User userRecording, String wordToRecord) {
-        this.frame = frame;
+    public RecordPage(AudioMenu audioMenu, User userRecording, String wordToRecord) {
         this.audioMenu = audioMenu;
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
@@ -248,8 +246,8 @@ public class RecordPage extends JPanel {
     }
 
     private void goBackToAudioMenu() {
-        frame.setContentPane(audioMenu);
         audioMenu.loadFileNavigator();
         audioMenu.revalidate();
+        MenuFrameHandler.goToAudioMenu();
     }
 }

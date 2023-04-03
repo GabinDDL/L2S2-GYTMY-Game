@@ -355,7 +355,7 @@ public class AudioMenu extends JPanel {
 
     private void recordAudio() {
         mainFrame.setContentPane(
-                new RecordPage(mainFrame, this, (User) userSelector.getSelectedItem(),
+                new RecordPage(this, (User) userSelector.getSelectedItem(),
                         (String) wordSelector.getSelectedItem()));
         mainFrame.revalidate();
         mainFrame.setTitle("RECORD STUDIO");
