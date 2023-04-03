@@ -1,5 +1,8 @@
 package com.gytmy.labyrinth.controller;
 
+import java.awt.event.KeyEvent;
+import java.io.File;
+
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.model.Direction;
@@ -11,7 +14,9 @@ import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
+import com.gytmy.sound.AudioRecorder;
 import com.gytmy.utils.Coordinates;
+import com.gytmy.utils.HotkeyAdder;
 
 public class LabyrinthControllerImplementation implements LabyrinthController {
 
@@ -32,6 +37,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         this.frame = frame;
         initGame();
         initializeMovementController();
+        initializeVoiceRecorder();
     }
 
     private void initGame() {
@@ -72,6 +78,18 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private void initializeKeyboardMovementController() {
         MovementController movementController = new KeyboardMovementController(this);
         movementController.setup();
+    }
+
+    private void initializeVoiceRecorder() {
+        AudioRecorder recorder = AudioRecorder.getInstance();
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_R, () -> {
+            recorder.start("src/resources/audioFiles/currentGameAudio.wav");
+
+            recorder.finish();
+            // TO DO : @gdudilli - compare with model
+
+            new File("src/resources/audioFiles/currentGameAudio.wav").delete();
+        });
     }
 
     @Override
