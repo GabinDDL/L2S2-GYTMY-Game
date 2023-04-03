@@ -118,10 +118,7 @@ public class ModelManager {
                 File dataDirectory = new File(user.audioPath() + recordedWord + "/");
                 List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
 
-                if (AudioFileManager.getTotalOfAudiosLength(list) < upperLength) {
-                        return false;
-                }
-                return true;
+                return AudioFileManager.getTotalOfAudiosLength(list) >= upperLength;
         }
 
         /**
