@@ -130,7 +130,6 @@ public class SettingsMenu extends JPanel {
         gbc.weightx = 0.7;
         gbc.insets = new Insets(20,
                 (MenuFrameHandler.getMainFrame().getWidth() - gameGifLabel.getIcon().getIconWidth() - 128) / 2, 20, 0);
-        // gbc.fill = GridBagConstraints.HORIZONTAL;
         return gbc;
     }
 
