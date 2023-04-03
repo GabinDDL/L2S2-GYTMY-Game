@@ -27,7 +27,7 @@ Prerequisites (on linux ubuntu, it can be installed with the apt-get) :
 ## Install alize-core
 
 - [Intall alize-core](https://github.com/ALIZE-Speaker-Recognition/alize-core)
-- Extract `alize-core` and launch the terminal \*\*in the resulting folder
+- Extract `alize-core` and launch the terminal **in the resulting folder**
 - Type `aclocal`
 - Type `automake` (if the ./compile is missing, do `automake --add-missing`)
 - Type `autoconf`
