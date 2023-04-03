@@ -117,6 +117,7 @@ public class ModelManager {
 
                 return AudioFileManager.getTotalOfAudiosLength(list) >= upperDuration;
         }
+
         /**
          * Init the model with the update of lst if it possible
          * and apply the modelisation, and then reset the
@@ -185,7 +186,7 @@ public class ModelManager {
          * @param user
          * @param recordedWord
          * @return false if there is a problem while handling the user's word file
-
+         * 
          */
         public static boolean tryToResetLstFile(User user, String recordedWord) {
                 try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_PATH, false);) {
