@@ -363,10 +363,9 @@ public class ModelManager {
          * @param word
          */
         private static void resetWorldOfWord(User user, String word) {
-                if (WordsToRecord.exists(word)) {
-                        if (new File(user.modelPath() + word + "/").exists()) {
-                                clearDirectory(new File(user.modelPath() + word + GMM_PATH));
-                        }
+                if (WordsToRecord.exists(word) &&
+                                new File(user.modelPath() + word + "/").exists()) {
+                        clearDirectory(new File(user.modelPath() + word + GMM_PATH));
                 }
         }
 
