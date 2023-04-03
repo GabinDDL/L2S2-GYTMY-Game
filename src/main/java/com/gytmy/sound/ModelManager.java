@@ -64,9 +64,6 @@ public class ModelManager {
 
                         if (user.getUpToDate()) {
                                 createAllModelOfRecordedWord(user);
-
-                                user.setUpToDate(false);
-                                YamlReader.write(user.yamlConfigPath(), user);
                         }
                 }
         }
@@ -81,7 +78,7 @@ public class ModelManager {
                         createModelOfRecordedWord(user, word);
                 }
 
-                user.setUpToDate(false);
+                user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
         }
 

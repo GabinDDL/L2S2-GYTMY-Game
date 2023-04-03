@@ -239,7 +239,7 @@ public class AudioFileManager {
 
         deleteRecording(user.audioPath() + wordToRecord + "/" + wordToRecord + i + ".wav");
 
-        user.setUpToDate(true);
+        user.setUpToDate(false);
         YamlReader.write(user.yamlConfigPath(), user);
     }
 

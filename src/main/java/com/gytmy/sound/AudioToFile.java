@@ -38,7 +38,7 @@ public class AudioToFile {
         audioRecorder = new AudioRecorder(path);
         audioRecorder.start();
 
-        user.setUpToDate(true);
+        user.setUpToDate(false);
         YamlReader.write(user.yamlConfigPath(), user);
     }
 
