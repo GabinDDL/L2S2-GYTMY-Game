@@ -72,7 +72,7 @@ public class ModelManager {
         }
 
         /**
-         * Use the data of WordsToRecord to create all models of the user's word
+         * Creates a model for every word to record from the user's data
          * 
          * @param user
          */
