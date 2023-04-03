@@ -248,7 +248,7 @@ public class RecordPage extends JPanel {
     }
 
     private void goBackToAudioMenu() {
-        frame.setContentPane(audioMenu);
+        MenuFrameHandler.goToAudioMenu();
         audioMenu.loadFileNavigator();
         audioMenu.revalidate();
     }
