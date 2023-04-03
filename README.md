@@ -71,7 +71,7 @@ There are 3 difficulties available : `EASY`, `NORMAL` and `HARD`.
 
 ## What is ALIZE
 
-ALIZE is a library, which is basically coded in C, and which is used for the speech recognition of an individual.
+ALIZE is a c library used for speech recognition of individuals.
 
 In our program, we use it to recognize a person or a particular word from a model, which is created with Alize (and Spro).
 
