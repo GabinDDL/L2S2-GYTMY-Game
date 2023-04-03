@@ -5,10 +5,10 @@ import java.util.List;
 
 public enum WordsToRecord {
 
-    HAUT,
-    BAS,
-    GAUCHE,
-    DROITE;
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT;
 
     public static List<String> getWordsToRecord() {
         List<String> values = new ArrayList<>();
