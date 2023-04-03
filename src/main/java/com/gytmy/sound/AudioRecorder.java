@@ -5,7 +5,7 @@ import java.io.*;
 
 /**
  * SoundRecorder is a class that records sound from a microphone and saves it
- * into a WAV file.
+ * into a WAV file. It follows the singleton pattern.
  * 
  * @see :
  *      https://www.codejava.net/coding/capture-and-record-sound-into-wav-file-with-java-sound-api
