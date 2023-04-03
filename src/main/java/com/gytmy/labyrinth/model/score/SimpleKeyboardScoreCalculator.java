@@ -1,7 +1,5 @@
 package com.gytmy.labyrinth.model.score;
 
-import java.awt.desktop.SystemSleepEvent;
-
 /**
  * This calculator is used to compute the score of a player in a simple keyboard
  * game.
