@@ -3,6 +3,10 @@ package com.gytmy.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.StringJoiner;
 
 public class RunSH {
@@ -11,8 +15,14 @@ public class RunSH {
     }
 
     public static int run(String path, String[] args) {
+        ArrayList<String> command = new ArrayList<>();
+        command.add(path);
+
+        command.addAll(Arrays.asList(args));
+
         try {
-            Process process = Runtime.getRuntime().exec(getCommand(path, args));
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            Process process = processBuilder.start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = reader.readLine();
@@ -27,14 +37,5 @@ public class RunSH {
             e.printStackTrace();
             return 1;
         }
-    }
-
-    public static String getCommand(String path, String[] args) {
-        StringJoiner joiner = new StringJoiner(" ");
-
-        for (String arg : args) {
-            joiner.add(arg);
-        }
-        return path + " " + joiner.toString();
     }
 }

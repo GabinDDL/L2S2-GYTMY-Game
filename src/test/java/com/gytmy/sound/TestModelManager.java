@@ -65,12 +65,12 @@ public class TestModelManager {
 
         for (User user : users) {
             File file = new File(user.modelPath() + WORD_TO_TEST + ModelManager.LIST_PATH);
+            ModelManager.tryToCreateModelDirectoryOfWord(user, WORD_TO_TEST);
+            ModelManager.tryToInitLstFile(user, WORD_TO_TEST);
 
             try (FileWriter writer = new FileWriter(user.modelPath() + WORD_TO_TEST + ModelManager.LIST_PATH, true);
                     FileReader fr = new FileReader(file);
                     BufferedReader br = new BufferedReader(fr);) {
-                ModelManager.tryToCreateModelDirectoryOfWord(user, WORD_TO_TEST);
-                ModelManager.tryToInitLstFile(user, WORD_TO_TEST);
 
                 writer.append(WORD_TO_TEST + "\n");
                 writer.append(WORD_TO_TEST + "\n");
