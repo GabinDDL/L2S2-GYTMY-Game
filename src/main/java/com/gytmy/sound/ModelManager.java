@@ -50,7 +50,7 @@ public class ModelManager {
         }
 
         /**
-         * Create all models of users given
+         * Creates all the models for the given users
          * 
          * @param firstNameOfUsers
          */
