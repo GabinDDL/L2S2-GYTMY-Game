@@ -14,10 +14,9 @@ public class RunSH {
             Process process = Runtime.getRuntime().exec(getCommand(path, args));
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) { // Clean the BufferReader
-                // Can be used if you want to know problems of programs
-                // System.out.println(line);
+            String line = reader.readLine();
+            while (line != null) { // Clean the BufferReader
+                line = reader.readLine();
             }
             reader.close();
 
