@@ -321,7 +321,7 @@ public class AudioFileManager {
             userAudioDirectory.mkdir();
         }
 
-        if (!doesFileInDirectoryExist(userAudioDirectory, user.audioPath() + word)) {
+        if (!doesFileExistInDirectory(userAudioDirectory, user.audioPath() + word)) {
             new File(user.audioPath() + word).mkdir();
             aDirectoryWasCreated = true;
         }
@@ -334,7 +334,7 @@ public class AudioFileManager {
     /**
      * Return true if file is inside directory
      */
-    public static boolean doesFileInDirectoryExist(File directory, String file) {
+    public static boolean doesFileExistInDirectory(File directory, String file) {
         List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
 
         return files.contains(new File(file));

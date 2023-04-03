@@ -35,7 +35,7 @@ public class ModelManager {
                         userModelDirectory.mkdir();
                 }
 
-                if (!AudioFileManager.doesFileInDirectoryExist(userModelDirectory, user.modelPath() + word)) {
+                if (!AudioFileManager.doesFileExistInDirectory(userModelDirectory, user.modelPath() + word)) {
                         new File(user.modelPath() + word).mkdir();
 
                         File userLstDirectory = new File(user.modelPath() + word + LST_PATH);
