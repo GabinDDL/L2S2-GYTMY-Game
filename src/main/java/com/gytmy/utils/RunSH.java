@@ -21,9 +21,8 @@ public class RunSH {
             }
             reader.close();
 
-            int exitCode = process.waitFor();
+            return process.waitFor(); // Exit code
 
-            return exitCode;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return 1;
