@@ -179,7 +179,7 @@ public class AudioMenu extends JPanel {
         editUserButton.setEnabled(false);
         editUserButton.addActionListener(
                 e -> editOrAddUser("Edit User",
-                        new EditCreateUsersPage(mainFrame, this, (User) userSelector.getSelectedItem())));
+                        new EditCreateUsersPage((User) userSelector.getSelectedItem())));
         initColors(editUserButton);
         addComponentToUserPanel(editUserButton, c, 2, 0, 0.1, true);
     }
@@ -187,7 +187,7 @@ public class AudioMenu extends JPanel {
     private void initAddButton(GridBagConstraints c) {
         addUserButton = new JButton(addUserIcon);
         addUserButton.setToolTipText("This will add a new user");
-        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage(mainFrame, this)));
+        addUserButton.addActionListener(e -> editOrAddUser("Add New User", new EditCreateUsersPage()));
         initColors(addUserButton);
         addComponentToUserPanel(addUserButton, c, 3, 0, 0.1, true);
     }
@@ -355,7 +355,7 @@ public class AudioMenu extends JPanel {
 
     private void recordAudio() {
         mainFrame.setContentPane(
-                new RecordPage(mainFrame, this, (User) userSelector.getSelectedItem(),
+                new RecordPage(this, (User) userSelector.getSelectedItem(),
                         (String) wordSelector.getSelectedItem()));
         mainFrame.revalidate();
         mainFrame.setTitle("RECORD STUDIO");
@@ -455,14 +455,14 @@ public class AudioMenu extends JPanel {
     }
 
     private String extractNumberFromWord(String string) {
-        String newString = "";
+        StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < string.length(); i++) {
             if (Character.isDigit(string.charAt(i))) {
-                newString += string.charAt(i);
+                builder.append(string.charAt(i));
             }
         }
-        return newString;
+        return builder.toString();
     }
 
     private void initLabelDuration(JComponent parentComponent) {

@@ -17,8 +17,8 @@ public class TestAudioRecorder {
         File audioFile = new File(path);
         audioFile.deleteOnExit();
 
-        AudioRecorder audioRec = new AudioRecorder(path);
-        audioRec.start();
+        AudioRecorder audioRec = AudioRecorder.getInstance();
+        audioRec.start(path);
         audioRec.finish();
 
         assertTrue(audioFile.exists());

@@ -1,7 +1,5 @@
 package com.gytmy.labyrinth.controller;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.model.Direction;

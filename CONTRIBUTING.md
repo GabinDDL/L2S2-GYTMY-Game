@@ -144,7 +144,7 @@ public void testGetAllWithEmptyList() {
 }
 
 @Test
-public void TestGetAllWithNonEmptyList() {
+public void testGetAllWithNonEmptyList() {
     // ...
 }
 ```
