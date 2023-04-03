@@ -178,7 +178,7 @@ public class ModelManager {
         }
 
         /**
-         * Try to clear the lst file (it should exist)
+         * Tries to reset the lst file of the user's word. This file should exist.
          * 
          * @param user
          * @param recordedWord
