@@ -86,7 +86,8 @@ public class ModelManager {
         }
 
         /**
-         * Verify if the word exist to reset the world and init lstFiles
+         * Verifies that the word exists in order to reset the world and init
+         * the lstFiles
          * 
          * @param user
          * @param recordedWord
