@@ -119,9 +119,12 @@ public class ModelManager {
         }
 
         /**
-         * If it can, create the model :
-         * 
-         * Init the model with the update of lst and reset if
+         * Init the model with the update of lst if it possible
+         * and apply the modelisation, and then reset the
+         * modeler
+         * (the modeler is repertory which are used to create one model, it needs to be
+         * clear)
+         *
          * 
          * @param user
          * @param recordedWord
