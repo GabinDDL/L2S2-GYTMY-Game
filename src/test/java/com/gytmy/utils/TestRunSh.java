@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class TestRunSh {
 
-    public static final String TEST_SH_PATH = "src/main/java/com/gytmy/utils/TestRunSh.sh";
+    public static final String TEST_SH_PATH = "src/test/java/com/gytmy/utils/TestRunSh.sh";
 
     @Test
     public void testRun() {
