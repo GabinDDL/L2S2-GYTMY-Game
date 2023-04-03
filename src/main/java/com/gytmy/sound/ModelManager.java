@@ -185,10 +185,8 @@ public class ModelManager {
          * @return false if there is a problem with the file of the word of the user
          */
         public static boolean tryToResetLstFile(User user, String recordedWord) {
-                try {
-                        FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_PATH, false);
+                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_PATH, false);) {
                         writer.append("");
-                        writer.close();
                         return true;
                 } catch (IOException e) {
                         return false;
@@ -235,13 +233,10 @@ public class ModelManager {
          * @return
          */
         public static boolean tryToAddAudiosToLst(User user, String recordedWord, List<File> audioList) {
-                try {
-                        FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);
-
+                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);) {
                         for (File file : audioList) {
                                 writer.append(getNameOfFileWithoutExtension(file) + "\n");
                         }
-                        writer.close();
                         return true;
                 } catch (IOException e) {
                         e.printStackTrace();
