@@ -197,9 +197,9 @@ public class ModelManager {
         }
 
         /**
-         * Try to update the data of lst file with the data of the recordedWord of the
-         * User
-         * (append all the files name without extension in the lst file)
+         * Try to update the data of the lst file with the data of the
+         * {@code recordedWord} of the {@code User}. It will append all the names of the
+         * files without extension to the lst file.
          * 
          * @param user
          * @param recordedWord
@@ -228,12 +228,13 @@ public class ModelManager {
         }
 
         /**
-         * Append all the audio files name into the lst file
+         * Appends the name of the files to the lst file of the {@code user}
+         * {@code recordedWord}.
          * 
          * @param user
          * @param recordedWord
          * @param audioList    List of audio files
-         * @return
+         * @return false if there is a problem with the file of the user's word
          */
         public static boolean tryToAddAudiosToLst(User user, String recordedWord, List<File> audioList) {
                 try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);) {
