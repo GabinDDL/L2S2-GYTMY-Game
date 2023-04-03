@@ -369,8 +369,9 @@ public class ModelManager {
          */
         private static void clearDirectory(File directory) {
                 for (File file : directory.listFiles()) {
-                        if (file.exists() && file.isDirectory() && file.canWrite())
+                        if (file.exists() && file.isDirectory() && file.canWrite()) {
                                 clearDirectory(file);
+                        }
                         file.delete();
                 }
         }

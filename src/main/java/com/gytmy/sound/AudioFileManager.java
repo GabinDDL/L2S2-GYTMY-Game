@@ -155,8 +155,9 @@ public class AudioFileManager {
 
     private static void clearDirectory(File directory) {
         for (File file : directory.listFiles()) {
-            if (file.isDirectory() && file.canWrite())
+            if (file.isDirectory() && file.canWrite()) {
                 clearDirectory(file);
+            }
             file.delete();
         }
     }
