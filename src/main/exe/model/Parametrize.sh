@@ -1,5 +1,19 @@
 #!/bin/bash
 
+NBR_ARG=2
+
+if [ $# -ne $NBR_ARG ]; then
+    exit 1
+fi
+
+if ! [ -f $1 ]; then
+    exit 1
+fi
+
+if ! [ -d $2 ]; then
+    exit 1
+fi
+
 LIST_PATH=$1
 DATA_PATH=$2
 
