@@ -3,6 +3,7 @@ package com.gytmy.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringJoiner;
 
 public class RunSH {
 
@@ -30,12 +31,11 @@ public class RunSH {
     }
 
     public static String getCommand(String path, String[] args) {
-        String command = path;
+        StringJoiner joiner = new StringJoiner(" ");
 
         for (String arg : args) {
-            command += " " + arg;
+            joiner.add(arg);
         }
-
-        return command;
+        return path + " " + joiner.toString();
     }
 }
