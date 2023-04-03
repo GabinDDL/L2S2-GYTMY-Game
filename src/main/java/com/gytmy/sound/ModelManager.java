@@ -62,7 +62,7 @@ public class ModelManager {
                 for (String firstName : firstNameOfUsers) {
                         User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
 
-                        if (user.getUpToDate()) {
+                        if (!user.getUpToDate()) {
                                 createAllModelOfRecordedWord(user);
                         }
                 }
@@ -83,8 +83,8 @@ public class ModelManager {
         }
 
         /**
-         * Verifies that the word exists in order to reset the world and init
-         * the lstFiles
+         * Tries to init the lst file of the user's word. If the file doesn't exist, it
+         * creates it. If it exists, it resets it.
          * 
          * @param user
          * @param recordedWord
@@ -255,12 +255,13 @@ public class ModelManager {
          * @return
          */
         private static String getNameOfFileWithoutExtension(File file) {
-                for (int i = 0; i < file.getName().length(); ++i) {
-                        if (file.getName().charAt(i) == '.') {
-                                return file.getName().substring(0, i);
-                        }
+                String name = file.getName();
+                int index = file.getName().indexOf('.');
+
+                if (index == -1) {
+                        return name;
                 }
-                return file.getName();
+                return name.substring(0, index);
         }
 
         /**
@@ -321,11 +322,11 @@ public class ModelManager {
          * @param program
          * @param exitValue
          * @param userName
-         * @param recoredWord
+         * @param recordedWord
          */
-        private static void handleErrorProgram(String program, int exitValue, String userName, String recoredWord) {
+        private static void handleErrorProgram(String program, int exitValue, String userName, String recordedWord) {
                 if (exitValue != 0) {
-                        printErrorRun(program, userName, recoredWord);
+                        printErrorRun(program, userName, recordedWord);
                 }
         }
 

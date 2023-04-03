@@ -313,7 +313,7 @@ public class AudioFileManager {
             return false;
         }
 
-        boolean aDirectoryIsCreated = false; // True if at least one of word directory is created
+        boolean aDirectoryWasCreated = false; // True if at least one of word directory is created
 
         File userAudioDirectory = new File(user.audioPath());
 
@@ -323,12 +323,12 @@ public class AudioFileManager {
 
         if (!doesFileInDirectoryExist(userAudioDirectory, user.audioPath() + word)) {
             new File(user.audioPath() + word).mkdir();
-            aDirectoryIsCreated = true;
+            aDirectoryWasCreated = true;
         }
 
-        aDirectoryIsCreated = ModelManager.tryToCreateModelDirectoryOfWord(user, word) || aDirectoryIsCreated;
+        aDirectoryWasCreated = ModelManager.tryToCreateModelDirectoryOfWord(user, word) || aDirectoryWasCreated;
 
-        return aDirectoryIsCreated;
+        return aDirectoryWasCreated;
     }
 
     /**

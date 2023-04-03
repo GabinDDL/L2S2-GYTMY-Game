@@ -4,7 +4,7 @@ If this is an installation on Windows, there is the possibility to convert into 
 
 Prerequisites (on linux ubuntu, it can be installed with the apt-get) :
 
-- `aclocal` (install autotools-dev if it doesn't works)
+- `aclocal` (install autotools-dev if it doesn't work)
 - `autoconf`
 - `automake`
 - `libtool`
