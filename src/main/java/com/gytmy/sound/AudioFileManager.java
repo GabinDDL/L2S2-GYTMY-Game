@@ -204,7 +204,8 @@ public class AudioFileManager {
     }
 
     /**
-     * An audio file, in our project, is a .wav file
+     * Returns {@code true} if the file is a .wav file. In our case, we only want to
+     * record .wav files, any other file will be ignored.
      */
     private static boolean isAudioFile(File file) {
         return file.isFile() && file.getName().endsWith(".wav");
