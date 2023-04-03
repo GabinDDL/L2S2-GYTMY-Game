@@ -67,7 +67,7 @@ There are 3 difficulties available : `EASY`, `NORMAL` and `HARD`.
 ## Dependencies
 
 - SPRO
-- ALIZE (alize_core et LIA_RAL)
+- ALIZE (alize_core and LIA_RAL)
 
 ## What is ALIZE
 
