@@ -156,6 +156,8 @@ public class SettingsMenu extends JPanel {
         LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
         LabyrinthView labyrinthView = labyrinthController.getView();
 
+        playerSelectionPanel.setPlayersToUnready();
+
         frame.setContentPane(labyrinthView);
 
         MenuFrameHandler.frameUpdate(gameMode.toString());
