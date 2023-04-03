@@ -59,40 +59,35 @@ public class TestModelManager {
     }
 
     @Test
-    public void tryToWriteAndResetLstFile() {
+    public void testTryToWriteAndResetLstFile() {
 
         List<User> users = getTestUsers();
 
         for (User user : users) {
-            try {
+            File file = new File(user.modelPath() + WORD_TO_TEST + ModelManager.LIST_PATH);
+
+            try (FileWriter writer = new FileWriter(user.modelPath() + WORD_TO_TEST + ModelManager.LIST_PATH, true);
+                    FileReader fr = new FileReader(file);
+                    BufferedReader br = new BufferedReader(fr);) {
                 ModelManager.tryToCreateModelDirectoryOfWord(user, WORD_TO_TEST);
                 ModelManager.tryToInitLstFile(user, WORD_TO_TEST);
 
-                FileWriter writer = new FileWriter(user.modelPath() + WORD_TO_TEST + ModelManager.LIST_PATH, true);
                 writer.append(WORD_TO_TEST + "\n");
                 writer.append(WORD_TO_TEST + "\n");
 
-                writer.close();
-
-                File file = new File(user.modelPath() + WORD_TO_TEST + ModelManager.LIST_PATH);
-                FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr);
                 String line;
                 while ((line = br.readLine()) != null) {
                     assertEquals(line, WORD_TO_TEST);
                 }
-                fr.close();
-                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+            try (FileReader fr = new FileReader(file);
+                    BufferedReader br = new BufferedReader(fr);) {
                 assertTrue(ModelManager.tryToInitLstFile(user, WORD_TO_TEST));
 
-                fr = new FileReader(file);
-                br = new BufferedReader(fr);
-
-                assertTrue((line = br.readLine()) == null);
-
-                fr.close();
-                br.close();
+                assertTrue((br.readLine()) == null);
 
             } catch (IOException e) {
                 e.printStackTrace();
