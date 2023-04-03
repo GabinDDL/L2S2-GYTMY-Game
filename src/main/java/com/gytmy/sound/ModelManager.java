@@ -107,17 +107,16 @@ public class ModelManager {
          * @param user
          * @param recordedWord
          * @return true if the total length of the audio files for an specific word is
-         *         greater than {@code upperLength}(3.5)
+         *         greater than {@code upperDuration}(3.5 seconds)
          */
         public static boolean doesAudioFilesHaveAGoodLength(User user, String recordedWord) {
-                double upperLength = 3.5;
+                double upperDuration = 3.5;
 
                 File dataDirectory = new File(user.audioPath() + recordedWord + "/");
                 List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
 
-                return AudioFileManager.getTotalOfAudiosLength(list) >= upperLength;
+                return AudioFileManager.getTotalOfAudiosLength(list) >= upperDuration;
         }
-
         /**
          * Init the model with the update of lst if it possible
          * and apply the modelisation, and then reset the
