@@ -7,4 +7,4 @@
 
      HOW TO PLAY
 
- - Use your voice to move ! Just say "haut", "bas", "gauche" or "droite" to move your character.
+ - Use your voice to move ! Just say "up", "down", "left" or "right" to move your character.
