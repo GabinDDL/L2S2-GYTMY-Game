@@ -106,7 +106,8 @@ public class ModelManager {
         /**
          * @param user
          * @param recordedWord
-         * @return true if the total length of audios word is upper to upperLength
+         * @return true if the total length of the audio files for an specific word is
+         *         greater than {@code upperLength}(3.5)
          */
         public static boolean doesAudioFilesHaveAGoodLength(User user, String recordedWord) {
                 double upperLength = 3.5;
