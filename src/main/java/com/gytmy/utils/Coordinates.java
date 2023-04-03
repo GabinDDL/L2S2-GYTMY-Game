@@ -38,7 +38,7 @@ public class Coordinates {
     }
 
     /**
-     * @return A copy of this vector
+     * @return A copy of these coordinates
      */
     public Coordinates copy() {
         return new Coordinates(x, y);
@@ -49,10 +49,6 @@ public class Coordinates {
         return "(" + x + ", " + y + ")";
     }
 
-    /**
-     * @param obj
-     * @return true if the two vectors have the same coordinates
-     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
