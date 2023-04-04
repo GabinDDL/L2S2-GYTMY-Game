@@ -250,7 +250,7 @@ public class ModelManager {
         }
 
         /**
-         * Give the name of the file without the exemple :
+         * Give the name of the file without the extension :
          * for exemple with a file named "test.wav", return "test"
          * 
          * @param file
