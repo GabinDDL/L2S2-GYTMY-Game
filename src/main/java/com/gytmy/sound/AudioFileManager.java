@@ -67,7 +67,7 @@ public class AudioFileManager {
     }
 
     /**
-     * Create the user directory, all the subdirectories and files
+     * Create the user directory: all the subdirectories and files
      */
     public static void createUserFiles(User user) {
 
@@ -145,7 +145,7 @@ public class AudioFileManager {
     }
 
     /**
-     * Delete the user directory and all the files in it
+     * Delete the user directory and all the files in it.
      */
     private static void deleteFiles(User user) {
         File userDirectory = new File(user.audioFilesPath());
@@ -173,8 +173,7 @@ public class AudioFileManager {
     }
 
     /**
-     * Get the number of audio files for a user for all the words that can be
-     * recorded
+     * Get the number of audio files for a specific user.
      */
     public static int totalNumberOfAudioFilesForUser(String userName) {
         int numberOfAudioFiles = 0;
@@ -187,7 +186,7 @@ public class AudioFileManager {
     }
 
     /**
-     * Get the number of audio files about a specific word
+     * Get the number of audio files for a specific word and user.
      */
     public static int numberOfRecordings(String userName, String word) {
 

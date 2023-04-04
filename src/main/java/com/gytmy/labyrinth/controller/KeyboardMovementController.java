@@ -38,6 +38,7 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
             case KeyEvent.VK_1:
                 changeSelectedPlayer(0);
                 break;
+            case KeyEvent.VK_UNDEFINED:
             case KeyEvent.VK_NUMPAD2:
             case KeyEvent.VK_2:
                 changeSelectedPlayer(1);
@@ -59,9 +60,6 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
                 break;
             default:
                 break;
-        }
-        if (e.getKeyCode() == 0) {
-            changeSelectedPlayer(1);
         }
     }
 

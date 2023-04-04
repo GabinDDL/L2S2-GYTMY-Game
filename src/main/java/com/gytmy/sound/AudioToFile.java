@@ -35,8 +35,8 @@ public class AudioToFile {
 
         String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
-        audioRecorder = new AudioRecorder(path);
-        audioRecorder.start();
+        audioRecorder = AudioRecorder.getInstance();
+        audioRecorder.start(path);
 
         user.setUpToDate(false);
         YamlReader.write(user.yamlConfigPath(), user);

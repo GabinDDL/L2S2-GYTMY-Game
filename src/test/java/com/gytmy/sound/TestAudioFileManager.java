@@ -82,8 +82,9 @@ public class TestAudioFileManager {
 
         int totalAudioFiles = AudioFileManager.totalNumberOfAudioFiles();
 
-        File up = new File(user.audioPath(), "HAUT");
-        File down = new File(user.audioPath(), "BAS");
+        File up = new File(user.audioPath(), "UP");
+        File down = new File(user.audioPath(), "DOWN");
+
         up.mkdir();
         down.mkdir();
 

@@ -12,6 +12,7 @@ import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.labyrinth.view.settings.GameGIFLabel;
+import com.gytmy.labyrinth.view.settings.SettingsMenu;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 
 public class SelectionPanel extends JPanel {
@@ -112,6 +113,8 @@ public class SelectionPanel extends JPanel {
 
                 GameGIFLabel gameGIFLabel = GameGIFLabel.getInstance();
                 gameGIFLabel.updateGIF(gameMode);
+
+                SettingsMenu.getInstance().updateStartButtonPosition();
             });
 
             setBackground(BACKGROUND_COLOR);

@@ -1,7 +1,6 @@
 package com.gytmy.labyrinth.view;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,12 +18,11 @@ import java.awt.GridBagConstraints;
 
 public class RecordPage extends JPanel {
 
-    private JFrame frame;
     private AudioMenu audioMenu;
 
     private User userRecording;
     private String wordToRecord;
-    private static final String statusRecord = "[%s] --> %s";
+    private static final String STATUS_RECORD = "[%s] --> %s";
     private String pausedStatusRecord;
     private String recordingStatusRecord;
 
@@ -42,14 +40,13 @@ public class RecordPage extends JPanel {
     private int totalOfAudioWhenRecordStart;
     private int totalRecordedAudio = 0;
 
-    public RecordPage(JFrame frame, AudioMenu audioMenu, User userRecording, String wordToRecord) {
-        this.frame = frame;
+    public RecordPage(AudioMenu audioMenu, User userRecording, String wordToRecord) {
         this.audioMenu = audioMenu;
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
 
-        pausedStatusRecord = String.format(statusRecord, wordToRecord, "∅ Stopped.");
-        recordingStatusRecord = String.format(statusRecord, wordToRecord, "● Recording...");
+        pausedStatusRecord = String.format(STATUS_RECORD, wordToRecord, "∅ Stopped.");
+        recordingStatusRecord = String.format(STATUS_RECORD, wordToRecord, "● Recording...");
 
         totalOfAudioWhenRecordStart = AudioFileManager.numberOfRecordings(userRecording.getFirstName(), wordToRecord);
 
@@ -117,7 +114,7 @@ public class RecordPage extends JPanel {
         discardAllButton.setEnabled(true);
 
         statusRecordLabel.setText(recordingStatusRecord);
-        AudioToFile.record(userRecording, wordToRecord.toString());
+        AudioToFile.record(userRecording, wordToRecord);
         timerPanel.start();
 
         new Thread() {
@@ -248,8 +245,8 @@ public class RecordPage extends JPanel {
     }
 
     private void goBackToAudioMenu() {
-        frame.setContentPane(audioMenu);
         audioMenu.loadFileNavigator();
         audioMenu.revalidate();
+        MenuFrameHandler.goToAudioMenu();
     }
 }
