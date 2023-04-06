@@ -1,13 +1,14 @@
 package com.gytmy.labyrinth.view.settings;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 import com.gytmy.utils.HotkeyAdder;
+import com.gytmy.utils.ImageManipulator;
 
 /**
  * This class is used to display the settings menu. It is a singleton.
@@ -33,11 +35,11 @@ public class SettingsMenu extends JPanel {
 
     private PlayerSelectionPanel playerSelectionPanel;
     private SelectionPanel gameModeSelectionPanel;
-    private JLabel gameGifLabel;
-    private JButton startGameButton;
+    private GameGIFLabel gameGifLabel;
+    private JLabel startGameButton;
 
-    private static final String ANIMATED_GAME_GIF_PATH = "src/resources/images/settings_menu/MAZE_LOGO_ROTATED.gif";
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
+    private static final String START_GAME_BUTTON_IMAGE_PATH = "src/resources/images/settings_menu/StartButton.png";
 
     private static SettingsMenu instance = null;
 
@@ -73,9 +75,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initGameGifLabel() {
-        gameGifLabel = new JLabel();
-        ImageIcon imageIcon = new ImageIcon(ANIMATED_GAME_GIF_PATH);
-        gameGifLabel.setIcon(imageIcon);
+        gameGifLabel = GameGIFLabel.getInstance();
         GridBagConstraints gbc = getDefaultConstraints(0, 1);
         gbc.gridheight = 2;
         add(gameGifLabel, gbc);
@@ -90,13 +90,47 @@ public class SettingsMenu extends JPanel {
     }
 
     private void initStartGameButton() {
-        startGameButton = new JButton("Start Game");
-        startGameButton.addActionListener(e -> startGame());
+
+        startGameButton = new JLabel();
+        startGameButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                startGame();
+            }
+        });
+
+        startGameButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent evt) {
+                SettingsMenu.getInstance().setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent evt) {
+                SettingsMenu.getInstance().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+        startGameButton
+                .setIcon(ImageManipulator.resizeImage(START_GAME_BUTTON_IMAGE_PATH, 128, 56));
+
+        GridBagConstraints gbc = getStartButtonGridBagConstraints();
+        add(startGameButton, gbc);
+    }
+
+    public void updateStartButtonPosition() {
+        GridBagConstraints gbc = getStartButtonGridBagConstraints();
+        remove(startGameButton);
+        add(startGameButton, gbc);
+        updateGUI();
+    }
+
+    private GridBagConstraints getStartButtonGridBagConstraints() {
         GridBagConstraints gbc = getDefaultConstraints(1, 2);
         gbc.weightx = 0.7;
-        gbc.insets = new Insets(20, 20, 20, 20);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(startGameButton, gbc);
+        gbc.insets = new Insets(20,
+                (MenuFrameHandler.getMainFrame().getWidth() - gameGifLabel.getIcon().getIconWidth() - 128) / 2, 20, 0);
+        return gbc;
     }
 
     private GridBagConstraints getDefaultConstraints(int gridx, int gridy) {
@@ -122,6 +156,8 @@ public class SettingsMenu extends JPanel {
         LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
         LabyrinthView labyrinthView = labyrinthController.getView();
 
+        playerSelectionPanel.setPlayersToUnready();
+
         frame.setContentPane(labyrinthView);
 
         MenuFrameHandler.frameUpdate(gameMode.toString());
@@ -135,5 +171,4 @@ public class SettingsMenu extends JPanel {
         revalidate();
         repaint();
     }
-
 }

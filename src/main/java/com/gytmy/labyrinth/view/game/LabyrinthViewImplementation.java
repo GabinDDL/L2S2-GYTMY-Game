@@ -71,7 +71,8 @@ public class LabyrinthViewImplementation extends LabyrinthView {
 
     @Override
     public void notifyGameOver() {
-        // EventQueue is used to pause a little bit before showing the game over panel
+        // EventQueue is used to pause the screen a little bit before showing the game
+        // over panel
         EventQueue.invokeLater(
                 () -> {
                     try {

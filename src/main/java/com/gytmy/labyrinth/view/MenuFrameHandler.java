@@ -54,10 +54,8 @@ public class MenuFrameHandler {
         // Ensure that the frame remains the same default size
         mainFrame.setPreferredSize(DEFAULT_DIMENSION);
 
-        setSubtitle(subtitle);
-        mainFrame.pack();
-        mainFrame.revalidate();
-        mainFrame.repaint();
+        // Update the frame
+        frameUpdate(subtitle);
 
         // Allow other components to resize the frame
         mainFrame.setPreferredSize(null);
