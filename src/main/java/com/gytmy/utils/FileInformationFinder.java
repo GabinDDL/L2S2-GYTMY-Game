@@ -16,11 +16,8 @@ public class FileInformationFinder {
 
     /**
      * @return the total length of the audio files in seconds
-     * @see <a href=
-     *      "https://stackoverflow.com/questions/3009908/how-do-i-get-a-sound-files-total-time-in-java">
-     *      How do I get a sound file's total time in Java? </a>
      */
-    public static float getAudioFilesLength(List<File> audioFiles) {
+    public static float getAudioLength(List<File> audioFiles) {
 
         if (audioFiles == null) {
             return 0;
@@ -29,18 +26,33 @@ public class FileInformationFinder {
         float totalDuration = 0;
 
         for (File file : audioFiles) {
-            try {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-                AudioFormat format = audioInputStream.getFormat();
-                long audioFileLength = file.length();
-                int frameSize = format.getFrameSize();
-                float frameRate = format.getFrameRate();
-                totalDuration += (audioFileLength / (frameSize * frameRate));
-            } catch (UnsupportedAudioFileException | IOException e) {
-                e.printStackTrace();
-            }
+            totalDuration += getAudioLength(file);
         }
         return totalDuration;
+    }
+
+    /**
+     * @return the length of an audio file in seconds
+     * @see <a href=
+     *      "https://stackoverflow.com/questions/3009908/how-do-i-get-a-sound-files-total-time-in-java">
+     *      How do I get a sound file's total time in Java? </a>
+     */
+    public static float getAudioLength(File audioFile) {
+        float duration = 0;
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+            AudioFormat format = audioInputStream.getFormat();
+
+            long audioFileLength = audioFile.length();
+            int frameSize = format.getFrameSize();
+            float frameRate = format.getFrameRate();
+
+            duration += (audioFileLength / (frameSize * frameRate));
+        } catch (UnsupportedAudioFileException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return duration;
     }
 
 }
