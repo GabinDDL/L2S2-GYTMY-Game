@@ -119,13 +119,12 @@ public class ModelManager {
         }
 
         /**
-         * Init the model with the update of lst if it possible
-         * and apply the modelisation, and then reset the
-         * modeler
-         * (the modeler is repertory which are used to create one model, it needs to be
-         * clear)
-         *
+         * Initializes the model with the updated lst if it is possible. Then it will
+         * apply the modeling and end by resetting the modeler.
          * 
+         * (the modeler is the repertory used to create one model, it needs to be
+         * cleared after each model creation)
+         *
          * @param user
          * @param recordedWord
          */
@@ -340,11 +339,10 @@ public class ModelManager {
          * @param recordedWord
          */
         private static void printErrorRun(String program, String userName, String recordedWord) {
-                System.out.println("There is a problem with the program : " + program +
-                                "\nThe problem happens when the program try to modeling " + recordedWord
-                                + " of the user " + userName +
-                                "\nMaybe try to update the audio of this word" +
-                                "(there must be no empty or too short audio)");
+                System.out.println("There is a problem with the program : " + program
+                                + "\nThe problem happens when the program tries modeling the word \"" + recordedWord
+                                + "\" from the user " + userName + "\nMaybe try to update the audio of this word"
+                                + "(The audio must not be empty or too short)");
         }
 
         private static void resetModeler() {
