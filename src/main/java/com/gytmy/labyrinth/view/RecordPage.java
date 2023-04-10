@@ -70,7 +70,16 @@ public class RecordPage extends JPanel {
         initDiscardAllButton(constraints);
         initGoBackButton(constraints);
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu);
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_R, this::recordOrStop, "Record Audio");
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu, "Go to Audio Menu");
+    }
+
+    private void recordOrStop() {
+        if (AudioRecorder.isRecording()) {
+            stopRecord();
+        } else {
+            startRecord();
+        }
     }
 
     private void initTimerPanel(GridBagConstraints constraints) {
@@ -110,11 +119,7 @@ public class RecordPage extends JPanel {
         constraints.weightx = 0.75;
         constraints.weighty = 0.2;
         recordButton.addActionListener(e -> {
-            if (AudioRecorder.isRecording()) {
-                stopRecord();
-            } else {
-                startRecord();
-            }
+            recordOrStop();
         });
         add(recordButton, constraints);
     }
