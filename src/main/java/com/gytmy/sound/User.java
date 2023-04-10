@@ -99,20 +99,19 @@ public class User {
         this.upToDate = upToDate;
     }
 
-    /*************************************************************************
-     * A User could be associated with a `.yaml` file.                      *
-     *                                                                       *
-     * Also, when building a User from a file, an empty User is built, then *
-     * each of its attributes is set with every available setters.           *
-     *                                                                       *
-     * And when building the `.yaml` file from the User, every attributes is *
-     * passed to the file using every available getters.                     *
-     *                                                                       *
-     * So, the `.yaml` file contains every public attributes of the User and *
-     * nothing more. Moreover, only the public attributes should have        *
-     * getters and setters beginning with `get` and `set`.                   *
-     *************************************************************************/
-
+    /**
+     * A User could be associated with a `.yaml` file.
+     *
+     * Also, when building a User from a file, an empty User is built, then
+     * each of its attributes is set with every available setters.
+     *
+     * And when building the `.yaml` file from the User, every attributes is
+     * passed to the file using every available getters.
+     *
+     * So, the `.yaml` file contains every public attributes of the User and
+     * nothing more. Moreover, only the public attributes should have
+     * getters and setters beginning with `get` and `set`.
+     */
     public String yamlConfigPath() {
         return audioFilesPath() + "config.yaml";
     }
