@@ -26,7 +26,6 @@ public class UserSelector extends JComboBox<User> {
 
         setForeground(FOREGROUND_COLOR);
         setBackground(BACKGROUND_COLOR);
-
         updateUserList();
     }
 

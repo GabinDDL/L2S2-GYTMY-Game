@@ -68,6 +68,17 @@ public class PlayerSelectionPanel extends JPanel {
         return players.toArray(new Player[0]);
     }
 
+    public String[] getFirstNameUsers() {
+        List<String> lastNames = new ArrayList<>();
+        for (PlayerPanel playerPanel : playerPanels) {
+            String lastName = playerPanel.getFirstNameUser();
+            if (lastName != null) {
+                lastNames.add(lastName);
+            }
+        }
+        return lastNames.toArray(new String[0]);
+    }
+
     /**
      * Returns {@code true} if all activated players are ready.
      */

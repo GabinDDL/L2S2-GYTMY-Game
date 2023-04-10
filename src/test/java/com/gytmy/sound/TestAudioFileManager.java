@@ -82,8 +82,9 @@ public class TestAudioFileManager {
 
         int totalAudioFiles = AudioFileManager.totalNumberOfAudioFiles();
 
-        File up = new File(user.audioFilesPath(), "UP");
-        File down = new File(user.audioFilesPath(), "DOWN");
+        File up = new File(user.audioPath(), "UP");
+        File down = new File(user.audioPath(), "DOWN");
+
         up.mkdir();
         down.mkdir();
 
@@ -106,6 +107,8 @@ public class TestAudioFileManager {
                 this::addUserTwice, "User already exists");
 
         assertTrue(new File(user.audioFilesPath()).exists());
+        assertTrue(new File(user.audioPath()).exists());
+        assertTrue(new File(user.modelPath()).exists());
 
         AudioFileManager.removeUser(user);
         assertFalse(new File(user.audioFilesPath()).exists());
