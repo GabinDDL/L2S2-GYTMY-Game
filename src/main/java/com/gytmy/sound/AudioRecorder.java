@@ -158,7 +158,8 @@ public class AudioRecorder {
     }
 
     public static boolean isRecording() {
-        return getInstance().stopper.isAlive();
+        AudioRecorder instance = getInstance();
+        return instance.stopper != null && instance.stopper.isAlive();
     }
 
     /**
