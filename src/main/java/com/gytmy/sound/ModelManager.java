@@ -239,7 +239,7 @@ public class ModelManager {
         public static boolean tryToAddAudiosToLst(User user, String recordedWord, List<File> audioList) {
                 try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);) {
                         for (File file : audioList) {
-                                writer.append(getNameOfFileWithoutExtension(file) + "\n");
+                                writer.append(getFileBasename(file) + "\n");
                         }
                         return true;
                 } catch (IOException e) {
@@ -249,13 +249,15 @@ public class ModelManager {
         }
 
         /**
-         * Give the name of the file without the extension :
-         * for exemple with a file named "test.wav", return "test"
-         * 
-         * @param file
-         * @return
+         * By convention, the name of a file is constitued of the basename
+         * and its extensions, _e.g._ basename.extension1.extension2...
+         *
+         * @example getFileBasename("test.wav") --> "test"
+         * @example getFileBasename("newTest.tar.gz") --> "newTest"
+         * @param file The file from which we want the basename
+         * @return The basename of the file
          */
-        private static String getNameOfFileWithoutExtension(File file) {
+        private static String getFileBasename(File file) {
                 String name = file.getName();
                 int index = file.getName().indexOf('.');
 
