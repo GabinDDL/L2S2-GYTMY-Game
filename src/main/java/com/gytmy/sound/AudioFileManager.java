@@ -220,6 +220,10 @@ public class AudioFileManager {
     }
 
     public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
+        return getFilesVerifyingPredicate(directory, predicate, false);
+    }
+
+    public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate, boolean recursive) {
         List<File> files = new ArrayList<>();
 
         if (!directory.exists()) {
@@ -227,7 +231,9 @@ public class AudioFileManager {
         }
 
         for (File file : directory.listFiles()) {
-            if (predicate.test(file)) {
+            if (recursive && file.isDirectory()) {
+                files.addAll(getFilesVerifyingPredicate(file, predicate, true));
+            } else if (predicate.test(file)) {
                 files.add(file);
             }
         }
@@ -338,6 +344,14 @@ public class AudioFileManager {
         List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
 
         return files.contains(new File(file));
+    }
+
+    public static float getTotalDurationOfAllAudioFiles() {
+        return getTotalDurationOfAllAudioFiles(getAllAudioFiles());
+    }
+
+    private static List<File> getAllAudioFiles() {
+        return getFilesVerifyingPredicate(SRC_DIRECTORY, AudioFileManager::isAudioFile, true);
     }
 
     /**
