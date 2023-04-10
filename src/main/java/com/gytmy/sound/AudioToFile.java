@@ -3,11 +3,14 @@ package com.gytmy.sound;
 import java.io.File;
 import java.util.List;
 
+import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.WordsToRecord;
 
 public class AudioToFile {
 
     private static AudioRecorder audioRecorder;
+    private static String currentRecordingFile;
+    private static int minimumAudioFileSize = 10_225;
 
     private AudioToFile() {
     }
@@ -33,13 +36,30 @@ public class AudioToFile {
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
         String path = user.audioFilesPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
+        currentRecordingFile = path;
 
         audioRecorder = AudioRecorder.getInstance();
         audioRecorder.start(path);
     }
 
-    public static void stop() {
+    /**
+     * Stops recording the audio. If the file's size is too small, it is deleted.
+     * 
+     * @throws FileToSmallException if the file is too small
+     */
+    public static void stop() throws FileToSmallException {
         audioRecorder.finish();
+
+        File file = new File(currentRecordingFile);
+
+        if (FileInformationFinder.getFileSizeBytes(file) < minimumAudioFileSize) {
+            AudioFileManager.deleteRecording(currentRecordingFile);
+            String temp = currentRecordingFile;
+            currentRecordingFile = "";
+            throw new FileToSmallException(temp);
+        }
+
+        currentRecordingFile = "";
     }
 
     /**
@@ -73,6 +93,12 @@ public class AudioToFile {
 
         if (!userFiles.contains(new File(user.audioFilesPath() + recordedWord))) {
             new File(user.audioFilesPath() + recordedWord).mkdir();
+        }
+    }
+
+    public static class FileToSmallException extends Exception {
+        public FileToSmallException(String file) {
+            super("The file " + file + " is too small");
         }
     }
 }

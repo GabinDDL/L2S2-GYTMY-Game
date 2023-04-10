@@ -175,4 +175,5 @@ public class AudioRecorder {
     public static int getTotalDurationInSeconds() {
         return (int) ((MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
     }
+
 }
