@@ -61,13 +61,13 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
     // The factor to compute the movement penalty
     private static final double MOVEMENTS_FACTOR = 2.5;
     // The factor to compute the time penalty
-    private static final double TIME_FACTOR = 2.5;
+    private static final double TIME_FACTOR = 3;
 
     private static final double MOVEMENT_PENALTY = 2.;
     private static final double TIME_PENALTY = 1.;
 
     private static final int FIRST_CHANGING_POINT = 45;
-    private static final double IDEAL_MOVEMENT_TIME_UPPER = 0.15;
+    private static final double IDEAL_MOVEMENT_TIME_UPPER = 0.2;
     private static final double IDEAL_MOVEMENT_TIME_LOWER = 0.1;
 
     public SimpleKeyboardScoreCalculator(SimpleKeyboardScoreInfo info) {
@@ -119,23 +119,23 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
 
     private double computeTimePenalty(int timePassed) {
         double upperBound = TIME_FACTOR * bestTime;
-        return computeTimePenalty(timePassed - bestTime, upperBound);
+        return computeTimePenalty(timePassed, bestTime, upperBound);
     }
 
     private double computeMovementPenalty(int movements, int minMovements) {
         double upperBound = MOVEMENTS_FACTOR * minMovements;
-        return computeTimePenalty(movements - minMovements, upperBound);
+        return computeTimePenalty(movements, minMovements, upperBound);
     }
 
-    private double computeTimePenalty(int value, double upperBound) {
-        if (value <= 0) {
+    private double computeTimePenalty(int value, double lowerBound, double upperBound) {
+        if (value <= lowerBound) {
             return 0;
         }
-        if (value > upperBound) {
+        if (value >= upperBound) {
             return 1;
         }
 
-        return value / upperBound;
+        return (value - lowerBound) / (upperBound - lowerBound);
     }
 
     public void updateInfo(ScoreInfo info) {
