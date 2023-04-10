@@ -57,6 +57,7 @@ public class AudioMenu extends JPanel {
 
     // Word Panel Components
     private JLabel totalOfWords;
+    private JLabel totalAudioLength;
     private JButton recordButton;
     private JButton deleteRecord;
 
@@ -314,11 +315,12 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
-        JPanel audioPanel = new JPanel(new GridLayout(8, 1));
+        JPanel audioPanel = new JPanel(new GridLayout(9, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
         initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
+        initTotalAudioLength(audioPanel);
         initDeleteRecordButton(audioPanel);
         initRecordButton(audioPanel);
         initLabelDuration(audioPanel);
@@ -342,6 +344,17 @@ public class AudioMenu extends JPanel {
         initColors(totalOfWords);
         totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
         parenComponent.add(totalOfWords);
+    }
+
+    private void initTotalAudioLength(JComponent parentComponent) {
+        totalAudioLength = new JLabel(getTotalAudioLength());
+        initColors(totalAudioLength);
+        totalAudioLength.setHorizontalAlignment(SwingConstants.CENTER);
+        parentComponent.add(totalAudioLength);
+    }
+
+    private String getTotalAudioLength() {
+        return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFiles()) + " seconds";
     }
 
     private void initRecordButton(JComponent parentComponent) {
