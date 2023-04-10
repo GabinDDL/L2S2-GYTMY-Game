@@ -169,7 +169,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void addEscapeKeyBind() {
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu);
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu, "Go to Start Menu");
     }
 
     private void updateGUI() {

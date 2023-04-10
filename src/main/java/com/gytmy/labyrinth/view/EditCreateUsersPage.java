@@ -64,7 +64,7 @@ public class EditCreateUsersPage extends JPanel {
         initSaveCreateButton(constraints);
         initCancelButton(constraints);
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToAudioMenu);
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToAudioMenu, "Go to Audio Menu");
 
     }
 

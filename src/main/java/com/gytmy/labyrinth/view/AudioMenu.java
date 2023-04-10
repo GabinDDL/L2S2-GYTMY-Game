@@ -125,7 +125,7 @@ public class AudioMenu extends JPanel {
         loadFileNavigator();
         initWordPanel();
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu);
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu, "Go to Start Menu");
     }
 
     /**
