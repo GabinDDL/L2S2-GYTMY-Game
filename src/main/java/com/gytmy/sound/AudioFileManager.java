@@ -341,9 +341,9 @@ public class AudioFileManager {
 
     /**
      * @param audioFiles
-     * @return the value of the duration of all files added in second
+     * @return the total duration of all audio files in seconds
      */
-    public static float getTotalOfAudiosLength(List<File> audioFiles) {
+    public static float getTotalDurationOfAllAudioFiles(List<File> audioFiles) {
         float durationOfAllFilesInSeconds = 0;
 
         if (audioFiles == null) {
