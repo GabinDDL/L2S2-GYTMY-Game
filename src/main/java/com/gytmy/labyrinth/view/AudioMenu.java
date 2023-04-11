@@ -259,6 +259,8 @@ public class AudioMenu extends JPanel {
             AudioFileManager.removeUser(user);
             userSelector.removeItem(user);
         }
+
+        updateGUI();
     }
 
     /**
