@@ -10,7 +10,10 @@ public class AudioToFile {
 
     private static AudioRecorder audioRecorder;
     private static String currentRecordingFile;
-    private static int minimumAudioFileSize = 10_225;
+
+    // 10 KB which we consider to be the minimum size to determine if the audio is
+    // not empty
+    private static int minimumAudioFileSize = 10_000;
 
     private AudioToFile() {
     }
