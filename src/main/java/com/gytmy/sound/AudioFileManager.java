@@ -354,6 +354,35 @@ public class AudioFileManager {
         return getFilesVerifyingPredicate(SRC_DIRECTORY, AudioFileManager::isAudioFile, true);
     }
 
+    public static float getTotalDurationOfAllAudioFilesOfUser(User user) {
+        return getTotalDurationOfAllAudioFiles(getAllAudioFilesOfUser(user));
+    }
+
+    private static List<File> getAllAudioFilesOfUser(User user) {
+        return getFilesVerifyingPredicate(new File(user.audioFilesPath()), AudioFileManager::isAudioFile, true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesForSpecificWord(String word) {
+        return getTotalDurationOfAllAudioFiles(getAllAudioFilesForSpecificWord(word));
+    }
+
+    private static List<File> getAllAudioFilesForSpecificWord(String word) {
+        return getFilesVerifyingPredicate(SRC_DIRECTORY, file -> audioFileContainsWord(file, word), true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesOfUserForSpecificWord(User user, String word) {
+        return getTotalDurationOfAllAudioFiles(getAllAudioFilesOfUserForSpecificWord(user, word));
+    }
+
+    private static List<File> getAllAudioFilesOfUserForSpecificWord(User user, String word) {
+        return getFilesVerifyingPredicate(new File(user.audioFilesPath()), file -> audioFileContainsWord(file, word),
+                true);
+    }
+
+    private static boolean audioFileContainsWord(File file, String word) {
+        return isAudioFile(file) && file.getName().startsWith(word);
+    }
+
     /**
      * @param audioFiles
      * @return the total duration of all audio files in seconds

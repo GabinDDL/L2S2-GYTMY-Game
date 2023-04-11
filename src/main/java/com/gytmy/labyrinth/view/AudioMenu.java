@@ -116,6 +116,7 @@ public class AudioMenu extends JPanel {
         if (instance == null) {
             instance = new AudioMenu();
         }
+        instance.updateGUI();
         return instance;
     }
 
@@ -244,8 +245,7 @@ public class AudioMenu extends JPanel {
             }
         }
 
-        loadFileNavigator();
-        loadTotalOfWords();
+        updateGUI();
     }
 
     private void deleteUser() {
@@ -302,9 +302,33 @@ public class AudioMenu extends JPanel {
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
+    }
 
-        revalidate();
-        repaint();
+    public void loadTotalAudioLength() {
+        totalAudioLength.setText(getTotalAudioLength());
+    }
+
+    private String getTotalAudioLength() {
+        User selectedUser = (User) userSelector.getSelectedItem();
+        String selectedWord = (String) wordSelector.getSelectedItem();
+
+        if (selectedUser == ALL_USERS && selectedWord.equals("ALL")) {
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFiles()) + " seconds";
+        }
+        if (selectedUser == ALL_USERS) {
+            return Math
+                    .floor(AudioFileManager
+                            .getTotalDurationOfAllAudioFilesForSpecificWord(selectedWord))
+                    + " seconds";
+        }
+
+        if (selectedWord.equals("ALL")) {
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFilesOfUser(selectedUser))
+                    + " seconds";
+        }
+
+        return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFilesOfUserForSpecificWord(selectedUser, selectedWord))
+                + " seconds";
     }
 
     /**
@@ -347,14 +371,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void initTotalAudioLength(JComponent parentComponent) {
-        totalAudioLength = new JLabel(getTotalAudioLength());
+        totalAudioLength = new JLabel();
+        loadTotalAudioLength();
         initColors(totalAudioLength);
         totalAudioLength.setHorizontalAlignment(SwingConstants.CENTER);
         parentComponent.add(totalAudioLength);
-    }
-
-    private String getTotalAudioLength() {
-        return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFiles()) + " seconds";
     }
 
     private void initRecordButton(JComponent parentComponent) {
@@ -385,7 +406,6 @@ public class AudioMenu extends JPanel {
     }
 
     private void wordHasBeenChanged() {
-        loadTotalOfWords();
 
         recordButton.setEnabled(false);
         recordButton.setText("R̶e̶c̶o̶r̶d̶");
@@ -397,6 +417,8 @@ public class AudioMenu extends JPanel {
             recordButton.setText("Record");
             recordButton.setIcon(recordIcon);
         }
+
+        updateGUI();
     }
 
     private void loadTotalOfWords() {
@@ -460,8 +482,8 @@ public class AudioMenu extends JPanel {
 
             AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
                     totalRecordsBeforeDelete);
-            loadFileNavigator();
-            loadTotalOfWords();
+
+            updateGUI();
 
             playAndStopButton.setEnabled(false);
         }
@@ -571,4 +593,24 @@ public class AudioMenu extends JPanel {
         parentComponent.add(goBackButton);
     }
 
+    public void setSelectorsToDefaultValue() {
+        setRootToAllUsers();
+        setWordToAllWords();
+    }
+
+    public void setRootToAllUsers() {
+        userSelector.setSelectedItem(ALL_USERS);
+    }
+
+    private void setWordToAllWords() {
+        wordSelector.setSelectedItem("ALL");
+    }
+
+    private void updateGUI() {
+        loadFileNavigator();
+        loadTotalOfWords();
+        loadTotalAudioLength();
+        revalidate();
+        repaint();
+    }
 }
