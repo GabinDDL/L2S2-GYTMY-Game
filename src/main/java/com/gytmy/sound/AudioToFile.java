@@ -1,8 +1,5 @@
 package com.gytmy.sound;
 
-import java.io.File;
-import java.util.List;
-
 import com.gytmy.utils.WordsToRecord;
 
 public class AudioToFile {
@@ -28,14 +25,18 @@ public class AudioToFile {
         }
 
         assertIsValidWordRecorded(recordedWord);
-        assertIsValidUserDirectory(user, recordedWord);
+
+        AudioFileManager.tryToCreateUserWordDirectory(user, recordedWord);
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
-        String path = user.audioFilesPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
+        String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
 
         audioRecorder = AudioRecorder.getInstance();
         audioRecorder.start(path);
+
+        user.setUpToDate(false);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     public static void stop() {
@@ -60,19 +61,6 @@ public class AudioToFile {
         if (recordedWord == null || recordedWord.isEmpty() || recordedWord.isBlank()
                 || !WordsToRecord.exists(recordedWord)) {
             throw new IllegalArgumentException("Invalid recorded word");
-        }
-    }
-
-    /**
-     * Asserts that the user folder contains the recorded word folder
-     */
-    private static void assertIsValidUserDirectory(User user, String recordedWord) {
-
-        File userDirectory = new File(user.audioFilesPath());
-        List<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
-
-        if (!userFiles.contains(new File(user.audioFilesPath() + recordedWord))) {
-            new File(user.audioFilesPath() + recordedWord).mkdir();
         }
     }
 }

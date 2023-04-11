@@ -25,6 +25,7 @@ import com.gytmy.labyrinth.view.game.Cell;
 import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
+import com.gytmy.sound.ModelManager;
 import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.ImageManipulator;
 
@@ -148,6 +149,10 @@ public class SettingsMenu extends JPanel {
         }
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
+
+        // Create all datas of user's models
+        ModelManager.createAllModelOfUsers(playerSelectionPanel.getFirstNameUsers());
+
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
         GameData gameData = new GameData(gameModeSettings, gameMode, players);
@@ -164,7 +169,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void addEscapeKeyBind() {
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu);
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu, "Go to Start Menu");
     }
 
     private void updateGUI() {

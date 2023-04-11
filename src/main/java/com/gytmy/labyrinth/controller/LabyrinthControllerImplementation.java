@@ -89,7 +89,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
             // TO DO : @gdudilli - compare with model
 
             new File("src/resources/audioFiles/currentGameAudio.wav").delete();
-        });
+        }, "Record Audio In Game");
     }
 
     @Override
