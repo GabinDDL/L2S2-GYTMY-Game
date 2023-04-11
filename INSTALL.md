@@ -12,7 +12,7 @@ Prerequisites (on Linux Ubuntu, it can be installed via `apt-get`) :
 - `automake`
 - `libtool`
 
-**Install the libraries in order!** and, if possible, in the same folder.
+**Install the libraries following the order given below!** and, if possible, in the same folder.
 
 ## Install Spro
 
