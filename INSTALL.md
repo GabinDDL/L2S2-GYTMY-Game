@@ -2,7 +2,7 @@
 
 The recommended operating systems are **Linux** and **MacOS**. There is a possibility to install on Windows, but it is not recommended and we do not provide support for it.
 
-Prerequisites (on linux ubuntu, it can be installed via `apt-get`) :
+Prerequisites (on Linux Ubuntu, it can be installed via `apt-get`) :
 
 - `aclocal`
 
