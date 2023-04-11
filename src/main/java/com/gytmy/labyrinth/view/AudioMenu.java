@@ -437,9 +437,9 @@ public class AudioMenu extends JPanel {
 
             String[] path = audioToLoad.split("/");
             String userFirstName = path[3];
-            String word = path[4];
+            String word = path[5];
 
-            String wordIndex = extractNumberFromWord(path[5]);
+            String wordIndex = extractNumberFromWord(path[6]);
 
             int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
                     userFirstName, word);

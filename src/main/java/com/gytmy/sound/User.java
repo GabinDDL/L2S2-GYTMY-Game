@@ -18,6 +18,7 @@ public class User {
     private String lastName;
     private int studentNumber;
     private String userName;
+    private boolean upToDate = false;
 
     public User(User user) {
         this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
@@ -90,18 +91,41 @@ public class User {
         this.userName = userName;
     }
 
-    /***********************************
-     * To avoid putting these PATHS in *
-     * the `yaml` file, we do not want *
-     * to put `get` in the method name *
-     ***********************************/
+    public boolean getUpToDate() {
+        return upToDate;
+    }
 
+    public void setUpToDate(boolean upToDate) {
+        this.upToDate = upToDate;
+    }
+
+    /**
+     * A User could be associated with a `.yaml` file.
+     *
+     * Also, when building a User from a file, an empty User is built, then
+     * each of its attributes is set with every available setters.
+     *
+     * And when building the `.yaml` file from the User, every attributes is
+     * passed to the file using every available getters.
+     *
+     * So, the `.yaml` file contains every public attributes of the User and
+     * nothing more. Moreover, only the public attributes should have
+     * getters and setters beginning with `get` and `set`.
+     */
     public String yamlConfigPath() {
         return audioFilesPath() + "config.yaml";
     }
 
     public String audioFilesPath() {
         return AUDIO_ROOT_DIRECTORY + getFirstName() + "/";
+    }
+
+    public String audioPath() {
+        return audioFilesPath() + "audio/";
+    }
+
+    public String modelPath() {
+        return audioFilesPath() + "model/";
     }
 
     /**********************************/

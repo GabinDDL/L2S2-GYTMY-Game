@@ -1,9 +1,15 @@
 package com.gytmy.sound;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.gytmy.utils.WordsToRecord;
 
@@ -69,6 +75,12 @@ public class AudioFileManager {
         userDirectory.mkdir();
 
         writeYamlConfig(user);
+
+        File userAudioDirectory = new File(user.audioPath());
+        userAudioDirectory.mkdir();
+
+        File userModelDirectory = new File(user.modelPath());
+        userModelDirectory.mkdir();
     }
 
     /**
@@ -143,8 +155,9 @@ public class AudioFileManager {
 
     private static void clearDirectory(File directory) {
         for (File file : directory.listFiles()) {
-            if (file.isDirectory())
+            if (file.isDirectory() && file.canWrite()) {
                 clearDirectory(file);
+            }
             file.delete();
         }
     }
@@ -181,7 +194,7 @@ public class AudioFileManager {
             throw new IllegalArgumentException("Word does not exist");
         }
 
-        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/" + word);
+        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/audio/" + word);
 
         if (!userDirectory.exists()) {
             return 0;
@@ -223,7 +236,12 @@ public class AudioFileManager {
     }
 
     public static void deleteRecording(String firstName, String wordToRecord, int i) {
-        deleteRecording(SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+        User user = YamlReader.read(SRC_DIR_PATH + firstName.toUpperCase() + "/config.yaml");
+
+        deleteRecording(user.audioPath() + wordToRecord + "/" + wordToRecord + i + ".wav");
+
+        user.setUpToDate(false);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     public static void deleteRecording(String filePath) {
@@ -245,7 +263,7 @@ public class AudioFileManager {
      *                           deleting the file
      */
     public static void renameAudioFiles(String firstName, String word, int wordIndex, int numberOfRecordings) {
-        File userDirectory = new File(SRC_DIR_PATH + firstName + "/" + word);
+        File userDirectory = new File(SRC_DIR_PATH + firstName + "/audio/" + word);
 
         if (!userDirectory.exists()) {
             return;
@@ -284,5 +302,66 @@ public class AudioFileManager {
                 oldUserDirectory.renameTo(new File(user.audioFilesPath()));
             }
         }
+    }
+
+    /**
+     * Create the user word directory if it does not exist
+     */
+    public static boolean tryToCreateUserWordDirectory(User user, String word) {
+        if (user == null) {
+            return false;
+        }
+
+        boolean atLeastOneDirectoryWasCreated = false;
+
+        File userAudioDirectory = new File(user.audioPath());
+
+        if (!userAudioDirectory.exists()) {
+            userAudioDirectory.mkdir();
+        }
+
+        if (!doesFileExistInDirectory(userAudioDirectory, user.audioPath() + word)) {
+            new File(user.audioPath() + word).mkdir();
+            atLeastOneDirectoryWasCreated = true;
+        }
+
+        atLeastOneDirectoryWasCreated = ModelManager.tryToCreateModelDirectoryOfWord(user, word)
+                || atLeastOneDirectoryWasCreated;
+
+        return atLeastOneDirectoryWasCreated;
+    }
+
+    /**
+     * Return true if file is inside directory
+     */
+    public static boolean doesFileExistInDirectory(File directory, String file) {
+        List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
+
+        return files.contains(new File(file));
+    }
+
+    /**
+     * @param audioFiles
+     * @return the total duration of all audio files in seconds
+     */
+    public static float getTotalDurationOfAllAudioFiles(List<File> audioFiles) {
+        float durationOfAllFilesInSeconds = 0;
+
+        if (audioFiles == null) {
+            return durationOfAllFilesInSeconds;
+        }
+
+        for (File file : audioFiles) {
+            try {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+                AudioFormat format = audioInputStream.getFormat();
+                long audioFileLength = file.length();
+                int frameSize = format.getFrameSize();
+                float frameRate = format.getFrameRate();
+                durationOfAllFilesInSeconds += (audioFileLength / (frameSize * frameRate));
+            } catch (UnsupportedAudioFileException | IOException e) {
+            }
+        }
+        return durationOfAllFilesInSeconds;
     }
 }
