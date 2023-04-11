@@ -35,7 +35,7 @@ The file we are interested in is the `sfbcep` executable which is now in the cur
 - Type `aclocal`
 - Type `automake`
 
-> The `compile` file may be missing. If so, do `automake --add-missing`
+> The `compile` file may be missing. If so, run `automake --add-missing`
 
 - Type `autoconf`
 - Type `./configure`
