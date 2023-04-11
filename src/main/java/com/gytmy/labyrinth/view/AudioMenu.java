@@ -116,7 +116,6 @@ public class AudioMenu extends JPanel {
         if (instance == null) {
             instance = new AudioMenu();
         }
-        instance.updateGUI();
         return instance;
     }
 
@@ -127,7 +126,7 @@ public class AudioMenu extends JPanel {
         loadFileNavigator();
         initWordPanel();
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu);
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu, "Go to Start Menu");
     }
 
     /**
@@ -313,21 +312,24 @@ public class AudioMenu extends JPanel {
         String selectedWord = (String) wordSelector.getSelectedItem();
 
         if (selectedUser == ALL_USERS && selectedWord.equals("ALL")) {
-            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFiles()) + " seconds";
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFiles() * 10) / 10 + " seconds";
         }
         if (selectedUser == ALL_USERS) {
             return Math
                     .floor(AudioFileManager
-                            .getTotalDurationOfAllAudioFilesForSpecificWord(selectedWord))
+                            .getTotalDurationOfAllAudioFilesForSpecificWord(selectedWord) * 10)
+                    / 10
                     + " seconds";
         }
 
         if (selectedWord.equals("ALL")) {
-            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFilesOfUser(selectedUser))
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFilesOfUser(selectedUser) * 10) / 10
                     + " seconds";
         }
 
-        return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFilesOfUserForSpecificWord(selectedUser, selectedWord))
+        return Math.floor(
+                AudioFileManager.getTotalDurationOfAllAudioFilesOfUserForSpecificWord(selectedUser, selectedWord) * 10)
+                / 10
                 + " seconds";
     }
 
@@ -606,7 +608,7 @@ public class AudioMenu extends JPanel {
         wordSelector.setSelectedItem("ALL");
     }
 
-    private void updateGUI() {
+    public void updateGUI() {
         loadFileNavigator();
         loadTotalOfWords();
         loadTotalAudioLength();

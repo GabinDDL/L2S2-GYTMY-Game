@@ -10,6 +10,7 @@ import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.AudioToFile;
 import com.gytmy.sound.User;
+import com.gytmy.sound.AudioToFile.FileTooSmallException;
 import com.gytmy.utils.HotkeyAdder;
 
 import java.awt.GridBagLayout;
@@ -22,16 +23,24 @@ public class RecordPage extends JPanel {
 
     private User userRecording;
     private String wordToRecord;
-    private static final String STATUS_RECORD = "[%s] --> %s";
     private String pausedStatusRecord;
     private String recordingStatusRecord;
+
+    private static final String STATUS_RECORD = "[%s] --> %s";
+    private static final String TOTAL_RECORDED_AUDIO = "∑ Total recorded audio: ";
+    private static final String RECORD_MESSAGE = "⬤ Record";
+    private static final String RECORDING_MESSAGE = "● Recording...";
+    private static final String STOPPED_MESSAGE = "∅ Stopped.";
+    private static final String STOP_MESSAGE = "⊠ Stop";
+    private static final String DISCARD_MESSAGE = "✖ Discard";
+    private static final String DISCARD_ALL_MESSAGE = "✱ Discard All";
+    private static final String GO_BACK_MESSAGE = "⬅ Go Back";
 
     private JLabel statusRecordLabel;
     private JLabel totalRecordedAudioLabel;
 
     private JButton goBackButton;
     private JButton recordButton;
-    private JButton stopButton;
     private JButton discardButton;
     private JButton discardAllButton;
 
@@ -45,8 +54,8 @@ public class RecordPage extends JPanel {
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
 
-        pausedStatusRecord = String.format(STATUS_RECORD, wordToRecord, "∅ Stopped.");
-        recordingStatusRecord = String.format(STATUS_RECORD, wordToRecord, "● Recording...");
+        pausedStatusRecord = String.format(STATUS_RECORD, wordToRecord, STOPPED_MESSAGE);
+        recordingStatusRecord = String.format(STATUS_RECORD, wordToRecord, RECORDING_MESSAGE);
 
         totalOfAudioWhenRecordStart = AudioFileManager.numberOfRecordings(userRecording.getFirstName(), wordToRecord);
 
@@ -58,12 +67,20 @@ public class RecordPage extends JPanel {
         initStatusRecordLabel(constraints);
         initTotalRecordedAudioLabel(constraints);
         initRecordButton(constraints);
-        initStopButton(constraints);
         initDiscardButton(constraints);
         initDiscardAllButton(constraints);
         initGoBackButton(constraints);
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu);
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_SPACE, this::recordOrStop, "Record Audio");
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu, "Go to Audio Menu");
+    }
+
+    private void recordOrStop() {
+        if (AudioRecorder.isRecording()) {
+            stopRecord();
+        } else {
+            startRecord();
+        }
     }
 
     private void initTimerPanel(GridBagConstraints constraints) {
@@ -78,7 +95,7 @@ public class RecordPage extends JPanel {
     private void initStatusRecordLabel(GridBagConstraints constraints) {
         statusRecordLabel = new JLabel(pausedStatusRecord);
         statusRecordLabel.setForeground(Cell.PATH_COLOR);
-        constraints.gridx = 2;
+        constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
@@ -86,30 +103,31 @@ public class RecordPage extends JPanel {
     }
 
     private void initTotalRecordedAudioLabel(GridBagConstraints constraints) {
-        totalRecordedAudioLabel = new JLabel("Total recorded: " + totalRecordedAudio);
+        totalRecordedAudioLabel = new JLabel(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
         totalRecordedAudioLabel.setForeground(Cell.PATH_COLOR);
-        constraints.gridx = 4;
+        constraints.gridx = 3;
         constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         add(totalRecordedAudioLabel, constraints);
     }
 
-    private void initRecordButton(GridBagConstraints constraints) {
-        recordButton = new JButton("○ Record");
+    public void initRecordButton(GridBagConstraints constraints) {
+        recordButton = new JButton(RECORD_MESSAGE);
         recordButton.setBackground(Cell.PATH_COLOR);
-        recordButton.addActionListener(e -> startRecord());
-        constraints.gridx = 1;
+        constraints.gridx = 2;
         constraints.gridy = 1;
         constraints.weightx = 0.75;
         constraints.weighty = 0.2;
+        recordButton.addActionListener(e -> {
+            recordOrStop();
+        });
         add(recordButton, constraints);
     }
 
     private void startRecord() {
-        totalRecordedAudioLabel.setText("Total recorded: " + ++totalRecordedAudio);
-        stopButton.setEnabled(true);
-        recordButton.setEnabled(false);
+
+        recordButton.setText(STOP_MESSAGE);
         discardButton.setEnabled(true);
         discardAllButton.setEnabled(true);
 
@@ -132,23 +150,18 @@ public class RecordPage extends JPanel {
         }.start();
     }
 
-    private void initStopButton(GridBagConstraints constraints) {
-        stopButton = new JButton(" □ Stop ");
-        stopButton.setBackground(Cell.PATH_COLOR);
-        stopButton.setEnabled(false);
-        stopButton.addActionListener(e -> stopRecord());
-        constraints.gridx = 3;
-        constraints.gridy = 1;
-        constraints.weightx = 0.75;
-        constraints.weighty = 0.2;
-        add(stopButton, constraints);
-    }
-
     protected void stopRecord() {
-        stopButton.setEnabled(false);
-        recordButton.setEnabled(true);
 
-        AudioToFile.stop();
+        recordButton.setText(RECORD_MESSAGE);
+
+        try {
+            AudioToFile.stop();
+            ++totalRecordedAudio;
+            totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
+        } catch (FileTooSmallException e) {
+            JOptionPane.showMessageDialog(this, "The recorded file is too small. Please record again.");
+        }
+
         statusRecordLabel.setText(pausedStatusRecord);
         timerPanel.stop();
 
@@ -158,7 +171,7 @@ public class RecordPage extends JPanel {
     }
 
     private void initDiscardButton(GridBagConstraints constraints) {
-        discardButton = new JButton("Discard");
+        discardButton = new JButton(DISCARD_MESSAGE);
         discardButton.setBackground(Cell.INITIAL_CELL_COLOR);
         discardButton.addActionListener(e -> discard());
         discardButton.setEnabled(false);
@@ -181,7 +194,7 @@ public class RecordPage extends JPanel {
         AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
                 totalOfAudioWhenRecordStart + (totalRecordedAudio--));
 
-        totalRecordedAudioLabel.setText("Total recorded: " + totalRecordedAudio);
+        totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
 
         if (totalRecordedAudio == 0) {
             discardAllButton.setEnabled(false);
@@ -190,11 +203,11 @@ public class RecordPage extends JPanel {
     }
 
     private void initDiscardAllButton(GridBagConstraints constraints) {
-        discardAllButton = new JButton("Discard All");
+        discardAllButton = new JButton(DISCARD_ALL_MESSAGE);
         discardAllButton.setBackground(Cell.INITIAL_CELL_COLOR);
         discardAllButton.addActionListener(e -> sureToDelete());
         discardAllButton.setEnabled(false);
-        constraints.gridx = 3;
+        constraints.gridx = 2;
         constraints.gridy = 2;
         constraints.weightx = 0.5;
         constraints.weighty = 0.2;
@@ -227,14 +240,14 @@ public class RecordPage extends JPanel {
         }
 
         totalRecordedAudio = 0;
-        totalRecordedAudioLabel.setText("Total recorded: " + totalRecordedAudio);
+        totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
 
         discardButton.setEnabled(false);
         discardAllButton.setEnabled(false);
     }
 
     private void initGoBackButton(GridBagConstraints constraints) {
-        goBackButton = new JButton("Go Back");
+        goBackButton = new JButton(GO_BACK_MESSAGE);
         goBackButton.setBackground(Cell.EXIT_CELL_COLOR);
         goBackButton.addActionListener(e -> goBackToAudioMenu());
         constraints.gridx = 0;

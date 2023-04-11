@@ -1,16 +1,11 @@
 package com.gytmy.sound;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
+import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.WordsToRecord;
 
 /**
@@ -347,7 +342,7 @@ public class AudioFileManager {
     }
 
     public static float getTotalDurationOfAllAudioFiles() {
-        return getTotalDurationOfAllAudioFiles(getAllAudioFiles());
+        return FileInformationFinder.getAudioLength(getAllAudioFiles());
     }
 
     private static List<File> getAllAudioFiles() {
@@ -355,7 +350,7 @@ public class AudioFileManager {
     }
 
     public static float getTotalDurationOfAllAudioFilesOfUser(User user) {
-        return getTotalDurationOfAllAudioFiles(getAllAudioFilesOfUser(user));
+        return FileInformationFinder.getAudioLength(getAllAudioFilesOfUser(user));
     }
 
     private static List<File> getAllAudioFilesOfUser(User user) {
@@ -363,7 +358,7 @@ public class AudioFileManager {
     }
 
     public static float getTotalDurationOfAllAudioFilesForSpecificWord(String word) {
-        return getTotalDurationOfAllAudioFiles(getAllAudioFilesForSpecificWord(word));
+        return FileInformationFinder.getAudioLength(getAllAudioFilesForSpecificWord(word));
     }
 
     private static List<File> getAllAudioFilesForSpecificWord(String word) {
@@ -371,7 +366,7 @@ public class AudioFileManager {
     }
 
     public static float getTotalDurationOfAllAudioFilesOfUserForSpecificWord(User user, String word) {
-        return getTotalDurationOfAllAudioFiles(getAllAudioFilesOfUserForSpecificWord(user, word));
+        return FileInformationFinder.getAudioLength(getAllAudioFilesOfUserForSpecificWord(user, word));
     }
 
     private static List<File> getAllAudioFilesOfUserForSpecificWord(User user, String word) {
@@ -381,30 +376,5 @@ public class AudioFileManager {
 
     private static boolean audioFileContainsWord(File file, String word) {
         return isAudioFile(file) && file.getName().startsWith(word);
-    }
-
-    /**
-     * @param audioFiles
-     * @return the total duration of all audio files in seconds
-     */
-    public static float getTotalDurationOfAllAudioFiles(List<File> audioFiles) {
-        float durationOfAllFilesInSeconds = 0;
-
-        if (audioFiles == null) {
-            return durationOfAllFilesInSeconds;
-        }
-
-        for (File file : audioFiles) {
-            try {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-                AudioFormat format = audioInputStream.getFormat();
-                long audioFileLength = file.length();
-                int frameSize = format.getFrameSize();
-                float frameRate = format.getFrameRate();
-                durationOfAllFilesInSeconds += (audioFileLength / (frameSize * frameRate));
-            } catch (UnsupportedAudioFileException | IOException e) {
-            }
-        }
-        return durationOfAllFilesInSeconds;
     }
 }
