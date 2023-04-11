@@ -9,6 +9,10 @@
     - [`"Classic Mode"`](#classic-mode)
     - [`"One-Dimensional Mode"`](#one-dimensional-mode)
     - [`"Blackout Mode"`](#blackout-mode)
+  - [Dependencies](#dependencies)
+  - [What is ALIZE](#what-is-alize)
+  - [What is Spro](#what-is-spro)
+  - [How to install ALIZE and Spro](#how-to-install-alize-and-spro)
 
 This project was realized by GYTMY for the unit `Projet de programmation (PI4)` during Year 2 Second Semester of `Double Licence Mathématiques-Informatique` (2022-2023).
 
@@ -20,13 +24,13 @@ Sami Boutamine (sami.boutamine@utc.fr)
 
 ## Students
 
-| Student ID # | Last Name | First Name | Group | Email |
-|:-:|:-:|:-:|:-:|:-:|
-| 22103458 | DUDILLIEU | Gabin  | MI2 | gdudillieu@gmail.com |
-| 22101699 | IGLESIAS VAZQUEZ | Yago | MI2 | yago.iglesias-vazquez@etu.u-paris.fr |
-| 22107803 | SOAN | Tony Ly | MI2 | tony-ly.soan@etu.u-paris.fr |
-| 22112498 | SELVAKUMAR | Mathusan | MI2 | mathusan.selvakumar@gmail.com |
-| 22103173 | LACENNE | Yanis | MI2 | yanis.lacenne@etu.u-paris.fr |
+| Student ID # |    Last Name     | First Name | Group |                Email                 |
+| :----------: | :--------------: | :--------: | :---: | :----------------------------------: |
+|   22103458   |    DUDILLIEU     |   Gabin    |  MI2  |         gdudillieu@gmail.com         |
+|   22101699   | IGLESIAS VAZQUEZ |    Yago    |  MI2  | yago.iglesias-vazquez@etu.u-paris.fr |
+|   22107803   |       SOAN       |  Tony Ly   |  MI2  |     tony-ly.soan@etu.u-paris.fr      |
+|   22112498   |    SELVAKUMAR    |  Mathusan  |  MI2  |    mathusan.selvakumar@gmail.com     |
+|   22103173   |     LACENNE      |   Yanis    |  MI2  |     yanis.lacenne@etu.u-paris.fr     |
 
 ## What is this project about ?
 
@@ -52,10 +56,29 @@ You can also choose the `length` of the labyrinth.
 
 ### `"Blackout Mode"`
 
-Lights on             |  Lights out
-:-------------------------:|:-------------------------:
-![Image Blackout Mode Light](images/BlackoutModeLight.png) | ![Image Blackout Mode Dark](images/BlackoutModeDark.png)
+|                         Lights on                          |                        Lights out                        |
+| :--------------------------------------------------------: | :------------------------------------------------------: |
+| ![Image Blackout Mode Light](images/BlackoutModeLight.png) | ![Image Blackout Mode Dark](images/BlackoutModeDark.png) |
 
 A fun single-player mode where your memory skills will comme in handy to get yourself through the darkness.
 
 There are 3 difficulties available : `EASY`, `NORMAL` and `HARD`.
+
+## Dependencies
+
+- SPRO
+- ALIZE (alize_core and LIA_RAL)
+
+## What is ALIZE
+
+ALIZE is a c library used for speech recognition of individuals.
+
+In our program, we use it to recognize a person or a particular word from a model, which is created with Alize (and Spro).
+
+## What is Spro
+
+Spro est une librairie qui est aussi en c, qui nous sert ici à extraire les paramètres d'un audio pour pouvoir les fournir à ALIZE.
+
+## How to install ALIZE and Spro
+
+Check the [INSTALL.md](INSTALL.md)
