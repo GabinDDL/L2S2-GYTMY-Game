@@ -26,7 +26,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private LabyrinthView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
-    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/currentGameAudio.wav";
+    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/currentGameAudio.wav";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 

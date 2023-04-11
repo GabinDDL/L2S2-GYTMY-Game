@@ -68,6 +68,11 @@ public class AudioRecorder {
     private void initFile(String audioFilePath) {
         this.wavFile = new File(audioFilePath);
 
+        File parent = wavFile.getParentFile();
+        if (parent != null) {
+            parent.mkdirs();
+        }
+
         // Make sure the file exists
         if (!wavFile.exists()) {
             try {
