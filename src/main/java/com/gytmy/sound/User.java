@@ -31,10 +31,10 @@ public class User {
     public User(String firstName, String lastName, int studentNumber, String userName) {
         handleInvalidArguments(firstName, lastName, studentNumber, userName);
 
-        this.firstName = firstName.toUpperCase();
-        this.lastName = lastName.toUpperCase();
+        this.firstName = firstName.toUpperCase().replace(" ", "_");
+        this.lastName = lastName.toUpperCase().replace(" ", "_");
         this.studentNumber = studentNumber;
-        this.userName = userName;
+        this.userName = userName.replace(" ", "_");
     }
 
     private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {
@@ -64,7 +64,7 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = firstName.replace(" ", "_");
     }
 
     public String getLastName() {
@@ -72,7 +72,7 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName.replace(" ", "_");
     }
 
     public int getStudentNumber() {
@@ -88,7 +88,7 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.userName = userName.replace(" ", "_");
     }
 
     public boolean getUpToDate() {
