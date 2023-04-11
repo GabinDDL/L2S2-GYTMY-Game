@@ -41,9 +41,9 @@ The file we are interested in is the `sfbcep` executable which is now in the cur
 - Type `./configure`
 - Type `make`
 
-## Intall LIA_RAL
+## Install LIA_RAL
 
-[Intall LIA_RAL](https://github.com/ALIZE-Speaker-Recognition/LIA_RAL)
+[Install LIA_RAL](https://github.com/ALIZE-Speaker-Recognition/LIA_RAL)
 
 Warning: `alize-core` and `Spro` must be in the **same directory** that `LIA_RAL` (you must install them **first**).
 
