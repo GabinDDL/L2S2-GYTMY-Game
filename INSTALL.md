@@ -1,35 +1,42 @@
 # Install ALIZE and Spro
 
-If this is an installation on Windows, there is the possibility to convert into tools (not tested).
+The recomaned operating systems are **Linux** and **MacOS**. There is a possibility to install on Windows, but it is not recommended and we do not provide support for it.
 
-Prerequisites (on linux ubuntu, it can be installed with the apt-get) :
+Prerequisites (on linux ubuntu, it can be installed via `apt-get`) :
 
-- `aclocal` (install autotools-dev if it doesn't work)
+- `aclocal`
+
+> This tool is not always available. If the installation of `aclocal` fails, you can try to install `autotools-dev`.
+
 - `autoconf`
 - `automake`
 - `libtool`
 
-**Install the libraries in order!** and if possible in the same repertory.
+**Install the libraries in order!** and, if possible, in the same folder.
 
 ## Install Spro
 
 - [Install SPro 4.0.1](http://www.irisa.fr/metiss/guig/spro/spro-4.0.1/spro-4.0.1.tar.gz)
-- Extract the `tar` file and run the terminal **in the resulting folder**.
+- Extract the `tar` file and open a terminal **in the resulting folder**.
 - Type `./configure` to configure the package for your system
 - Type `make` to compile the package
 
-> There may be errors during compilation such as **missing libraries are possible**. The most efficient way to deal with them is to **include them yourself in the files that require them** (`#include <string.h>` for example).
+> There may be errors during compilation such as **missing libraries**. The most efficient way to deal with them is to **include them yourself in the files that require them** (`#include <string.h>` for example). One known example is that, in Debian based systems, the Makefile is not generated properly with the `./configure` command, so you have to add the `-lm` option to the `LIBS` macro in the Makefile.`
 
 - Optionally, type `make check` to run tests that come with the package
 - Type `make install` to install the programs
-- The file we are interested in is the `sfbcep` executable which is now in the current folder
+
+The file we are interested in is the `sfbcep` executable which is now in the current folder
 
 ## Install alize-core
 
 - [Intall alize-core](https://github.com/ALIZE-Speaker-Recognition/alize-core)
-- Extract `alize-core` and launch the terminal **in the resulting folder**
+- Extract `alize-core` and launch a terminal **in the resulting folder**
 - Type `aclocal`
-- Type `automake` (if the ./compile is missing, do `automake --add-missing`)
+- Type `automake`
+
+> The `compile` file may be missing. If so, do `automake --add-missing`
+
 - Type `autoconf`
 - Type `./configure`
 - Type `make`
@@ -38,13 +45,16 @@ Prerequisites (on linux ubuntu, it can be installed with the apt-get) :
 
 [Intall LIA_RAL](https://github.com/ALIZE-Speaker-Recognition/LIA_RAL)
 
-Warning: `alize-core` and `Spro` must be in the same directory that `LIA_RAL` (you must install them first).
+Warning: `alize-core` and `Spro` must be in the **same directory** that `LIA_RAL` (you must install them **first**).
 
-You can also change the installation path before doing `./configure`.
+You can also change the installation path doing `./configure`.
 
-- Extract `LIA_RAL` and launch the terminal \*\*in the resulting folder
+- Extract `LIA_RAL` and launch a terminal **in the resulting folder**
 - Type `aclocal`.
-- Type `automake` (if the ./compile is missing, do automake --add-missing)
+- Type `automake`
+
+> Like for `alize-core`, the `compile` file may be missing. If so, do `automake --add-missing`
+
 - Type `autoconf`.
 - Type `./configure --with-spro`
 - Type `make`
