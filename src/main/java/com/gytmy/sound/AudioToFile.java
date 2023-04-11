@@ -1,10 +1,18 @@
 package com.gytmy.sound;
 
+import java.io.File;
+
+import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.WordsToRecord;
 
 public class AudioToFile {
 
     private static AudioRecorder audioRecorder;
+    private static String currentRecordingFile;
+
+    // 10 KB which we consider to be the minimum size to determine if the audio is
+    // not empty
+    private static int minimumAudioFileSize = 10_000;
 
     private AudioToFile() {
     }
@@ -31,7 +39,7 @@ public class AudioToFile {
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
         String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
-
+        currentRecordingFile = path;
         audioRecorder = AudioRecorder.getInstance();
         audioRecorder.start(path);
 
@@ -39,8 +47,24 @@ public class AudioToFile {
         YamlReader.write(user.yamlConfigPath(), user);
     }
 
-    public static void stop() {
+    /**
+     * Stops recording the audio. If the file's size is too small, it is deleted.
+     * 
+     * @throws FileTooSmallException if the file is too small
+     */
+    public static void stop() throws FileTooSmallException {
         audioRecorder.finish();
+
+        File file = new File(currentRecordingFile);
+
+        if (FileInformationFinder.getFileSizeBytes(file) < minimumAudioFileSize) {
+            AudioFileManager.deleteRecording(currentRecordingFile);
+            String temp = currentRecordingFile;
+            currentRecordingFile = "";
+            throw new FileTooSmallException(temp);
+        }
+
+        currentRecordingFile = "";
     }
 
     /**
@@ -61,6 +85,12 @@ public class AudioToFile {
         if (recordedWord == null || recordedWord.isEmpty() || recordedWord.isBlank()
                 || !WordsToRecord.exists(recordedWord)) {
             throw new IllegalArgumentException("Invalid recorded word");
+        }
+    }
+
+    public static class FileTooSmallException extends Exception {
+        public FileTooSmallException(String file) {
+            super("The file " + file + " is too small");
         }
     }
 }

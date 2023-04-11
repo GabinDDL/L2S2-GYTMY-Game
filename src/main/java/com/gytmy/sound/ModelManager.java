@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
 import com.gytmy.utils.WordsToRecord;
 
@@ -115,7 +116,7 @@ public class ModelManager {
                 File dataDirectory = new File(user.audioPath() + recordedWord + "/");
                 List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
 
-                return AudioFileManager.getTotalDurationOfAllAudioFiles(list) >= upperDuration;
+                return FileInformationFinder.getAudioLength(list) > upperDuration;
         }
 
         /**
