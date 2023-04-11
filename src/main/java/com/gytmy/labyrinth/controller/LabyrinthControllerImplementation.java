@@ -15,16 +15,18 @@ import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
 import com.gytmy.sound.AudioRecorder;
+import com.gytmy.sound.RecordObserver;
 import com.gytmy.utils.Coordinates;
 import com.gytmy.utils.HotkeyAdder;
 
-public class LabyrinthControllerImplementation implements LabyrinthController {
+public class LabyrinthControllerImplementation implements LabyrinthController, RecordObserver {
 
     private GameData gameData;
     private LabyrinthModel model;
     private LabyrinthView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
+    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/currentGameAudio.wav";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -81,15 +83,26 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     }
 
     private void initializeVoiceRecorder() {
+
         AudioRecorder recorder = AudioRecorder.getInstance();
-        HotkeyAdder.addHotkey(view, KeyEvent.VK_R, () -> {
-            recorder.start("src/resources/audioFiles/currentGameAudio.wav");
+        AudioRecorder.addObserver(this);
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
 
-            recorder.finish();
-            // TO DO : @gdudilli - compare with model
+            if (AudioRecorder.isRecording()) {
+                recorder.finish();
+                return;
+            }
 
-            new File("src/resources/audioFiles/currentGameAudio.wav").delete();
+            new Thread(() -> {
+                recorder.start(AUDIO_GAME_PATH);
+            }).start();
+
         }, "Record Audio In Game");
+    }
+
+    private void compareAudioWithModel() {
+        // TO DO : @selvakum - @gdudilli - compare with model
+        new File(AUDIO_GAME_PATH).delete();
     }
 
     @Override
@@ -158,5 +171,10 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     public void notifyGameStarted() {
         hasCountdownEnded = true;
         view.notifyGameStarted();
+    }
+
+    @Override
+    public void update() {
+        compareAudioWithModel();
     }
 }
