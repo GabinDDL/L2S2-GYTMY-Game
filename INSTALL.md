@@ -30,7 +30,7 @@ The file we are interested in is the `sfbcep` executable which is now in the cur
 
 ## Install alize-core
 
-- [Intall alize-core](https://github.com/ALIZE-Speaker-Recognition/alize-core)
+- [Install alize-core](https://github.com/ALIZE-Speaker-Recognition/alize-core)
 - Extract `alize-core` and launch a terminal **in the resulting folder**
 - Type `aclocal`
 - Type `automake`
