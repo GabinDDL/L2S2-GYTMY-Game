@@ -53,7 +53,7 @@ You can also change the installation path doing `./configure`.
 - Type `aclocal`.
 - Type `automake`
 
-> Like for `alize-core`, the `compile` file may be missing. If so, do `automake --add-missing`
+> Like for `alize-core`, the `compile` file may be missing. If so, run `automake --add-missing`
 
 - Type `autoconf`.
 - Type `./configure --with-spro`
