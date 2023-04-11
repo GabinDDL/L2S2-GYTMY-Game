@@ -10,6 +10,7 @@ import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.AudioToFile;
 import com.gytmy.sound.User;
+import com.gytmy.sound.AudioToFile.FileTooSmallException;
 import com.gytmy.utils.HotkeyAdder;
 
 import java.awt.GridBagLayout;
@@ -125,7 +126,7 @@ public class RecordPage extends JPanel {
     }
 
     private void startRecord() {
-        totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + ++totalRecordedAudio);
+
         recordButton.setText(STOP_MESSAGE);
         discardButton.setEnabled(true);
         discardAllButton.setEnabled(true);
@@ -153,7 +154,14 @@ public class RecordPage extends JPanel {
 
         recordButton.setText(RECORD_MESSAGE);
 
-        AudioToFile.stop();
+        try {
+            AudioToFile.stop();
+            ++totalRecordedAudio;
+            totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
+        } catch (FileTooSmallException e) {
+            JOptionPane.showMessageDialog(this, "The recorded file is too small. Please record again.");
+        }
+
         statusRecordLabel.setText(pausedStatusRecord);
         timerPanel.stop();
 
