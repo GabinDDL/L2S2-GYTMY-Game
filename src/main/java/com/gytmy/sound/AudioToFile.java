@@ -50,9 +50,9 @@ public class AudioToFile {
     /**
      * Stops recording the audio. If the file's size is too small, it is deleted.
      * 
-     * @throws FileToSmallException if the file is too small
+     * @throws FileTooSmallException if the file is too small
      */
-    public static void stop() throws FileToSmallException {
+    public static void stop() throws FileTooSmallException {
         audioRecorder.finish();
 
         File file = new File(currentRecordingFile);
@@ -61,7 +61,7 @@ public class AudioToFile {
             AudioFileManager.deleteRecording(currentRecordingFile);
             String temp = currentRecordingFile;
             currentRecordingFile = "";
-            throw new FileToSmallException(temp);
+            throw new FileTooSmallException(temp);
         }
 
         currentRecordingFile = "";
@@ -88,8 +88,8 @@ public class AudioToFile {
         }
     }
 
-    public static class FileToSmallException extends Exception {
-        public FileToSmallException(String file) {
+    public static class FileTooSmallException extends Exception {
+        public FileTooSmallException(String file) {
             super("The file " + file + " is too small");
         }
     }
