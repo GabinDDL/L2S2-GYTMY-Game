@@ -101,7 +101,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     }
 
     private void compareAudioWithModel() {
-        // TO DO : @selvakum - @gdudilli - compare with model
+        // TODO : @selvakum - @gdudilli - compare with model
         new File(AUDIO_GAME_PATH).delete();
     }
 
