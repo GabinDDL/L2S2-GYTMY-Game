@@ -232,6 +232,8 @@ public class AudioMenu extends JPanel {
             deleteUserButton.setEnabled(false);
             editUserButton.setEnabled(false);
             recordButton.setEnabled(false);
+            recordButton.setText("R̶e̶c̶o̶r̶d̶");
+            recordButton.setIcon(null);
 
         } else {
             actualJTreeRootPath += user.getFirstName();
@@ -240,6 +242,8 @@ public class AudioMenu extends JPanel {
 
             if (!wordSelector.getSelectedItem().equals("ALL")) {
                 recordButton.setEnabled(true);
+                recordButton.setText("Record");
+                recordButton.setIcon(recordIcon);
             }
         }
 
