@@ -34,10 +34,16 @@ public class AlizeParser {
             this.value = value;
         }
 
+        public AlizeResult copy() {
+            return new AlizeResult(name, word, value);
+        }
+
+        @Override
         public String toString() {
             return "Name: " + name + ", Word: " + word + ", Value: " + value;
         }
 
+        @Override
         public boolean equals(Object o) {
             if (o == this) {
                 return true;
@@ -49,12 +55,9 @@ public class AlizeParser {
             return this.name.equals(other.name) && this.word.equals(other.word) && this.value == other.value;
         }
 
+        @Override
         public int hashCode() {
             return Objects.hash(name, word, value);
-        }
-
-        public AlizeResult copy() {
-            return new AlizeResult(name, word, value);
         }
 
         public String getName() {
@@ -70,6 +73,10 @@ public class AlizeParser {
         }
     }
 
+    /**
+     * Parses the given file and returns the AlizeResult with the highest value.
+     * The path to the file must be relative to the project root.
+     */
     public static AlizeResult parseFile(File inputFile) {
 
         AlizeResult result = new AlizeResult();
@@ -77,9 +84,12 @@ public class AlizeParser {
         try (Scanner scanner = new Scanner(inputFile)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
+
                 if (line.isBlank()) {
+                    // Skip empty lines
                     continue;
                 }
+
                 String[] parts = line.split(" ");
                 String currentName = parts[1].substring(0, parts[1].lastIndexOf("_"));
                 String currentWord = parts[1].substring(parts[1].lastIndexOf("_") + 1);
