@@ -12,26 +12,32 @@ public class TestAlizeParser {
 
     @Test
     public void testNormalFile() {
-        File inputFile = new File("src/test/java/com/gytmy/sound/AlizeParserTestNormal.txt");
-        assertEquals(AlizeParser.parseFile(inputFile), new AlizeResult("GABIN", "UP", -112.691));
+        assertResult("src/test/java/com/gytmy/sound/AlizeParserTestNormal.txt",
+                new AlizeResult("GABIN", "UP", -112.691));
     }
 
     @Test
     public void testEmptyFile() {
-        File inputFile = new File("src/test/java/com/gytmy/sound/AlizeParserTestEmpty.txt");
-        assertEquals(AlizeParser.parseFile(inputFile), AlizeResult.DEFAULT_ALIZE_RESULT);
+        assertResult("src/test/java/com/gytmy/sound/AlizeParserTestEmpty.txt",
+                AlizeResult.DEFAULT_ALIZE_RESULT);
     }
 
     @Test
     public void testWithPositiveValues() {
-        File inputFile = new File("src/test/java/com/gytmy/sound/AlizeParserTestPositive.txt");
-        assertEquals(AlizeParser.parseFile(inputFile), new AlizeResult("MATHUSAN", "LEFT", 113.003));
+        assertResult("src/test/java/com/gytmy/sound/AlizeParserTestPositive.txt",
+                new AlizeResult("MATHUSAN", "LEFT", 113.003));
     }
 
     @Test
     public void testWithLongNames() {
-        File inputFile = new File("src/test/java/com/gytmy/sound/AlizeParserTestLongNames.txt");
-        assertEquals(AlizeParser.parseFile(inputFile), new AlizeResult("GABIN_TEST_DOUBLE", "UP", 112.691));
+        assertResult("src/test/java/com/gytmy/sound/AlizeParserTestLongNames.txt",
+                new AlizeResult("GABIN_TEST_DOUBLE", "UP", 112.691));
+    }
+
+    private void assertResult(String path, AlizeResult alizeResult) {
+        File inputFile = new File(path);
+        assertEquals(AlizeParser.parseFile(inputFile), alizeResult);
+
     }
 
 }
