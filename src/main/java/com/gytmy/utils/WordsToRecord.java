@@ -8,7 +8,8 @@ public enum WordsToRecord {
     UP,
     DOWN,
     LEFT,
-    RIGHT;
+    RIGHT,
+    OTHER;
 
     public static List<String> getWordsToRecord() {
         List<String> values = new ArrayList<>();
