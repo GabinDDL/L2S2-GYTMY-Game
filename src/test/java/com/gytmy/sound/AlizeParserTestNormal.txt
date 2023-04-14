@@ -1,0 +1,9 @@
+M GABIN_UP 0 CurrentAudio -112.691
+M GABIN_DOWN 0 CurrentAudio -112.929
+M GABIN_RIGHT 0 CurrentAudio -112.854
+M GABIN_LEFT 0 CurrentAudio -112.914
+M YAGO_UP 0 CurrentAudio -112.907
+M YAGO_DOWN 0 CurrentAudio -112.762
+M MATHUSAN_UP 0 CurrentAudio -113.003
+M TONY_LY_UP 0 CurrentAudio -112.993
+M YAGO_LEFT 0 CurrentAudio -112.767
