@@ -1,12 +1,14 @@
 package com.gytmy.sound;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
 import org.junit.Test;
 
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
+import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
 
 public class TestAlizeRecognitionResultParser {
 
@@ -42,7 +44,11 @@ public class TestAlizeRecognitionResultParser {
 
     private void assertResult(String path, AlizeRecognitionResult alizeResult) {
         File inputFile = new File(path);
-        assertEquals(AlizeRecognitionResultParser.parseFile(inputFile), alizeResult);
+        try {
+            assertEquals(AlizeRecognitionResultParser.parseFile(inputFile), alizeResult);
+        } catch (IncorrectFileFormatException e) {
+            assertTrue(false);
+        }
 
     }
 

@@ -77,7 +77,7 @@ public class AlizeRecognitionResultParser {
      * Parses the given file and returns the AlizeResult with the highest value.
      * The path to the file must be relative to the project root.
      */
-    public static AlizeRecognitionResult parseFile(File inputFile) {
+    public static AlizeRecognitionResult parseFile(File inputFile) throws IncorrectFileFormatException {
 
         AlizeRecognitionResult result = new AlizeRecognitionResult();
 
@@ -91,9 +91,18 @@ public class AlizeRecognitionResultParser {
                 }
 
                 String[] parts = line.split(" ");
+                if (parts.length != 5) {
+                    throw new IncorrectFileFormatException(inputFile.getAbsolutePath());
+                }
                 String currentName = parts[1].substring(0, parts[1].lastIndexOf("_"));
                 String currentWord = parts[1].substring(parts[1].lastIndexOf("_") + 1);
-                double currentVal = Double.parseDouble(parts[4]);
+                Double currentVal;
+
+                try {
+                    currentVal = Double.parseDouble(parts[4]);
+                } catch (NumberFormatException e) {
+                    throw new IncorrectFileFormatException(inputFile.getAbsolutePath());
+                }
 
                 if (currentVal > result.value) {
                     result.update(currentName, currentWord, currentVal);
@@ -103,5 +112,17 @@ public class AlizeRecognitionResultParser {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static class IncorrectFileFormatException extends Exception {
+        private static final String MESSAGE = "The file is not in the correct format.";
+
+        public IncorrectFileFormatException(String filePath) {
+            super(MESSAGE + " File: " + filePath);
+        }
+
+        public IncorrectFileFormatException() {
+            super(MESSAGE);
+        }
     }
 }
