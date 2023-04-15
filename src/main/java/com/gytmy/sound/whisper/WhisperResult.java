@@ -1,4 +1,4 @@
-package com.gytmy.whisper;
+package com.gytmy.sound.whisper;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;

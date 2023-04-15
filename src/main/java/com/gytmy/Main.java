@@ -3,7 +3,7 @@ package com.gytmy;
 import java.awt.EventQueue;
 
 import com.gytmy.launcher.GraphicalLauncher;
-import com.gytmy.whisper.Whisper;
+import com.gytmy.sound.whisper.Whisper;
 
 public class Main {
 

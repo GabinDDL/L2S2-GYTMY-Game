@@ -1,4 +1,4 @@
-package com.gytmy.whisper;
+package com.gytmy.sound.whisper;
 
 import com.gytmy.utils.JsonParser;
 import com.gytmy.utils.RunSH;
