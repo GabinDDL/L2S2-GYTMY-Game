@@ -202,13 +202,15 @@ public class RecordPage extends JPanel {
             hasBeenSaved = stopRecord(false);
         }
 
-        AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
-                totalOfAudioWhenRecordStart + totalRecordedAudio);
+        if (hasBeenSaved) {
+            AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
+                    totalOfAudioWhenRecordStart + totalRecordedAudio);
 
-        // If the audio has been saved, then the count has been increased
-        // and should be decreased. Otherwise, the count should not be changed
-        // since the audio has not been saved.
-        totalRecordedAudio += hasBeenSaved ? -1 : 0;
+            // If the audio has been saved, then the count has been increased
+            // and should be decreased. Otherwise, the count should not be changed
+            // since the audio has not been saved.
+            --totalRecordedAudio;
+        }
 
         totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
 
