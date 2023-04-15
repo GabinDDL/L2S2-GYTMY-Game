@@ -10,6 +10,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SoundRecorder is a class that records sound from a microphone and saves it
@@ -26,6 +28,7 @@ public class AudioRecorder {
 
     private Thread stopper;
     private File wavFile; // The file that will store the recorded sound
+    private static List<RecordObserver> observers = new ArrayList<>();
 
     // A TargetDataLine represents a mono or multi-channel audio feed
     // from which audio data can be read.
@@ -65,6 +68,11 @@ public class AudioRecorder {
     private void initFile(String audioFilePath) {
         this.wavFile = new File(audioFilePath);
 
+        File parent = wavFile.getParentFile();
+        if (parent != null) {
+            parent.mkdirs();
+        }
+
         // Make sure the file exists
         if (!wavFile.exists()) {
             try {
@@ -88,6 +96,7 @@ public class AudioRecorder {
             } catch (InterruptedException ex) {
             }
             finish();
+            notifyObservers();
         });
     }
 
@@ -185,4 +194,15 @@ public class AudioRecorder {
         return (int) ((MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
     }
 
+    public static void notifyObservers() {
+        observers.forEach(RecordObserver::update);
+    }
+
+    public static void addObserver(RecordObserver observer) {
+        observers.add(observer);
+    }
+
+    public static void removeObserver(RecordObserver observer) {
+        observers.remove(observer);
+    }
 }

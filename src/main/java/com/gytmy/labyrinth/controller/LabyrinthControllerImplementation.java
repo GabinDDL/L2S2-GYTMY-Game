@@ -1,5 +1,8 @@
 package com.gytmy.labyrinth.controller;
 
+import java.awt.event.KeyEvent;
+import java.io.File;
+
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.model.Direction;
@@ -11,15 +14,19 @@ import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
+import com.gytmy.sound.AudioRecorder;
+import com.gytmy.sound.RecordObserver;
 import com.gytmy.utils.Coordinates;
+import com.gytmy.utils.HotkeyAdder;
 
-public class LabyrinthControllerImplementation implements LabyrinthController {
+public class LabyrinthControllerImplementation implements LabyrinthController, RecordObserver {
 
     private GameData gameData;
     private LabyrinthModel model;
     private LabyrinthView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
+    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/currentGameAudio.wav";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -32,6 +39,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
         this.frame = frame;
         initGame();
         initializeMovementController();
+        initializeVoiceRecorder();
     }
 
     private void initGame() {
@@ -72,6 +80,29 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     private void initializeKeyboardMovementController() {
         MovementController movementController = new KeyboardMovementController(this);
         movementController.setup();
+    }
+
+    private void initializeVoiceRecorder() {
+
+        AudioRecorder recorder = AudioRecorder.getInstance();
+        AudioRecorder.addObserver(this);
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
+
+            if (AudioRecorder.isRecording()) {
+                recorder.finish();
+                return;
+            }
+
+            new Thread(() -> {
+                recorder.start(AUDIO_GAME_PATH);
+            }).start();
+
+        }, "Record Audio In Game");
+    }
+
+    private void compareAudioWithModel() {
+        // TODO : @selvakum - @gdudilli - compare with model
+        new File(AUDIO_GAME_PATH).delete();
     }
 
     @Override
@@ -140,5 +171,10 @@ public class LabyrinthControllerImplementation implements LabyrinthController {
     public void notifyGameStarted() {
         hasCountdownEnded = true;
         view.notifyGameStarted();
+    }
+
+    @Override
+    public void update() {
+        compareAudioWithModel();
     }
 }
