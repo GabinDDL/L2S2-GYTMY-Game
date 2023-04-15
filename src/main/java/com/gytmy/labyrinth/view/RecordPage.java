@@ -71,7 +71,7 @@ public class RecordPage extends JPanel {
         initDiscardAllButton(constraints);
         initGoBackButton(constraints);
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_SPACE, this::recordOrStop, "Record Audio");
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_R, this::recordOrStop, "Record Audio");
         HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu, "Go to Audio Menu");
     }
 
