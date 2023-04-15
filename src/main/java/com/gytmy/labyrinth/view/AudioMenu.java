@@ -195,7 +195,6 @@ public class AudioMenu extends JPanel {
 
     private void editOrAddUser(String title, EditCreateUsersPage page) {
         mainFrame.setContentPane(page);
-        mainFrame.setSize(800, 500);
         mainFrame.revalidate();
         mainFrame.setTitle(title);
     }
