@@ -34,6 +34,12 @@ public class TestAlizeParser {
                 new AlizeResult("GABIN_TEST_DOUBLE", "UP", 112.691));
     }
 
+    @Test
+    public void testWithInteger() {
+        assertResult("src/test/java/com/gytmy/sound/AlizeParserTestInteger.txt",
+                new AlizeResult("GABIN", "DOWN", 113));
+    }
+
     private void assertResult(String path, AlizeResult alizeResult) {
         File inputFile = new File(path);
         assertEquals(AlizeParser.parseFile(inputFile), alizeResult);
