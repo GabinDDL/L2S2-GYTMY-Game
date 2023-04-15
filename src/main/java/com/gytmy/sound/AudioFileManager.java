@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.WordsToRecord;
 
 /**
@@ -214,6 +215,10 @@ public class AudioFileManager {
     }
 
     public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
+        return getFilesVerifyingPredicate(directory, predicate, false);
+    }
+
+    public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate, boolean recursive) {
         List<File> files = new ArrayList<>();
 
         if (!directory.exists()) {
@@ -221,7 +226,9 @@ public class AudioFileManager {
         }
 
         for (File file : directory.listFiles()) {
-            if (predicate.test(file)) {
+            if (recursive && file.isDirectory()) {
+                files.addAll(getFilesVerifyingPredicate(file, predicate, true));
+            } else if (predicate.test(file)) {
                 files.add(file);
             }
         }
@@ -334,4 +341,40 @@ public class AudioFileManager {
         return files.contains(new File(file));
     }
 
+    public static float getTotalDurationOfAllAudioFiles() {
+        return FileInformationFinder.getAudioLength(getAllAudioFiles());
+    }
+
+    private static List<File> getAllAudioFiles() {
+        return getFilesVerifyingPredicate(SRC_DIRECTORY, AudioFileManager::isAudioFile, true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesOfUser(User user) {
+        return FileInformationFinder.getAudioLength(getAllAudioFilesOfUser(user));
+    }
+
+    private static List<File> getAllAudioFilesOfUser(User user) {
+        return getFilesVerifyingPredicate(new File(user.audioFilesPath()), AudioFileManager::isAudioFile, true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesForSpecificWord(String word) {
+        return FileInformationFinder.getAudioLength(getAllAudioFilesForSpecificWord(word));
+    }
+
+    private static List<File> getAllAudioFilesForSpecificWord(String word) {
+        return getFilesVerifyingPredicate(SRC_DIRECTORY, file -> audioFileContainsWord(file, word), true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesOfUserForSpecificWord(User user, String word) {
+        return FileInformationFinder.getAudioLength(getAllAudioFilesOfUserForSpecificWord(user, word));
+    }
+
+    private static List<File> getAllAudioFilesOfUserForSpecificWord(User user, String word) {
+        return getFilesVerifyingPredicate(new File(user.audioFilesPath()), file -> audioFileContainsWord(file, word),
+                true);
+    }
+
+    private static boolean audioFileContainsWord(File file, String word) {
+        return isAudioFile(file) && file.getName().startsWith(word);
+    }
 }
