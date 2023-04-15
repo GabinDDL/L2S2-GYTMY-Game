@@ -73,6 +73,7 @@ public class StartMenu extends JPanel {
 
                 } else if (IMAGES_BOUNDS[3].isInside(xClick, yClick)) {
                     MenuFrameHandler.goToAudioMenu();
+                    AudioMenu.getInstance().setSelectorsToDefaultValue();
                 }
             }
 

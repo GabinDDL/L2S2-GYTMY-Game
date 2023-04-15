@@ -71,7 +71,7 @@ public class RecordPage extends JPanel {
         initDiscardAllButton(constraints);
         initGoBackButton(constraints);
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_SPACE, this::recordOrStop, "Record Audio");
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_R, this::recordOrStop, "Record Audio");
         HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu, "Go to Audio Menu");
     }
 
@@ -150,8 +150,17 @@ public class RecordPage extends JPanel {
         }.start();
     }
 
-    protected void stopRecord() {
+    protected boolean stopRecord() {
+        return stopRecord(true);
+    }
 
+    /**
+     * Stop recording and return true if the audio file has been recorded
+     * successfully. In other words, that the audio file is not too small.
+     */
+    protected boolean stopRecord(boolean verbose) {
+
+        boolean tooSmall = false;
         recordButton.setText(RECORD_MESSAGE);
 
         try {
@@ -159,7 +168,10 @@ public class RecordPage extends JPanel {
             ++totalRecordedAudio;
             totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
         } catch (FileTooSmallException e) {
-            JOptionPane.showMessageDialog(this, "The recorded file is too small. Please record again.");
+            if (verbose) {
+                JOptionPane.showMessageDialog(this, "The recorded file is too small. Please record again.");
+            }
+            tooSmall = true;
         }
 
         statusRecordLabel.setText(pausedStatusRecord);
@@ -168,6 +180,7 @@ public class RecordPage extends JPanel {
         this.remove(timerPanel);
         initTimerPanel(new GridBagConstraints());
         this.revalidate();
+        return !tooSmall;
     }
 
     private void initDiscardButton(GridBagConstraints constraints) {
@@ -183,16 +196,21 @@ public class RecordPage extends JPanel {
     }
 
     private void discard() {
-        if (totalRecordedAudio == 0) {
-            return;
-        }
 
+        boolean hasBeenSaved = true;
         if (AudioRecorder.isRecording()) {
-            stopRecord();
+            hasBeenSaved = stopRecord(false);
         }
 
-        AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
-                totalOfAudioWhenRecordStart + (totalRecordedAudio--));
+        if (hasBeenSaved) {
+            AudioFileManager.deleteRecording(userRecording.getFirstName(), wordToRecord,
+                    totalOfAudioWhenRecordStart + totalRecordedAudio);
+
+            // If the audio has been saved, then the count has been increased
+            // and should be decreased. Otherwise, the count should not be changed
+            // since the audio has not been saved.
+            --totalRecordedAudio;
+        }
 
         totalRecordedAudioLabel.setText(TOTAL_RECORDED_AUDIO + totalRecordedAudio);
 

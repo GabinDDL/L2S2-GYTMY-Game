@@ -58,6 +58,7 @@ public class AudioMenu extends JPanel {
 
     // Word Panel Components
     private JLabel totalOfWords;
+    private JLabel totalAudioLength;
     private JButton recordButton;
     private JButton deleteRecord;
 
@@ -195,7 +196,6 @@ public class AudioMenu extends JPanel {
 
     private void editOrAddUser(String title, EditCreateUsersPage page) {
         mainFrame.setContentPane(page);
-        mainFrame.setSize(800, 500);
         mainFrame.revalidate();
         mainFrame.setTitle(title);
     }
@@ -243,8 +243,7 @@ public class AudioMenu extends JPanel {
             }
         }
 
-        loadFileNavigator();
-        loadTotalOfWords();
+        updateGUI();
     }
 
     private void enableRecordButton() {
@@ -273,6 +272,8 @@ public class AudioMenu extends JPanel {
             AudioFileManager.removeUser(user);
             userSelector.removeItem(user);
         }
+
+        updateGUI();
     }
 
     /**
@@ -309,9 +310,36 @@ public class AudioMenu extends JPanel {
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
+    }
 
-        revalidate();
-        repaint();
+    public void loadTotalAudioLength() {
+        totalAudioLength.setText(getTotalAudioLength());
+    }
+
+    private String getTotalAudioLength() {
+        User selectedUser = (User) userSelector.getSelectedItem();
+        String selectedWord = (String) wordSelector.getSelectedItem();
+
+        if (selectedUser == ALL_USERS && selectedWord.equals("ALL")) {
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFiles() * 10) / 10 + " seconds";
+        }
+        if (selectedUser == ALL_USERS) {
+            return Math
+                    .floor(AudioFileManager
+                            .getTotalDurationOfAllAudioFilesForSpecificWord(selectedWord) * 10)
+                    / 10
+                    + " seconds";
+        }
+
+        if (selectedWord.equals("ALL")) {
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFilesOfUser(selectedUser) * 10) / 10
+                    + " seconds";
+        }
+
+        return Math.floor(
+                AudioFileManager.getTotalDurationOfAllAudioFilesOfUserForSpecificWord(selectedUser, selectedWord) * 10)
+                / 10
+                + " seconds";
     }
 
     private void enableDeleteButton() {
@@ -330,11 +358,12 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
-        JPanel audioPanel = new JPanel(new GridLayout(8, 1));
+        JPanel audioPanel = new JPanel(new GridLayout(9, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
         initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
+        initTotalAudioLength(audioPanel);
         initDeleteRecordButton(audioPanel);
         initRecordButton(audioPanel);
         initLabelDuration(audioPanel);
@@ -358,6 +387,14 @@ public class AudioMenu extends JPanel {
         initColors(totalOfWords);
         totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
         parenComponent.add(totalOfWords);
+    }
+
+    private void initTotalAudioLength(JComponent parentComponent) {
+        totalAudioLength = new JLabel();
+        loadTotalAudioLength();
+        initColors(totalAudioLength);
+        totalAudioLength.setHorizontalAlignment(SwingConstants.CENTER);
+        parentComponent.add(totalAudioLength);
     }
 
     private void initRecordButton(JComponent parentComponent) {
@@ -388,7 +425,6 @@ public class AudioMenu extends JPanel {
     }
 
     private void wordHasBeenChanged() {
-        loadTotalOfWords();
 
         disableRecordButton();
         if (wordSelector.getSelectedItem().equals("ALL")) {
@@ -396,6 +432,8 @@ public class AudioMenu extends JPanel {
         } else if ((User) userSelector.getSelectedItem() != ALL_USERS) {
             enableRecordButton();
         }
+
+        updateGUI();
     }
 
     private void loadTotalOfWords() {
@@ -459,8 +497,8 @@ public class AudioMenu extends JPanel {
 
             AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
                     totalRecordsBeforeDelete);
-            loadFileNavigator();
-            loadTotalOfWords();
+
+            updateGUI();
 
             playAndStopButton.setEnabled(false);
         }
@@ -570,4 +608,24 @@ public class AudioMenu extends JPanel {
         parentComponent.add(goBackButton);
     }
 
+    public void setSelectorsToDefaultValue() {
+        setRootToAllUsers();
+        setWordToAllWords();
+    }
+
+    public void setRootToAllUsers() {
+        userSelector.setSelectedItem(ALL_USERS);
+    }
+
+    private void setWordToAllWords() {
+        wordSelector.setSelectedItem("ALL");
+    }
+
+    public void updateGUI() {
+        loadFileNavigator();
+        loadTotalOfWords();
+        loadTotalAudioLength();
+        revalidate();
+        repaint();
+    }
 }
