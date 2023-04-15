@@ -13,17 +13,17 @@ public class HotkeyAdder {
     }
 
     public static void addHotkey(JComponent component, int key, Runnable actionPerformed, String name) {
-        // define the action to be performed when the shortcut is pressed
+        // Define the action to be performed when the shortcut is pressed
         Action action = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
                 actionPerformed.run();
             }
         };
 
-        // create a KeyStroke object to represent the key combination
+        // Create a KeyStroke object to represent the key combination
         KeyStroke keyStroke = KeyStroke.getKeyStroke(key, 0);
 
-        // map the key combination to the action using the component's input map
+        // Map the key combination to the action using the component's input map
         component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, name);
         component.getActionMap().put(name, action);
     }
