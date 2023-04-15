@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -247,15 +248,17 @@ public class AudioMenu extends JPanel {
     }
 
     private void enableRecordButton() {
-        recordButton.setEnabled(true);
-        recordButton.setText("Record");
-        recordButton.setIcon(recordIcon);
+        changeButtonState(recordButton, "Record", recordIcon, true);
     }
 
     private void disableRecordButton() {
-        recordButton.setEnabled(false);
-        recordButton.setText("R̶e̶c̶o̶r̶d̶");
-        recordButton.setIcon(null);
+        changeButtonState(recordButton, "R̶e̶c̶o̶r̶d̶", null, false);
+    }
+
+    private void changeButtonState(JButton button, String text, Icon icon, boolean enabled) {
+        button.setEnabled(enabled);
+        button.setText(text);
+        button.setIcon(icon);
     }
 
     private void deleteUser() {
@@ -312,15 +315,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void enableDeleteButton() {
-        deleteRecord.setEnabled(true);
-        deleteRecord.setText("Delete");
-        deleteRecord.setIcon(deleteIcon);
+        changeButtonState(deleteRecord, "Delete", deleteIcon, true);
     }
 
     private void disableDeleteButton() {
-        deleteRecord.setEnabled(false);
-        deleteRecord.setText("D̶e̶l̶e̶t̶e̶");
-        deleteRecord.setIcon(null);
+        changeButtonState(deleteRecord, "D̶e̶l̶e̶t̶e̶", null, false);
     }
 
     /**
