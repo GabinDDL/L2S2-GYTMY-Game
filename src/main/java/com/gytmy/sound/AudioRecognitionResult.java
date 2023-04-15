@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.gytmy.utils.RunSH;
+
 public class AudioRecognitionResult {
 
     private AudioRecognitionResult() {
@@ -39,7 +41,7 @@ public class AudioRecognitionResult {
         return tryToAddComputeTestNdxFile(gmmList);
     }
 
-    public static boolean tryToAddComputeTestNdxFile(List<File> gmmList) {
+    private static boolean tryToAddComputeTestNdxFile(List<File> gmmList) {
         try (FileWriter writer = new FileWriter(NDX_LIST_PATH, true);) {
             for (File file : gmmList) {
                 writer.append(getFileBasename(file) + "\n");
@@ -73,4 +75,29 @@ public class AudioRecognitionResult {
         }
         return name.substring(0, index);
     }
+
+    private static void ComputeTest() {
+        String[] argsTrainWorld = {};
+
+        int exitValue = RunSH.run(COMPUTE_TEST_SH_PATH, argsTrainWorld);
+        handleErrorProgram("trainWorld", exitValue);
+
+    }
+
+    private static void handleErrorProgram(String program, int exitValue) {
+        if (exitValue != 0) {
+            printErrorRun(program);
+        }
+    }
+
+    /**
+     * Print the error message of the program
+     * 
+     */
+    private static void printErrorRun(String program) {
+        System.out.println("There is a problem with the program : " + program
+                + "\nThe problem happens when the program tries to compare models with the current Audio"
+                + "\nMaybe try to update the models.\n");
+    }
+
 }
