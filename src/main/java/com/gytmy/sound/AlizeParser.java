@@ -44,14 +44,14 @@ public class AlizeParser {
         }
 
         @Override
-        public boolean equals(Object o) {
-            if (o == this) {
+        public boolean equals(Object object) {
+            if (object == this) {
                 return true;
             }
-            if (!(o instanceof AlizeResult)) {
+            if (!(object instanceof AlizeResult)) {
                 return false;
             }
-            AlizeResult other = (AlizeResult) o;
+            AlizeResult other = (AlizeResult) object;
             return this.name.equals(other.name) && this.word.equals(other.word) && this.value == other.value;
         }
 
