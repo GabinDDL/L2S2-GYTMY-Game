@@ -5,24 +5,24 @@ import java.io.FileNotFoundException;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class AlizeParser {
+public class AlizeRecognitionResultParser {
 
-    private AlizeParser() {
+    private AlizeRecognitionResultParser() {
     }
 
-    public static class AlizeResult {
-        public static final AlizeResult DEFAULT_ALIZE_RESULT = new AlizeResult();
+    public static class AlizeRecognitionResult {
+        public static final AlizeRecognitionResult DEFAULT_ALIZE_RESULT = new AlizeRecognitionResult();
         private String name;
         private String word;
         private double value;
 
-        public AlizeResult() {
+        public AlizeRecognitionResult() {
             this.name = "";
             this.word = "";
             this.value = Double.NEGATIVE_INFINITY;
         }
 
-        public AlizeResult(String name, String word, double value) {
+        public AlizeRecognitionResult(String name, String word, double value) {
             this.name = name;
             this.word = word;
             this.value = value;
@@ -34,8 +34,8 @@ public class AlizeParser {
             this.value = value;
         }
 
-        public AlizeResult copy() {
-            return new AlizeResult(name, word, value);
+        public AlizeRecognitionResult copy() {
+            return new AlizeRecognitionResult(name, word, value);
         }
 
         @Override
@@ -48,10 +48,10 @@ public class AlizeParser {
             if (object == this) {
                 return true;
             }
-            if (!(object instanceof AlizeResult)) {
+            if (!(object instanceof AlizeRecognitionResult)) {
                 return false;
             }
-            AlizeResult other = (AlizeResult) object;
+            AlizeRecognitionResult other = (AlizeRecognitionResult) object;
             return this.name.equals(other.name) && this.word.equals(other.word) && this.value == other.value;
         }
 
@@ -77,9 +77,9 @@ public class AlizeParser {
      * Parses the given file and returns the AlizeResult with the highest value.
      * The path to the file must be relative to the project root.
      */
-    public static AlizeResult parseFile(File inputFile) {
+    public static AlizeRecognitionResult parseFile(File inputFile) {
 
-        AlizeResult result = new AlizeResult();
+        AlizeRecognitionResult result = new AlizeRecognitionResult();
 
         try (Scanner scanner = new Scanner(inputFile)) {
             while (scanner.hasNextLine()) {
