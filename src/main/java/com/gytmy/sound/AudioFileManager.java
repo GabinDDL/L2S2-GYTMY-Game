@@ -239,7 +239,7 @@ public class AudioFileManager {
     public static void deleteRecording(String firstName, String wordToRecord, int i) {
         User user = YamlReader.read(SRC_DIR_PATH + firstName.toUpperCase() + "/config.yaml");
 
-        deleteRecording(user.audioPath() + wordToRecord + "/" + wordToRecord + i + ".wav");
+        deleteRecording(user.audioPath() + wordToRecord + "/" + firstName + "_" + wordToRecord + i + ".wav");
 
         user.setUpToDate(false);
         YamlReader.write(user.yamlConfigPath(), user);
@@ -273,8 +273,8 @@ public class AudioFileManager {
         int diff = 1;
         for (int index = wordIndex + 1; index <= numberOfRecordings; index++) {
 
-            File fileToRename = new File(userDirectory + "/" + word + index + ".wav");
-            File newFile = new File(userDirectory + "/" + word + (index - diff) + ".wav");
+            File fileToRename = new File(userDirectory + "/" + firstName + "_" + word + index + ".wav");
+            File newFile = new File(userDirectory + "/" + firstName + "_" + word + (index - diff) + ".wav");
 
             if (fileToRename.exists()) {
                 fileToRename.renameTo(newFile);
@@ -326,7 +326,7 @@ public class AudioFileManager {
             atLeastOneDirectoryWasCreated = true;
         }
 
-        atLeastOneDirectoryWasCreated = ModelManager.tryToCreateModelDirectoryOfWord(user, word)
+        atLeastOneDirectoryWasCreated = ModelManager.tryToCreateModelDirectoriesOfWord(user, word)
                 || atLeastOneDirectoryWasCreated;
 
         return atLeastOneDirectoryWasCreated;
@@ -375,6 +375,6 @@ public class AudioFileManager {
     }
 
     private static boolean audioFileContainsWord(File file, String word) {
-        return isAudioFile(file) && file.getName().startsWith(word);
+        return isAudioFile(file) && file.getName().contains(word);
     }
 }
