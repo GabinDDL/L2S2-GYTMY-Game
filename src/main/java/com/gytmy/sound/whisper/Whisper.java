@@ -24,9 +24,9 @@ public class Whisper {
         }
     };
 
-    public static String WHISPER_PATH = "src/main/exe/whisper/whisper.sh";
+    public static final String WHISPER_PATH = "src/main/exe/whisper/whisper.sh";
 
-    private JsonParser<WhisperResult> whisperJsonParser = new JsonParser<WhisperResult>();
+    private JsonParser<WhisperResult> whisperJsonParser = new JsonParser<>();
 
     private boolean isGPU;
     private Model model;                // The whisper model to use
