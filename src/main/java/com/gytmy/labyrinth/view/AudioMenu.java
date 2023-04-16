@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -57,6 +58,7 @@ public class AudioMenu extends JPanel {
 
     // Word Panel Components
     private JLabel totalOfWords;
+    private JLabel totalAudioLength;
     private JButton recordButton;
     private JButton deleteRecord;
 
@@ -230,20 +232,32 @@ public class AudioMenu extends JPanel {
         if (user == ALL_USERS) {
             deleteUserButton.setEnabled(false);
             editUserButton.setEnabled(false);
-            recordButton.setEnabled(false);
-
+            disableRecordButton();
         } else {
             actualJTreeRootPath += user.getFirstName();
             deleteUserButton.setEnabled(true);
             editUserButton.setEnabled(true);
 
             if (!wordSelector.getSelectedItem().equals("ALL")) {
-                recordButton.setEnabled(true);
+                enableRecordButton();
             }
         }
 
-        loadFileNavigator();
-        loadTotalOfWords();
+        updateGUI();
+    }
+
+    private void enableRecordButton() {
+        changeButtonState(recordButton, "Record", recordIcon, true);
+    }
+
+    private void disableRecordButton() {
+        changeButtonState(recordButton, "R̶e̶c̶o̶r̶d̶", null, false);
+    }
+
+    private void changeButtonState(JButton button, String text, Icon icon, boolean enabled) {
+        button.setEnabled(enabled);
+        button.setText(text);
+        button.setIcon(icon);
     }
 
     private void deleteUser() {
@@ -258,6 +272,8 @@ public class AudioMenu extends JPanel {
             AudioFileManager.removeUser(user);
             userSelector.removeItem(user);
         }
+
+        updateGUI();
     }
 
     /**
@@ -273,9 +289,7 @@ public class AudioMenu extends JPanel {
         audioToLoad = "";
 
         if (deleteRecord != null) {
-            deleteRecord.setEnabled(false);
-            deleteRecord.setText("D̶e̶l̶e̶t̶e̶");
-            deleteRecord.setIcon(null);
+            disableDeleteButton();
         }
 
         fileNavigator = new FileTree(actualJTreeRootPath);
@@ -286,23 +300,54 @@ public class AudioMenu extends JPanel {
             audioToLoad = ((FileTree) fileNavigator).getSelectedFilePath();
             if (audioToLoad.endsWith(".wav")) {
                 playAndStopButton.setEnabled(true);
-                deleteRecord.setEnabled(true);
-                deleteRecord.setIcon(deleteIcon);
-                deleteRecord.setText("Delete");
+                enableDeleteButton();
             } else {
                 playAndStopButton.setEnabled(false);
-                deleteRecord.setEnabled(false);
-                deleteRecord.setText("D̶e̶l̶e̶t̶e̶");
-                deleteRecord.setIcon(null);
+                disableDeleteButton();
             }
         });
 
         scrollPane = new JScrollPane(fileNavigator);
 
         add(scrollPane, BorderLayout.CENTER);
+    }
 
-        revalidate();
-        repaint();
+    public void loadTotalAudioLength() {
+        totalAudioLength.setText(getTotalAudioLength());
+    }
+
+    private String getTotalAudioLength() {
+        User selectedUser = (User) userSelector.getSelectedItem();
+        String selectedWord = (String) wordSelector.getSelectedItem();
+
+        if (selectedUser == ALL_USERS && selectedWord.equals("ALL")) {
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFiles() * 10) / 10 + " seconds";
+        }
+        if (selectedUser == ALL_USERS) {
+            return Math
+                    .floor(AudioFileManager
+                            .getTotalDurationOfAllAudioFilesForSpecificWord(selectedWord) * 10)
+                    / 10
+                    + " seconds";
+        }
+
+        if (selectedWord.equals("ALL")) {
+            return Math.floor(AudioFileManager.getTotalDurationOfAllAudioFilesOfUser(selectedUser) * 10) / 10
+                    + " seconds";
+        }
+
+        return Math.floor(
+                AudioFileManager.getTotalDurationOfAllAudioFilesOfUserForSpecificWord(selectedUser, selectedWord) * 10)
+                / 10
+                + " seconds";
+    }
+
+    private void enableDeleteButton() {
+        changeButtonState(deleteRecord, "Delete", deleteIcon, true);
+    }
+
+    private void disableDeleteButton() {
+        changeButtonState(deleteRecord, "D̶e̶l̶e̶t̶e̶", null, false);
     }
 
     /**
@@ -313,11 +358,12 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
-        JPanel audioPanel = new JPanel(new GridLayout(8, 1));
+        JPanel audioPanel = new JPanel(new GridLayout(9, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
         initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
+        initTotalAudioLength(audioPanel);
         initDeleteRecordButton(audioPanel);
         initRecordButton(audioPanel);
         initLabelDuration(audioPanel);
@@ -341,6 +387,14 @@ public class AudioMenu extends JPanel {
         initColors(totalOfWords);
         totalOfWords.setHorizontalAlignment(SwingConstants.CENTER);
         parenComponent.add(totalOfWords);
+    }
+
+    private void initTotalAudioLength(JComponent parentComponent) {
+        totalAudioLength = new JLabel();
+        loadTotalAudioLength();
+        initColors(totalAudioLength);
+        totalAudioLength.setHorizontalAlignment(SwingConstants.CENTER);
+        parentComponent.add(totalAudioLength);
     }
 
     private void initRecordButton(JComponent parentComponent) {
@@ -371,18 +425,15 @@ public class AudioMenu extends JPanel {
     }
 
     private void wordHasBeenChanged() {
-        loadTotalOfWords();
 
-        recordButton.setEnabled(false);
-        recordButton.setText("R̶e̶c̶o̶r̶d̶");
-        recordButton.setIcon(null);
+        disableRecordButton();
         if (wordSelector.getSelectedItem().equals("ALL")) {
             recordButton.setEnabled(false);
         } else if ((User) userSelector.getSelectedItem() != ALL_USERS) {
-            recordButton.setEnabled(true);
-            recordButton.setText("Record");
-            recordButton.setIcon(recordIcon);
+            enableRecordButton();
         }
+
+        updateGUI();
     }
 
     private void loadTotalOfWords() {
@@ -446,8 +497,8 @@ public class AudioMenu extends JPanel {
 
             AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
                     totalRecordsBeforeDelete);
-            loadFileNavigator();
-            loadTotalOfWords();
+
+            updateGUI();
 
             playAndStopButton.setEnabled(false);
         }
@@ -557,4 +608,24 @@ public class AudioMenu extends JPanel {
         parentComponent.add(goBackButton);
     }
 
+    public void setSelectorsToDefaultValue() {
+        setRootToAllUsers();
+        setWordToAllWords();
+    }
+
+    public void setRootToAllUsers() {
+        userSelector.setSelectedItem(ALL_USERS);
+    }
+
+    private void setWordToAllWords() {
+        wordSelector.setSelectedItem("ALL");
+    }
+
+    public void updateGUI() {
+        loadFileNavigator();
+        loadTotalOfWords();
+        loadTotalAudioLength();
+        revalidate();
+        repaint();
+    }
 }

@@ -46,6 +46,7 @@ public class MenuFrameHandler {
 
     public static void goToAudioMenu() {
         changeJPanel(audioMenu, "Audio");
+        audioMenu.updateGUI();
     }
 
     private static void changeJPanel(JPanel panel, String subtitle) {
