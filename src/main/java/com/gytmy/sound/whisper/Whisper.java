@@ -24,7 +24,7 @@ public class Whisper {
         }
     };
 
-    public static final String WHISPER_PATH = System.getProperty("user.dir")+ "/src/main/exe/whisper/whisper.sh";
+    public static final String WHISPER_PATH = "src/main/exe/whisper/whisper.sh";
 
     private JsonParser<WhisperResult> whisperJsonParser = new JsonParser<>();
 
@@ -44,13 +44,12 @@ public class Whisper {
      * @return The text extracted from the audio file
      */
     public String run(String directoryPath, String fileName, String outputPath) {
-
         System.out.println(WHISPER_PATH);
-        System.out.println(getFullFilePath(directoryPath, fileName));
-        System.out.println(getFullOutputPath(outputPath));
+        System.out.println(getAudioFilePath(directoryPath, fileName));
+        System.out.println(getOutputPath(outputPath));
         
-        String[] args = { "-d", getDeviceName(isGPU), "-m", model.getModelName(), "-a", getFullFilePath(directoryPath, fileName),
-                "-o", getFullOutputPath(outputPath)};
+        String[] args = { "-d", getDeviceName(isGPU), "-m", model.getModelName(), "-a", getAudioFilePath(directoryPath, fileName),
+                "-o", getOutputPath(outputPath)};
 
         int exitCode = RunSH.run(WHISPER_PATH, args);
 
@@ -83,9 +82,8 @@ public class Whisper {
      * @param fileName      The name of the file
      * @return The full path to the file
      */
-    private String getFullFilePath(String directoryPath, String fileName) {
-        String projectPathBase = System.getProperty("user.dir");
-        return projectPathBase + "/" + directoryPath + "/" + fileName + ".wav";
+    private String getAudioFilePath(String directoryPath, String fileName) {
+        return directoryPath + "/" + fileName + ".wav";
     }
 
     /**
@@ -93,8 +91,7 @@ public class Whisper {
      * @param directoryPath The path to the output directory
      * @return The full path to the output directory
      */
-    private String getFullOutputPath(String directoryPath) {
-        String projectPathBase = System.getProperty("user.dir");
-        return projectPathBase + "/" + directoryPath + "/";
+    private String getOutputPath(String directoryPath) {
+        return directoryPath + "/";
     }
 }
