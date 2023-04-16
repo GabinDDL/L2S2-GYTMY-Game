@@ -17,7 +17,7 @@ public class TestWhisper {
     @Ignore // This test is ignored because it takes to long on the CI server
     @Test
     public void testWhisper() {
-        Whisper whisper = new Whisper(false, Whisper.Model.TINY_EN);
+        Whisper whisper = new Whisper(Whisper.Model.TINY_EN);
         // Assert that the following code does not throw an exception
         whisper.run(AUDIO_FULL_PATH, AUDIO_FILE_NAME, JSON_DIRECTORY_PATH);
         assertTrue(Files.exists(Paths.get(JSON_DIRECTORY_PATH, AUDIO_FILE_NAME + ".json")));
