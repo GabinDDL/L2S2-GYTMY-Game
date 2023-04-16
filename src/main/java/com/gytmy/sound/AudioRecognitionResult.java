@@ -15,7 +15,7 @@ public class AudioRecognitionResult {
     public static final String COMPUTE_TEST_SH_PATH = EXE_PATH + "ComputeTest.sh";
     public static final String NDX_LIST_PATH = EXE_PATH + "ndx/Liste.ndx";
 
-    public static final String CLIENT_PATH = "src/ressources/audioFiles/client/";
+    public static final String CLIENT_PATH = "src/resources/audioFiles/client/";
     public static final String CLIENT_AUDIO_PATH = CLIENT_PATH + "audio/";
     public static final String CLIENT_MODEL_PATH = CLIENT_PATH + "model/";
     public static final String CLIENT_RESULT_PATH = CLIENT_MODEL_PATH + "RecognitionResult.txt";
@@ -25,7 +25,7 @@ public class AudioRecognitionResult {
      * @return the result of comparaison
      *         null otherwise
      */
-    public AlizeRecognitionResultParser.AlizeRecognitionResult getRecognitionResult() {
+    public static AlizeRecognitionResultParser.AlizeRecognitionResult getRecognitionResult() {
         if (!manageComparaison()) {
             return null;
         }
@@ -45,11 +45,7 @@ public class AudioRecognitionResult {
      *         ComputeTest
      */
     private static boolean manageComparaison() {
-        if (!initComparaison() || !tryToResetComputeTestNdxFile()) {
-            return false;
-        }
-
-        if (!tryToUpdateComputeTestNdxFile()) {
+        if (!initComparaison()) {
             return false;
         }
 
