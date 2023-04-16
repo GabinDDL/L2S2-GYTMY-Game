@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
+import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
 import com.gytmy.utils.RunSH;
 
 public class AudioRecognitionResult {
@@ -25,7 +26,7 @@ public class AudioRecognitionResult {
      * @return the result of comparaison
      *         null otherwise
      */
-    public static AlizeRecognitionResultParser.AlizeRecognitionResult getRecognitionResult() {
+    public static AlizeRecognitionResult getRecognitionResult() {
         if (!manageComparaison()) {
             return null;
         }
