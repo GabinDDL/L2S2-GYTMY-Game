@@ -99,27 +99,34 @@ function install_python() {
         ;;
     esac
 
+    # Check if the user has administrative privileges
+    if [[ $EUID -ne 0 ]]; then
+        SUDO="sudo"
+    else
+        SUDO=""
+    fi
+
     # Install Python 3.10
     if [ -f /etc/debian_version ]; then
         # Debian-based system
         info "Detected Debian-based system."
-        sudo apt-get update
-        sudo apt-get install python3 -y
-        sudo apt-get install python3-pip
+        $SUDO apt-get update
+        $SUDO apt-get install python3 -y
+        $SUDO apt-get install python3-pip
 
     elif [ -f /etc/fedora-release ]; then
         # Fedora system
         info "Detected Fedora system."
-        sudo dnf update
-        sudo dnf install python3 -y
-        sudo dnf install python3-pip
+        $SUDO dnf update
+        $SUDO dnf install python3 -y
+        $SUDO dnf install python3-pip
 
     elif [ -f /etc/arch-release ]; then
         # Arch-based system
         info "Detected Arch-based system."
-        sudo pacman -Syu
-        sudo pacman -S python3 -y
-        sudo pacman -S python-pip
+        $SUDO pacman -Syu
+        $SUDO pacman -S python3 -y
+        $SUDO pacman -S python-pip
     else
         # Unsupported system
         error "Unsupported operating system."
