@@ -53,7 +53,7 @@ public class Whisper {
         if (exitCode == 0) {
             try {
                 WhisperResult whisperResult = (WhisperResult) whisperJsonParser.parseJsonFromFile(outputPath + "/" + fileName + ".json", WhisperResult.class);
-                return whisperResult.getText();
+                return removeNonAlphabet(whisperResult.getText());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,5 +71,12 @@ public class Whisper {
      */
     private String getDeviceName(boolean isGPU) {
         return isGPU ? "cuda" : "cpu";
+    }
+
+    /**
+     * Remove non-alphanumeric characters from the given string
+     */
+    public static String removeNonAlphabet(String text) {
+        return text.replaceAll("[^a-zA-Z]", "");
     }
 }

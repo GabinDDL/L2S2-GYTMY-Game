@@ -19,6 +19,7 @@ import com.gytmy.sound.RecordObserver;
 import com.gytmy.sound.whisper.Whisper;
 import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.Coordinates;
+import com.gytmy.utils.CudaAvailability;
 import com.gytmy.utils.HotkeyAdder;
 
 public class LabyrinthControllerImplementation implements LabyrinthController, RecordObserver {
@@ -32,6 +33,8 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
+
+    private Whisper whisper = new Whisper(CudaAvailability.isCudaAvailable(), Model.TINY_EN);
 
     public enum MovementControllerType {
         KEYBOARD
@@ -106,7 +109,19 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private void compareAudioWithModel() {
         // TODO : @selvakum - @gdudilli - compare with model
 
-        new File(AUDIO_GAME_PATH).delete();
+        new Thread(() -> {
+            try {
+                String recognizedCommand = whisper.run(AUDIO_GAME_PATH, "currentGameAudio", JSON_OUTPUT_PATH);
+                System.out.println("");
+                System.out.print("Recognized Command : ");
+                System.out.println(recognizedCommand);
+                System.out.println("");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            new File(AUDIO_GAME_PATH).delete();
+        }).start();
     }
 
     @Override
