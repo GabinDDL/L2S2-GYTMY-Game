@@ -29,8 +29,14 @@ hs_err_pid*
 *.prettierrc
 .vscode/
 
+# Model Files
+*.gmm
+*.prm
+*.lbl
+
 # Project 
 bin/
 sources.txt
+src/resources/audioFiles/client/model/RecognitionResult.txt
 
 .DS_Store
