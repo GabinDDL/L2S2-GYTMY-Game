@@ -135,10 +135,12 @@ public class ModelManager {
                 if (!tryToUpdateNdxAndLstFileOfUserWord(user, recordedWord)) {
                         return;
                 }
+                String listPathOfUser = user.modelPath() + recordedWord + LIST_LST_PATH;
+                String audioPathOfUser = user.audioPath() + recordedWord + "/";
 
-                parametrize(user, recordedWord);
-                energyDetector(user, recordedWord);
-                normFeat(user, recordedWord);
+                parametrize(listPathOfUser, audioPathOfUser, user.getFirstName(), recordedWord);
+                energyDetector(listPathOfUser, user.getFirstName(), recordedWord);
+                normFeat(listPathOfUser, user.getFirstName(), recordedWord);
         }
 
         /**
@@ -251,7 +253,19 @@ public class ModelManager {
          * 
          */
         public static boolean tryToResetLstFilesOfUserWord(User user, String recordedWord) {
-                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_LST_PATH, false);) {
+                return tryToResetLstFile(user.modelPath() + recordedWord + LIST_LST_PATH);
+        }
+
+        /**
+         * Tries to reset the lst file.
+         * 
+         * This file should exist.
+         * 
+         * @param lstPath
+         * @return false if there is a problem while handling the file.
+         */
+        public static boolean tryToResetLstFile(String lstPath) {
+                try (FileWriter writer = new FileWriter(lstPath, false);) {
                         writer.append("");
                         return true;
                 } catch (IOException e) {
@@ -270,8 +284,21 @@ public class ModelManager {
          * 
          */
         public static boolean tryToResetNdxFilesOfUserWord(User user, String recordedWord) {
-                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_NDX_PATH, false);) {
-                        writer.append(user.getFirstName() + "_" + recordedWord);
+                return tryToResetNdxFile(user.modelPath() + recordedWord + LIST_NDX_PATH,
+                                user.getFirstName() + "_" + recordedWord);
+        }
+
+        /**
+         * Tries to reset the ndx file, and adds the word at the start of the file
+         * This file should exist.
+         * 
+         * @param path
+         * @param startWord
+         * @return false if there is a problem while handling the file
+         */
+        public static boolean tryToResetNdxFile(String path, String startWord) {
+                try (FileWriter writer = new FileWriter(path, false);) {
+                        writer.append(startWord);
                         return true;
                 } catch (IOException e) {
                         return false;
@@ -324,8 +351,19 @@ public class ModelManager {
          * @return false if there is a problem with the file of the user's word
          */
         public static boolean tryToAddAudiosToLstFilesOfUserWord(User user, String recordedWord, List<File> audioList) {
-                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/ListLST.lst", true);) {
-                        for (File file : audioList) {
+                return tryToAddListToLstFile(audioList, user.modelPath() + recordedWord + LIST_LST_PATH);
+        }
+
+        /**
+         * Appends the name of the files to the lst file
+         * 
+         * @param list
+         * @param lstPath
+         * @return false if there is a problem with the file
+         */
+        public static boolean tryToAddListToLstFile(List<File> list, String lstPath) {
+                try (FileWriter writer = new FileWriter(lstPath, true);) {
+                        for (File file : list) {
                                 writer.append(getFileBasename(file) + "\n");
                         }
                         return true;
@@ -346,8 +384,19 @@ public class ModelManager {
          */
         public static boolean tryToAddAudiosToNdxFilesOfUserWord(User user, String recordedWord,
                         List<File> audioList) {
-                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/ndx/ListNDX.ndx", true);) {
-                        for (File file : audioList) {
+                return tryToAddListToNdxFile(audioList, user.modelPath() + recordedWord + LIST_NDX_PATH);
+        }
+
+        /**
+         * Appends the name of the files to the ndx file
+         * 
+         * @param list
+         * @param ndxPath
+         * @return false if there is a problem with the file
+         */
+        public static boolean tryToAddListToNdxFile(List<File> list, String ndxPath) {
+                try (FileWriter writer = new FileWriter(ndxPath, true);) {
+                        for (File file : list) {
                                 writer.append(" " + getFileBasename(file));
                         }
                         return true;
@@ -377,41 +426,40 @@ public class ModelManager {
         }
 
         /**
-         * @param user
-         * @param recordedWord
+         * @param listPath
+         * @param audioPath
+         * @param name
+         * @param word
          */
-        private static void parametrize(User user, String recordedWord) {
-                String[] argsParametrize = { user.modelPath() + recordedWord + LIST_LST_PATH,
-                                user.audioPath() + recordedWord + "/" };
+        protected static void parametrize(String listPath, String audioPath, String name, String word) {
+                String[] argsParametrize = { listPath, audioPath };
 
                 int exitValue = RunSH.run(PARAMETRIZE_SH_PATH, argsParametrize);
-                handleErrorProgram("parametrize (sfbcep)", exitValue, user.getFirstName(), recordedWord);
+                handleErrorProgram("parametrize (sfbcep)", exitValue, name, word);
         }
 
         /**
-         * @param user
-         * @param recordedWord
+         * @param listPath
+         * @param name
+         * @param word
          */
-        private static void energyDetector(User user, String recordedWord) {
-                String[] argsEnergyDetector = {
-                                user.modelPath() + recordedWord + LIST_LST_PATH
-                };
+        protected static void energyDetector(String listPath, String name, String word) {
+                String[] argsEnergyDetector = { listPath };
 
                 int exitValue = RunSH.run(ENERGY_DETECTOR_SH_PATH, argsEnergyDetector);
-                handleErrorProgram("energyDetector", exitValue, user.getFirstName(), recordedWord);
+                handleErrorProgram("energyDetector", exitValue, name, word);
         }
 
         /**
-         * @param user
-         * @param recordedWord
+         * @param listPath
+         * @param name
+         * @param word
          */
-        private static void normFeat(User user, String recordedWord) {
-                String[] argsNormFeat = {
-                                user.modelPath() + recordedWord + LIST_LST_PATH
-                };
+        protected static void normFeat(String listPath, String name, String word) {
+                String[] argsNormFeat = { listPath };
 
                 int exitValue = RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
-                handleErrorProgram("normFeat", exitValue, user.getFirstName(), recordedWord);
+                handleErrorProgram("normFeat", exitValue, name, word);
         }
 
         private static void resetModel() {
@@ -430,13 +478,7 @@ public class ModelManager {
          * @return false if there is a problem while handling the lst file
          */
         private static boolean tryToResetWorldLstFile() {
-                try (FileWriter writer = new FileWriter(LST_WORLD_PATH, false);) {
-                        writer.append("");
-                        return true;
-                } catch (IOException e) {
-                        e.printStackTrace();
-                        return false;
-                }
+                return tryToResetLstFile(LST_WORLD_PATH);
         }
 
         /**
@@ -478,21 +520,9 @@ public class ModelManager {
          * @return false if there is a problem with the file of the user's word.
          */
         public static boolean tryToAddWorldLstFile(List<File> normPRMList) {
-                try (FileWriter writer = new FileWriter(LST_WORLD_PATH, true);) {
-                        for (File file : normPRMList) {
-                                writer.append(getFileBasename(file) + "\n");
-                        }
-                        return true;
-                } catch (IOException e) {
-                        e.printStackTrace();
-                        return false;
-                }
+                return tryToAddListToLstFile(normPRMList, LST_WORLD_PATH);
         }
 
-        /**
-         * @param user
-         * @param recordedWord
-         */
         private static void trainWorld() {
                 String[] argsTrainWorld = {};
 
@@ -509,23 +539,24 @@ public class ModelManager {
                 for (User u : users) {
                         for (String recordedWord : WordsToRecord.getWordsToRecord()) {
                                 if (doesUserHaveDataOfWord(u, recordedWord)) {
-                                        trainTarget(u, recordedWord);
+                                        trainTarget(u.modelPath() + recordedWord + LIST_NDX_PATH,
+                                                        u.getFirstName(),
+                                                        recordedWord);
                                 }
                         }
                 }
         }
 
         /**
-         * @param user
-         * @param recordedWord
+         * @param listPath
+         * @param name
+         * @param word
          */
-        private static void trainTarget(User user, String recordedWord) {
-                String[] argsNormFeat = {
-                                user.modelPath() + recordedWord + LIST_NDX_PATH
-                };
+        private static void trainTarget(String listPath, String name, String word) {
+                String[] argsNormFeat = { listPath };
 
                 int exitValue = RunSH.run(TRAIN_TARGET_SH_PATH, argsNormFeat);
-                handleErrorProgram("trainTarget", exitValue, user.getFirstName(), recordedWord);
+                handleErrorProgram("trainTarget", exitValue, name, word);
         }
 
         protected static void resetParameter() {
@@ -555,7 +586,7 @@ public class ModelManager {
          * @param userName
          * @param recordedWord
          */
-        private static void handleErrorProgram(String program, int exitValue, String userName, String recordedWord) {
+        protected static void handleErrorProgram(String program, int exitValue, String userName, String recordedWord) {
                 if (exitValue != 0) {
                         printErrorRun(program, userName, recordedWord);
                 }
@@ -589,55 +620,10 @@ public class ModelManager {
          * @param userName
          * @param recordedWord
          */
-        private static void printErrorRun(String program, String userName, String recordedWord) {
+        protected static void printErrorRun(String program, String userName, String recordedWord) {
                 System.out.println("There is a problem with the program : " + program
                                 + "\nThe problem happens when the program tries to model the word \"" + recordedWord
                                 + "\" from the user " + userName + "\nMaybe try to update the audio of this word"
                                 + "(The audio must not be empty or too short)");
-        }
-
-        protected static void createPrmOfCurrentAudio() {
-                resetParameter();
-                parametrizeClient();
-                energyDetectorClient();
-                normFeatClient();
-        }
-
-        /**
-         * @param user
-         * @param recordedWord
-         */
-        private static void parametrizeClient() {
-                String[] argsParametrize = { AudioRecognitionResult.CLIENT_LST_LIST_PATH,
-                                AudioRecognitionResult.CLIENT_AUDIO_PATH };
-
-                int exitValue = RunSH.run(PARAMETRIZE_SH_PATH, argsParametrize);
-                handleErrorProgram("parametrize (sfbcep)", exitValue);
-        }
-
-        /**
-         * @param user
-         * @param recordedWord
-         */
-        private static void energyDetectorClient() {
-                String[] argsEnergyDetector = {
-                                AudioRecognitionResult.CLIENT_LST_LIST_PATH
-                };
-
-                int exitValue = RunSH.run(ENERGY_DETECTOR_SH_PATH, argsEnergyDetector);
-                handleErrorProgram("energyDetector", exitValue);
-        }
-
-        /**
-         * @param user
-         * @param recordedWord
-         */
-        private static void normFeatClient() {
-                String[] argsNormFeat = {
-                                AudioRecognitionResult.CLIENT_LST_LIST_PATH
-                };
-
-                int exitValue = RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
-                handleErrorProgram("normFeat", exitValue);
         }
 }

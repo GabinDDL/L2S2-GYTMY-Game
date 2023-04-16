@@ -1,8 +1,6 @@
 package com.gytmy.sound;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
@@ -23,6 +21,10 @@ public class AudioRecognitionResult {
     public static final String CLIENT_RESULT_PATH = CLIENT_MODEL_PATH + "RecognitionResult.txt";
     public static final String CLIENT_LST_LIST_PATH = CLIENT_MODEL_PATH + "lst/Liste.lst";
 
+    /**
+     * @return the result of comparaison
+     *         null otherwise
+     */
     public AlizeRecognitionResultParser.AlizeRecognitionResult getRecognitionResult() {
         if (!manageComparaison()) {
             return null;
@@ -37,7 +39,7 @@ public class AudioRecognitionResult {
     }
 
     /**
-     * Init and run ComputeTest program
+     * Initialize and run ComputeTest program
      * 
      * @return true if there is no error during the initialization of the
      *         ComputeTest
@@ -65,18 +67,12 @@ public class AudioRecognitionResult {
         if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
             return false;
         }
-        ModelManager.createPrmOfCurrentAudio();
+        createPrmOfCurrentAudio();
         return true;
     }
 
     private static boolean tryToResetComputeTestNdxFile() {
-        try (FileWriter writer = new FileWriter(NDX_LIST_PATH, false);) {
-            writer.append("currentGameAudio");
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return ModelManager.tryToResetNdxFile(NDX_LIST_PATH, "currentGameAudio");
     }
 
     private static boolean tryToUpdateComputeTestNdxFile() {
@@ -92,15 +88,7 @@ public class AudioRecognitionResult {
     }
 
     private static boolean tryToAddComputeTestNdxFile(List<File> gmmList) {
-        try (FileWriter writer = new FileWriter(NDX_LIST_PATH, true);) {
-            for (File file : gmmList) {
-                writer.append(getFileBasename(file) + " ");
-            }
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return ModelManager.tryToAddListToNdxFile(gmmList, NDX_LIST_PATH);
     }
 
     /**
@@ -115,23 +103,13 @@ public class AudioRecognitionResult {
         return file.isFile() && file.getName().endsWith(".gmm") && !file.getName().startsWith("wld");
     }
 
-    /**
-     * By convention, the name of a file is constitued of the basename
-     * and its extensions, _e.g._ basename.extension1.extension2...
-     *
-     * @example getFileBasename("test.wav") --> "test"
-     * @example getFileBasename("newTest.tar.gz") --> "newTest"
-     * @param file The file from which we want the basename
-     * @return The basename of the file
-     */
-    private static String getFileBasename(File file) {
-        String name = file.getName();
-        int index = file.getName().indexOf('.');
-
-        if (index == -1) {
-            return name;
-        }
-        return name.substring(0, index);
+    protected static void createPrmOfCurrentAudio() {
+        String client = "client";
+        String other = "other";
+        ModelManager.resetParameter();
+        ModelManager.parametrize(CLIENT_LST_LIST_PATH, CLIENT_AUDIO_PATH, client, other);
+        ModelManager.energyDetector(CLIENT_LST_LIST_PATH, client, other);
+        ModelManager.normFeat(CLIENT_LST_LIST_PATH, client, other);
     }
 
     private static void computeTest() {
