@@ -38,8 +38,11 @@ public class AudioToFile {
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
-        String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
+        String path = user.audioPath() + recordedWord + "/" + user.getFirstName() + "_" + recordedWord
+                + numberOfRecordings
+                + ".wav";
         currentRecordingFile = path;
+
         audioRecorder = AudioRecorder.getInstance();
         audioRecorder.start(path);
 

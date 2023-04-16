@@ -21,15 +21,33 @@ public class ModelManager {
         public static final String ENERGY_DETECTOR_SH_PATH = EXE_PATH + "EnergyDetector.sh";
         public static final String NORM_FEAT_SH_PATH = EXE_PATH + "NormFeat.sh";
         public static final String TRAIN_WORLD_SH_PATH = EXE_PATH + "TrainWorld.sh";
+        public static final String TRAIN_TARGET_SH_PATH = EXE_PATH + "TrainTarget.sh";
 
         public static final String PRM_PATH = EXE_PATH + "prm/";
         public static final String LBL_PATH = EXE_PATH + "lbl/";
+        public static final String GMM_PATH = EXE_PATH + "gmm/";
+        public static final String LST_WORLD_PATH = EXE_PATH + "lst/Liste.lst";
 
         public static final String LST_PATH = "/lst/";
-        public static final String LIST_PATH = LST_PATH + "List.lst";
-        public static final String GMM_PATH = "/gmm/";
+        public static final String NDX_PATH = "/ndx/";
+        public static final String LIST_NDX_PATH = NDX_PATH + "ListNDX.ndx";
+        public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
 
-        public static boolean tryToCreateModelDirectoryOfWord(User user, String word) {
+        /**
+         * @param user
+         * @param word
+         * @return true if all directories for the model of a user's word have been
+         *         created.
+         * 
+         *         These directories are :
+         * 
+         *         - Model directory
+         *         - LST directory
+         *         - NDX directory
+         * 
+         *         and these are created in the user's directory in AudioFiles.
+         */
+        public static boolean tryToCreateModelDirectoriesOfWord(User user, String word) {
                 File userModelDirectory = new File(user.modelPath());
 
                 if (!userModelDirectory.exists()) {
@@ -39,11 +57,11 @@ public class ModelManager {
                 if (!AudioFileManager.doesFileExistInDirectory(userModelDirectory, user.modelPath() + word)) {
                         new File(user.modelPath() + word).mkdir();
 
+                        File userNdxDirectory = new File(user.modelPath() + word + NDX_PATH);
+                        userNdxDirectory.mkdir();
+
                         File userLstDirectory = new File(user.modelPath() + word + LST_PATH);
                         userLstDirectory.mkdir();
-
-                        File userGmmDirectory = new File(user.modelPath() + word + GMM_PATH);
-                        userGmmDirectory.mkdir();
 
                         return true;
                 }
@@ -51,11 +69,12 @@ public class ModelManager {
         }
 
         /**
-         * Creates all the models for the given users
+         * Create all models for all users if one of the given users is not UpToDate.
+         * Otherwise, do nothing.
          * 
          * @param firstNameOfUsers
          */
-        public static void createAllModelOfUsers(String[] firstNameOfUsers) {
+        public static void tryToCreateModels(String[] firstNameOfUsers) {
                 if (firstNameOfUsers == null) {
                         return;
                 }
@@ -64,19 +83,37 @@ public class ModelManager {
                         User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
 
                         if (!user.getUpToDate()) {
-                                createAllModelOfRecordedWord(user);
+                                List<User> users = AudioFileManager.getUsers();
+                                createModelOfWorld(users);
+                                createModelOfAllUsers(users);
+                                resetParameter();
+                                return;
                         }
                 }
         }
 
         /**
-         * Creates a model for every word to record from the user's data
+         * Create the world model using the parameters of the users in the list.
+         * 
+         * @param users
+         */
+        public static void createModelOfWorld(List<User> users) {
+                for (User user : users) {
+                        createAllParametersOfRecordedWord(user);
+                }
+                resetModel();
+                tryToUpdateWorldLstFile();
+                trainWorld();
+        }
+
+        /**
+         * Creates all parameters for all existing words from the user's data.
          * 
          * @param user
          */
-        public static void createAllModelOfRecordedWord(User user) {
+        public static void createAllParametersOfRecordedWord(User user) {
                 for (String word : WordsToRecord.getWordsToRecord()) {
-                        createModelOfRecordedWord(user, word);
+                        createParametersOfRecordedWord(user, word);
                 }
 
                 user.setUpToDate(true);
@@ -84,14 +121,46 @@ public class ModelManager {
         }
 
         /**
-         * Tries to init the lst file of the user's word. If the file doesn't exist, it
-         * creates it. If it exists, it resets it.
+         * Initializes the parameters with the updated lst if it is possible.
+         * Then it will apply the parameterization for the user's word.
+         *
+         * @param user
+         * @param recordedWord
+         */
+        public static void createParametersOfRecordedWord(User user, String recordedWord) {
+                if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitParameterization(user, recordedWord)) {
+                        return;
+                }
+
+                if (!tryToUpdateNdxAndLstFileOfUserWord(user, recordedWord)) {
+                        return;
+                }
+
+                parametrize(user, recordedWord);
+                energyDetector(user, recordedWord);
+                normFeat(user, recordedWord);
+        }
+
+        /**
+         * @param user
+         * @param recordedWord
+         * @return true if the user's word file exists.
+         */
+        public static boolean doesUserHaveDataOfWord(User user, String recordedWord) {
+                return new File(user.audioPath() + recordedWord + "/").exists();
+        }
+
+        /**
+         * Tries to init the ndx and lst files of the user's word.
+         * 
+         * If the file doesn't exist, it creates it.
+         * If it exists, it resets it.
          * 
          * @param user
          * @param recordedWord
          * @return
          */
-        private static boolean tryToInitModelOfRecordedWord(User user, String recordedWord) {
+        private static boolean tryToInitParameterization(User user, String recordedWord) {
                 if (!WordsToRecord.exists(recordedWord)) {
                         return false;
                 }
@@ -99,16 +168,15 @@ public class ModelManager {
                 if (!doesAudioFilesHaveAGoodLength(user, recordedWord)) {
                         return false;
                 }
-
-                resetWorldOfWord(user, recordedWord);
-                return tryToInitLstFile(user, recordedWord);
+                return tryToInitLstFilesOfUserWord(user, recordedWord)
+                                && tryToInitNdxFilesOfUserWord(user, recordedWord);
         }
 
         /**
          * @param user
          * @param recordedWord
          * @return true if the total length of the audio files for an specific word is
-         *         greater than {@code upperDuration}(3.5 seconds)
+         *         greater than {@code upperDuration}(3.5 seconds).
          */
         public static boolean doesAudioFilesHaveAGoodLength(User user, String recordedWord) {
                 double upperDuration = 3.5;
@@ -117,80 +185,73 @@ public class ModelManager {
                 List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
 
                 return FileInformationFinder.getAudioLength(list) > upperDuration;
+
         }
 
         /**
-         * Initializes the model with the updated lst if it is possible. Then it will
-         * apply the modeling and end by resetting the modeler.
-         * 
-         * (the modeler is the repertory used to create one model, it needs to be
-         * cleared after each model creation)
-         *
-         * @param user
-         * @param recordedWord
-         */
-        public static void createModelOfRecordedWord(User user, String recordedWord) {
-                if (!doesUserHaveDataOfWord(user, recordedWord) ||
-                                !tryToInitModelOfRecordedWord(user, recordedWord)) {
-                        return;
-                }
-
-                if (!tryToUpdateLstFile(user, recordedWord)) {
-                        return;
-                }
-
-                parametrize(user, recordedWord);
-                energyDetector(user, recordedWord);
-                normFeat(user, recordedWord);
-                trainWorld(user, recordedWord);
-
-                resetModeler();
-        }
-
-        /**
-         * @param user
-         * @param recordedWord
-         * @return true if the user's word file exists
-         */
-        public static boolean doesUserHaveDataOfWord(User user, String recordedWord) {
-                return new File(user.audioPath() + recordedWord + "/").exists();
-        }
-
-        /**
-         * Try to create the new file if it doesn't exist
-         * Try to reset if it does
+         * Try to create the new lst file if it doesn't exist.
+         * Try to reset if it does.
          * 
          * @param user
          * @param recordedWord
-         * @return false if there is an error with the initialisation
+         * @return false if there is an error with the initialisation.
          */
-        public static boolean tryToInitLstFile(User user, String recordedWord) {
+        public static boolean tryToInitLstFilesOfUserWord(User user, String recordedWord) {
                 if (!WordsToRecord.exists(recordedWord)) {
                         return false;
                 }
-                File lstFile = new File(user.modelPath() + recordedWord + LIST_PATH);
+                File lstFile = new File(user.modelPath() + recordedWord + LIST_LST_PATH);
                 try {
                         if (!lstFile.exists()) {
                                 return lstFile.createNewFile();
                         } else {
-                                return tryToResetLstFile(user, recordedWord);
+                                return tryToResetLstFilesOfUserWord(user, recordedWord);
                         }
                 } catch (IOException e) {
                         e.printStackTrace();
+                        return false;
                 }
-                return false;
         }
 
         /**
-         * Tries to reset the lst file of the user's word. This file should exist.
+         * Try to create the new ndx file if it doesn't exist.
+         * Try to reset if it does.
          * 
          * @param user
          * @param recordedWord
-         * @return false if there is a problem while handling the user's word file
+         * @return false if there is an error with the initialisation.
+         */
+        public static boolean tryToInitNdxFilesOfUserWord(User user, String recordedWord) {
+                if (!WordsToRecord.exists(recordedWord)) {
+                        return false;
+                }
+                File ndxFile = new File(user.modelPath() + recordedWord + LIST_NDX_PATH);
+                try {
+                        if (!ndxFile.exists()) {
+                                boolean wasCreated = ndxFile.createNewFile();
+
+                                return wasCreated && tryToResetNdxFilesOfUserWord(user, recordedWord);
+                        } else {
+                                return tryToResetNdxFilesOfUserWord(user, recordedWord);
+                        }
+                } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                }
+        }
+
+        /**
+         * Tries to reset the lst file of the user's word.
+         * 
+         * This file should exist.
+         * 
+         * @param user
+         * @param recordedWord
+         * @return false if there is a problem while handling the user's word file.
          * 
          */
-        public static boolean tryToResetLstFile(User user, String recordedWord) {
-                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_PATH, false);) {
+        public static boolean tryToResetLstFilesOfUserWord(User user, String recordedWord) {
+                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_LST_PATH, false);) {
                         writer.append("");
                         return true;
                 } catch (IOException e) {
@@ -199,15 +260,36 @@ public class ModelManager {
         }
 
         /**
-         * Try to update the data of the lst file with the data of the
-         * {@code recordedWord} of the {@code User}. It will append all the names of the
-         * files without extension to the lst file.
+         * Tries to reset the ndx file of the user's word.
+         * 
+         * This file should exist.
          * 
          * @param user
          * @param recordedWord
-         * @return false if there is a problem with the file of the user's word
+         * @return false if there is a problem while handling the user's word file.
+         * 
          */
-        public static boolean tryToUpdateLstFile(User user, String recordedWord) {
+        public static boolean tryToResetNdxFilesOfUserWord(User user, String recordedWord) {
+                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + LIST_NDX_PATH, false);) {
+                        writer.append(user.getFirstName() + "_" + recordedWord);
+                        return true;
+                } catch (IOException e) {
+                        return false;
+                }
+        }
+
+        /**
+         * Try to update the data of the ndx and lst files with the data of the
+         * {@code recordedWord} of the {@code User}.
+         * 
+         * It will append all the names of the files without extension to the ndx and
+         * lst files.
+         * 
+         * @param user
+         * @param recordedWord
+         * @return false if there is a problem with the file of the user's word.
+         */
+        public static boolean tryToUpdateNdxAndLstFileOfUserWord(User user, String recordedWord) {
                 File dataDirectory = new File(user.audioPath() + recordedWord + "/");
 
                 if (!dataDirectory.exists()) {
@@ -215,12 +297,15 @@ public class ModelManager {
                 }
                 List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
 
-                return tryToAddAudiosToLst(user, recordedWord, list);
+                return tryToAddAudiosToNdxFilesOfUserWord(user, recordedWord, list)
+                                && tryToAddAudiosToLstFilesOfUserWord(user, recordedWord, list);
         }
 
         /**
-         * Returns {@code true} if the file is a .wav file. In our case, we only want to
-         * record .wav files, any other file will be ignored.
+         * Returns {@code true} if the file is a .wav file.
+         * 
+         * In our case, we only want to record .wav files, any other file will be
+         * ignored.
          * 
          * @param file
          * @return
@@ -238,8 +323,8 @@ public class ModelManager {
          * @param audioList    List of audio files
          * @return false if there is a problem with the file of the user's word
          */
-        public static boolean tryToAddAudiosToLst(User user, String recordedWord, List<File> audioList) {
-                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/List.lst", true);) {
+        public static boolean tryToAddAudiosToLstFilesOfUserWord(User user, String recordedWord, List<File> audioList) {
+                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/lst/ListLST.lst", true);) {
                         for (File file : audioList) {
                                 writer.append(getFileBasename(file) + "\n");
                         }
@@ -251,7 +336,29 @@ public class ModelManager {
         }
 
         /**
-         * By convention, the name of a file is constitued of the basename
+         * Appends the name of the files to the ndx file of the {@code user}
+         * {@code recordedWord}.
+         * 
+         * @param user
+         * @param recordedWord
+         * @param audioList    List of audio files
+         * @return false if there is a problem with the file of the user's word
+         */
+        public static boolean tryToAddAudiosToNdxFilesOfUserWord(User user, String recordedWord,
+                        List<File> audioList) {
+                try (FileWriter writer = new FileWriter(user.modelPath() + recordedWord + "/ndx/ListNDX.ndx", true);) {
+                        for (File file : audioList) {
+                                writer.append(" " + getFileBasename(file));
+                        }
+                        return true;
+                } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                }
+        }
+
+        /**
+         * By convention, the name of a file is constituted of the basename
          * and its extensions, _e.g._ basename.extension1.extension2...
          *
          * @example getFileBasename("test.wav") --> "test"
@@ -274,7 +381,7 @@ public class ModelManager {
          * @param recordedWord
          */
         private static void parametrize(User user, String recordedWord) {
-                String[] argsParametrize = { user.modelPath() + recordedWord + LIST_PATH,
+                String[] argsParametrize = { user.modelPath() + recordedWord + LIST_LST_PATH,
                                 user.audioPath() + recordedWord + "/" };
 
                 int exitValue = RunSH.run(PARAMETRIZE_SH_PATH, argsParametrize);
@@ -287,7 +394,7 @@ public class ModelManager {
          */
         private static void energyDetector(User user, String recordedWord) {
                 String[] argsEnergyDetector = {
-                                user.modelPath() + recordedWord + LIST_PATH
+                                user.modelPath() + recordedWord + LIST_LST_PATH
                 };
 
                 int exitValue = RunSH.run(ENERGY_DETECTOR_SH_PATH, argsEnergyDetector);
@@ -300,71 +407,130 @@ public class ModelManager {
          */
         private static void normFeat(User user, String recordedWord) {
                 String[] argsNormFeat = {
-                                user.modelPath() + recordedWord + LIST_PATH
+                                user.modelPath() + recordedWord + LIST_LST_PATH
                 };
 
                 int exitValue = RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
                 handleErrorProgram("normFeat", exitValue, user.getFirstName(), recordedWord);
         }
 
+        private static void resetModel() {
+                if (!tryToResetWorldLstFile()) {
+                        return;
+                }
+
+                clearDirectory(new File(GMM_PATH));
+        }
+
+        /**
+         * Tries to reset the lst file of the model.
+         * 
+         * This file should exist.
+         * 
+         * @return false if there is a problem while handling the lst file
+         */
+        private static boolean tryToResetWorldLstFile() {
+                try (FileWriter writer = new FileWriter(LST_WORLD_PATH, false);) {
+                        writer.append("");
+                        return true;
+                } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                }
+        }
+
+        /**
+         * Try to update the data of the lst file with the data of all
+         * parameters.
+         * 
+         * It will append all the names of the files without extension to the lst files.
+         * 
+         * @return false if there is a problem with the file of the user's word
+         */
+        private static boolean tryToUpdateWorldLstFile() {
+                File dataDirectory = new File(PRM_PATH + "/");
+
+                if (!dataDirectory.exists()) {
+                        return false;
+                }
+                List<File> normPRMList = AudioFileManager.getFilesVerifyingPredicate(dataDirectory,
+                                ModelManager::isNormPRMFile);
+
+                return tryToAddWorldLstFile(normPRMList);
+        }
+
+        /**
+         * Returns {@code true} if the file is a .norm.prm file.
+         * 
+         * In our case, we only want to update it with parameters which exists.
+         * 
+         * @param file
+         * @return
+         */
+        private static boolean isNormPRMFile(File file) {
+                return file.isFile() && file.getName().endsWith(".norm.prm");
+        }
+
+        /**
+         * Appends the name of the files to the lst file of the model.
+         * 
+         * @param normPRMList List of normPRM files
+         * @return false if there is a problem with the file of the user's word.
+         */
+        public static boolean tryToAddWorldLstFile(List<File> normPRMList) {
+                try (FileWriter writer = new FileWriter(LST_WORLD_PATH, true);) {
+                        for (File file : normPRMList) {
+                                writer.append(getFileBasename(file) + "\n");
+                        }
+                        return true;
+                } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                }
+        }
+
         /**
          * @param user
          * @param recordedWord
          */
-        private static void trainWorld(User user, String recordedWord) {
-                String[] argsTrainWorld = {
-                                user.modelPath() + recordedWord + LIST_PATH,
-                                user.modelPath() + recordedWord + GMM_PATH
-                };
+        private static void trainWorld() {
+                String[] argsTrainWorld = {};
 
                 int exitValue = RunSH.run(TRAIN_WORLD_SH_PATH, argsTrainWorld);
-                handleErrorProgram("trainWorld", exitValue, user.getFirstName(), recordedWord);
+                handleErrorProgram("trainWorld", exitValue);
         }
 
         /**
-         * Handle the error of modeling programs
+         * Create the model of all users in the list.
          * 
-         * @param program
-         * @param exitValue
-         * @param userName
-         * @param recordedWord
+         * @param users
          */
-        private static void handleErrorProgram(String program, int exitValue, String userName, String recordedWord) {
-                if (exitValue != 0) {
-                        printErrorRun(program, userName, recordedWord);
+        public static void createModelOfAllUsers(List<User> users) {
+                for (User u : users) {
+                        for (String recordedWord : WordsToRecord.getWordsToRecord()) {
+                                if (doesUserHaveDataOfWord(u, recordedWord)) {
+                                        trainTarget(u, recordedWord);
+                                }
+                        }
                 }
         }
 
         /**
-         * Print the error message of the program
-         * 
-         * @param program
-         * @param userName
+         * @param user
          * @param recordedWord
          */
-        private static void printErrorRun(String program, String userName, String recordedWord) {
-                System.out.println("There is a problem with the program : " + program
-                                + "\nThe problem happens when the program tries modeling the word \"" + recordedWord
-                                + "\" from the user " + userName + "\nMaybe try to update the audio of this word"
-                                + "(The audio must not be empty or too short)");
+        private static void trainTarget(User user, String recordedWord) {
+                String[] argsNormFeat = {
+                                user.modelPath() + recordedWord + LIST_NDX_PATH
+                };
+
+                int exitValue = RunSH.run(TRAIN_TARGET_SH_PATH, argsNormFeat);
+                handleErrorProgram("trainTarget", exitValue, user.getFirstName(), recordedWord);
         }
 
-        protected static void resetModeler() {
+        private static void resetParameter() {
                 clearDirectory(new File(PRM_PATH));
                 clearDirectory(new File(LBL_PATH));
-        }
-
-        /**
-         * Reset the gmm file of a user's word
-         * 
-         * @param user
-         * @param word
-         */
-        private static void resetWorldOfWord(User user, String word) {
-                if (WordsToRecord.exists(word) &&
-                                new File(user.modelPath() + word + "/").exists()) {
-                        clearDirectory(new File(user.modelPath() + word + GMM_PATH));
-                }
         }
 
         /**
@@ -381,8 +547,57 @@ public class ModelManager {
                 }
         }
 
+        /**
+         * Handle the error of modeling programs with arguments
+         * 
+         * @param program
+         * @param exitValue
+         * @param userName
+         * @param recordedWord
+         */
+        private static void handleErrorProgram(String program, int exitValue, String userName, String recordedWord) {
+                if (exitValue != 0) {
+                        printErrorRun(program, userName, recordedWord);
+                }
+        }
+
+        /**
+         * Handle the error of modeling programs
+         * 
+         */
+        private static void handleErrorProgram(String program, int exitValue) {
+                if (exitValue != 0) {
+                        printErrorRun(program);
+                }
+        }
+
+        /**
+         * Print the error message of the program
+         * 
+         */
+        private static void printErrorRun(String program) {
+                System.out.println("There is a problem with the program : " + program
+                                + "\nThe problem happens when the program tries to model everything\""
+                                + "\nMaybe try to update the audio of this word"
+                                + "(The audio must not be empty or too short)");
+        }
+
+        /**
+         * Print the error message of the program
+         * 
+         * @param program
+         * @param userName
+         * @param recordedWord
+         */
+        private static void printErrorRun(String program, String userName, String recordedWord) {
+                System.out.println("There is a problem with the program : " + program
+                                + "\nThe problem happens when the program tries to model the word \"" + recordedWord
+                                + "\" from the user " + userName + "\nMaybe try to update the audio of this word"
+                                + "(The audio must not be empty or too short)");
+        }
+
         protected static void createPrmOfCurrentAudio() {
-                resetModeler();
+                resetParameter();
                 parametrizeClient();
                 energyDetectorClient();
                 normFeatClient();
@@ -424,22 +639,5 @@ public class ModelManager {
 
                 int exitValue = RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
                 handleErrorProgram("normFeat", exitValue);
-        }
-
-        private static void handleErrorProgram(String program, int exitValue) {
-                if (exitValue != 0) {
-                        printErrorRun(program);
-                }
-        }
-
-        /**
-         * Print the error message of the program
-         * 
-         */
-        private static void printErrorRun(String program) {
-                System.out.println("There is a problem with the program : " + program
-                                + "\nThe problem happens when the program tries to model everything\""
-                                + "\nMaybe try to update the audio of this word"
-                                + "(The audio must not be empty or too short)");
         }
 }

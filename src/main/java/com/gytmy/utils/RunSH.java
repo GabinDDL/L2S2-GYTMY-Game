@@ -27,12 +27,16 @@ public class RunSH {
                 line = reader.readLine();
             }
             reader.close();
-
             return process.waitFor(); // Exit code
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 1;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             e.printStackTrace();
             return 1;
         }
+
     }
 }
