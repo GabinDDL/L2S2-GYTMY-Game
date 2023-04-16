@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
 import com.gytmy.utils.RunSH;
 
 public class AudioRecognitionResult {
@@ -16,8 +17,47 @@ public class AudioRecognitionResult {
     public static final String COMPUTE_TEST_SH_PATH = EXE_PATH + "ComputeTest.sh";
     public static final String NDX_LIST_PATH = EXE_PATH + "ndx/Liste.ndx";
 
-    public static final String CLIENT_MODEL_PATH = "src/ressources/audioFiles/client/model/";
+    public static final String CLIENT_PATH = "src/ressources/audioFiles/client/";
+    public static final String CLIENT_AUDIO_PATH = CLIENT_PATH + "audio/";
+    public static final String CLIENT_MODEL_PATH = CLIENT_PATH + "model/";
     public static final String CLIENT_RESULT_PATH = CLIENT_MODEL_PATH + "RecognitionResult.txt";
+    public static final String CLIENT_LST_LIST_PATH = CLIENT_MODEL_PATH + "lst/Liste.lst";
+
+    private static boolean initComparaison() {
+        if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
+            return false;
+        }
+        ModelManager.createPrmOfCurrentAudio();
+        return true;
+    }
+
+    public AlizeRecognitionResultParser.AlizeRecognitionResult getRecognitionResult() {
+        if (!manageComparaison()) {
+            return null;
+        }
+        try {
+            AlizeRecognitionResultParser.AlizeRecognitionResult r = AlizeRecognitionResultParser
+                    .parseFile(new File(CLIENT_RESULT_PATH));
+        } catch (IncorrectFileFormatException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static boolean manageComparaison() {
+        if (!initComparaison() || !tryToResetComputeTestNdxFile()) {
+            return false;
+        }
+
+        if (!tryToUpdateComputeTestNdxFile()) {
+            return false;
+        }
+
+        computeTest();
+
+        ModelManager.resetModeler();
+        return true;
+    }
 
     private static boolean tryToResetComputeTestNdxFile() {
         try (FileWriter writer = new FileWriter(NDX_LIST_PATH, false);) {
@@ -76,11 +116,11 @@ public class AudioRecognitionResult {
         return name.substring(0, index);
     }
 
-    private static void ComputeTest() {
+    private static void computeTest() {
         String[] argsTrainWorld = {};
 
         int exitValue = RunSH.run(COMPUTE_TEST_SH_PATH, argsTrainWorld);
-        handleErrorProgram("trainWorld", exitValue);
+        handleErrorProgram("computeTest", exitValue);
 
     }
 
