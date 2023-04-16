@@ -29,7 +29,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private JFrame frame;
     private boolean hasCountdownEnded = false;
     private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/currentGameAudio.wav";
-    private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json";
+    private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -120,6 +120,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
             }
 
             new File(AUDIO_GAME_PATH).delete();
+            new File(JSON_OUTPUT_PATH + "currentGameAudio.json").delete();
         }).start();
     }
 
