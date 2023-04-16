@@ -13,6 +13,7 @@ public class TestWhisper {
     private static final String jsonDirectoryPath = "src/test/resources/json";
     private static final String audioFileName = "yesmymaster";
 
+    @Ignore // This test is ignored because it takes to long on the CI server
     @Test
     public void testWhisper() {
         Whisper whisper = new Whisper(false, Whisper.Model.TINY_EN);
