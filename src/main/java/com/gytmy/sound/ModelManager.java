@@ -348,7 +348,7 @@ public class ModelManager {
                                 + "(The audio must not be empty or too short)");
         }
 
-        private static void resetModeler() {
+        protected static void resetModeler() {
                 clearDirectory(new File(PRM_PATH));
                 clearDirectory(new File(LBL_PATH));
         }
@@ -378,5 +378,67 @@ public class ModelManager {
                         }
                         file.delete();
                 }
+        }
+
+        protected static void createPrmOfCurrentAudio() {
+                resetModeler();
+                parametrizeClient();
+                energyDetectorClient();
+                normFeatClient();
+        }
+
+        /**
+         * @param user
+         * @param recordedWord
+         */
+        private static void parametrizeClient() {
+                String[] argsParametrize = { AudioRecognitionResult.CLIENT_LST_LIST_PATH,
+                                AudioRecognitionResult.CLIENT_AUDIO_PATH };
+
+                int exitValue = RunSH.run(PARAMETRIZE_SH_PATH, argsParametrize);
+                handleErrorProgram("parametrize (sfbcep)", exitValue);
+        }
+
+        /**
+         * @param user
+         * @param recordedWord
+         */
+        private static void energyDetectorClient() {
+                String[] argsEnergyDetector = {
+                                AudioRecognitionResult.CLIENT_LST_LIST_PATH
+                };
+
+                int exitValue = RunSH.run(ENERGY_DETECTOR_SH_PATH, argsEnergyDetector);
+                handleErrorProgram("energyDetector", exitValue);
+        }
+
+        /**
+         * @param user
+         * @param recordedWord
+         */
+        private static void normFeatClient() {
+                String[] argsNormFeat = {
+                                AudioRecognitionResult.CLIENT_LST_LIST_PATH
+                };
+
+                int exitValue = RunSH.run(NORM_FEAT_SH_PATH, argsNormFeat);
+                handleErrorProgram("normFeat", exitValue);
+        }
+
+        private static void handleErrorProgram(String program, int exitValue) {
+                if (exitValue != 0) {
+                        printErrorRun(program);
+                }
+        }
+
+        /**
+         * Print the error message of the program
+         * 
+         */
+        private static void printErrorRun(String program) {
+                System.out.println("There is a problem with the program : " + program
+                                + "\nThe problem happens when the program tries to model everything\""
+                                + "\nMaybe try to update the audio of this word"
+                                + "(The audio must not be empty or too short)");
         }
 }
