@@ -43,10 +43,10 @@ public class Whisper {
      * @param outputPath    The path to the directory where the output file will be saved
      * @return The text extracted from the audio file
      */
-    public String run(String directoryPath, String fileName, String outputPath) {
+    public String run(String filePathWithFileName, String fileName, String outputPath) {
         
-        String[] args = { "-d", getDeviceName(isGPU), "-m", model.getModelName(), "-a", getAudioFilePath(directoryPath, fileName),
-                "-o", getOutputPath(outputPath)};
+        String[] args = { "-d", getDeviceName(isGPU), "-m", model.getModelName(), "-a", filePathWithFileName,
+                "-o", outputPath};
 
         int exitCode = RunSH.run(WHISPER_PATH, args);
 
@@ -71,24 +71,5 @@ public class Whisper {
      */
     private String getDeviceName(boolean isGPU) {
         return isGPU ? "cuda" : "cpu";
-    }
-
-    /**
-     * Returns the full path to the file from the project base directory
-     * @param directoryPath The path to the directory containing the file
-     * @param fileName      The name of the file
-     * @return The full path to the file
-     */
-    private String getAudioFilePath(String directoryPath, String fileName) {
-        return directoryPath + "/" + fileName + ".wav";
-    }
-
-    /**
-     * Returns the full path to the output directory from the project base directory
-     * @param directoryPath The path to the output directory
-     * @return The full path to the output directory
-     */
-    private String getOutputPath(String directoryPath) {
-        return directoryPath + "/";
     }
 }

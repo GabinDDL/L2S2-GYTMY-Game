@@ -16,6 +16,8 @@ import com.gytmy.labyrinth.view.game.LabyrinthView;
 import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.RecordObserver;
+import com.gytmy.sound.whisper.Whisper;
+import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.Coordinates;
 import com.gytmy.utils.HotkeyAdder;
 
@@ -27,6 +29,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private JFrame frame;
     private boolean hasCountdownEnded = false;
     private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/currentGameAudio.wav";
+    private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -102,6 +105,11 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
 
     private void compareAudioWithModel() {
         // TODO : @selvakum - @gdudilli - compare with model
+        
+        // Use Whisper to transcribe audio
+        Whisper whisper = new Whisper(false, Model.TINY_EN);
+        String transcribed = whisper.run(AUDIO_GAME_PATH, "currentGameAudio", JSON_OUTPUT_PATH);
+        System.out.println(transcribed);
         new File(AUDIO_GAME_PATH).delete();
     }
 
