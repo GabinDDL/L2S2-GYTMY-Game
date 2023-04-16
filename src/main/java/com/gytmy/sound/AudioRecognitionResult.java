@@ -28,7 +28,7 @@ public class AudioRecognitionResult {
             return null;
         }
         try {
-            AlizeRecognitionResultParser.AlizeRecognitionResult r = AlizeRecognitionResultParser
+            return AlizeRecognitionResultParser
                     .parseFile(new File(CLIENT_RESULT_PATH));
         } catch (IncorrectFileFormatException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class AudioRecognitionResult {
 
     private static boolean tryToResetComputeTestNdxFile() {
         try (FileWriter writer = new FileWriter(NDX_LIST_PATH, false);) {
-            writer.append("currentAudio");
+            writer.append("currentGameAudio");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,7 +94,7 @@ public class AudioRecognitionResult {
     private static boolean tryToAddComputeTestNdxFile(List<File> gmmList) {
         try (FileWriter writer = new FileWriter(NDX_LIST_PATH, true);) {
             for (File file : gmmList) {
-                writer.append(getFileBasename(file) + "\n");
+                writer.append(getFileBasename(file) + " ");
             }
             return true;
         } catch (IOException e) {
