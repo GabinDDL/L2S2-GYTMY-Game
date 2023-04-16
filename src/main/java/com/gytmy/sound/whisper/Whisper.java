@@ -28,11 +28,9 @@ public class Whisper {
 
     private JsonParser<WhisperResult> whisperJsonParser = new JsonParser<>();
 
-    private boolean isGPU;
     private Model model;                // The whisper model to use
 
-    public Whisper(boolean isGPU, Model model) {
-        this.isGPU = isGPU;
+    public Whisper(Model model) {
         this.model = model;
     }
     
@@ -45,8 +43,7 @@ public class Whisper {
      */
     public String run(String filePathWithFileName, String fileName, String outputPath) {
         
-        String[] args = { "-d", getDeviceName(isGPU), "-m", model.getModelName(), "-a", filePathWithFileName,
-                "-o", outputPath};
+        String[] args = {"-m", model.getModelName(), "-a", filePathWithFileName, "-o", outputPath};
 
         int exitCode = RunSH.run(WHISPER_PATH, args);
 
@@ -62,15 +59,6 @@ public class Whisper {
         }
 
         return "";
-    }
-
-    /**
-     * Returns the name of the device to use
-     * @param isGPU Whether to use the GPU or not
-     * @return The name of the device to use
-     */
-    private String getDeviceName(boolean isGPU) {
-        return isGPU ? "cuda" : "cpu";
     }
 
     /**

@@ -3,6 +3,7 @@
 ENV_NAME=amaze
 
 source $ENV_NAME/bin/activate &>/dev/null
+source ./cuda_available.sh
 
 # Help message
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
@@ -17,7 +18,12 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
 fi
 
 # set default values for flags and options
-DEVICE="cpu"
+if [ "$CUDA_AVAILABLE" == "True" ]; then
+    DEVICE="cuda"
+else
+    DEVICE="cpu"
+fi
+
 MODEL="tiny.en"
 FP16="False"
 
@@ -26,11 +32,6 @@ while [[ $# -gt 0 ]]; do
     key="$1"
 
     case $key in
-    -d | --device)
-        DEVICE="$2"
-        shift
-        shift
-        ;;
     -m | --model)
         MODEL="$2"
         shift
