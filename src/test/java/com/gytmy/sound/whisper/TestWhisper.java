@@ -10,16 +10,16 @@ import org.junit.Test;
 
 public class TestWhisper {
 
-    private static final String audioDirectoryPath = "src/test/resources/audio";
-    private static final String jsonDirectoryPath = "src/test/resources/json";
-    private static final String audioFileName = "yesmymaster";
+    private static final String AUDIO_DIRECTORY_PATH = "src/test/resources/audio";
+    private static final String JSON_DIRECTORY_PATH = "src/test/resources/json";
+    private static final String AUDIO_FILE_NAME = "yesmymaster";
 
     @Ignore // This test is ignored because it takes to long on the CI server
     @Test
     public void testWhisper() {
         Whisper whisper = new Whisper(false, Whisper.Model.TINY_EN);
         // Assert that the following code does not throw an exception
-        whisper.run(audioDirectoryPath, audioFileName, jsonDirectoryPath);
-        assertTrue(Files.exists(Paths.get(jsonDirectoryPath, audioFileName + ".json")));
+        whisper.run(AUDIO_DIRECTORY_PATH, AUDIO_FILE_NAME, JSON_DIRECTORY_PATH);
+        assertTrue(Files.exists(Paths.get(JSON_DIRECTORY_PATH, AUDIO_FILE_NAME + ".json")));
     }
 }
