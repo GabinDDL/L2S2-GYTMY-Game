@@ -73,6 +73,13 @@ ENV_NAME=amaze
 MIN_PYTHON_VERSION=3.8
 MAX_PYTHON_VERSION=3.10
 
+# Check if the user has administrative privileges
+if [[ $EUID -ne 0 ]]; then
+    SUDO="sudo"
+else
+    SUDO=""
+fi
+
 #------------------------------------------------------------#
 #------------------------- FUNCTIONS ------------------------#
 #------------------------------------------------------------#
@@ -98,13 +105,6 @@ function install_python() {
         return
         ;;
     esac
-
-    # Check if the user has administrative privileges
-    if [[ $EUID -ne 0 ]]; then
-        SUDO="sudo"
-    else
-        SUDO=""
-    fi
 
     # Install Python 3.10
     if [ -f /etc/debian_version ]; then
@@ -224,13 +224,13 @@ function make_ffmpeg_ready() {
         # Install ffmpeg
         if [ -f /etc/debian_version ]; then
             # Debian-based system
-            sudo apt-get install ffmpeg -y
+            $SUDO apt-get install ffmpeg -y
 
         elif [ -f /etc/fedora-release ]; then
             # Fedora system
-            sudo dnf -y install "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
-            sudo dnf -y install "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-            sudo dnf install ffmpeg -y
+            $SUDO dnf -y install "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
+            $SUDO dnf -y install "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+            $SUDO dnf install ffmpeg -y
 
         else
             # Unsupported system
