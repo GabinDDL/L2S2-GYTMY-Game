@@ -53,7 +53,7 @@ public class AudioRecognitionResult {
 
         computeTest();
 
-        ModelManager.resetModeler();
+        ModelManager.resetParameter();
         return true;
     }
 

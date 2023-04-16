@@ -528,7 +528,7 @@ public class ModelManager {
                 handleErrorProgram("trainTarget", exitValue, user.getFirstName(), recordedWord);
         }
 
-        private static void resetParameter() {
+        protected static void resetParameter() {
                 clearDirectory(new File(PRM_PATH));
                 clearDirectory(new File(LBL_PATH));
         }
