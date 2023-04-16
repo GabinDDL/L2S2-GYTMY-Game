@@ -23,14 +23,6 @@ public class AudioRecognitionResult {
     public static final String CLIENT_RESULT_PATH = CLIENT_MODEL_PATH + "RecognitionResult.txt";
     public static final String CLIENT_LST_LIST_PATH = CLIENT_MODEL_PATH + "lst/Liste.lst";
 
-    private static boolean initComparaison() {
-        if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
-            return false;
-        }
-        ModelManager.createPrmOfCurrentAudio();
-        return true;
-    }
-
     public AlizeRecognitionResultParser.AlizeRecognitionResult getRecognitionResult() {
         if (!manageComparaison()) {
             return null;
@@ -44,6 +36,12 @@ public class AudioRecognitionResult {
         return null;
     }
 
+    /**
+     * Init and run ComputeTest program
+     * 
+     * @return true if there is no error during the initialization of the
+     *         ComputeTest
+     */
     private static boolean manageComparaison() {
         if (!initComparaison() || !tryToResetComputeTestNdxFile()) {
             return false;
@@ -56,6 +54,18 @@ public class AudioRecognitionResult {
         computeTest();
 
         ModelManager.resetModeler();
+        return true;
+    }
+
+    /**
+     * 
+     * @return true if the initialization of the comparison went well
+     */
+    private static boolean initComparaison() {
+        if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
+            return false;
+        }
+        ModelManager.createPrmOfCurrentAudio();
         return true;
     }
 
@@ -93,6 +103,14 @@ public class AudioRecognitionResult {
         }
     }
 
+    /**
+     * Returns {@code true} if the file is a .gmm file (and not wld).
+     * 
+     * In our case, we only want to update it with models which exists.
+     * 
+     * @param file
+     * @return
+     */
     private static boolean isGmmModelFile(File file) {
         return file.isFile() && file.getName().endsWith(".gmm") && !file.getName().startsWith("wld");
     }
@@ -123,6 +141,11 @@ public class AudioRecognitionResult {
         handleErrorProgram("computeTest", exitValue);
 
     }
+
+    /**
+     * Handle the error of modeling programs
+     * 
+     */
 
     private static void handleErrorProgram(String program, int exitValue) {
         if (exitValue != 0) {
