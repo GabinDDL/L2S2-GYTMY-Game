@@ -10,6 +10,7 @@ install() {
 
 compile() {
     echo "Compiling..."
+    install
     rm -rf bin
     find src/main/java/com/gytmy -name "*.java" >sources.txt
     javac -cp lib/*:src -d bin @sources.txt && wasCompile=true
@@ -24,6 +25,7 @@ run() {
 
 compileTests() {
     echo "Compiling tests..."
+    install
     rm -rf bin
     find -name "*.java" >sources.txt
     javac --class-path="src:lib/*" -d bin @sources.txt && wasTestCompile=true
