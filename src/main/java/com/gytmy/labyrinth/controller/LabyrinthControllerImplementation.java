@@ -105,11 +105,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
 
     private void compareAudioWithModel() {
         // TODO : @selvakum - @gdudilli - compare with model
-        
-        // Use Whisper to transcribe audio
-        Whisper whisper = new Whisper(false, Model.TINY_EN);
-        String transcribed = whisper.run(AUDIO_GAME_PATH, "currentGameAudio", JSON_OUTPUT_PATH);
-        System.out.println(transcribed);
+
         new File(AUDIO_GAME_PATH).delete();
     }
 
