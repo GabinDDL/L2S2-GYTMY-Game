@@ -1,19 +1,16 @@
-package test.java.com.gytmy.sound.whisper;
+package com.gytmy.sound.whisper;
 
-import org.junit.Assert;
 import org.junit.Test;
-
-import com.gytmy.sound.whisper.Whisper;
 
 public class TestWhisper {
 
-    public static final String audioDirectoryPath = "test/resources/audio";
-    public static final String jsonDirectoryPath = "test/resources/json";
-    public static final String audioFileName = "yesmymaster";
+    private static final String audioDirectoryPath = "src/test/resources/audio";
+    private static final String jsonDirectoryPath = "src/test/resources/json";
+    private static final String audioFileName = "yesmymaster";
 
     @Test
     public void testWhisper() {
         Whisper whisper = new Whisper(true, Whisper.Model.TINY_EN);
-        String text = whisper.run(audioDirectoryPath, audioFileName, jsonDirectoryPath);
+        whisper.run(audioDirectoryPath, audioFileName, jsonDirectoryPath);
     }
 }
