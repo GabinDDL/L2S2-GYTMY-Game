@@ -3,12 +3,6 @@ wasRun=false
 wasTestCompile=false
 wasTestRun=false
 
-install() {
-    echo "Installing dependencies..."
-    yes | ./install.sh
-    echo "Done!"
-}
-
 compile() {
     echo "Compiling..."
     rm -rf bin
@@ -34,7 +28,6 @@ compileTests() {
 
 runTests() {
     echo "Running tests..."
-    install
     java -cp classes:bin:lib/* org.junit.platform.console.ConsoleLauncher --scan-classpath && wasTestRun=true
 }
 

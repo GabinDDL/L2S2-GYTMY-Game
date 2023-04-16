@@ -28,7 +28,7 @@ build_test:
 test:
   stage: test
   script:
-    - if [ ! -f ".last_install_hash" ] || [ "$(md5sum install.sh)" != "$(cat .last_install_hash)" ]; then ./install.sh && echo $(md5sum install.sh) > .last_install_hash; fi
+    - if [ ! -f ".last_install_hash" ] || [ "$(md5sum install.sh)" != "$(cat .last_install_hash)" ]; then yes | ./install.sh && echo $(md5sum install.sh) > .last_install_hash; fi
     - ./run.sh test
   cache:
     key: "$CI_COMMIT_REF_NAME"
