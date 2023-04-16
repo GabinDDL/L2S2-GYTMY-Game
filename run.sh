@@ -5,7 +5,8 @@ wasTestRun=false
 
 install() {
     echo "Installing dependencies..."
-    ./install.sh && echo "Done!"
+    yes | ./install.sh
+    echo "Done!"
 }
 
 compile() {
