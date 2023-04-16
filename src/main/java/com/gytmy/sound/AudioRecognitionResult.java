@@ -1,6 +1,8 @@
 package com.gytmy.sound;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
@@ -60,12 +62,12 @@ public class AudioRecognitionResult {
      * 
      * @return true if the initialization of the comparison went well
      */
-    private static boolean initComparaison() {
+    public static boolean initComparaison() {
         if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
             return false;
         }
         createPrmOfCurrentAudio();
-        return true;
+        return initRecognitionResultTxt();
     }
 
     private static boolean tryToResetComputeTestNdxFile() {
@@ -100,13 +102,43 @@ public class AudioRecognitionResult {
         return file.isFile() && file.getName().endsWith(".gmm") && !file.getName().startsWith("wld");
     }
 
-    protected static void createPrmOfCurrentAudio() {
+    private static void createPrmOfCurrentAudio() {
         String client = "client";
         String other = "other";
         ModelManager.resetParameter();
         ModelManager.parametrize(CLIENT_LST_LIST_PATH, CLIENT_AUDIO_PATH, client, other);
         ModelManager.energyDetector(CLIENT_LST_LIST_PATH, client, other);
         ModelManager.normFeat(CLIENT_LST_LIST_PATH, client, other);
+    }
+
+    /**
+     * @return true if the file RecognitionResult.txt exists and it is reset
+     *         or if it doesn't exists and it success to be created
+     */
+    private static boolean initRecognitionResultTxt() {
+        File txtFile = new File(CLIENT_RESULT_PATH);
+        try {
+            if (!txtFile.exists()) {
+                return txtFile.createNewFile();
+            } else {
+                return resetRecognitionResultTxt();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * @return true if the file RecognitionResult.txt is reset and doesn't fail
+     */
+    private static boolean resetRecognitionResultTxt() {
+        try (FileWriter writer = new FileWriter(CLIENT_RESULT_PATH, false);) {
+            writer.append("");
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     private static void computeTest() {

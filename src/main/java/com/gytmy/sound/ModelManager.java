@@ -511,11 +511,10 @@ public class ModelManager {
     public static void createModelOfAllUsers(List<User> users) {
         for (User u : users) {
             for (String recordedWord : WordsToRecord.getWordsToRecord()) {
-                if (doesUserHaveDataOfWord(u, recordedWord)) {
-                    trainTarget(u.modelPath() + recordedWord + LIST_NDX_PATH,
-                            u.getFirstName(),
-                            recordedWord);
+                if (!doesUserHaveDataOfWord(u, recordedWord)) {
+                    continue;
                 }
+                trainTarget(u.modelPath() + recordedWord + LIST_NDX_PATH, u.getFirstName(), recordedWord);
             }
         }
     }
