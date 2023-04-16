@@ -30,7 +30,6 @@ hs_err_pid*
 .vscode/
 
 # Model Files
-*.gmm
 *.prm
 *.lbl
 
