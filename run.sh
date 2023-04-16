@@ -3,6 +3,11 @@ wasRun=false
 wasTestCompile=false
 wasTestRun=false
 
+install() {
+    echo "Installing dependencies..."
+    ./install.sh && echo "Done!"
+}
+
 compile() {
     echo "Compiling..."
     rm -rf bin
