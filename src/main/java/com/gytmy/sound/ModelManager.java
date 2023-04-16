@@ -130,7 +130,8 @@ public class ModelManager {
          * @param recordedWord
          */
         public static void createModelOfRecordedWord(User user, String recordedWord) {
-                if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitModelOfRecordedWord(user, recordedWord)) {
+                if (!doesUserHaveDataOfWord(user, recordedWord) ||
+                                !tryToInitModelOfRecordedWord(user, recordedWord)) {
                         return;
                 }
 
