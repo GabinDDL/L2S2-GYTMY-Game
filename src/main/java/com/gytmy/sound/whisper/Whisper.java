@@ -44,9 +44,6 @@ public class Whisper {
      * @return The text extracted from the audio file
      */
     public String run(String directoryPath, String fileName, String outputPath) {
-        System.out.println(WHISPER_PATH);
-        System.out.println(getAudioFilePath(directoryPath, fileName));
-        System.out.println(getOutputPath(outputPath));
         
         String[] args = { "-d", getDeviceName(isGPU), "-m", model.getModelName(), "-a", getAudioFilePath(directoryPath, fileName),
                 "-o", getOutputPath(outputPath)};
