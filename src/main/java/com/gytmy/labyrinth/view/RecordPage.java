@@ -99,7 +99,7 @@ public class RecordPage extends JPanel {
     }
 
     private void initTimerPanel(GridBagConstraints constraints) {
-        timerPanel = new TimerPanel(AudioRecorder.getTotalDurationInSeconds());
+        timerPanel = new TimerPanel(this.recordDurationInSeconds);
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.weightx = 0.5;
@@ -177,6 +177,7 @@ public class RecordPage extends JPanel {
 
         boolean tooSmall = false;
         recordButton.setText(RECORD_MESSAGE);
+        timerPanel.stop();
 
         try {
             AudioToFile.stop();
@@ -190,7 +191,6 @@ public class RecordPage extends JPanel {
         }
 
         statusRecordLabel.setText(pausedStatusRecord);
-        timerPanel.stop();
 
         this.remove(timerPanel);
         initTimerPanel(new GridBagConstraints());
