@@ -195,6 +195,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void editOrAddUser(String title, EditCreateUsersPage page) {
+        this.stop();
         mainFrame.setContentPane(page);
         mainFrame.revalidate();
         mainFrame.setTitle(title);
@@ -407,6 +408,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void recordAudio() {
+        this.stop();
         mainFrame.setContentPane(
                 new RecordPage(this, (User) userSelector.getSelectedItem(),
                         (String) wordSelector.getSelectedItem()));
