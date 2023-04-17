@@ -165,6 +165,15 @@ public class AudioMenu extends JPanel {
         }
     }
 
+    public void updateUserSelector() {
+        User selectedUser = (User) userSelector.getSelectedItem();
+        userSelector.removeAllItems();
+        addUsersToJComboBox(userSelector);
+        if (selectedUser != null) {
+            userSelector.setSelectedItem(selectedUser);
+        }
+    }
+
     private void initDeleteButton(GridBagConstraints c) {
         deleteUserButton = new JButton(deleteUserIcon);
 
@@ -269,9 +278,12 @@ public class AudioMenu extends JPanel {
 
         if (userIsDeleted == JOptionPane.YES_OPTION) {
             User user = (User) userSelector.getSelectedItem();
+            System.out.println(user);
             AudioFileManager.removeUser(user);
             userSelector.removeItem(user);
         }
+
+        userSelector.setSelectedItem(ALL_USERS);
 
         updateGUI();
     }
@@ -622,6 +634,7 @@ public class AudioMenu extends JPanel {
     }
 
     public void updateGUI() {
+        updateUserSelector();
         loadFileNavigator();
         loadTotalOfWords();
         loadTotalAudioLength();
