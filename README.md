@@ -65,7 +65,7 @@ There are 3 difficulties available : `EASY`, `NORMAL` and `HARD`.
 
 ## Dependencies
 
-- SPRO
+- SPro
 - ALIZE (alize_core and LIA_RAL)
 - Whisper (and all its dependencies)
 

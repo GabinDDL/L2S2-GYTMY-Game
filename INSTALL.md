@@ -34,14 +34,20 @@ The file we are interested in is the `sfbcep` executable which is now in the cur
 
 - [Install alize-core](https://github.com/ALIZE-Speaker-Recognition/alize-core)
 - Extract `alize-core` and launch a terminal **in the resulting folder**
-- Type `aclocal`
-- Type `automake`
+- Run the following commands in the terminal:
+
+```bash
+aclocal
+automake
+```
 
 > The `compile` file may be missing. If so, run `automake --add-missing`
 
-- Type `autoconf`
-- Type `./configure`
-- Type `make`
+```bash
+autoconf
+./configure
+make
+```
 
 ### Install LIA_RAL
 
@@ -52,18 +58,24 @@ Warning: `alize-core` and `SPro` must be in the **same directory** than `LIA_RAL
 You can also change the installation path doing `./configure`.
 
 - Extract `LIA_RAL` and launch a terminal **in the resulting folder**
-- Type `aclocal`.
-- Type `automake`
+- Run the following commands in the terminal:
+
+```bash
+aclocal
+automake
+```
 
 > Like for `alize-core`, the `compile` file may be missing. If so, run `automake --add-missing`
 
-- Type `autoconf`.
-- Type `./configure --with-SPro`
-- Type `make`
+```bash
+autoconf
+./configure --with-SPro
+make
+```
 
 **The files we are interested in are the executables `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and (not yet implemented) `ComputeScore`** which are in the bin folder of LIA_RAL
 
-### How to implement ALIZE + SPro (temporary)
+### How to implement ALIZE + SPro
 
 To implement the features of `SPro` and `Alize` in the game, you will have to remove the executables (not the .sh's) that are in the src/main/exe/model directory of the game:
 
@@ -85,3 +97,7 @@ And replace them by copying the executables of the same name, located respective
 In order to install `Whisper`, you will only need to run the `install.sh` script in the root directory of the project.
 If the script does not have the right permissions, you can run `chmod +x install.sh` to give it the right permissions.
 To uninstall `Whisper`, you can run the `uninstall.sh` script.
+
+```
+
+```
