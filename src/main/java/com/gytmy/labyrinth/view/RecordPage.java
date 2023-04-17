@@ -49,10 +49,16 @@ public class RecordPage extends JPanel {
     private int totalOfAudioWhenRecordStart;
     private int totalRecordedAudio = 0;
 
+    private static final int RECORD_DURATION_COMMANDS_IN_SECONDS = 5;
+    private static final int RECORD_DURATION_FOR_OTHER_IN_SECONDS = 10 * 60; // 10 minutes
+
+    private int recordDurationInSeconds;
+
     public RecordPage(AudioMenu audioMenu, User userRecording, String wordToRecord) {
         this.audioMenu = audioMenu;
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
+        this.recordDurationInSeconds = mapWordIntoDuration();
 
         pausedStatusRecord = String.format(STATUS_RECORD, wordToRecord, STOPPED_MESSAGE);
         recordingStatusRecord = String.format(STATUS_RECORD, wordToRecord, RECORDING_MESSAGE);
@@ -73,6 +79,15 @@ public class RecordPage extends JPanel {
 
         HotkeyAdder.addHotkey(this, KeyEvent.VK_R, this::recordOrStop, "Record Audio");
         HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::goBackToAudioMenu, "Go to Audio Menu");
+    }
+
+    private int mapWordIntoDuration() {
+        switch (wordToRecord) {
+            case "OTHER":
+                return RECORD_DURATION_FOR_OTHER_IN_SECONDS;
+            default:
+                return RECORD_DURATION_COMMANDS_IN_SECONDS;
+        }
     }
 
     private void recordOrStop() {
