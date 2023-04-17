@@ -111,7 +111,11 @@ public class AudioFileManager {
     }
 
     public static List<User> getUsers() {
-        return getUsersVerifyingPredicate(File::isDirectory);
+        return getUsersVerifyingPredicate(AudioFileManager::isNotClientDirectory);
+    }
+
+    private static boolean isNotClientDirectory(File file) {
+        return file.isDirectory() && !file.getName().equals("client");
     }
 
     public static List<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
