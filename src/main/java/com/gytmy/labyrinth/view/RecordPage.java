@@ -147,7 +147,7 @@ public class RecordPage extends JPanel {
         discardAllButton.setEnabled(true);
 
         statusRecordLabel.setText(recordingStatusRecord);
-        AudioToFile.record(userRecording, wordToRecord);
+        AudioToFile.record(userRecording, wordToRecord, recordDurationInSeconds);
         timerPanel.start();
 
         new Thread() {

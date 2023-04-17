@@ -24,7 +24,7 @@ public class AudioRecorder {
 
     // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
-    private static final long MAX_RECORD_DURATION_MILLISECONDS = 11000;
+    private static final long DEFAULT_MAX_RECORD_DURATION_MILLISECONDS = 11000;
 
     private Thread stopper;
     private File wavFile; // The file that will store the recorded sound
@@ -47,12 +47,16 @@ public class AudioRecorder {
 
     }
 
+    public void start(String audioFilePath) {
+        start(audioFilePath, getTotalDurationInSeconds());
+    }
+
     /**
      * Opens the channel and starts recording
      */
-    public void start(String audioFilePath) {
+    public void start(String audioFilePath, int durationInSeconds) {
         initFile(audioFilePath);
-        initiateStopper();
+        initiateStopper(durationInSeconds);
 
         try {
             openChannel();
@@ -89,10 +93,10 @@ public class AudioRecorder {
      * 
      * @return Thread object
      */
-    private void initiateStopper() {
+    private void initiateStopper(long durationInSeconds) {
         stopper = new Thread(() -> {
             try {
-                Thread.sleep(MAX_RECORD_DURATION_MILLISECONDS);
+                Thread.sleep(durationInSeconds * 1000 + 100);
             } catch (InterruptedException ex) {
             }
             finish();
@@ -191,7 +195,7 @@ public class AudioRecorder {
     }
 
     public static int getTotalDurationInSeconds() {
-        return (int) ((MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
+        return (int) ((DEFAULT_MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
     }
 
     public static void notifyObservers() {
