@@ -49,16 +49,10 @@ public class RecordPage extends JPanel {
     private int totalOfAudioWhenRecordStart;
     private int totalRecordedAudio = 0;
 
-    private static final int RECORD_DURATION_COMMANDS_IN_SECONDS = 5;
-    private static final int RECORD_DURATION_FOR_OTHER_IN_SECONDS = 30 * 60; // 30 minutes
-
-    private int recordDurationInSeconds;
-
     public RecordPage(AudioMenu audioMenu, User userRecording, String wordToRecord) {
         this.audioMenu = audioMenu;
         this.userRecording = userRecording;
         this.wordToRecord = wordToRecord;
-        this.recordDurationInSeconds = mapWordIntoDuration();
 
         pausedStatusRecord = String.format(STATUS_RECORD, wordToRecord, STOPPED_MESSAGE);
         recordingStatusRecord = String.format(STATUS_RECORD, wordToRecord, RECORDING_MESSAGE);
@@ -90,21 +84,12 @@ public class RecordPage extends JPanel {
     }
 
     private void initTimerPanel(GridBagConstraints constraints) {
-        timerPanel = new TimerPanel(mapWordIntoDuration());
+        timerPanel = new TimerPanel(AudioRecorder.getTotalDurationInSeconds());
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.weightx = 0.5;
         constraints.weighty = 0.5;
         add(timerPanel, constraints);
-    }
-
-    private int mapWordIntoDuration() {
-        switch (wordToRecord) {
-            case "OTHER":
-                return RECORD_DURATION_FOR_OTHER_IN_SECONDS; // 30 minutes
-            default:
-                return RECORD_DURATION_COMMANDS_IN_SECONDS;
-        }
     }
 
     private void initStatusRecordLabel(GridBagConstraints constraints) {
@@ -147,7 +132,7 @@ public class RecordPage extends JPanel {
         discardAllButton.setEnabled(true);
 
         statusRecordLabel.setText(recordingStatusRecord);
-        AudioToFile.record(userRecording, wordToRecord, recordDurationInSeconds);
+        AudioToFile.record(userRecording, wordToRecord);
         timerPanel.start();
 
         new Thread() {

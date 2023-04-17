@@ -20,7 +20,7 @@ public class AudioToFile {
     /**
      * Starts recording an audio in which the user says the recorded word
      */
-    public static void record(User user, String recordedWord, int recordDurationInSeconds) {
+    public static void record(User user, String recordedWord) {
 
         assertIsValidUser(user);
 
@@ -41,7 +41,7 @@ public class AudioToFile {
         String path = user.audioPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
         currentRecordingFile = path;
         audioRecorder = AudioRecorder.getInstance();
-        audioRecorder.start(path, recordDurationInSeconds);
+        audioRecorder.start(path);
 
         user.setUpToDate(false);
         YamlReader.write(user.yamlConfigPath(), user);
