@@ -73,6 +73,13 @@ ENV_NAME=amaze
 MIN_PYTHON_VERSION=3.8
 MAX_PYTHON_VERSION=3.10
 
+# Check if the user has administrative privileges
+if [[ $EUID -ne 0 ]]; then
+    SUDO="sudo"
+else
+    SUDO=""
+fi
+
 #------------------------------------------------------------#
 #------------------------- FUNCTIONS ------------------------#
 #------------------------------------------------------------#
@@ -103,23 +110,23 @@ function install_python() {
     if [ -f /etc/debian_version ]; then
         # Debian-based system
         info "Detected Debian-based system."
-        sudo apt-get update
-        sudo apt-get install python3 -y
-        sudo apt-get install python3-pip
+        $SUDO apt-get update
+        $SUDO apt-get install python3 -y
+        $SUDO apt-get install python3-pip
 
     elif [ -f /etc/fedora-release ]; then
         # Fedora system
         info "Detected Fedora system."
-        sudo dnf update
-        sudo dnf install python3 -y
-        sudo dnf install python3-pip
+        $SUDO dnf update
+        $SUDO dnf install python3 -y
+        $SUDO dnf install python3-pip
 
     elif [ -f /etc/arch-release ]; then
         # Arch-based system
         info "Detected Arch-based system."
-        sudo pacman -Syu
-        sudo pacman -S python3 -y
-        sudo pacman -S python-pip
+        $SUDO pacman -Syu
+        $SUDO pacman -S python3 -y
+        $SUDO pacman -S python-pip
     else
         # Unsupported system
         error "Unsupported operating system."
@@ -217,13 +224,13 @@ function make_ffmpeg_ready() {
         # Install ffmpeg
         if [ -f /etc/debian_version ]; then
             # Debian-based system
-            sudo apt-get install ffmpeg -y
+            $SUDO apt-get install ffmpeg -y
 
         elif [ -f /etc/fedora-release ]; then
             # Fedora system
-            sudo dnf -y install "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
-            sudo dnf -y install "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-            sudo dnf install ffmpeg -y
+            $SUDO dnf -y install "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
+            $SUDO dnf -y install "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+            $SUDO dnf install ffmpeg -y
 
         else
             # Unsupported system

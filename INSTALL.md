@@ -59,7 +59,7 @@ You can also change the installation path doing `./configure`.
 - Type `./configure --with-spro`
 - Type `make`
 
-**The files we are interested in are the executables `EnergyDetector`, `NormFeat`, `TrainWorld`, (not yet implemented) `TrainTarget` and (not yet implemented) `ComputeScore`** which are in the bin folder of LIA_RAL
+**The files we are interested in are the executables `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and (not yet implemented) `ComputeScore`** which are in the bin folder of LIA_RAL
 
 ## How to implement ALIZE + Spro (temporary)
 
@@ -68,7 +68,7 @@ To implement the features of `Spro` and `Alize` in the game, you will have to re
 - EnergyDetector (`LIA_RAL`)
 - NormFeat (`LIA_RAL`)
 - TrainWorld (`LIA_RAL`)
-- (Not yet implemented) TrainTarget (`LIA_RAL`)
+- TrainTarget (`LIA_RAL`)
 - (Not yet implemented) ComputeScore (`LIA_RAL`)
 - sfbcep (`Spro`)
 

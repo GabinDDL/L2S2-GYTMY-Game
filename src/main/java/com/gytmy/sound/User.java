@@ -18,7 +18,7 @@ public class User {
     private String lastName;
     private int studentNumber;
     private String userName;
-    private boolean upToDate = false;
+    private boolean upToDate = true;
 
     public User(User user) {
         this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());

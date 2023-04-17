@@ -38,7 +38,7 @@ done
 
 # Store paths in variables
 audio_dir="$(pwd)"/src/resources/audioFiles
-results_dir="$(pwd)"/src/resources/results_whisper
+results_dir="$(pwd)"/src/resources/resultsWhisper
 
 if [ ! -d "$results_dir" ]; then
     echo "Creating results directory..."

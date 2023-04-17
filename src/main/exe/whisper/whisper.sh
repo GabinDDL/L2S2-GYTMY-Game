@@ -61,6 +61,9 @@ done
 if [ "$DEVICE" == "cpu" ]; then
     echo "Device is cpu, setting fp16 to false."
     FP16="False"
+else # set fp16 true if device is gpu
+    echo "Device is gpu, setting fp16 to true."
+    FP16="True"
 fi
 
 # execute the command
