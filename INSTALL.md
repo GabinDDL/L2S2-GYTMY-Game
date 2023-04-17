@@ -79,3 +79,9 @@ And replace them by copying the executables of the same name, located respective
 (You can also replace the paths in the sh files with their positions in your folders: to do this, replace the `EXE_DIR` variables in all .sh files in src/main/exe/model to specify the path.)
 
 `SPro` and `ALIZE` are now implemented !
+
+## Install Whisper
+
+In order to install `Whisper`, you will only need to run the `install.sh` script in the root directory of the project.
+If the script does not have the right permissions, you can run `chmod +x install.sh` to give it the right permissions.
+To uninstall `Whisper`, you can run the `uninstall.sh` script.
