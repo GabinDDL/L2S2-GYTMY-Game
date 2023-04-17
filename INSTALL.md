@@ -1,4 +1,6 @@
-# Install ALIZE and Spro
+# How to install the game
+
+## Install ALIZE and SPro
 
 The recommended operating systems are **Linux** and **MacOS**. There is a possibility to install on Windows, but it is not recommended and we do not provide support for it.
 
@@ -14,9 +16,9 @@ Prerequisites (on Linux Ubuntu, it can be installed via `apt-get`) :
 
 **Install the libraries following the order given below!** and, if possible, in the same folder.
 
-## Install Spro
+### Install SPro
 
-- [Install SPro 4.0.1](http://www.irisa.fr/metiss/guig/spro/spro-4.0.1/spro-4.0.1.tar.gz)
+- [Install SPro 4.0.1](http://www.irisa.fr/metiss/guig/SPro/SPro-4.0.1/SPro-4.0.1.tar.gz)
 - Extract the `tar` archive and open a terminal **in the resulting folder**.
 - Type `./configure` to configure the package for your system
 - Type `make` to compile the package
@@ -28,7 +30,7 @@ Prerequisites (on Linux Ubuntu, it can be installed via `apt-get`) :
 
 The file we are interested in is the `sfbcep` executable which is now in the current folder
 
-## Install alize-core
+### Install alize-core
 
 - [Install alize-core](https://github.com/ALIZE-Speaker-Recognition/alize-core)
 - Extract `alize-core` and launch a terminal **in the resulting folder**
@@ -41,7 +43,7 @@ The file we are interested in is the `sfbcep` executable which is now in the cur
 - Type `./configure`
 - Type `make`
 
-## Install LIA_RAL
+### Install LIA_RAL
 
 [Install LIA_RAL](https://github.com/ALIZE-Speaker-Recognition/LIA_RAL)
 
@@ -56,24 +58,24 @@ You can also change the installation path doing `./configure`.
 > Like for `alize-core`, the `compile` file may be missing. If so, run `automake --add-missing`
 
 - Type `autoconf`.
-- Type `./configure --with-spro`
+- Type `./configure --with-SPro`
 - Type `make`
 
 **The files we are interested in are the executables `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and (not yet implemented) `ComputeScore`** which are in the bin folder of LIA_RAL
 
-## How to implement ALIZE + Spro (temporary)
+### How to implement ALIZE + SPro (temporary)
 
-To implement the features of `Spro` and `Alize` in the game, you will have to remove the executables (not the .sh's) that are in the src/main/exe/model directory of the game:
+To implement the features of `SPro` and `Alize` in the game, you will have to remove the executables (not the .sh's) that are in the src/main/exe/model directory of the game:
 
 - EnergyDetector (`LIA_RAL`)
 - NormFeat (`LIA_RAL`)
 - TrainWorld (`LIA_RAL`)
 - TrainTarget (`LIA_RAL`)
 - (Not yet implemented) ComputeScore (`LIA_RAL`)
-- sfbcep (`Spro`)
+- sfbcep (`SPro`)
 
-And replace them by copying the executables of the same name, located respectively in the `LIA_RAL/bin` and `Spro` folders.
+And replace them by copying the executables of the same name, located respectively in the `LIA_RAL/bin` and `SPro` folders.
 
 (You can also replace the paths in the sh files with their positions in your folders: to do this, replace the `EXE_DIR` variables in all .sh files in src/main/exe/model to specify the path.)
 
-`Spro` and `ALIZE` are now implemented !
+`SPro` and `ALIZE` are now implemented !
