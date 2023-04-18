@@ -72,7 +72,6 @@ To implement the features of `Spro` and `Alize` in the game, you will have to re
 - TrainTarget (`LIA_RAL`)
 - ComputeTest (`LIA_RAL`)
 - TrainTarget (`LIA_RAL`)
-- ComputeScore (`LIA_RAL`)
 
 And replace them by copying the executables of the same name, located respectively in the `LIA_RAL/bin` and `Spro` folders.
 
