@@ -120,7 +120,6 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
             }
 
             new File(AUDIO_GAME_PATH).delete();
-            new File(JSON_OUTPUT_PATH + "currentGameAudio.json").delete();
         }).start();
     }
 
