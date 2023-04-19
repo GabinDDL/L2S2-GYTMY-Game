@@ -2,6 +2,7 @@ package com.gytmy.labyrinth.controller;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.JFrame;
 
@@ -108,19 +109,29 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private void compareAudioWithModel() {
         // TODO : @selvakum - @gdudilli - compare with model
 
+        CompletableFuture<String> futureCommand = getResultFromWhisper();
+        futureCommand.thenAccept(recognizedCommand -> {
+            System.out.println("recognizedCommand: " + recognizedCommand);
+            System.out.println("compareAudioWithModel------");
+        });
+        
+    }
+
+    private CompletableFuture<String> getResultFromWhisper() {
+        CompletableFuture<String> futureCommand = new CompletableFuture<>();
+
         new Thread(() -> {
             try {
                 String recognizedCommand = whisper.run(AUDIO_GAME_PATH, "currentGameAudio", JSON_OUTPUT_PATH);
-                System.out.println("");
-                System.out.print("Recognized Command : ");
-                System.out.println(recognizedCommand);
-                System.out.println("");
+                futureCommand.complete(recognizedCommand);
             } catch (Exception e) {
-                e.printStackTrace();
+                futureCommand.completeExceptionally(e);
             }
 
             new File(AUDIO_GAME_PATH).delete();
         }).start();
+
+        return futureCommand;
     }
 
     @Override

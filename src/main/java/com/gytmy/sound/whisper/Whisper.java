@@ -50,7 +50,7 @@ public class Whisper {
         if (exitCode == 0) {
             try {
                 WhisperResult whisperResult = (WhisperResult) whisperJsonParser.parseJsonFromFile(outputPath + "/" + fileName + ".json", WhisperResult.class);
-                return removeNonAlphabet(whisperResult.getText());
+                return mapCommand(formatCommand(whisperResult.getText()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -64,7 +64,21 @@ public class Whisper {
     /**
      * Remove non-alphanumeric characters from the given string
      */
-    public static String removeNonAlphabet(String text) {
+    private String formatCommand(String text) {
         return text.replaceAll("[^a-zA-Z]", "");
+    }
+
+    private String mapCommand(String text) {
+        if (text.equalsIgnoreCase("UP")) {
+            return "UP";
+        } else if (text.equalsIgnoreCase("DOWN")) {
+            return "DOWN";
+        } else if (text.equalsIgnoreCase("LEFT")) {
+            return "LEFT";
+        } else if (text.equalsIgnoreCase("RIGHT")) {
+            return "RIGHT";
+        } else {
+            return "NO_COMMAND" + " : " + text;
+        }
     }
 }
