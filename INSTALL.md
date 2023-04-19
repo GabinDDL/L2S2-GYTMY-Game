@@ -18,7 +18,7 @@ Prerequisites (on Linux Ubuntu, it can be installed via `apt-get`) :
 
 ### Install SPro
 
-- [Install SPro 4.0.1](http://www.irisa.fr/metiss/guig/SPro/SPro-4.0.1/SPro-4.0.1.tar.gz)
+- [Install SPro 4.0.1](http://www.irisa.fr/metiss/guig/spro/spro-4.0.1/spro-4.0.1.tar.gz)
 - Extract the `tar` archive and open a terminal **in the resulting folder**.
 - Type `./configure` to configure the package for your system
 - Type `make` to compile the package
