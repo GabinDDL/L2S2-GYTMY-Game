@@ -43,11 +43,6 @@ public class WhisperResult {
 
     public static class Segment {
 
-        @JsonProperty("id")
-        private int id;
-
-        @JsonProperty("seek")
-        private int seek;
 
         @JsonProperty("start")
         private double start;
@@ -58,38 +53,16 @@ public class WhisperResult {
         @JsonProperty("text")
         private String text;
 
-        @JsonProperty("tokens")
-        private List<Integer> tokens;
+        @JsonProperty("words")
+        private List<Object> words;
 
-        @JsonProperty("temperature")
-        private double temperature;
-
-        @JsonProperty("avg_logprob")
+        @JsonProperty("avg_log_prob")
         private double avgLogprob;
-
-        @JsonProperty("compression_ratio")
-        private double compressionRatio;
 
         @JsonProperty("no_speech_prob")
         private double noSpeechProb;
 
         public Segment() {
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getSeek() {
-            return seek;
-        }
-
-        public void setSeek(int seek) {
-            this.seek = seek;
         }
 
         public double getStart() {
@@ -116,20 +89,12 @@ public class WhisperResult {
             this.text = text;
         }
 
-        public List<Integer> getTokens() {
-            return tokens;
+        public List<Object> getWords() {
+            return words;
         }
 
-        public void setTokens(List<Integer> tokens) {
-            this.tokens = tokens;
-        }
-
-        public double getTemperature() {
-            return temperature;
-        }
-
-        public void setTemperature(double temperature) {
-            this.temperature = temperature;
+        public void setWords(List<Object> words) {
+            this.words = words;
         }
 
         public double getAvgLogprob() {
@@ -138,14 +103,6 @@ public class WhisperResult {
 
         public void setAvgLogprob(double avgLogprob) {
             this.avgLogprob = avgLogprob;
-        }
-
-        public double getCompressionRatio() {
-            return compressionRatio;
-        }
-
-        public void setCompressionRatio(double compressionRatio) {
-            this.compressionRatio = compressionRatio;
         }
 
         public double getNoSpeechProb() {

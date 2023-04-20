@@ -255,14 +255,14 @@ function make_whisper_ready() {
     source $ENV_NAME/bin/activate &>/dev/null
 
     # Check if whisper is installed
-    if ! command -v whisper &>/dev/null; then
+    if ! command -v whisper-ctranslate2 &>/dev/null; then
         warning "Whisper is not installed."
 
         # Install whisper
-        pip3 install -U openai-whisper
+        pip3 install -U whisper-ctranslate2
 
         # Check if whisper is installed
-        if command -v whisper &>/dev/null; then
+        if command -v whisper-ctranslate2 &>/dev/null; then
             confirmed "Whisper installed successfully."
         else
             error "Failed to install whisper."
