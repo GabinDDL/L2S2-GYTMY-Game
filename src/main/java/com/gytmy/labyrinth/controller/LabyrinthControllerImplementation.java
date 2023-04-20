@@ -29,7 +29,8 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private LabyrinthView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
-    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/currentGameAudio.wav";
+    private static String FILE_NAME = "currentGameAudio";
+    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/"+ FILE_NAME + ".wav";
     private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
@@ -109,29 +110,14 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     private void compareAudioWithModel() {
         // TODO : @selvakum - @gdudilli - compare with model
 
-        CompletableFuture<String> futureCommand = getResultFromWhisper();
+        CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
         futureCommand.thenAccept(recognizedCommand -> {
-            System.out.println("recognizedCommand: " + recognizedCommand);
-            System.out.println("compareAudioWithModel------");
-        });
-        
-    }
-
-    private CompletableFuture<String> getResultFromWhisper() {
-        CompletableFuture<String> futureCommand = new CompletableFuture<>();
-
-        new Thread(() -> {
-            try {
-                String recognizedCommand = whisper.run(AUDIO_GAME_PATH, "currentGameAudio", JSON_OUTPUT_PATH);
-                futureCommand.complete(recognizedCommand);
-            } catch (Exception e) {
-                futureCommand.completeExceptionally(e);
-            }
+            System.out.println("\nrecognizedCommand: " + recognizedCommand);
+            System.out.println("-----------");
 
             new File(AUDIO_GAME_PATH).delete();
-        }).start();
-
-        return futureCommand;
+        });
+        
     }
 
     @Override
