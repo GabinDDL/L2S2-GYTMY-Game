@@ -108,10 +108,12 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     }
 
     private void compareAudioWithModel() {
-        // TODO : @selvakum - @gdudilli - compare with model
 
         CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
+
         futureCommand.thenAccept(recognizedCommand -> {
+
+            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper 
             System.out.println("\nrecognizedCommand: " + recognizedCommand);
             System.out.println("-----------");
 
