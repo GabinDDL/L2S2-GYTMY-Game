@@ -51,4 +51,4 @@ while [[ $# -gt 0 ]]; do
 done
 
 # execute the command
-whisper-ctranslate2 --device "$DEVICE" --output_format json --model "$MODEL" "$AUDIO_PATH" -o "$OUTPUT_PATH"
+whisper-ctranslate2 --condition_on_previous_text False --device "$DEVICE" --output_format json --model "$MODEL" "$AUDIO_PATH" -o "$OUTPUT_PATH"
