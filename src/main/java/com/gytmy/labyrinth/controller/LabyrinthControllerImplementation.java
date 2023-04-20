@@ -118,6 +118,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
             System.out.println("-----------");
 
             new File(AUDIO_GAME_PATH).delete();
+            new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
         });
         
     }
