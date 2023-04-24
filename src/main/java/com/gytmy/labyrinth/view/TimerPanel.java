@@ -9,13 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import com.gytmy.labyrinth.controller.LabyrinthController;
+import com.gytmy.labyrinth.controller.MazeController;
 import com.gytmy.labyrinth.view.game.Cell;
 
 public class TimerPanel extends JPanel implements ActionListener {
     private JLabel timerLabel;
     private Timer timer;
-    private LabyrinthController controller;
+    private MazeController controller;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color COUNTDOWN_COLOR = Cell.EXIT_CELL_COLOR;
@@ -37,12 +37,12 @@ public class TimerPanel extends JPanel implements ActionListener {
         this(DEFAULT_COUNTDOWN_TIME_SECONDS, DEFAULT_STARTING_TIME_SECONDS);
     }
 
-    public TimerPanel(LabyrinthController controller) {
+    public TimerPanel(MazeController controller) {
         this(DEFAULT_COUNTDOWN_TIME_SECONDS, DEFAULT_STARTING_TIME_SECONDS);
         this.controller = controller;
     }
 
-    public TimerPanel(int countdownTime, LabyrinthController controller) {
+    public TimerPanel(int countdownTime, MazeController controller) {
         this(countdownTime, DEFAULT_STARTING_TIME_SECONDS);
         this.controller = controller;
     }

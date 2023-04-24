@@ -14,15 +14,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.gytmy.labyrinth.controller.LabyrinthController;
-import com.gytmy.labyrinth.controller.LabyrinthControllerImplementation;
+import com.gytmy.labyrinth.controller.MazeController;
+import com.gytmy.labyrinth.controller.MazeControllerImplementation;
 import com.gytmy.labyrinth.model.GameData;
 import com.gytmy.labyrinth.model.gamemode.GameMode;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.MenuFrameHandler;
 import com.gytmy.labyrinth.view.game.Cell;
-import com.gytmy.labyrinth.view.game.LabyrinthView;
+import com.gytmy.labyrinth.view.game.MazeView;
 import com.gytmy.labyrinth.view.settings.gamemode.SelectionPanel;
 import com.gytmy.labyrinth.view.settings.player.PlayerSelectionPanel;
 import com.gytmy.sound.ModelManager;
@@ -158,8 +158,8 @@ public class SettingsMenu extends JPanel {
         GameData gameData = new GameData(gameModeSettings, gameMode, players);
 
         JFrame frame = MenuFrameHandler.getMainFrame();
-        LabyrinthController labyrinthController = new LabyrinthControllerImplementation(gameData, frame);
-        LabyrinthView labyrinthView = labyrinthController.getView();
+        MazeController labyrinthController = new MazeControllerImplementation(gameData, frame);
+        MazeView labyrinthView = labyrinthController.getView();
 
         playerSelectionPanel.setPlayersToUnready();
 

@@ -4,11 +4,11 @@ import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
-import com.gytmy.labyrinth.view.game.LabyrinthView;
+import com.gytmy.labyrinth.view.game.MazeView;
 
-public interface LabyrinthController {
+public interface MazeController {
 
-    public LabyrinthView getView();
+    public MazeView getView();
 
     public Player[] getPlayers();
 

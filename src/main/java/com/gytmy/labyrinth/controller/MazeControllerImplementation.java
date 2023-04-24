@@ -7,13 +7,13 @@ import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.GameData;
-import com.gytmy.labyrinth.model.LabyrinthModel;
-import com.gytmy.labyrinth.model.LabyrinthModelFactory;
+import com.gytmy.labyrinth.model.MazeModel;
+import com.gytmy.labyrinth.model.MazeModelFactory;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
-import com.gytmy.labyrinth.view.game.LabyrinthView;
-import com.gytmy.labyrinth.view.game.LabyrinthViewFactory;
+import com.gytmy.labyrinth.view.game.MazeView;
+import com.gytmy.labyrinth.view.game.MazeViewFactory;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.RecordObserver;
 import com.gytmy.sound.whisper.Whisper;
@@ -21,11 +21,11 @@ import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.Coordinates;
 import com.gytmy.utils.HotkeyAdder;
 
-public class LabyrinthControllerImplementation implements LabyrinthController, RecordObserver {
+public class MazeControllerImplementation implements MazeController, RecordObserver {
 
     private GameData gameData;
-    private LabyrinthModel model;
-    private LabyrinthView view;
+    private MazeModel model;
+    private MazeView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
     private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/currentGameAudio.wav";
@@ -37,7 +37,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
         KEYBOARD
     }
 
-    public LabyrinthControllerImplementation(GameData gameData, JFrame frame) {
+    public MazeControllerImplementation(GameData gameData, JFrame frame) {
         this.gameData = gameData;
         this.frame = frame;
         initGame();
@@ -47,9 +47,9 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
 
     private void initGame() {
         initScoreType();
-        model = LabyrinthModelFactory.createLabyrinth(gameData);
+        model = MazeModelFactory.createLabyrinth(gameData);
         initPlayersInitialCell(model.getPlayers());
-        view = LabyrinthViewFactory.createLabyrinthView(gameData, model, frame, this);
+        view = MazeViewFactory.createLabyrinthView(gameData, model, frame, this);
     }
 
     private void initScoreType() {
@@ -110,7 +110,7 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     }
 
     @Override
-    public LabyrinthView getView() {
+    public MazeView getView() {
         return view;
     }
 

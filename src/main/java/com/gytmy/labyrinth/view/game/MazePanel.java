@@ -7,18 +7,18 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.gytmy.labyrinth.model.Direction;
-import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.MazeModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Coordinates;
 
-public class LabyrinthPanel extends JPanel {
+public class MazePanel extends JPanel {
 
-    private LabyrinthModel model;
+    private MazeModel model;
     private int nbRows;
     private int nbCols;
     private Cell[][] cells;
 
-    public LabyrinthPanel(LabyrinthModel model) {
+    public MazePanel(MazeModel model) {
         this.model = model;
         this.nbRows = model.getBoard().length;
         this.nbCols = model.getBoard()[0].length;

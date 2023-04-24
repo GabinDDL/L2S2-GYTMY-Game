@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.MazeModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Coordinates;
 
@@ -22,9 +22,9 @@ public class Cell extends JPanel {
 
     private Coordinates coordinates;
     private List<Player> players;
-    private LabyrinthModel model;
+    private MazeModel model;
 
-    public Cell(Coordinates coordinates, List<Player> players, LabyrinthModel model) {
+    public Cell(Coordinates coordinates, List<Player> players, MazeModel model) {
         this.coordinates = coordinates;
         this.players = players;
         this.model = model;

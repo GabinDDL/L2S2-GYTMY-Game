@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.MazeModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.game.Cell;
 
@@ -22,9 +22,9 @@ public class ScoreBoardPanel extends JPanel {
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
 
-    private LabyrinthModel model;
+    private MazeModel model;
 
-    public ScoreBoardPanel(LabyrinthModel model) {
+    public ScoreBoardPanel(MazeModel model) {
         this.model = model;
 
         initComponents();

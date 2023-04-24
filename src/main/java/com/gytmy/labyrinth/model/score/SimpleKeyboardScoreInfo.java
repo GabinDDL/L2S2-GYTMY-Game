@@ -1,6 +1,6 @@
 package com.gytmy.labyrinth.model.score;
 
-import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.MazeModel;
 import com.gytmy.labyrinth.model.player.Player;
 
 public class SimpleKeyboardScoreInfo implements ScoreInfo {
@@ -13,7 +13,7 @@ public class SimpleKeyboardScoreInfo implements ScoreInfo {
         this(minMovements, 0, 0);
     }
 
-    public SimpleKeyboardScoreInfo(LabyrinthModel model, Player player) {
+    public SimpleKeyboardScoreInfo(MazeModel model, Player player) {
         this(model.getMinimumPathLength(), player);
     }
 

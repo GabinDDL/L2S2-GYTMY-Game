@@ -17,7 +17,7 @@ import com.gytmy.utils.Coordinates;
  * 
  * @see com.gytmy.labyrinth.model.gamemode.GameMode
  */
-public class LabyrinthModelFactory {
+public class MazeModelFactory {
 
     public static final int MINIMUM_WIDTH_1D = 3;
     public static final int MINIMUM_WIDTH_2D = 5;
@@ -26,10 +26,10 @@ public class LabyrinthModelFactory {
 
     private static final int ONE_DIMENSION_HEIGHT = 3;
 
-    private LabyrinthModelFactory() {
+    private MazeModelFactory() {
     }
 
-    public static LabyrinthModel createLabyrinth(GameData gameData) {
+    public static MazeModel createLabyrinth(GameData gameData) {
         switch (gameData.getGameMode()) {
             case CLASSIC:
                 return createClassicLabyrinth(gameData);
@@ -42,7 +42,7 @@ public class LabyrinthModelFactory {
         }
     }
 
-    private static LabyrinthModel createClassicLabyrinth(GameData gameData) {
+    private static MazeModel createClassicLabyrinth(GameData gameData) {
         ClassicGameModeData gameModeData = (ClassicGameModeData) gameData.getGameModeData();
         int width = gameModeData.getWidth();
         int height = gameModeData.getHeight();
@@ -50,14 +50,14 @@ public class LabyrinthModelFactory {
         return createLabyrinth(generator, null, null, gameData.getPlayers(), gameData.getScoreType());
     }
 
-    private static LabyrinthModel createOneDimensionLabyrinth(GameData gameData) {
+    private static MazeModel createOneDimensionLabyrinth(GameData gameData) {
         OneDimensionGameData gameModeData = (OneDimensionGameData) gameData.getGameModeData();
         int width = gameModeData.getWidth();
         BoardGenerator generator = getBoardGenerator(width, ONE_DIMENSION_HEIGHT, null);
         return createLabyrinth(generator, null, null, gameData.getPlayers(), gameData.getScoreType());
     }
 
-    private static LabyrinthModel createBlackoutLabyrinth(GameData gameData) {
+    private static MazeModel createBlackoutLabyrinth(GameData gameData) {
         BlackoutGameData gameModeData = (BlackoutGameData) gameData.getGameModeData();
         int size = gameModeData.getDifficulty().getSize();
         BoardGenerator generator = getBoardGenerator(size, size, null);
@@ -72,9 +72,9 @@ public class LabyrinthModelFactory {
 
     }
 
-    public static LabyrinthModel createLabyrinth(BoardGenerator generator, Coordinates initialCell, Coordinates endCell,
+    public static MazeModel createLabyrinth(BoardGenerator generator, Coordinates initialCell, Coordinates endCell,
             Player[] players, ScoreType scoreType) {
-        return new LabyrinthModelImplementation(generator, initialCell, endCell, players, scoreType);
+        return new MazeModelImplementation(generator, initialCell, endCell, players, scoreType);
     }
 
 }

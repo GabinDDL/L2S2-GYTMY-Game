@@ -20,7 +20,7 @@ package com.gytmy.labyrinth.model.gamemode;
  * @see com.gytmy.labyrinth.view.settings.gamemode.PanelHandler
  * @see com.gytmy.labyrinth.view.settings.gamemode.PanelHandlerFactory
  * @see com.gytmy.labyrinth.model.gamemode.GameModeData
- * @see com.gytmy.labyrinth.model.LabyrinthModelFactory
+ * @see com.gytmy.labyrinth.model.MazeModelFactory
  */
 public enum GameMode {
     CLASSIC("Classic Mode"),

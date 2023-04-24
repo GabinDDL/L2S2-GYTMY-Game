@@ -31,7 +31,7 @@ import com.gytmy.utils.Coordinates;
  * The players are represented as an array of Player objects.
  * 
  */
-public class LabyrinthModelImplementation implements LabyrinthModel {
+public class MazeModelImplementation implements MazeModel {
 
     private boolean[][] board;
     private Coordinates initialCell;
@@ -43,7 +43,7 @@ public class LabyrinthModelImplementation implements LabyrinthModel {
 
     private ScoreType scoreType;
 
-    public LabyrinthModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
+    public MazeModelImplementation(BoardGenerator generator, Coordinates initialCell, Coordinates exitCell,
             Player[] players, ScoreType scoreType) {
         this.board = generator.generate();
         handleNullArguments();

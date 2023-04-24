@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.gytmy.labyrinth.model.LabyrinthModelFactory;
+import com.gytmy.labyrinth.model.MazeModelFactory;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 import com.gytmy.labyrinth.model.gamemode.OneDimensionGameData;
 
@@ -39,7 +39,7 @@ class OneDimensionPanelHandler implements PanelHandler {
     private void initComponents() {
 
         widthInputField = DefaultComponentBuilder.buildInputField(
-                LabyrinthModelFactory.MINIMUM_WIDTH_1D, LabyrinthModelFactory.MAXIMUM_SIZE);
+                MazeModelFactory.MINIMUM_WIDTH_1D, MazeModelFactory.MAXIMUM_SIZE);
         widthLabel = DefaultComponentBuilder.buildLabel("Width: ");
     }
 

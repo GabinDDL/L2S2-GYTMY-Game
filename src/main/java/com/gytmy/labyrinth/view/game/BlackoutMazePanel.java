@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.utils.Coordinates;
 
-public class BlackoutLabyrinthPanel extends JPanel {
+public class BlackoutMazePanel extends JPanel {
 
     private int nbRows;
     private int nbCols;
@@ -22,9 +22,9 @@ public class BlackoutLabyrinthPanel extends JPanel {
             Color.decode("#6ddef7")
     };
 
-    public BlackoutLabyrinthPanel(LabyrinthPanel labyrinthPanel) {
+    public BlackoutMazePanel(MazePanel labyrinthPanel) {
         super();
-        setBackground(LabyrinthBlackoutView.BLACKOUT_COLOR);
+        setBackground(MazeBlackoutView.BLACKOUT_COLOR);
         setPreferredSize(labyrinthPanel.getPreferredSize());
         setBackground(Cell.WALL_COLOR);
 
@@ -73,12 +73,12 @@ public class BlackoutLabyrinthPanel extends JPanel {
 
         public BlackoutCell() {
             super();
-            setBackground(LabyrinthBlackoutView.BLACKOUT_COLOR);
+            setBackground(MazeBlackoutView.BLACKOUT_COLOR);
         }
 
         public void update() {
             if (lastVisited < 0) {
-                setBackground(LabyrinthBlackoutView.BLACKOUT_COLOR);
+                setBackground(MazeBlackoutView.BLACKOUT_COLOR);
                 return;
             } else if (lastVisited < TRAIL_COLORS.length) {
                 setBackground(TRAIL_COLORS[lastVisited]);

@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.gytmy.labyrinth.model.LabyrinthModelFactory;
+import com.gytmy.labyrinth.model.MazeModelFactory;
 import com.gytmy.labyrinth.model.gamemode.ClassicGameModeData;
 import com.gytmy.labyrinth.model.gamemode.GameModeData;
 
@@ -41,11 +41,11 @@ class ClassicPanelHandler implements PanelHandler {
 
     private void initComponents() {
         widthInputField = DefaultComponentBuilder.buildInputField(
-                LabyrinthModelFactory.MINIMUM_WIDTH_2D, LabyrinthModelFactory.MAXIMUM_SIZE);
+                MazeModelFactory.MINIMUM_WIDTH_2D, MazeModelFactory.MAXIMUM_SIZE);
         widthLabel = DefaultComponentBuilder.buildLabel("Width: ");
 
         heightInputField = DefaultComponentBuilder.buildInputField(
-                LabyrinthModelFactory.MINIMUM_HEIGHT_2D, LabyrinthModelFactory.MAXIMUM_SIZE);
+                MazeModelFactory.MINIMUM_HEIGHT_2D, MazeModelFactory.MAXIMUM_SIZE);
         heightLabel = DefaultComponentBuilder.buildLabel("Height: ");
     }
 

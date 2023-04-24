@@ -7,7 +7,7 @@ import com.gytmy.labyrinth.model.score.ScoreCalculator;
 import com.gytmy.labyrinth.model.score.ScoreType;
 import com.gytmy.utils.Coordinates;
 
-public interface LabyrinthModel {
+public interface MazeModel {
 
     /**
      * Gets the copy of the board representing the Labyrinth,

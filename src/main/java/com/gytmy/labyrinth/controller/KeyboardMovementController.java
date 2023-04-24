@@ -8,12 +8,12 @@ import com.gytmy.labyrinth.model.player.Player;
 
 public class KeyboardMovementController extends KeyAdapter implements MovementController {
 
-    private LabyrinthController controller;
+    private MazeController controller;
     private Player[] players;
 
     private int selectedPlayer = 0;
 
-    public KeyboardMovementController(LabyrinthController controller) {
+    public KeyboardMovementController(MazeController controller) {
         this.controller = controller;
         this.players = controller.getPlayers();
     }

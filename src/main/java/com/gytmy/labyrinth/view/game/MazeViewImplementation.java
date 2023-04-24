@@ -7,26 +7,26 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 
 import com.gytmy.labyrinth.model.Direction;
-import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.MazeModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.GameOverPanel;
 import com.gytmy.labyrinth.view.MenuFrameHandler;
 import com.gytmy.labyrinth.view.TimerPanel;
 
-public class LabyrinthViewImplementation extends LabyrinthView {
-    protected LabyrinthModel model;
-    protected LabyrinthPanel labyrinthPanel;
+public class MazeViewImplementation extends MazeView {
+    protected MazeModel model;
+    protected MazePanel labyrinthPanel;
     protected TimerPanel timerPanel;
     private JFrame frame;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
-    protected LabyrinthViewImplementation(LabyrinthModel model, JFrame frame) {
+    protected MazeViewImplementation(MazeModel model, JFrame frame) {
         this.model = model;
         this.frame = frame;
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
-        labyrinthPanel = new LabyrinthPanel(model);
+        labyrinthPanel = new MazePanel(model);
     }
 
     public void startTimer() {
@@ -48,7 +48,7 @@ public class LabyrinthViewImplementation extends LabyrinthView {
     }
 
     @Override
-    public LabyrinthPanel getLabyrinthPanel() {
+    public MazePanel getLabyrinthPanel() {
         return labyrinthPanel;
     }
 

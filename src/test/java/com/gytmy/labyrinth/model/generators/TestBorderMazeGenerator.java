@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.Test;
 
-public class TestBorderLabyrinthGenerator {
+public class TestBorderMazeGenerator {
 
     @Test
     public void testGenerate() {

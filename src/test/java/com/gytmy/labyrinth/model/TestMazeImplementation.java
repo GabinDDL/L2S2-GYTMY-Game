@@ -16,13 +16,13 @@ import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.model.player.PlayerImplementation;
 import com.gytmy.utils.Coordinates;
 
-public class TestLabyrinthImplementation {
+public class TestMazeImplementation {
 
     @Test
     public void testConstructorNullBoard() {
         boolean[][] board = null; // Defined to avoid ambiguity
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(getGenerator(board), null, null, null, null),
+                () -> new MazeModelImplementation(getGenerator(board), null, null, null, null),
                 "Board cannot be null");
 
     }
@@ -30,7 +30,7 @@ public class TestLabyrinthImplementation {
     @Test
     public void testConstructorInvalidBoardSize() {
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(getGenerator(new boolean[2][2]),
+                () -> new MazeModelImplementation(getGenerator(new boolean[2][2]),
                         new Coordinates(0, 0), new Coordinates(0, 0), null, null),
                 "Board must have at least 3 rows");
 
@@ -39,20 +39,20 @@ public class TestLabyrinthImplementation {
     @Test
     public void testConstructorInvalidInitialCell() {
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(0, 0),
+                () -> new MazeModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(0, 0),
                         new Coordinates(0, 0),
                         null, null),
                 "Initial cell is a wall");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(0, 3),
+                () -> new MazeModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(0, 3),
                         new Coordinates(0, 0),
                         null, null),
                 "Initial cell is outside the board");
 
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(3, 0),
+                () -> new MazeModelImplementation(getGenerator(new boolean[3][3]), new Coordinates(3, 0),
                         new Coordinates(0, 0),
                         null, null),
                 "Initial cell is outside the board");
@@ -64,19 +64,19 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                () -> new MazeModelImplementation(getGenerator(board), new Coordinates(1, 1),
                         new Coordinates(0, 0), null, null),
                 "Exit cell is a wall");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                () -> new MazeModelImplementation(getGenerator(board), new Coordinates(1, 1),
                         new Coordinates(0, 3), null, null),
                 "Exit cell is outside the board");
 
         TestingUtils.assertArgumentExceptionMessage(
 
-                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                () -> new MazeModelImplementation(getGenerator(board), new Coordinates(1, 1),
                         new Coordinates(3, 0), null, null),
                 "Exit cell is outside the board");
     }
@@ -86,14 +86,14 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[3][3];
         board[1][1] = true;
         TestingUtils.assertArgumentExceptionMessage(
-                () -> new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1),
+                () -> new MazeModelImplementation(getGenerator(board), new Coordinates(1, 1),
                         new Coordinates(1, 1), null, null),
                 "Initial and exit cells cannot be the same");
     }
 
     @Test
     public void testConstructorNonEmptyExitCell() {
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(new BorderBoardGenerator(101, 101),
+        MazeModelImplementation labyrinth = new MazeModelImplementation(new BorderBoardGenerator(101, 101),
                 new Coordinates(1, 1), null, null, null);
         assertTrue(labyrinth.getExitCell() != null);
     }
@@ -111,7 +111,7 @@ public class TestLabyrinthImplementation {
     private void assertWasCorrectlyConstructed(BoardGenerator generator) {
         Coordinates initialCell = new Coordinates(1, 1);
         Coordinates exitCell = new Coordinates(3, 1);
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
+        MazeModelImplementation labyrinth = new MazeModelImplementation(
                 generator, initialCell, exitCell, null, null);
 
         assertArrayEquals(labyrinth.getBoard(), generator.generate());
@@ -121,7 +121,7 @@ public class TestLabyrinthImplementation {
     public void testConstructorDepthFirstBoard() {
         Coordinates initialCell = new Coordinates(1, 1);
         Coordinates exitCell = new Coordinates(3, 1);
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(
+        MazeModelImplementation labyrinth = new MazeModelImplementation(
                 new DepthFirstGenerator(11, 15), initialCell, exitCell, null, null);
 
         assertEquals(exitCell, labyrinth.getExitCell());
@@ -134,7 +134,7 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[5][5];
         board[1][1] = true;
         Player player = new PlayerImplementation(new Coordinates(2, 2));
-        LabyrinthModel labyrinth = createBordered5x5Labyrinth();
+        MazeModel labyrinth = createBordered5x5Labyrinth();
 
         assertTrue(labyrinth.isMoveValid(player, Direction.UP));
         assertTrue(labyrinth.isMoveValid(player, Direction.DOWN));
@@ -146,14 +146,14 @@ public class TestLabyrinthImplementation {
      * 
      * @return A 5x5 labyrinth with a border of walls and an empty center
      */
-    private LabyrinthModel createBordered5x5Labyrinth() {
+    private MazeModel createBordered5x5Labyrinth() {
         boolean[][] board = new boolean[5][5];
         for (int i = 1; i < 4; i++) {
             for (int j = 1; j < 4; j++) {
                 board[i][j] = true;
             }
         }
-        return new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 1), new Coordinates(3, 2),
+        return new MazeModelImplementation(getGenerator(board), new Coordinates(1, 1), new Coordinates(3, 2),
                 null, null);
     }
 
@@ -163,7 +163,7 @@ public class TestLabyrinthImplementation {
         boolean[][] board = new boolean[5][5];
         board[1][1] = true;
         board[2][3] = true;
-        LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(getGenerator(board),
+        MazeModelImplementation labyrinth = new MazeModelImplementation(getGenerator(board),
                 new Coordinates(1, 1),
                 new Coordinates(3, 2), null, null);
 
@@ -177,7 +177,7 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testIsMoveValidInvalidMovementMovingOutsideTopLeft() {
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
+        MazeModelImplementation labyrinth = createEmptyLabyrinth();
 
         Player player = new PlayerImplementation(new Coordinates(0, 0));
 
@@ -189,7 +189,7 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testIsMoveValidInvalidMovementMovingOutsideBottomRight() {
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
+        MazeModelImplementation labyrinth = createEmptyLabyrinth();
 
         Player player = new PlayerImplementation(new Coordinates(4, 4));
 
@@ -201,7 +201,7 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testIsMoveValidInvalidMovementMovingOutsideTopRight() {
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
+        MazeModelImplementation labyrinth = createEmptyLabyrinth();
 
         Player player = new PlayerImplementation(new Coordinates(4, 0));
 
@@ -213,7 +213,7 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testIsMoveValidInvalidMovementMovingOutsideBottomLeft() {
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
+        MazeModelImplementation labyrinth = createEmptyLabyrinth();
 
         Player player = new PlayerImplementation(new Coordinates(0, 4));
 
@@ -227,7 +227,7 @@ public class TestLabyrinthImplementation {
      * 
      * @return A 5x5 labyrinth without walls
      */
-    private LabyrinthModelImplementation createEmptyLabyrinth() {
+    private MazeModelImplementation createEmptyLabyrinth() {
         // Empty board
         boolean[][] board = new boolean[5][5];
         for (int i = 0; i < 5; i++) {
@@ -235,13 +235,13 @@ public class TestLabyrinthImplementation {
                 board[i][j] = true;
             }
         }
-        return new LabyrinthModelImplementation(getGenerator(board),
+        return new MazeModelImplementation(getGenerator(board),
                 new Coordinates(1, 1), new Coordinates(3, 2), null, null);
     }
 
     @Test
     public void testMovePlayerValidMovement() {
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth();
+        MazeModelImplementation labyrinth = createEmptyLabyrinth();
 
         Player player = new PlayerImplementation(new Coordinates(1, 1));
 
@@ -262,7 +262,7 @@ public class TestLabyrinthImplementation {
 
     @Test
     public void testMovePlayerInvalidMovement() {
-        LabyrinthModelImplementation labyrinth = createLabyrinthWithWalls();
+        MazeModelImplementation labyrinth = createLabyrinthWithWalls();
 
         Player player = new PlayerImplementation(new Coordinates(3, 3));
 
@@ -286,18 +286,18 @@ public class TestLabyrinthImplementation {
      * @return A 7x7 labyrinth with walls. Only he center and the exit and the
      *         entrance are empty.
      */
-    private LabyrinthModelImplementation createLabyrinthWithWalls() {
+    private MazeModelImplementation createLabyrinthWithWalls() {
         boolean[][] board = new boolean[7][7];
         board[3][1] = true;
         board[3][3] = true;
         board[3][5] = true;
-        return new LabyrinthModelImplementation(getGenerator(board), new Coordinates(1, 3), new Coordinates(5, 3),
+        return new MazeModelImplementation(getGenerator(board), new Coordinates(1, 3), new Coordinates(5, 3),
                 null, null);
     }
 
     @Test
     public void testNoPlayersMeansGameOver() {
-        LabyrinthModel labyrinth = LabyrinthModelFactory.createLabyrinth(new DepthFirstGenerator(5, 5), null, null,
+        MazeModel labyrinth = MazeModelFactory.createLabyrinth(new DepthFirstGenerator(5, 5), null, null,
                 null, null);
         assertTrue(labyrinth.isGameOver());
     }
@@ -316,7 +316,7 @@ public class TestLabyrinthImplementation {
                 playerD
         };
 
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth(5, players);
+        MazeModelImplementation labyrinth = createEmptyLabyrinth(5, players);
         assertTrue(labyrinth.isGameOver());
     }
 
@@ -335,7 +335,7 @@ public class TestLabyrinthImplementation {
                 playerD
         };
 
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth(5, players);
+        MazeModelImplementation labyrinth = createEmptyLabyrinth(5, players);
         assertFalse(labyrinth.isGameOver());
 
         playerC.setCoordinates(new Coordinates(1, 1));
@@ -348,7 +348,7 @@ public class TestLabyrinthImplementation {
         assertFalse(labyrinth.isGameOver());
     }
 
-    private LabyrinthModelImplementation createEmptyLabyrinth(int n, Player[] players) {
+    private MazeModelImplementation createEmptyLabyrinth(int n, Player[] players) {
         // Empty board
         boolean[][] board = new boolean[n][n];
         for (int i = 0; i < n; i++) {
@@ -356,7 +356,7 @@ public class TestLabyrinthImplementation {
                 board[i][j] = true;
             }
         }
-        return new LabyrinthModelImplementation(getGenerator(board),
+        return new MazeModelImplementation(getGenerator(board),
                 new Coordinates(1, 1), new Coordinates(n - 1, 1), players, null);
     }
 
@@ -374,7 +374,7 @@ public class TestLabyrinthImplementation {
                 playerD
         };
 
-        LabyrinthModelImplementation labyrinth = createEmptyLabyrinth(5, players);
+        MazeModelImplementation labyrinth = createEmptyLabyrinth(5, players);
         assertFalse(labyrinth.isPlayerAtExit(playerA));
         assertFalse(labyrinth.isPlayerAtExit(playerB));
         assertFalse(labyrinth.isPlayerAtExit(playerC));

@@ -6,19 +6,19 @@ import java.awt.GridBagConstraints;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.gytmy.labyrinth.controller.LabyrinthController;
+import com.gytmy.labyrinth.controller.MazeController;
 import com.gytmy.labyrinth.model.Direction;
-import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.model.MazeModel;
 import com.gytmy.labyrinth.model.player.Player;
 import com.gytmy.labyrinth.view.TimerPanel;
 
-public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
+public class MazeBlackoutView extends MazeViewImplementation {
 
-    private LabyrinthController controller;
+    private MazeController controller;
 
     private JPanel gamePanel;
 
-    private BlackoutLabyrinthPanel blackoutPanel;
+    private BlackoutMazePanel blackoutPanel;
 
     private boolean isFlashing = false;
     private Thread flashThread;
@@ -28,7 +28,7 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
     private static final int FLASH_INTERVAL_SECONDS = 20;
     private static final int FLASH_DURATION_SECONDS = 3;
 
-    public LabyrinthBlackoutView(LabyrinthModel model, JFrame frame, LabyrinthController controller) {
+    public MazeBlackoutView(MazeModel model, JFrame frame, MazeController controller) {
         super(model, frame);
         this.controller = controller;
         initComponents();
@@ -49,7 +49,7 @@ public class LabyrinthBlackoutView extends LabyrinthViewImplementation {
         c.gridy = 1;
         add(gamePanel, c);
 
-        blackoutPanel = new BlackoutLabyrinthPanel(labyrinthPanel);
+        blackoutPanel = new BlackoutMazePanel(labyrinthPanel);
         blackoutPanel.update(model.getPlayers()[0]);
         gamePanel.add(labyrinthPanel);
     }

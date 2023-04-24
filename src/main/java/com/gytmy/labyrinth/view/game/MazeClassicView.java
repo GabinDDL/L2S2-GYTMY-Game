@@ -4,15 +4,15 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JFrame;
 
-import com.gytmy.labyrinth.controller.LabyrinthController;
-import com.gytmy.labyrinth.model.LabyrinthModel;
+import com.gytmy.labyrinth.controller.MazeController;
+import com.gytmy.labyrinth.model.MazeModel;
 import com.gytmy.labyrinth.view.TimerPanel;
 
-public class LabyrinthClassicView extends LabyrinthViewImplementation {
+public class MazeClassicView extends MazeViewImplementation {
 
-    private LabyrinthController controller;
+    private MazeController controller;
 
-    public LabyrinthClassicView(LabyrinthModel model, JFrame frame, LabyrinthController controller) {
+    public MazeClassicView(MazeModel model, JFrame frame, MazeController controller) {
         super(model, frame);
         this.controller = controller;
         initComponents();
