@@ -163,20 +163,19 @@ function make_python_ready() {
     # Check if virtual environment exists
     if [ -d $ENV_NAME ]; then
         warning "Virtual environment $ENV_NAME already exists."
-        
-        # Check if virtual environment is activated
-        if [ "$VIRTUAL_ENV" = "$PWD/$ENV_NAME" ]; then
-            info "Virtual environment $ENV_NAME is already activated."
-        else
-            # Activate the virtual environment
-            source $ENV_NAME/bin/activate &>/dev/null
-        fi
     else
         # Create a virtual environment using Python 3.10
         virtualenv -p "/usr/bin/python3.10" $ENV_NAME &>/dev/null
-        
-        # Activate the virtual environment
-        source $ENV_NAME/bin/activate &>/dev/null
+    fi
+    
+    source $ENV_NAME/bin/activate &>/dev/null
+    
+    # Check if virtual environment is activated
+    if [ "$VIRTUAL_ENV" = "$PWD/$ENV_NAME" ]; then
+        info "Virtual environment $ENV_NAME is activated."
+    else
+        warning "Virtual environment $ENV_NAME is not activated."
+        exit 1
     fi
     
     # Check if Python version in virtual environment is within the specified range
