@@ -164,8 +164,9 @@ function make_python_ready() {
     if [ -d $ENV_NAME ]; then
         warning "Virtual environment $ENV_NAME already exists."
     else
+        PYTHON3_10_PATH=$(which python3.10)
         # Create a virtual environment using Python 3.10
-        virtualenv -p "/usr/bin/python3.10" $ENV_NAME &>/dev/null
+        virtualenv -p "$PYTHON3_10_PATH" $ENV_NAME &>/dev/null
     fi
     
     source $ENV_NAME/bin/activate &>/dev/null
