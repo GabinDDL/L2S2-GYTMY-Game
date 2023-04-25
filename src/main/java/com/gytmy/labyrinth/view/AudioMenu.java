@@ -195,7 +195,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void editOrAddUser(String title, EditCreateUsersPage page) {
-        this.stop();
+        stop();
         mainFrame.setContentPane(page);
         mainFrame.revalidate();
         mainFrame.setTitle(title);
@@ -408,7 +408,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void recordAudio() {
-        this.stop();
+        stop();
         mainFrame.setContentPane(
                 new RecordPage(this, (User) userSelector.getSelectedItem(),
                         (String) wordSelector.getSelectedItem()));
@@ -605,7 +605,7 @@ public class AudioMenu extends JPanel {
         goBackButton.setIcon(goBackIcon);
         goBackButton.setToolTipText("Go back to start menu");
         goBackButton.addActionListener(e -> {
-            this.stop();
+            stop();
             MenuFrameHandler.goToStartMenu();
         });
         goBackButton.setBackground(BACK_BUTTON_COLOR);
