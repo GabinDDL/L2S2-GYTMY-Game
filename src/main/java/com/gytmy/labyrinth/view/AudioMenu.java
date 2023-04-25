@@ -358,6 +358,7 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
+
         JPanel audioPanel = new JPanel(new GridLayout(9, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
