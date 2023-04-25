@@ -52,15 +52,15 @@ public class TestYamlReader {
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> YamlReader.write(null, user),
-                "Invalid file path : " + null);
+                "Invalid file path : " + null + "\n");
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> YamlReader.write("", user),
-                "Invalid file path : ");
+                "Invalid file path : \n");
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> YamlReader.write("  ", user),
-                "Invalid file path :   ");
+                "Invalid file path :   \n");
     }
 
     @Test
@@ -69,9 +69,9 @@ public class TestYamlReader {
 
         TestingUtils.assertArgumentExceptionMessage(
                 () -> YamlReader.write("./test.txt", user),
-                "Invalid file extension : ./test.txt");
+                "Invalid file extension : ./test.txt\n");
         TestingUtils.assertArgumentExceptionMessage(
                 () -> YamlReader.write("./test", user),
-                "Invalid file extension : ./test");
+                "Invalid file extension : ./test\n");
     }
 }
