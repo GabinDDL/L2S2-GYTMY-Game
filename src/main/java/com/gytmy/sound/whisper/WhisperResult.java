@@ -1,9 +1,13 @@
 package com.gytmy.sound.whisper;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WhisperResult {
+
 
     @JsonProperty("text")
     private String text;
@@ -41,6 +45,7 @@ public class WhisperResult {
         this.language = language;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Segment {
 
 
