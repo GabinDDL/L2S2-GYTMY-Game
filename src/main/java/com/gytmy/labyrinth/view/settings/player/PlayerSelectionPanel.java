@@ -70,13 +70,14 @@ public class PlayerSelectionPanel extends JPanel {
 
     public String[] getFirstNameUsers() {
         List<String> lastNames = new ArrayList<>();
-        for (PlayerPanel playerPanel : playerPanels) {
-            String lastName = playerPanel.getFirstNameUser();
+        for (int playerPosition = 0; playerPosition < numberOfPlayers; playerPosition++) {
+            String lastName = playerPanels[playerPosition].getFirstNameUser();
             if (lastName != null) {
                 lastNames.add(lastName);
             }
         }
         return lastNames.toArray(new String[0]);
+
     }
 
     /**
