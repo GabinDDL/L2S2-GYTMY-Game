@@ -10,9 +10,8 @@
     - [`"One-Dimensional Mode"`](#one-dimensional-mode)
     - [`"Blackout Mode"`](#blackout-mode)
   - [Dependencies](#dependencies)
-  - [What is ALIZE](#what-is-alize)
-  - [What is Spro](#what-is-spro)
-  - [How to install ALIZE and Spro](#how-to-install-alize-and-spro)
+  - [How to install the dependencies](#how-to-install-the-dependencies)
+  - [How to run the game](#how-to-run-the-game)
 
 This project was realized by GYTMY for the unit `Projet de programmation (PI4)` during Year 2 Second Semester of `Double Licence Mathématiques-Informatique` (2022-2023).
 
@@ -66,19 +65,26 @@ There are 3 difficulties available : `EASY`, `NORMAL` and `HARD`.
 
 ## Dependencies
 
-- SPRO
+- SPro
 - ALIZE (alize_core and LIA_RAL)
+- Whisper (and all its dependencies)
 
-## What is ALIZE
-
-ALIZE is a c library used for speech recognition of individuals.
-
-In our program, we use it to recognize a person or a particular word from a model, which is created with Alize (and Spro).
-
-## What is Spro
-
-Spro est une librairie qui est aussi en c, qui nous sert ici à extraire les paramètres d'un audio pour pouvoir les fournir à ALIZE.
-
-## How to install ALIZE and Spro
+## How to install the dependencies
 
 Check the [INSTALL.md](INSTALL.md)
+
+## How to run the game
+
+After installing the dependencies, you can run the game by executing the following command in the root directory of the project:
+
+```bash
+./run.sh
+```
+
+If the file does not have the right permissions, you can give it the right permissions by executing the following command in the root directory of the project:
+
+```bash
+chmod +x run.sh
+```
+
+After that yo can execute the command above to run the game.
