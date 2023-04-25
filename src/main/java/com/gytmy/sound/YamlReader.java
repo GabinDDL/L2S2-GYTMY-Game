@@ -26,7 +26,7 @@ public class YamlReader {
             User user = objectMapper.readValue(file, User.class);
             return user;
         } catch (Exception e) {
-            throw new IllegalArgumentException("Could not read file : " + filePath);
+            throw new IllegalArgumentException("Could not read file : " + filePath + "\n");
         }
     }
 
@@ -46,7 +46,7 @@ public class YamlReader {
 
             objectMapper.writeValue(yamlFile, user);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Could not write to file : " + filePath);
+            throw new IllegalArgumentException("Could not write to file : " + filePath + "\n");
         }
     }
 
@@ -55,11 +55,11 @@ public class YamlReader {
      */
     private static void handleInvalidFilePath(String filePath) {
         if (filePath == null || filePath.isEmpty() || filePath.isBlank()) {
-            throw new IllegalArgumentException("Invalid file path : " + filePath);
+            throw new IllegalArgumentException("Invalid file path : " + filePath + "\n");
         }
 
         if (!filePath.endsWith(".yaml")) {
-            throw new IllegalArgumentException("Invalid file extension : " + filePath);
+            throw new IllegalArgumentException("Invalid file extension : " + filePath + "\n");
         }
     }
 

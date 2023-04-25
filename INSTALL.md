@@ -73,7 +73,7 @@ autoconf
 make
 ```
 
-**The files we are interested in are the executables `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and (not yet implemented) `ComputeScore`** which are in the bin folder of LIA_RAL
+**The files we are interested in are the executables `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and `ComputeTest`** which are in the bin folder of LIA_RAL
 
 ### How to implement ALIZE + SPro
 
@@ -83,7 +83,7 @@ To implement the features of `SPro` and `Alize` in the game, you will have to re
 - NormFeat (`LIA_RAL`)
 - TrainWorld (`LIA_RAL`)
 - TrainTarget (`LIA_RAL`)
-- (Not yet implemented) ComputeScore (`LIA_RAL`)
+- ComputeTest (`LIA_RAL`)
 - sfbcep (`SPro`)
 
 And replace them by copying the executables of the same name, located respectively in the `LIA_RAL/bin` and `SPro` folders.

@@ -165,6 +165,15 @@ public class AudioMenu extends JPanel {
         }
     }
 
+    public void updateUserSelector() {
+        User selectedUser = (User) userSelector.getSelectedItem();
+        userSelector.removeAllItems();
+        addUsersToJComboBox(userSelector);
+        if (selectedUser != null) {
+            userSelector.setSelectedItem(selectedUser);
+        }
+    }
+
     private void initDeleteButton(GridBagConstraints c) {
         deleteUserButton = new JButton(deleteUserIcon);
 
@@ -273,6 +282,8 @@ public class AudioMenu extends JPanel {
             userSelector.removeItem(user);
         }
 
+        userSelector.setSelectedItem(ALL_USERS);
+
         updateGUI();
     }
 
@@ -358,6 +369,7 @@ public class AudioMenu extends JPanel {
      * You can also go back to the main menu from it.
      */
     private void initWordPanel() {
+
         JPanel audioPanel = new JPanel(new GridLayout(9, 1));
         audioPanel.setBackground(BUTTON_COLOR);
 
@@ -622,6 +634,7 @@ public class AudioMenu extends JPanel {
     }
 
     public void updateGUI() {
+        updateUserSelector();
         loadFileNavigator();
         loadTotalOfWords();
         loadTotalAudioLength();
