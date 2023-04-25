@@ -278,7 +278,6 @@ public class AudioMenu extends JPanel {
 
         if (userIsDeleted == JOptionPane.YES_OPTION) {
             User user = (User) userSelector.getSelectedItem();
-            System.out.println(user);
             AudioFileManager.removeUser(user);
             userSelector.removeItem(user);
         }
