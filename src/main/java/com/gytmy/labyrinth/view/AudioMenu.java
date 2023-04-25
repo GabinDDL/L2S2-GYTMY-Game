@@ -590,6 +590,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void stop() {
+
+        if (timer == null) {
+            return;
+        }
+
         timer.reset();
         timer.interrupt();
 
