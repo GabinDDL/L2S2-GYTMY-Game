@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth.view.game;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyListener;
 
@@ -38,4 +39,5 @@ public abstract class LabyrinthView extends JPanel {
         });
     }
 
+    public abstract void updateBorders(Color red);
 }

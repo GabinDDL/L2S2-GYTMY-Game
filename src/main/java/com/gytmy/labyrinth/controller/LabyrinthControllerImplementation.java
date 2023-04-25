@@ -1,5 +1,6 @@
 package com.gytmy.labyrinth.controller;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
@@ -180,5 +181,17 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     @Override
     public void update() {
         compareAudioWithModel();
+
+        bordersUpdate();
+    }
+
+    private void bordersUpdate() {
+        AudioRecorder recorder = AudioRecorder.getInstance();
+
+        if (recorder.isRecording()) {
+            view.updateBorders(Color.RED);
+        } else {
+            view.updateBorders(Color.BLUE);
+        }
     }
 }

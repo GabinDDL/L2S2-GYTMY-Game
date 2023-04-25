@@ -1,10 +1,14 @@
 package com.gytmy.labyrinth.view.game;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JFrame;
+import javax.swing.border.Border;
 
 import com.gytmy.labyrinth.model.Direction;
 import com.gytmy.labyrinth.model.LabyrinthModel;
@@ -84,4 +88,27 @@ public class LabyrinthViewImplementation extends LabyrinthView {
                 });
     }
 
+    @Override
+    public void updateBorders(Color color) {
+        labyrinthPanel.setBorder(new Border() {
+            @Override
+            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+                g.setColor(color);
+                g.drawRect(x, y, width - 1, height - 1);
+            }
+
+            @Override
+            public Insets getBorderInsets(Component c) {
+                return new Insets(0, 1, 1, 1);
+            }
+
+            @Override
+            public boolean isBorderOpaque() {
+                return true;
+            }
+        });
+
+        labyrinthPanel.getBorder().paintBorder(labyrinthPanel, getGraphics(), 0, 0, labyrinthPanel.getWidth(),
+                labyrinthPanel.getHeight());
+    }
 }
