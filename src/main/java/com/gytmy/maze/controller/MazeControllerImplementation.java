@@ -2,6 +2,7 @@ package com.gytmy.maze.controller;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.JFrame;
 
@@ -28,10 +29,13 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private MazeView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
-    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/currentGameAudio.wav";
-    private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json";
+    private static String FILE_NAME = "currentGameAudio";
+    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/"+ FILE_NAME + ".wav";
+    private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
+
+    private Whisper whisper = new Whisper(Model.TINY_EN);
 
     public enum MovementControllerType {
         KEYBOARD
@@ -104,9 +108,19 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     }
 
     private void compareAudioWithModel() {
-        // TODO : @selvakum - @gdudilli - compare with model
 
-        new File(AUDIO_GAME_PATH).delete();
+        CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
+
+        futureCommand.thenAccept(recognizedCommand -> {
+
+            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper 
+            System.out.println("\nrecognizedCommand: " + recognizedCommand);
+            System.out.println("-----------");
+
+            new File(AUDIO_GAME_PATH).delete();
+            new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+        });
+        
     }
 
     @Override
