@@ -626,10 +626,7 @@ public class AudioMenu extends JPanel {
         JButton goBackButton = new JButton("Go back");
         goBackButton.setIcon(goBackIcon);
         goBackButton.setToolTipText("Go back to start menu");
-        goBackButton.addActionListener(e -> {
-            stop();
-            MenuFrameHandler.goToStartMenu();
-        });
+        goBackButton.addActionListener(e -> quitAudioMenu());
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
         parentComponent.add(goBackButton);
