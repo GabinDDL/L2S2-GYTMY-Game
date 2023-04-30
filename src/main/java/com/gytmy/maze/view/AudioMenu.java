@@ -127,7 +127,12 @@ public class AudioMenu extends JPanel {
         loadFileNavigator();
         initWordPanel();
 
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu, "Go to Start Menu");
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, AudioMenu::quitAudioMenu, "Go to Start Menu");
+    }
+
+    private static void quitAudioMenu() {
+        AudioMenu.getInstance().stop();
+        MenuFrameHandler.goToStartMenu();
     }
 
     /**
@@ -204,6 +209,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void editOrAddUser(String title, EditCreateUsersPage page) {
+        stop();
         mainFrame.setContentPane(page);
         mainFrame.revalidate();
         mainFrame.setTitle(title);
@@ -419,6 +425,7 @@ public class AudioMenu extends JPanel {
     }
 
     private void recordAudio() {
+        stop();
         mainFrame.setContentPane(
                 new RecordPage(this, (User) userSelector.getSelectedItem(),
                         (String) wordSelector.getSelectedItem()));
@@ -600,6 +607,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void stop() {
+
+        if (timer == null) {
+            return;
+        }
+
         timer.reset();
         timer.interrupt();
 
@@ -614,7 +626,7 @@ public class AudioMenu extends JPanel {
         JButton goBackButton = new JButton("Go back");
         goBackButton.setIcon(goBackIcon);
         goBackButton.setToolTipText("Go back to start menu");
-        goBackButton.addActionListener(e -> MenuFrameHandler.goToStartMenu());
+        goBackButton.addActionListener(e -> quitAudioMenu());
         goBackButton.setBackground(BACK_BUTTON_COLOR);
         goBackButton.setForeground(TEXT_COLOR);
         parentComponent.add(goBackButton);
