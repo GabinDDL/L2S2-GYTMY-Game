@@ -43,7 +43,7 @@ The goal of this project is to be able to control the movements of characters in
 
 A simple single or multi-player mode where you have to reach the end of the maze.
 
-You can also choose the `width` and the `height` of the labyrinth.
+You can also choose the `width` and the `height` of the maze.
 
 ### `"One-Dimensional Mode"`
 
@@ -51,7 +51,7 @@ You can also choose the `width` and the `height` of the labyrinth.
 
 An extremely simple single or multi-player mode where you have to reach the end of the corridor.
 
-You can also choose the `length` of the labyrinth.
+You can also choose the `length` of the maze.
 
 ### `"Blackout Mode"`
 

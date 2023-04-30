@@ -3,11 +3,11 @@ package com.gytmy.utils;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.gytmy.labyrinth.model.Direction;
+import com.gytmy.maze.model.Direction;
 
 /**
  * This class is used to find information abot the cells in the board. It is
- * used to find the entrance and exit cells of the labyrinth. It is also used to
+ * used to find the entrance and exit cells of the maze. It is also used to
  * find the distance between two cells.
  */
 public class CellFinder {
@@ -22,7 +22,7 @@ public class CellFinder {
 
     /**
      * Returns the furthest cell from a given cell in the board. It is used to
-     * find the exit cell of the labyrinth. It uses a variation of breadth-first
+     * find the exit cell of the maze. It uses a variation of breadth-first
      * search.
      *
      * @param start the starting cell
@@ -117,7 +117,7 @@ public class CellFinder {
 
     /**
      * Returns the closest cell to the top left corner of the board. It is used
-     * to find the entrance cell of the labyrinth. The algorithm prioritizes
+     * to find the entrance cell of the maze. The algorithm prioritizes
      * rows.
      *
      * @return the closes cell to the top left corner of the board
