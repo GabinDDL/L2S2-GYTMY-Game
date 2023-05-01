@@ -16,12 +16,12 @@ English will be used for function names, variable names, class names, and commen
 // Bad
 ArrayList<Integer> array = new ArrayList<>();
 PlayerImplementation player = new Player(...);
-LabyrinthModelImplementation labyrinth = new LabyrinthModelImplementation(...);
+MazeModelImplementation maze = new MazeModelImplementation(...);
 
 // Good
 List<Integer> array = new ArrayList<>();
 Player player = new PlayerImplementation(...);
-LabyrinthModel labyrinth = new LabyrinthModelImplementation(...);
+MazeModel maze = new MazeModelImplementation(...);
 ```
 
 - Any magic number must be defined in a constant _e.g._
@@ -194,5 +194,5 @@ It should be possible to understand the usefulness and interest of an issue only
 - Advancement Status
 - Implementation
 - Sound
-- Labyrinth
+- Maze
 - Research

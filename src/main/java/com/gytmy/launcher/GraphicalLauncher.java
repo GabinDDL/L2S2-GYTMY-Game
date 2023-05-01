@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import com.gytmy.labyrinth.view.MenuFrameHandler;
+import com.gytmy.maze.view.MenuFrameHandler;
 
 public class GraphicalLauncher implements Runnable {
 
