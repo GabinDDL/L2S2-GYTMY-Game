@@ -37,5 +37,13 @@ hs_err_pid*
 bin/
 sources.txt
 src/resources/audioFiles/client/model/RecognitionResult.txt
+src/main/exe/comparaison/ComputeTest
+src/main/exe/comparaison/ndx/Liste.ndx
+
+src/main/exe/model/EnergyDetector
+src/main/exe/model/NormFeat
+src/main/exe/model/TrainWorld
+src/main/exe/model/TrainTarget
+src/main/exe/model/lst/Liste.lst
 
 .DS_Store
