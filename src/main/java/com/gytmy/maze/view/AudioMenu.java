@@ -495,15 +495,23 @@ public class AudioMenu extends JPanel {
     private void initRecreateModelButton(JComponent parentComponent) {
         recreateModelsButton = new JButton("Recreate Models");
         recreateModelsButton.setToolTipText("Recreate the models for all the users");
+
+        List<User> users = AudioFileManager.getUsers();
+
         recreateModelsButton.addActionListener(e -> {
-            List<User> users = AudioFileManager.getUsers();
             if (!User.areAllUsersUpToDate(users)) {
-                ModelManager.recreateModelOfAllUsers();
-                recreateModelsButton.setEnabled(false);
                 disableRecreateModelButton();
+                ModelManager.recreateModelOfAllUsers();
+                JOptionPane.showMessageDialog(this, "The Models have been successfully recreated.", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
+
         });
-        enableRecreateModelButton();
+
+        if (!User.areAllUsersUpToDate(users)) {
+            enableRecreateModelButton();
+        }
+
         initColors(recreateModelsButton);
         parentComponent.add(recreateModelsButton);
     }
