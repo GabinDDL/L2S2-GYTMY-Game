@@ -500,7 +500,7 @@ public class AudioMenu extends JPanel {
 
         recreateModelsButton.addActionListener(e -> {
             if (!User.areAllUsersUpToDate(users)) {
-                disableRecreateModelButton();
+                disableRecreateModelsButton();
                 ModelManager.recreateModelOfAllUsers();
                 JOptionPane.showMessageDialog(this, "The Models have been successfully recreated.", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -509,18 +509,18 @@ public class AudioMenu extends JPanel {
         });
 
         if (!User.areAllUsersUpToDate(users)) {
-            enableRecreateModelButton();
+            enableRecreateModelsButton();
         }
 
         initColors(recreateModelsButton);
         parentComponent.add(recreateModelsButton);
     }
 
-    private void disableRecreateModelButton() {
+    private void disableRecreateModelsButton() {
         changeButtonState(recreateModelsButton, "R̶e̶c̶r̶e̶a̶t̶e̶ M̶o̶d̶e̶l̶", recreateModelDisabledIcon, false);
     }
 
-    private void enableRecreateModelButton() {
+    private void enableRecreateModelsButton() {
         changeButtonState(recreateModelsButton, "Recreate Model", recreateModelEnabledIcon, true);
     }
 
