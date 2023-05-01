@@ -40,7 +40,7 @@ public class ModelManager {
         createDirectory(PRM_PATH);
         createDirectory(LBL_PATH);
         createDirectory(LST_WORLD_PATH);
-        createDirectory(LST_WORLD_PATH);
+        createDirectory(GMM_PATH);
     }
 
     protected static void createDirectory(String path) {
@@ -520,12 +520,13 @@ public class ModelManager {
      * @param users
      */
     private static void createModelOfAllUsers(List<User> users) {
-        for (User u : users) {
+        for (User user : users) {
             for (String recordedWord : WordsToRecord.getWordsToRecord()) {
-                if (!doesUserHaveDataOfWord(u, recordedWord)) {
+                if (!doesUserHaveDataOfWord(user, recordedWord) ||
+                        !doesAudioFilesHaveAGoodLength(user, recordedWord)) {
                     continue;
                 }
-                trainTarget(u.modelPath() + recordedWord + LIST_NDX_PATH, u.getFirstName(), recordedWord);
+                trainTarget(user.modelPath() + recordedWord + LIST_NDX_PATH, user.getFirstName(), recordedWord);
             }
         }
     }
