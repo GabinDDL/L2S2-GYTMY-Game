@@ -16,7 +16,8 @@ public class AudioRecognitionResult {
 
     public static final String EXE_PATH = "src/main/exe/comparaison/";
     public static final String COMPUTE_TEST_SH_PATH = EXE_PATH + "ComputeTest.sh";
-    public static final String NDX_LIST_PATH = EXE_PATH + "ndx/Liste.ndx";
+    public static final String NDX_PATH = EXE_PATH + "ndx/";
+    public static final String NDX_LIST_PATH = NDX_PATH + "Liste.ndx";
 
     public static final String CLIENT_PATH = "src/resources/audioFiles/client/";
     public static final String CLIENT_AUDIO_PATH = CLIENT_PATH + "audio/";
@@ -29,6 +30,8 @@ public class AudioRecognitionResult {
      *         null otherwise
      */
     public static AlizeRecognitionResult getRecognitionResult() {
+        generateComparaisonDirectoryStructure();
+
         if (!manageComparaison()) {
             return null;
         }
@@ -39,6 +42,13 @@ public class AudioRecognitionResult {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static void generateComparaisonDirectoryStructure() {
+        File ndxDirectory = new File(NDX_PATH);
+        if (!ndxDirectory.exists()) {
+            ndxDirectory.mkdir();
+        }
     }
 
     /**
@@ -62,7 +72,7 @@ public class AudioRecognitionResult {
      * 
      * @return true if the initialization of the comparison went well
      */
-    public static boolean initComparaison() {
+    private static boolean initComparaison() {
         if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
             return false;
         }
