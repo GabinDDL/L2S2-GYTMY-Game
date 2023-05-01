@@ -121,6 +121,8 @@ public class AudioMenu extends JPanel {
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
+    List<User> users = AudioFileManager.getUsers();
+
     private static AudioMenu instance = null;
 
     public static AudioMenu getInstance() {
@@ -172,7 +174,6 @@ public class AudioMenu extends JPanel {
     }
 
     private void addUsersToJComboBox(JComboBox<User> userSelector) {
-        List<User> users = AudioFileManager.getUsers();
         userSelector.addItem(ALL_USERS);
 
         for (User user : users) {
@@ -437,11 +438,24 @@ public class AudioMenu extends JPanel {
         recordButton.setToolTipText("Record a new audio for the selected word");
         recordButton.addActionListener(e -> {
             recordAudio();
-            enableRecreateModelsButton();
+            handleRecreateModelsButtonState();
         });
         recordButton.setEnabled(false);
         initColors(recordButton);
         parentComponent.add(recordButton);
+    }
+
+    public void handleRecreateModelsButtonState() {
+        // TODO: remove debugging print
+        for (User user : users) {
+            System.out.println(user.getFirstName() + " " + user.getUpToDate());
+        }
+
+        if (User.areAllUsersUpToDate(users)) {
+            disableRecreateModelsButton();
+        } else {
+            enableRecreateModelsButton();
+        }
     }
 
     private void recordAudio() {
@@ -459,7 +473,7 @@ public class AudioMenu extends JPanel {
         deleteButton.setEnabled(false);
         deleteButton.addActionListener(e -> {
             deleteWAV();
-            enableRecreateModelsButton();
+            handleRecreateModelsButtonState();
         });
         initColors(deleteButton);
         parentComponent.add(deleteButton);
@@ -476,7 +490,7 @@ public class AudioMenu extends JPanel {
 
             int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
                     userFirstName, word);
-            AudioFileManager.deleteRecording(audioToLoad);
+            AudioFileManager.deleteRecording(userFirstName, word, Integer.valueOf(wordIndex));
 
             AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
                     totalRecordsBeforeDelete);
@@ -502,14 +516,9 @@ public class AudioMenu extends JPanel {
         recreateModelsButton = new JButton("Recreate Models");
         recreateModelsButton.setToolTipText("Recreate the models for all the users");
 
-        List<User> users = AudioFileManager.getUsers();
-
         recreateModelsButton.addActionListener(e -> {
-            System.out.println("FML");
             if (!User.areAllUsersUpToDate(users)) {
-                System.out.println("popo");
                 disableRecreateModelsButton();
-                System.out.println("caca");
                 ModelManager.recreateModelOfAllUsers();
                 JOptionPane.showMessageDialog(this, "The Models have been successfully recreated.", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -517,9 +526,7 @@ public class AudioMenu extends JPanel {
 
         });
 
-        if (User.areAllUsersUpToDate(users)) {
-            disableRecreateModelsButton();
-        }
+        handleRecreateModelsButtonState();
 
         initColors(recreateModelsButton);
         parentComponent.add(recreateModelsButton);
