@@ -61,12 +61,12 @@ public class User {
     }
 
     /**
-     * Checks if all users' configurations are up to date.
+     * The function checks if all users in a list are up to date and returns a
+     * boolean value.
      * 
-     * @param firstNameOfUsers An array of Strings containing the first names of
-     *                         users.
-     * @return If all users are up to date, the method returns `true`.
-     *         Otherwise, it returns `false`.
+     * @param users A list of User objects.
+     * @return If all users are up to date, it will return true;
+     *         otherwise, it will return false.
      */
     public static boolean areAllUsersUpToDate(List<User> users) {
         for (User user : users) {
