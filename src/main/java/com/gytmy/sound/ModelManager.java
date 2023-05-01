@@ -33,8 +33,8 @@ public class ModelManager {
     public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
 
     /**
-     * If the folder "src/resources/audioFiles" does not exist,
-     * create it and its arborescence
+     * If the folders of model do not exist,
+     * create their and its arborescence
      */
     private static void generateModelDirectoryStructure() {
         File prmDirectory = new File(PRM_PATH);
