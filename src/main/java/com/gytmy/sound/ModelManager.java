@@ -62,25 +62,20 @@ public class ModelManager {
     }
 
     /**
-     * Create all models for all users if one of the given users is not UpToDate.
-     * Otherwise, do nothing.
+     * Create all models for all users.
+     * Those models are necessary for the voice controlled movements.
      * 
      * @param firstNameOfUsers
      */
-    public static void tryToCreateModels(String[] firstNameOfUsers) {
+    public static void createAllUsersModels(String[] firstNameOfUsers) {
         if (firstNameOfUsers == null) {
             return;
         }
-        for (String firstName : firstNameOfUsers) {
-            User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
-            if (!user.getUpToDate()) {
-                List<User> users = AudioFileManager.getUsers();
-                createModelOfWorld(users);
-                createModelOfAllUsers(users);
-                resetParameter();
-                return;
-            }
-        }
+
+        List<User> users = AudioFileManager.getUsers();
+        createModelOfWorld(users);
+        createModelOfAllUsers(users);
+        resetParameter();
     }
 
     /**

@@ -26,6 +26,7 @@ import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
 import com.gytmy.sound.ModelManager;
+import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.ImageManipulator;
 
@@ -150,8 +151,12 @@ public class SettingsMenu extends JPanel {
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
 
-        // Create all datas of user's models
-        ModelManager.tryToCreateModels(playerSelectionPanel.getFirstNameUsers());
+        // Handle model creation prompting
+        String[] usersFirstNames = playerSelectionPanel.getFirstNameUsers();
+
+        if (!User.areAllUsersUpToDate(usersFirstNames)) {
+            promptUserToCreateModels(usersFirstNames);
+        }
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
@@ -166,6 +171,18 @@ public class SettingsMenu extends JPanel {
         frame.setContentPane(mazeView);
 
         MenuFrameHandler.frameUpdate(gameMode.toString());
+    }
+
+    private void promptUserToCreateModels(String[] usersFirstNames) {
+        int optionValue = JOptionPane.showConfirmDialog(this,
+                "At least one player's model is not up to date.\nWould you like to re-create all the users' models?",
+                "Models not up to date",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (optionValue == JOptionPane.YES_OPTION) {
+            ModelManager.createAllUsersModels(usersFirstNames);
+        }
     }
 
     private void addEscapeKeyBind() {

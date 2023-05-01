@@ -59,6 +59,24 @@ public class User {
         return name == null || name.isEmpty() || name.isBlank();
     }
 
+    /**
+     * Checks if all users' configurations are up to date.
+     * 
+     * @param firstNameOfUsers An array of Strings containing the first names of
+     *                         users.
+     * @return If all users are up to date, the method returns `true`.
+     *         Otherwise, it returns `false`.
+     */
+    public static boolean areAllUsersUpToDate(String[] firstNameOfUsers) {
+        for (String firstName : firstNameOfUsers) {
+            User user = YamlReader.read(ModelManager.AUDIO_FILES_PATH + firstName + "/config.yaml");
+            if (!user.getUpToDate()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public String getFirstName() {
         return firstName;
     }
