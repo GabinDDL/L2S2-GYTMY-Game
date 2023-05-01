@@ -25,11 +25,30 @@ public class ModelManager {
     public static final String PRM_PATH = EXE_PATH + "prm/";
     public static final String LBL_PATH = EXE_PATH + "lbl/";
     public static final String GMM_PATH = EXE_PATH + "gmm/";
-    public static final String LST_WORLD_PATH = EXE_PATH + "lst/Liste.lst";
+    public static final String LST_WORLD_PATH = EXE_PATH + "lst/";
+    public static final String LIST_LST_WORLD_PATH = LST_WORLD_PATH + "Liste.lst";
     public static final String LST_PATH = "/lst/";
     public static final String NDX_PATH = "/ndx/";
     public static final String LIST_NDX_PATH = NDX_PATH + "ListNDX.ndx";
     public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
+
+    /**
+     * If the folders of model do not exist,
+     * create their and its arborescence
+     */
+    private static void generateModelDirectoryStructure() {
+        createDirectory(PRM_PATH);
+        createDirectory(LBL_PATH);
+        createDirectory(LST_WORLD_PATH);
+        createDirectory(LST_WORLD_PATH);
+    }
+
+    protected static void createDirectory(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+    }
 
     /**
      * @param user
@@ -45,7 +64,7 @@ public class ModelManager {
      * 
      *         and these are created in the user's directory in AudioFiles.
      */
-    public static boolean tryToCreateModelDirectoriesOfWord(User user, String word) {
+    protected static boolean tryToCreateModelDirectoriesOfWord(User user, String word) {
         File userModelDirectory = new File(user.modelPath());
         if (!userModelDirectory.exists()) {
             userModelDirectory.mkdir();
@@ -68,6 +87,7 @@ public class ModelManager {
      * @param firstNameOfUsers
      */
     public static void recreateModelOfAllUsers() {
+        generateModelDirectoryStructure();
         List<User> users = AudioFileManager.getUsers();
         createModelOfWorld(users);
         createModelOfAllUsers(users);
@@ -79,7 +99,7 @@ public class ModelManager {
      * 
      * @param users
      */
-    public static void createModelOfWorld(List<User> users) {
+    private static void createModelOfWorld(List<User> users) {
         for (User user : users) {
             createAllParametersOfRecordedWord(user);
         }
@@ -93,7 +113,7 @@ public class ModelManager {
      * 
      * @param user
      */
-    public static void createAllParametersOfRecordedWord(User user) {
+    private static void createAllParametersOfRecordedWord(User user) {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
         }
@@ -108,7 +128,7 @@ public class ModelManager {
      * @param user
      * @param recordedWord
      */
-    public static void createParametersOfRecordedWord(User user, String recordedWord) {
+    private static void createParametersOfRecordedWord(User user, String recordedWord) {
         if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitParameterization(user, recordedWord)) {
             return;
         }
@@ -226,7 +246,7 @@ public class ModelManager {
      * @return false if there is a problem while handling the user's word file.
      * 
      */
-    public static boolean tryToResetLstFilesOfUserWord(User user, String recordedWord) {
+    private static boolean tryToResetLstFilesOfUserWord(User user, String recordedWord) {
         return tryToResetLstFile(user.modelPath() + recordedWord + LIST_LST_PATH);
     }
 
@@ -238,7 +258,7 @@ public class ModelManager {
      * @param lstPath
      * @return false if there is a problem while handling the file.
      */
-    public static boolean tryToResetLstFile(String lstPath) {
+    private static boolean tryToResetLstFile(String lstPath) {
         try (FileWriter writer = new FileWriter(lstPath, false);) {
             writer.append("");
             return true;
@@ -257,7 +277,7 @@ public class ModelManager {
      * @return false if there is a problem while handling the user's word file.
      * 
      */
-    public static boolean tryToResetNdxFilesOfUserWord(User user, String recordedWord) {
+    private static boolean tryToResetNdxFilesOfUserWord(User user, String recordedWord) {
         return tryToResetNdxFile(user.modelPath() + recordedWord + LIST_NDX_PATH,
                 user.getFirstName() + "_" + recordedWord);
     }
@@ -270,7 +290,7 @@ public class ModelManager {
      * @param startWord
      * @return false if there is a problem while handling the file
      */
-    public static boolean tryToResetNdxFile(String path, String startWord) {
+    protected static boolean tryToResetNdxFile(String path, String startWord) {
         try (FileWriter writer = new FileWriter(path, false);) {
             writer.append(startWord);
             return true;
@@ -290,7 +310,7 @@ public class ModelManager {
      * @param recordedWord
      * @return false if there is a problem with the file of the user's word.
      */
-    public static boolean tryToUpdateNdxAndLstFileOfUserWord(User user, String recordedWord) {
+    private static boolean tryToUpdateNdxAndLstFileOfUserWord(User user, String recordedWord) {
         File dataDirectory = new File(user.audioPath() + recordedWord + "/");
         if (!dataDirectory.exists()) {
             return false;
@@ -322,7 +342,7 @@ public class ModelManager {
      * @param audioList    List of audio files
      * @return false if there is a problem with the file of the user's word
      */
-    public static boolean tryToAddAudiosToLstFilesOfUserWord(User user, String recordedWord, List<File> audioList) {
+    private static boolean tryToAddAudiosToLstFilesOfUserWord(User user, String recordedWord, List<File> audioList) {
         return tryToAddListToLstFile(audioList, user.modelPath() + recordedWord + LIST_LST_PATH);
     }
 
@@ -333,7 +353,7 @@ public class ModelManager {
      * @param lstPath
      * @return false if there is a problem with the file
      */
-    public static boolean tryToAddListToLstFile(List<File> list, String lstPath) {
+    private static boolean tryToAddListToLstFile(List<File> list, String lstPath) {
         try (FileWriter writer = new FileWriter(lstPath, true);) {
             for (File file : list) {
                 writer.append(getFileBasename(file) + "\n");
@@ -354,7 +374,7 @@ public class ModelManager {
      * @param audioList    List of audio files
      * @return false if there is a problem with the file of the user's word
      */
-    public static boolean tryToAddAudiosToNdxFilesOfUserWord(User user, String recordedWord,
+    private static boolean tryToAddAudiosToNdxFilesOfUserWord(User user, String recordedWord,
             List<File> audioList) {
         return tryToAddListToNdxFile(audioList, user.modelPath() + recordedWord + LIST_NDX_PATH);
     }
@@ -366,7 +386,7 @@ public class ModelManager {
      * @param ndxPath
      * @return false if there is a problem with the file
      */
-    public static boolean tryToAddListToNdxFile(List<File> list, String ndxPath) {
+    protected static boolean tryToAddListToNdxFile(List<File> list, String ndxPath) {
         try (FileWriter writer = new FileWriter(ndxPath, true);) {
             for (File file : list) {
                 writer.append(" " + getFileBasename(file));
@@ -445,7 +465,7 @@ public class ModelManager {
      * @return false if there is a problem while handling the lst file
      */
     private static boolean tryToResetWorldLstFile() {
-        return tryToResetLstFile(LST_WORLD_PATH);
+        return tryToResetLstFile(LIST_LST_WORLD_PATH);
     }
 
     /**
@@ -484,8 +504,8 @@ public class ModelManager {
      * @param normPRMList List of normPRM files
      * @return false if there is a problem with the file of the user's word.
      */
-    public static boolean tryToAddWorldLstFile(List<File> normPRMList) {
-        return tryToAddListToLstFile(normPRMList, LST_WORLD_PATH);
+    private static boolean tryToAddWorldLstFile(List<File> normPRMList) {
+        return tryToAddListToLstFile(normPRMList, LIST_LST_WORLD_PATH);
     }
 
     private static void trainWorld() {
@@ -499,7 +519,7 @@ public class ModelManager {
      * 
      * @param users
      */
-    public static void createModelOfAllUsers(List<User> users) {
+    private static void createModelOfAllUsers(List<User> users) {
         for (User u : users) {
             for (String recordedWord : WordsToRecord.getWordsToRecord()) {
                 if (!doesUserHaveDataOfWord(u, recordedWord)) {

@@ -77,7 +77,7 @@ make
 
 ### How to implement ALIZE + SPro
 
-To implement the features of `SPro` and `Alize` in the game, you will have to remove the executables (not the .sh's) that are in the src/main/exe/model directory of the game:
+To implement the features of `SPro` and `Alize` in the game, you will have to get the following executables :
 
 - EnergyDetector (`LIA_RAL`)
 - NormFeat (`LIA_RAL`)
@@ -86,7 +86,8 @@ To implement the features of `SPro` and `Alize` in the game, you will have to re
 - ComputeTest (`LIA_RAL`)
 - sfbcep (`SPro`)
 
-And replace them by copying the executables of the same name, located respectively in the `LIA_RAL/bin` and `SPro` folders.
+Which are located inside the respective folders `LIA_RAL/bin` and `SPro` of the programs you just installed.
+Then copy `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and `sfbcep` inside the directory of your game: `src/main/exe/model`, and then copy `ComputeTest` inside the directory also in your game: `src/main/exe/comparaison`
 
 (You can also replace the paths in the sh files with their positions in your folders: to do this, replace the `EXE_DIR` variables in all .sh files in src/main/exe/model to specify the path.)
 
