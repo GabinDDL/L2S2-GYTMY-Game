@@ -90,6 +90,12 @@ public class LabyrinthViewImplementation extends LabyrinthView {
 
     @Override
     public void updateBorders(Color color) {
+
+        if (color == null) {
+            labyrinthPanel.setBorder(null);
+            return;
+        }
+
         labyrinthPanel.setBorder(new Border() {
             @Override
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {

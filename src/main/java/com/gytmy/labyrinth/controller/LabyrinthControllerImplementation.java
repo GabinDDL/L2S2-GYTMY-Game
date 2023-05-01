@@ -101,6 +101,8 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
                 recorder.start(AUDIO_GAME_PATH);
             }).start();
 
+            bordersUpdate();
+
         }, "Record Audio In Game");
     }
 
@@ -186,12 +188,11 @@ public class LabyrinthControllerImplementation implements LabyrinthController, R
     }
 
     private void bordersUpdate() {
-        AudioRecorder recorder = AudioRecorder.getInstance();
 
-        if (recorder.isRecording()) {
+        if (AudioRecorder.isRecording()) {
             view.updateBorders(Color.RED);
         } else {
-            view.updateBorders(Color.BLUE);
+            view.updateBorders(null);
         }
     }
 }
