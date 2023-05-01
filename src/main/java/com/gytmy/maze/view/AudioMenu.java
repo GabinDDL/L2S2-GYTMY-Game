@@ -61,7 +61,7 @@ public class AudioMenu extends JPanel {
     private JLabel totalOfWords;
     private JLabel totalAudioLength;
     private JButton recordButton;
-    private JButton deleteRecord;
+    private JButton deleteButton;
     private JButton recreateModelsButton;
 
     private JProgressBar timeProgress;
@@ -315,7 +315,7 @@ public class AudioMenu extends JPanel {
 
         audioToLoad = "";
 
-        if (deleteRecord != null) {
+        if (deleteButton != null) {
             disableDeleteButton();
         }
 
@@ -370,11 +370,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void enableDeleteButton() {
-        changeButtonState(deleteRecord, "Delete", deleteIcon, true);
+        changeButtonState(deleteButton, "Delete", deleteIcon, true);
     }
 
     private void disableDeleteButton() {
-        changeButtonState(deleteRecord, "D̶e̶l̶e̶t̶e̶", null, false);
+        changeButtonState(deleteButton, "D̶e̶l̶e̶t̶e̶", null, false);
     }
 
     /**
@@ -451,12 +451,12 @@ public class AudioMenu extends JPanel {
     }
 
     private void initDeleteButton(JComponent parentComponent) {
-        deleteRecord = new JButton("D̶e̶l̶e̶t̶e̶");
-        deleteRecord.setToolTipText("Delete the selected audio");
-        deleteRecord.setEnabled(false);
-        deleteRecord.addActionListener(e -> deleteWAV());
-        initColors(deleteRecord);
-        parentComponent.add(deleteRecord);
+        deleteButton = new JButton("D̶e̶l̶e̶t̶e̶");
+        deleteButton.setToolTipText("Delete the selected audio");
+        deleteButton.setEnabled(false);
+        deleteButton.addActionListener(e -> deleteWAV());
+        initColors(deleteButton);
+        parentComponent.add(deleteButton);
     }
 
     private void deleteWAV() {
