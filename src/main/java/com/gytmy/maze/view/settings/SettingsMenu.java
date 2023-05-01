@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -150,12 +151,11 @@ public class SettingsMenu extends JPanel {
         }
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
+        List<User> users = playerSelectionPanel.getSelectedUsers();
 
         // Handle model creation prompting
-        String[] usersFirstNames = playerSelectionPanel.getFirstNameUsers();
-
-        if (!User.areAllUsersUpToDate(usersFirstNames)) {
-            promptUserToCreateModels(usersFirstNames);
+        if (!User.areAllUsersUpToDate(users)) {
+            promptUserToCreateModelOfAllUsers();
         }
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
@@ -173,15 +173,15 @@ public class SettingsMenu extends JPanel {
         MenuFrameHandler.frameUpdate(gameMode.toString());
     }
 
-    private void promptUserToCreateModels(String[] usersFirstNames) {
-        int optionValue = JOptionPane.showConfirmDialog(this,
+    private void promptUserToCreateModelOfAllUsers() {
+        int recreateValue = JOptionPane.showConfirmDialog(this,
                 "At least one player's model is not up to date.\nWould you like to re-create all the users' models?",
                 "Models not up to date",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
-        if (optionValue == JOptionPane.YES_OPTION) {
-            ModelManager.createAllUsersModels(usersFirstNames);
+        if (recreateValue == JOptionPane.YES_OPTION) {
+            ModelManager.recreateModelOfAllUsers();
         }
     }
 

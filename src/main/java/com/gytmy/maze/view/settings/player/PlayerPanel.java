@@ -190,6 +190,10 @@ public class PlayerPanel extends JPanel {
         return new PlayerImplementation(userName, color);
     }
 
+    public User getSelectedUser() {
+        return (User) userSelector.getSelectedItem();
+    }
+
     public String getFirstNameUser() {
         if (userSelector == null) {
             return null;

@@ -67,11 +67,7 @@ public class ModelManager {
      * 
      * @param firstNameOfUsers
      */
-    public static void createAllUsersModels(String[] firstNameOfUsers) {
-        if (firstNameOfUsers == null) {
-            return;
-        }
-
+    public static void recreateModelOfAllUsers() {
         List<User> users = AudioFileManager.getUsers();
         createModelOfWorld(users);
         createModelOfAllUsers(users);

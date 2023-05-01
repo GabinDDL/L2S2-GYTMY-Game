@@ -1,5 +1,6 @@
 package com.gytmy.sound;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -67,9 +68,8 @@ public class User {
      * @return If all users are up to date, the method returns `true`.
      *         Otherwise, it returns `false`.
      */
-    public static boolean areAllUsersUpToDate(String[] firstNameOfUsers) {
-        for (String firstName : firstNameOfUsers) {
-            User user = YamlReader.read(ModelManager.AUDIO_FILES_PATH + firstName + "/config.yaml");
+    public static boolean areAllUsersUpToDate(List<User> users) {
+        for (User user : users) {
             if (!user.getUpToDate()) {
                 return false;
             }
