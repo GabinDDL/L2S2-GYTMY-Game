@@ -37,24 +37,16 @@ public class ModelManager {
      * create their and its arborescence
      */
     private static void generateModelDirectoryStructure() {
-        File prmDirectory = new File(PRM_PATH);
-        if (!prmDirectory.exists()) {
-            prmDirectory.mkdir();
-        }
+        createIfFileExists(PRM_PATH);
+        createIfFileExists(LBL_PATH);
+        createIfFileExists(LST_WORLD_PATH);
+        createIfFileExists(LST_WORLD_PATH);
+    }
 
-        File lblDirectory = new File(LBL_PATH);
-        if (!lblDirectory.exists()) {
-            lblDirectory.mkdir();
-        }
-
-        File gmmDirectory = new File(GMM_PATH);
-        if (!gmmDirectory.exists()) {
-            gmmDirectory.mkdir();
-        }
-
-        File lstDirectory = new File(LST_WORLD_PATH);
-        if (!lstDirectory.exists()) {
-            lstDirectory.mkdir();
+    protected static void createIfFileExists(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdir();
         }
     }
 
