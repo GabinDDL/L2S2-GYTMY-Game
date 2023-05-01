@@ -92,11 +92,11 @@ public class MazeViewImplementation extends MazeView {
     public void updateBorders(Color color) {
 
         if (color == null) {
-            labyrinthPanel.setBorder(null);
+            mazePanel.setBorder(null);
             return;
         }
 
-        labyrinthPanel.setBorder(new Border() {
+        mazePanel.setBorder(new Border() {
             @Override
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                 g.setColor(color);
@@ -114,7 +114,6 @@ public class MazeViewImplementation extends MazeView {
             }
         });
 
-        labyrinthPanel.getBorder().paintBorder(labyrinthPanel, getGraphics(), 0, 0, labyrinthPanel.getWidth(),
-                labyrinthPanel.getHeight());
+        repaint();
     }
 }
