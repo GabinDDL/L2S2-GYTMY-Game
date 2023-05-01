@@ -45,7 +45,7 @@ public class AudioRecognitionResult {
     }
 
     private static void generateComparaisonDirectoryStructure() {
-        ModelManager.createIfFileExists(NDX_PATH);
+        ModelManager.createDirectory(NDX_PATH);
     }
 
     /**

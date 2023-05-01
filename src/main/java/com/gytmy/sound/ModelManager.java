@@ -37,13 +37,13 @@ public class ModelManager {
      * create their and its arborescence
      */
     private static void generateModelDirectoryStructure() {
-        createIfFileExists(PRM_PATH);
-        createIfFileExists(LBL_PATH);
-        createIfFileExists(LST_WORLD_PATH);
-        createIfFileExists(LST_WORLD_PATH);
+        createDirectory(PRM_PATH);
+        createDirectory(LBL_PATH);
+        createDirectory(LST_WORLD_PATH);
+        createDirectory(LST_WORLD_PATH);
     }
 
-    protected static void createIfFileExists(String path) {
+    protected static void createDirectory(String path) {
         File file = new File(path);
         if (!file.exists()) {
             file.mkdir();
