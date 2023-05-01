@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
 
-import com.gytmy.labyrinth.view.game.Cell;
+import com.gytmy.maze.view.game.Cell;
 
 /**
  * 
@@ -25,7 +25,7 @@ import com.gytmy.labyrinth.view.game.Cell;
 public class FileTree extends JTree {
 
     // The regex pattern to filter the files and directories to be displayed
-    private static final String REGEX = ".*(wrld|\\.yaml)";
+    private static final String REGEX = ".*(wrld|\\.yaml|model|client)";
 
     private static final Color BACKGROUND_COLOR = Cell.PATH_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.WALL_COLOR;

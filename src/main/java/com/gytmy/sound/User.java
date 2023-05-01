@@ -18,6 +18,7 @@ public class User {
     private String lastName;
     private int studentNumber;
     private String userName;
+    private boolean upToDate = true;
 
     public User(User user) {
         this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
@@ -30,10 +31,10 @@ public class User {
     public User(String firstName, String lastName, int studentNumber, String userName) {
         handleInvalidArguments(firstName, lastName, studentNumber, userName);
 
-        this.firstName = firstName.toUpperCase();
-        this.lastName = lastName.toUpperCase();
+        this.firstName = firstName.toUpperCase().replace(" ", "_");
+        this.lastName = lastName.toUpperCase().replace(" ", "_");
         this.studentNumber = studentNumber;
-        this.userName = userName;
+        this.userName = userName.replace(" ", "_");
     }
 
     private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {
@@ -63,7 +64,7 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = firstName.replace(" ", "_");
     }
 
     public String getLastName() {
@@ -71,7 +72,7 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName.replace(" ", "_");
     }
 
     public int getStudentNumber() {
@@ -87,21 +88,44 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.userName = userName.replace(" ", "_");
     }
 
-    /***********************************
-     * To avoid putting these PATHS in *
-     * the `yaml` file, we do not want *
-     * to put `get` in the method name *
-     ***********************************/
+    public boolean getUpToDate() {
+        return upToDate;
+    }
 
+    public void setUpToDate(boolean upToDate) {
+        this.upToDate = upToDate;
+    }
+
+    /**
+     * A User could be associated with a `.yaml` file.
+     *
+     * Also, when building a User from a file, an empty User is built, then
+     * each of its attributes is set with every available setters.
+     *
+     * And when building the `.yaml` file from the User, every attributes is
+     * passed to the file using every available getters.
+     *
+     * So, the `.yaml` file contains every public attributes of the User and
+     * nothing more. Moreover, only the public attributes should have
+     * getters and setters beginning with `get` and `set`.
+     */
     public String yamlConfigPath() {
         return audioFilesPath() + "config.yaml";
     }
 
     public String audioFilesPath() {
         return AUDIO_ROOT_DIRECTORY + getFirstName() + "/";
+    }
+
+    public String audioPath() {
+        return audioFilesPath() + "audio/";
+    }
+
+    public String modelPath() {
+        return audioFilesPath() + "model/";
     }
 
     /**********************************/

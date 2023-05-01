@@ -1,7 +1,17 @@
 package com.gytmy.sound;
 
-import javax.sound.sampled.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.TargetDataLine;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SoundRecorder is a class that records sound from a microphone and saves it
@@ -14,10 +24,11 @@ public class AudioRecorder {
 
     // We want the format of our files to be WAV
     private static final AudioFileFormat.Type FILE_TYPE = AudioFileFormat.Type.WAVE;
-    private static final long MAX_RECORD_DURATION_MILLISECONDS = 11000;
+    private static final long DEFAULT_MAX_RECORD_DURATION_MILLISECONDS = 11000;
 
     private Thread stopper;
     private File wavFile; // The file that will store the recorded sound
+    private static List<RecordObserver> observers = new ArrayList<>();
 
     // A TargetDataLine represents a mono or multi-channel audio feed
     // from which audio data can be read.
@@ -36,12 +47,16 @@ public class AudioRecorder {
 
     }
 
+    public void start(String audioFilePath) {
+        start(audioFilePath, getTotalDurationInSeconds());
+    }
+
     /**
      * Opens the channel and starts recording
      */
-    public void start(String audioFilePath) {
+    public void start(String audioFilePath, int durationInSeconds) {
         initFile(audioFilePath);
-        initiateStopper();
+        initiateStopper(durationInSeconds);
 
         try {
             openChannel();
@@ -56,6 +71,11 @@ public class AudioRecorder {
 
     private void initFile(String audioFilePath) {
         this.wavFile = new File(audioFilePath);
+
+        File parent = wavFile.getParentFile();
+        if (parent != null) {
+            parent.mkdirs();
+        }
 
         // Make sure the file exists
         if (!wavFile.exists()) {
@@ -73,13 +93,14 @@ public class AudioRecorder {
      * 
      * @return Thread object
      */
-    private void initiateStopper() {
+    private void initiateStopper(long durationInSeconds) {
         stopper = new Thread(() -> {
             try {
-                Thread.sleep(MAX_RECORD_DURATION_MILLISECONDS);
+                Thread.sleep(durationInSeconds * 1000 + 100);
             } catch (InterruptedException ex) {
             }
             finish();
+            notifyObservers();
         });
     }
 
@@ -158,7 +179,8 @@ public class AudioRecorder {
     }
 
     public static boolean isRecording() {
-        return getInstance().stopper.isAlive();
+        AudioRecorder instance = getInstance();
+        return instance.stopper != null && instance.stopper.isAlive();
     }
 
     /**
@@ -173,6 +195,18 @@ public class AudioRecorder {
     }
 
     public static int getTotalDurationInSeconds() {
-        return (int) ((MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
+        return (int) ((DEFAULT_MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
+    }
+
+    public static void notifyObservers() {
+        observers.forEach(RecordObserver::update);
+    }
+
+    public static void addObserver(RecordObserver observer) {
+        observers.add(observer);
+    }
+
+    public static void removeObserver(RecordObserver observer) {
+        observers.remove(observer);
     }
 }

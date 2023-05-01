@@ -1,13 +1,18 @@
 package com.gytmy.sound;
 
 import java.io.File;
-import java.util.List;
 
+import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.WordsToRecord;
 
 public class AudioToFile {
 
     private static AudioRecorder audioRecorder;
+    private static String currentRecordingFile;
+
+    // 10 KB which we consider to be the minimum size to determine if the audio is
+    // not empty
+    private static int minimumAudioFileSize = 10_000;
 
     private AudioToFile() {
     }
@@ -15,7 +20,7 @@ public class AudioToFile {
     /**
      * Starts recording an audio in which the user says the recorded word
      */
-    public static void record(User user, String recordedWord) {
+    public static void record(User user, String recordedWord, int durationInSeconds) {
 
         assertIsValidUser(user);
 
@@ -28,18 +33,41 @@ public class AudioToFile {
         }
 
         assertIsValidWordRecorded(recordedWord);
-        assertIsValidUserDirectory(user, recordedWord);
+
+        AudioFileManager.tryToCreateUserWordDirectory(user, recordedWord);
 
         int numberOfRecordings = AudioFileManager.numberOfRecordings(user.getFirstName(), recordedWord) + 1;
 
-        String path = user.audioFilesPath() + recordedWord + "/" + recordedWord + numberOfRecordings + ".wav";
+        String path = user.audioPath() + recordedWord + "/" + user.getFirstName() + "_" + recordedWord
+                + numberOfRecordings
+                + ".wav";
+        currentRecordingFile = path;
 
         audioRecorder = AudioRecorder.getInstance();
-        audioRecorder.start(path);
+        audioRecorder.start(path, durationInSeconds);
+
+        user.setUpToDate(false);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
-    public static void stop() {
+    /**
+     * Stops recording the audio. If the file's size is too small, it is deleted.
+     * 
+     * @throws FileTooSmallException if the file is too small
+     */
+    public static void stop() throws FileTooSmallException {
         audioRecorder.finish();
+
+        File file = new File(currentRecordingFile);
+
+        if (FileInformationFinder.getFileSizeBytes(file) < minimumAudioFileSize) {
+            AudioFileManager.deleteRecording(currentRecordingFile);
+            String temp = currentRecordingFile;
+            currentRecordingFile = "";
+            throw new FileTooSmallException(temp);
+        }
+
+        currentRecordingFile = "";
     }
 
     /**
@@ -63,16 +91,9 @@ public class AudioToFile {
         }
     }
 
-    /**
-     * Asserts that the user folder contains the recorded word folder
-     */
-    private static void assertIsValidUserDirectory(User user, String recordedWord) {
-
-        File userDirectory = new File(user.audioFilesPath());
-        List<File> userFiles = AudioFileManager.getFilesVerifyingPredicate(userDirectory, File::isDirectory);
-
-        if (!userFiles.contains(new File(user.audioFilesPath() + recordedWord))) {
-            new File(user.audioFilesPath() + recordedWord).mkdir();
+    public static class FileTooSmallException extends Exception {
+        public FileTooSmallException(String file) {
+            super("The file " + file + " is too small");
         }
     }
 }

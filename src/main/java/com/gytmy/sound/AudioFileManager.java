@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.WordsToRecord;
 
 /**
@@ -69,6 +70,12 @@ public class AudioFileManager {
         userDirectory.mkdir();
 
         writeYamlConfig(user);
+
+        File userAudioDirectory = new File(user.audioPath());
+        userAudioDirectory.mkdir();
+
+        File userModelDirectory = new File(user.modelPath());
+        userModelDirectory.mkdir();
     }
 
     /**
@@ -104,7 +111,11 @@ public class AudioFileManager {
     }
 
     public static List<User> getUsers() {
-        return getUsersVerifyingPredicate(File::isDirectory);
+        return getUsersVerifyingPredicate(AudioFileManager::isNotClientDirectory);
+    }
+
+    private static boolean isNotClientDirectory(File file) {
+        return file.isDirectory() && !file.getName().equals("client");
     }
 
     public static List<User> getUsersVerifyingPredicate(Predicate<File> predicate) {
@@ -143,8 +154,9 @@ public class AudioFileManager {
 
     private static void clearDirectory(File directory) {
         for (File file : directory.listFiles()) {
-            if (file.isDirectory())
+            if (file.isDirectory() && file.canWrite()) {
                 clearDirectory(file);
+            }
             file.delete();
         }
     }
@@ -181,7 +193,7 @@ public class AudioFileManager {
             throw new IllegalArgumentException("Word does not exist");
         }
 
-        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/" + word);
+        File userDirectory = new File(SRC_DIR_PATH + "/" + userName.toUpperCase() + "/audio/" + word);
 
         if (!userDirectory.exists()) {
             return 0;
@@ -207,6 +219,10 @@ public class AudioFileManager {
     }
 
     public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate) {
+        return getFilesVerifyingPredicate(directory, predicate, false);
+    }
+
+    public static List<File> getFilesVerifyingPredicate(File directory, Predicate<File> predicate, boolean recursive) {
         List<File> files = new ArrayList<>();
 
         if (!directory.exists()) {
@@ -214,7 +230,9 @@ public class AudioFileManager {
         }
 
         for (File file : directory.listFiles()) {
-            if (predicate.test(file)) {
+            if (recursive && file.isDirectory()) {
+                files.addAll(getFilesVerifyingPredicate(file, predicate, true));
+            } else if (predicate.test(file)) {
                 files.add(file);
             }
         }
@@ -223,7 +241,12 @@ public class AudioFileManager {
     }
 
     public static void deleteRecording(String firstName, String wordToRecord, int i) {
-        deleteRecording(SRC_DIR_PATH + firstName.toUpperCase() + "/" + wordToRecord + "/" + wordToRecord + i + ".wav");
+        User user = YamlReader.read(SRC_DIR_PATH + firstName.toUpperCase() + "/config.yaml");
+
+        deleteRecording(user.audioPath() + wordToRecord + "/" + firstName + "_" + wordToRecord + i + ".wav");
+
+        user.setUpToDate(false);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     public static void deleteRecording(String filePath) {
@@ -245,7 +268,7 @@ public class AudioFileManager {
      *                           deleting the file
      */
     public static void renameAudioFiles(String firstName, String word, int wordIndex, int numberOfRecordings) {
-        File userDirectory = new File(SRC_DIR_PATH + firstName + "/" + word);
+        File userDirectory = new File(SRC_DIR_PATH + firstName + "/audio/" + word);
 
         if (!userDirectory.exists()) {
             return;
@@ -254,8 +277,8 @@ public class AudioFileManager {
         int diff = 1;
         for (int index = wordIndex + 1; index <= numberOfRecordings; index++) {
 
-            File fileToRename = new File(userDirectory + "/" + word + index + ".wav");
-            File newFile = new File(userDirectory + "/" + word + (index - diff) + ".wav");
+            File fileToRename = new File(userDirectory + "/" + firstName + "_" + word + index + ".wav");
+            File newFile = new File(userDirectory + "/" + firstName + "_" + word + (index - diff) + ".wav");
 
             if (fileToRename.exists()) {
                 fileToRename.renameTo(newFile);
@@ -284,5 +307,78 @@ public class AudioFileManager {
                 oldUserDirectory.renameTo(new File(user.audioFilesPath()));
             }
         }
+    }
+
+    /**
+     * Create the user word directory if it does not exist
+     */
+    public static boolean tryToCreateUserWordDirectory(User user, String word) {
+        if (user == null) {
+            return false;
+        }
+
+        boolean atLeastOneDirectoryWasCreated = false;
+
+        File userAudioDirectory = new File(user.audioPath());
+
+        if (!userAudioDirectory.exists()) {
+            userAudioDirectory.mkdir();
+        }
+
+        if (!doesFileExistInDirectory(userAudioDirectory, user.audioPath() + word)) {
+            new File(user.audioPath() + word).mkdir();
+            atLeastOneDirectoryWasCreated = true;
+        }
+
+        atLeastOneDirectoryWasCreated = ModelManager.tryToCreateModelDirectoriesOfWord(user, word)
+                || atLeastOneDirectoryWasCreated;
+
+        return atLeastOneDirectoryWasCreated;
+    }
+
+    /**
+     * Return true if file is inside directory
+     */
+    public static boolean doesFileExistInDirectory(File directory, String file) {
+        List<File> files = getFilesVerifyingPredicate(directory, File::isDirectory);
+
+        return files.contains(new File(file));
+    }
+
+    public static float getTotalDurationOfAllAudioFiles() {
+        return FileInformationFinder.getAudioLength(getAllAudioFiles());
+    }
+
+    private static List<File> getAllAudioFiles() {
+        return getFilesVerifyingPredicate(SRC_DIRECTORY, AudioFileManager::isAudioFile, true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesOfUser(User user) {
+        return FileInformationFinder.getAudioLength(getAllAudioFilesOfUser(user));
+    }
+
+    private static List<File> getAllAudioFilesOfUser(User user) {
+        return getFilesVerifyingPredicate(new File(user.audioFilesPath()), AudioFileManager::isAudioFile, true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesForSpecificWord(String word) {
+        return FileInformationFinder.getAudioLength(getAllAudioFilesForSpecificWord(word));
+    }
+
+    private static List<File> getAllAudioFilesForSpecificWord(String word) {
+        return getFilesVerifyingPredicate(SRC_DIRECTORY, file -> audioFileContainsWord(file, word), true);
+    }
+
+    public static float getTotalDurationOfAllAudioFilesOfUserForSpecificWord(User user, String word) {
+        return FileInformationFinder.getAudioLength(getAllAudioFilesOfUserForSpecificWord(user, word));
+    }
+
+    private static List<File> getAllAudioFilesOfUserForSpecificWord(User user, String word) {
+        return getFilesVerifyingPredicate(new File(user.audioFilesPath()), file -> audioFileContainsWord(file, word),
+                true);
+    }
+
+    private static boolean audioFileContainsWord(File file, String word) {
+        return isAudioFile(file) && file.getName().contains(word);
     }
 }

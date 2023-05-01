@@ -9,6 +9,9 @@
     - [`"Classic Mode"`](#classic-mode)
     - [`"One-Dimensional Mode"`](#one-dimensional-mode)
     - [`"Blackout Mode"`](#blackout-mode)
+  - [Dependencies](#dependencies)
+  - [How to install the dependencies](#how-to-install-the-dependencies)
+  - [How to run the game](#how-to-run-the-game)
 
 This project was realized by GYTMY for the unit `Projet de programmation (PI4)` during Year 2 Second Semester of `Double Licence Mathématiques-Informatique` (2022-2023).
 
@@ -20,13 +23,13 @@ Sami Boutamine (sami.boutamine@utc.fr)
 
 ## Students
 
-| Student ID # | Last Name | First Name | Group | Email |
-|:-:|:-:|:-:|:-:|:-:|
-| 22103458 | DUDILLIEU | Gabin  | MI2 | gdudillieu@gmail.com |
-| 22101699 | IGLESIAS VAZQUEZ | Yago | MI2 | yago.iglesias-vazquez@etu.u-paris.fr |
-| 22107803 | SOAN | Tony Ly | MI2 | tony-ly.soan@etu.u-paris.fr |
-| 22112498 | SELVAKUMAR | Mathusan | MI2 | mathusan.selvakumar@gmail.com |
-| 22103173 | LACENNE | Yanis | MI2 | yanis.lacenne@etu.u-paris.fr |
+| Student ID # |    Last Name     | First Name | Group |                Email                 |
+| :----------: | :--------------: | :--------: | :---: | :----------------------------------: |
+|   22103458   |    DUDILLIEU     |   Gabin    |  MI2  |         gdudillieu@gmail.com         |
+|   22101699   | IGLESIAS VAZQUEZ |    Yago    |  MI2  | yago.iglesias-vazquez@etu.u-paris.fr |
+|   22107803   |       SOAN       |  Tony Ly   |  MI2  |     tony-ly.soan@etu.u-paris.fr      |
+|   22112498   |    SELVAKUMAR    |  Mathusan  |  MI2  |    mathusan.selvakumar@gmail.com     |
+|   22103173   |     LACENNE      |   Yanis    |  MI2  |     yanis.lacenne@etu.u-paris.fr     |
 
 ## What is this project about ?
 
@@ -40,7 +43,7 @@ The goal of this project is to be able to control the movements of characters in
 
 A simple single or multi-player mode where you have to reach the end of the maze.
 
-You can also choose the `width` and the `height` of the labyrinth.
+You can also choose the `width` and the `height` of the maze.
 
 ### `"One-Dimensional Mode"`
 
@@ -48,14 +51,40 @@ You can also choose the `width` and the `height` of the labyrinth.
 
 An extremely simple single or multi-player mode where you have to reach the end of the corridor.
 
-You can also choose the `length` of the labyrinth.
+You can also choose the `length` of the maze.
 
 ### `"Blackout Mode"`
 
-Lights on             |  Lights out
-:-------------------------:|:-------------------------:
-![Image Blackout Mode Light](images/BlackoutModeLight.png) | ![Image Blackout Mode Dark](images/BlackoutModeDark.png)
+|                         Lights on                          |                        Lights out                        |
+| :--------------------------------------------------------: | :------------------------------------------------------: |
+| ![Image Blackout Mode Light](images/BlackoutModeLight.png) | ![Image Blackout Mode Dark](images/BlackoutModeDark.png) |
 
 A fun single-player mode where your memory skills will comme in handy to get yourself through the darkness.
 
 There are 3 difficulties available : `EASY`, `NORMAL` and `HARD`.
+
+## Dependencies
+
+- SPro
+- ALIZE (alize_core and LIA_RAL)
+- Whisper (and all its dependencies)
+
+## How to install the dependencies
+
+Check the [INSTALL.md](INSTALL.md)
+
+## How to run the game
+
+After installing the dependencies, you can run the game by executing the following command in the root directory of the project:
+
+```bash
+./run.sh
+```
+
+If the file does not have the right permissions, you can give it the right permissions by executing the following command in the root directory of the project:
+
+```bash
+chmod +x run.sh
+```
+
+After that yo can execute the command above to run the game.

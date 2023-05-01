@@ -1,0 +1,4 @@
+
+M GABIN_UP 0 CurrentAudio -112
+M GABIN_DOWN 0 CurrentAudio 113
+M GABIN_RIGHT 0 CurrentAudio 112

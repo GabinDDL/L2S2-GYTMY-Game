@@ -6,13 +6,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import com.gytmy.labyrinth.view.MenuFrameHandler;
+import com.gytmy.maze.view.MenuFrameHandler;
 
 public class GraphicalLauncher implements Runnable {
 
     @Override
     public void run() {
         JFrame frame = new JFrame();
+        frame.setSize(800, 500);
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         MenuFrameHandler.setMainFrame(frame);
@@ -29,7 +30,6 @@ public class GraphicalLauncher implements Runnable {
             // If the image doesn't load, we want to continue anyway
         }
 
-        frame.setSize(800, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
