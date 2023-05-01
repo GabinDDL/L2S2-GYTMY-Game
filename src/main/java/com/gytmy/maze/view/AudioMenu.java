@@ -382,7 +382,7 @@ public class AudioMenu extends JPanel {
         initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
         initTotalAudioLength(audioPanel);
-        initDeleteRecordButton(audioPanel);
+        initDeleteAudioFileButton(audioPanel);
         initRecordButton(audioPanel);
         initLabelDuration(audioPanel);
         initProgressBar(audioPanel);
@@ -492,7 +492,7 @@ public class AudioMenu extends JPanel {
         return totalForASpecificWord;
     }
 
-    private void initDeleteRecordButton(JComponent parentComponent) {
+    private void initDeleteAudioFileButton(JComponent parentComponent) {
         deleteRecord = new JButton("D̶e̶l̶e̶t̶e̶");
         deleteRecord.setToolTipText("Delete the selected audio");
         deleteRecord.setEnabled(false);
