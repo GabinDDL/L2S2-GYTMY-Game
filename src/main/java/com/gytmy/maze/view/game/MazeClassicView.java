@@ -29,6 +29,11 @@ public class MazeClassicView extends MazeViewImplementation {
         c.gridx = 0;
         c.gridy = 1;
         add(mazePanel, c);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(statusFeedbackPanel, c);
     }
 
 }
