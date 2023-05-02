@@ -71,8 +71,8 @@ public class PlayerSelectionPanel extends JPanel {
 
     public List<User> getSelectedUsers() {
         List<User> users = new ArrayList<>();
-        for (PlayerPanel playerPanel : playerPanels) {
-            User user = playerPanel.getSelectedUser();
+        for (int playerPosition = 0; playerPosition < numberOfPlayers; playerPosition++) {
+            User user = playerPanels[playerPosition].getSelectedUser();
             if (user != null) {
                 users.add(user);
             }
