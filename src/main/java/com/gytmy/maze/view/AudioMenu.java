@@ -528,11 +528,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void disableRecreateModelsButton() {
-        changeButtonState(recreateModelsButton, "R̶e̶c̶r̶e̶a̶t̶e̶ M̶o̶d̶e̶l̶", recreateModelDisabledIcon, false);
+        changeButtonState(recreateModelsButton, "R̶e̶c̶r̶e̶a̶t̶e̶ M̶o̶d̶e̶l̶s̶", recreateModelDisabledIcon, false);
     }
 
     private void enableRecreateModelsButton() {
-        changeButtonState(recreateModelsButton, "Recreate Model", recreateModelEnabledIcon, true);
+        changeButtonState(recreateModelsButton, "Recreate Models", recreateModelEnabledIcon, true);
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
