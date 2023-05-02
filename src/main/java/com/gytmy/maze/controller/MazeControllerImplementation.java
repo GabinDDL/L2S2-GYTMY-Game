@@ -31,7 +31,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private JFrame frame;
     private boolean hasCountdownEnded = false;
     private static String FILE_NAME = "currentGameAudio";
-    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/"+ FILE_NAME + ".wav";
+    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
     private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
@@ -55,6 +55,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         model = MazeModelFactory.createMaze(gameData);
         initPlayersInitialCell(model.getPlayers());
         view = MazeViewFactory.createMazeView(gameData, model, frame, this);
+        updateStatus();
     }
 
     private void initScoreType() {
@@ -96,16 +97,18 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         AudioRecorder.addObserver(this);
         HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
 
+            if (!hasCountdownEnded) {
+                return;
+            }
+
             if (AudioRecorder.isRecording()) {
                 recorder.finish();
                 return;
             }
 
-            new Thread(() -> {
-                recorder.start(AUDIO_GAME_PATH);
-            }).start();
+            recorder.start(AUDIO_GAME_PATH);
 
-            bordersUpdate();
+            updateStatus();
 
         }, "Record Audio In Game");
     }
@@ -116,14 +119,14 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
         futureCommand.thenAccept(recognizedCommand -> {
 
-            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper 
+            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper
             System.out.println("\nrecognizedCommand: " + recognizedCommand);
             System.out.println("-----------");
 
             new File(AUDIO_GAME_PATH).delete();
             new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
         });
-        
+
     }
 
     @Override
@@ -175,6 +178,8 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         if (model.isGameOver()) {
             view.stopTimer();
             view.notifyGameOver();
+
+            AudioRecorder.getInstance().finish();
         }
     }
 
@@ -192,21 +197,32 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     public void notifyGameStarted() {
         hasCountdownEnded = true;
         view.notifyGameStarted();
+        updateStatus();
     }
 
     @Override
-    public void update() {
-        compareAudioWithModel();
-
-        bordersUpdate();
+    public void startRecordUpdate() {
+        updateStatus();
     }
 
-    private void bordersUpdate() {
+    @Override
+    public void endRecordUpdate() {
+        compareAudioWithModel();
+
+        updateStatus();
+    }
+
+    private void updateStatus() {
+
+        if (!hasCountdownEnded) {
+            view.updateStatus(Color.ORANGE, "COUNTDOWN... BE READY", Color.DARK_GRAY);
+            return;
+        }
 
         if (AudioRecorder.isRecording()) {
-            view.updateBorders(Color.RED);
+            view.updateStatus(Color.RED, "RECORDING...");
         } else {
-            view.updateBorders(null);
+            view.updateStatus(null, "PLAYING");
         }
     }
 }
