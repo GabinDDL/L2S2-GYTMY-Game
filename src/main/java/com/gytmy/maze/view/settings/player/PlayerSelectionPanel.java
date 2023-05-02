@@ -125,4 +125,8 @@ public class PlayerSelectionPanel extends JPanel {
         }
     }
 
+    public void updateUsers() {
+        UserSelector.AvailableUsers.getInstance().updateUsers();
+    }
+
 }

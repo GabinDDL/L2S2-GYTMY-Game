@@ -50,6 +50,7 @@ public class SettingsMenu extends JPanel {
         if (instance == null) {
             instance = new SettingsMenu();
         }
+        instance.updateUsers();
         return instance;
     }
 
@@ -202,5 +203,9 @@ public class SettingsMenu extends JPanel {
     private void updateGUI() {
         revalidate();
         repaint();
+    }
+
+    private void updateUsers() {
+        playerSelectionPanel.updateUsers();
     }
 }
