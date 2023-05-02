@@ -148,23 +148,12 @@ public class SettingsMenu extends JPanel {
 
     private void startGame() {
         if (!playerSelectionPanel.arePlayersReady()) {
-            JOptionPane.showMessageDialog(this, "Not all players are ready", "", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Not all players are ready", "Message", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
-        /*
-         * FIXME: Starting a game does not prompt remodeling because
-         * the references of the users selected in the playerSelectionPanel are
-         * not updated because the userSelector's AvailableUsers' references to
-         * instances of type User that are outdated.
-         */
         List<User> users = playerSelectionPanel.getSelectedUsers();
-        // List<User> users = AudioFileManager.getUsers();
-
-        for (User user : users) {
-            System.out.println(user.getFirstName() + "\t" + user.getUpToDate());
-        }
 
         // Handle model creation prompting
         if (!User.areAllUsersUpToDate(users)) {
@@ -187,14 +176,26 @@ public class SettingsMenu extends JPanel {
     }
 
     private void promptUserToCreateModelOfAllUsers() {
-        int recreateValue = JOptionPane.showConfirmDialog(this,
-                "At least one player's model is not up to date.\nWould you like to re-create all the users' models?",
-                "Models not up to date",
+        int recreateValue = JOptionPane.showConfirmDialog(
+                this,
+                "At least one selected player's model is not up to date.\nWould you like to recreate all the users' models?",
+                "The models are not up to date",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (recreateValue == JOptionPane.YES_OPTION) {
             ModelManager.recreateModelOfAllUsers();
+            JOptionPane.showMessageDialog(
+                    this,
+                    "The models have been successfully recreated.",
+                    "Models recreation : Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "The models have not been recreated.",
+                    "Models recreation : Skipped",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

@@ -512,7 +512,10 @@ public class AudioMenu extends JPanel {
             if (!User.areAllUsersUpToDate(users)) {
                 disableRecreateModelsButton();
                 ModelManager.recreateModelOfAllUsers();
-                JOptionPane.showMessageDialog(this, "The Models have been successfully recreated.", "Success",
+                JOptionPane.showMessageDialog(
+                        this,
+                        "The Models have been successfully recreated.",
+                        "Models recreation : Success",
                         JOptionPane.INFORMATION_MESSAGE);
             }
 

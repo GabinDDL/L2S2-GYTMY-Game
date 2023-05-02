@@ -22,20 +22,25 @@ public class User {
     private boolean upToDate = true;
 
     public User(User user) {
-        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
+        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(), user.getUpToDate());
     }
 
     public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME);
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, true);
     }
 
     public User(String firstName, String lastName, int studentNumber, String userName) {
+        this(firstName, lastName, studentNumber, userName, true);
+    }
+
+    public User(String firstName, String lastName, int studentNumber, String userName, boolean upToDate) {
         handleInvalidArguments(firstName, lastName, studentNumber, userName);
 
         this.firstName = firstName.toUpperCase().replace(" ", "_");
         this.lastName = lastName.toUpperCase().replace(" ", "_");
         this.studentNumber = studentNumber;
         this.userName = userName.replace(" ", "_");
+        this.upToDate = upToDate;
     }
 
     private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {
