@@ -151,8 +151,18 @@ public class SettingsMenu extends JPanel {
         }
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
+        /*
+         * FIXME: Starting a game does not prompt remodeling because
+         * the references of the users selected in the playerSelectionPanel are
+         * not updated because the userSelector's AvailableUsers' references to
+         * instances of type User that are outdated.
+         */
         List<User> users = playerSelectionPanel.getSelectedUsers();
-
+        /*
+         * for (User user : users) {
+         * System.out.println(user.getFirstName() + "\t" + user.getUpToDate());
+         * }
+         */
         // Handle model creation prompting
         if (!User.areAllUsersUpToDate(users)) {
             promptUserToCreateModelOfAllUsers();
