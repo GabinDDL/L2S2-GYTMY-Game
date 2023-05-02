@@ -39,5 +39,9 @@ public abstract class MazeView extends JPanel {
         });
     }
 
-    public abstract void updateBorders(Color red);
+    public abstract void updateStatus(String status);
+
+    public abstract void updateStatus(Color backgroundColor, String status);
+
+    public abstract void updateStatus(Color backgroundColor, String status, Color foregroundColor);
 }
