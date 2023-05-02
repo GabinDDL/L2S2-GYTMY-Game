@@ -30,6 +30,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private MazeView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
+    private boolean comparingAudioWithModel = false;
     private static String FILE_NAME = "currentGameAudio";
     private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
     private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
@@ -115,6 +116,8 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
     private void compareAudioWithModel() {
 
+        comparingAudioWithModel = true;
+
         CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
 
         futureCommand.thenAccept(recognizedCommand -> {
@@ -125,6 +128,10 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
             new File(AUDIO_GAME_PATH).delete();
             new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+
+            comparingAudioWithModel = false;
+
+            updateStatus();
         });
 
     }
@@ -221,6 +228,8 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
         if (AudioRecorder.isRecording()) {
             view.updateStatus(Color.RED, "RECORDING...");
+        } else if (comparingAudioWithModel) {
+            view.updateStatus(Color.BLUE, "COMPARING...");
         } else {
             view.updateStatus(null, "PLAYING");
         }
