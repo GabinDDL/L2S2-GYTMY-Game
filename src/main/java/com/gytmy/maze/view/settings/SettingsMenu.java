@@ -26,6 +26,7 @@ import com.gytmy.maze.view.game.Cell;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
+import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.ModelManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
@@ -159,11 +160,12 @@ public class SettingsMenu extends JPanel {
          * instances of type User that are outdated.
          */
         List<User> users = playerSelectionPanel.getSelectedUsers();
-        /*
-         * for (User user : users) {
-         * System.out.println(user.getFirstName() + "\t" + user.getUpToDate());
-         * }
-         */
+        // List<User> users = AudioFileManager.getUsers();
+
+        for (User user : users) {
+            System.out.println(user.getFirstName() + "\t" + user.getUpToDate());
+        }
+
         // Handle model creation prompting
         if (!User.areAllUsersUpToDate(users)) {
             promptUserToCreateModelOfAllUsers();
@@ -206,6 +208,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void updateUsers() {
+        System.out.println("Updating users");
         playerSelectionPanel.updateUsers();
     }
 }
