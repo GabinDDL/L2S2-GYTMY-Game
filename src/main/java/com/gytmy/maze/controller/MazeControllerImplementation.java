@@ -29,8 +29,9 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private MazeView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
+    private boolean isRecordingEnabled = false;
     private static String FILE_NAME = "currentGameAudio";
-    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/"+ FILE_NAME + ".wav";
+    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
     private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
@@ -94,7 +95,9 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         AudioRecorder recorder = AudioRecorder.getInstance();
         AudioRecorder.addObserver(this);
         HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
-
+            if (!isRecordingEnabled) {
+                return;
+            }
             if (AudioRecorder.isRecording()) {
                 recorder.finish();
                 return;
@@ -113,14 +116,14 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
         futureCommand.thenAccept(recognizedCommand -> {
 
-            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper 
+            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper
             System.out.println("\nrecognizedCommand: " + recognizedCommand);
             System.out.println("-----------");
 
             new File(AUDIO_GAME_PATH).delete();
             new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
         });
-        
+
     }
 
     @Override
@@ -188,6 +191,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     @Override
     public void notifyGameStarted() {
         hasCountdownEnded = true;
+        isRecordingEnabled = true;
         view.notifyGameStarted();
     }
 
