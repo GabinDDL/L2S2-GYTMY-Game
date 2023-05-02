@@ -121,8 +121,6 @@ public class AudioMenu extends JPanel {
     private static final Color TEXT_COLOR = Cell.PATH_COLOR;
     private static final Color BACK_BUTTON_COLOR = Cell.EXIT_CELL_COLOR;
 
-    List<User> users = AudioFileManager.getUsers();
-
     private static AudioMenu instance = null;
 
     public static AudioMenu getInstance() {
@@ -175,7 +173,7 @@ public class AudioMenu extends JPanel {
 
     private void addUsersToJComboBox(JComboBox<User> userSelector) {
         userSelector.addItem(ALL_USERS);
-
+        List<User> users = AudioFileManager.getUsers();
         for (User user : users) {
             userSelector.addItem(user);
         }
@@ -436,21 +434,14 @@ public class AudioMenu extends JPanel {
     private void initRecordButton(JComponent parentComponent) {
         recordButton = new JButton("R̶e̶c̶o̶r̶d̶");
         recordButton.setToolTipText("Record a new audio for the selected word");
-        recordButton.addActionListener(e -> {
-            recordAudio();
-            handleRecreateModelsButtonState();
-        });
+        recordButton.addActionListener(e -> recordAudio());
         recordButton.setEnabled(false);
         initColors(recordButton);
         parentComponent.add(recordButton);
     }
 
     public void handleRecreateModelsButtonState() {
-        // TODO: remove debugging print
-        for (User user : users) {
-            System.out.println(user.getFirstName() + " " + user.getUpToDate());
-        }
-
+        List<User> users = AudioFileManager.getUsers();
         if (User.areAllUsersUpToDate(users)) {
             disableRecreateModelsButton();
         } else {
@@ -517,6 +508,7 @@ public class AudioMenu extends JPanel {
         recreateModelsButton.setToolTipText("Recreate the models for all the users");
 
         recreateModelsButton.addActionListener(e -> {
+            List<User> users = AudioFileManager.getUsers();
             if (!User.areAllUsersUpToDate(users)) {
                 disableRecreateModelsButton();
                 ModelManager.recreateModelOfAllUsers();
