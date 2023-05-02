@@ -179,7 +179,6 @@ public class SettingsMenu extends JPanel {
     }
 
     private void updateUsers() {
-        System.out.println("Updating users");
         playerSelectionPanel.updateUsers();
     }
 }
