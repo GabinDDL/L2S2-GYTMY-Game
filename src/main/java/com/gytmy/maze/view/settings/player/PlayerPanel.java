@@ -191,6 +191,10 @@ public class PlayerPanel extends JPanel {
     }
 
     public User getSelectedUser() {
+        if (userSelector == null) {
+            return null;
+        }
+
         return (User) userSelector.getSelectedItem();
     }
 
