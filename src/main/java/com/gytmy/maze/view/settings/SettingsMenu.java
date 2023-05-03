@@ -26,7 +26,6 @@ import com.gytmy.maze.view.game.Cell;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
-import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.ModelManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
@@ -200,7 +199,7 @@ public class SettingsMenu extends JPanel {
     }
 
     private void addEscapeKeyBind() {
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu, "Go to Start Menu");
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, SettingsMenu::goToStartMenu, "Go to Start Menu");
     }
 
     private void updateGUI() {
@@ -210,5 +209,11 @@ public class SettingsMenu extends JPanel {
 
     private void updateUsers() {
         playerSelectionPanel.updateUsers();
+    }
+
+    private static void goToStartMenu() {
+        SettingsMenu instance = SettingsMenu.getInstance();
+        instance.playerSelectionPanel.setPlayersToUnready();
+        MenuFrameHandler.goToStartMenu();
     }
 }
