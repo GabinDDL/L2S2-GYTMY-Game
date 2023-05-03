@@ -59,23 +59,30 @@ public class PausePanel extends JPanel {
     }
 
     private void initButtons() {
+        initResumeButton();
+        initQuitButton();
+    }
+
+    private void initResumeButton() {
         resumeButton = new JButton("Resume");
-        quitButton = new JButton("Restart");
-
         resumeButton.addActionListener(e -> resume());
-        quitButton.addActionListener(e -> MenuFrameHandler.goToSettingsMenu());
-
         resumeButton.setBackground(Cell.PATH_COLOR);
         resumeButton.setForeground(Cell.WALL_COLOR);
-
-        quitButton.setBackground(Cell.PATH_COLOR);
-        quitButton.setForeground(Cell.EXIT_CELL_COLOR);
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = 2;
         constraints.gridx = 0;
         add(resumeButton, constraints);
+    }
 
+    private void initQuitButton() {
+        quitButton = new JButton("Restart");
+        quitButton.addActionListener(e -> MenuFrameHandler.goToSettingsMenu());
+        quitButton.setBackground(Cell.PATH_COLOR);
+        quitButton.setForeground(Cell.EXIT_CELL_COLOR);
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridy = 2;
         constraints.gridx = 2;
         add(quitButton, constraints);
     }
