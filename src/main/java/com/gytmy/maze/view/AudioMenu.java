@@ -463,7 +463,7 @@ public class AudioMenu extends JPanel {
 
     public void handleRecreateModelsButtonState() {
         List<User> users = AudioFileManager.getUsers();
-        if (User.areAllUsersUpToDate(users)) {
+        if (User.areUpToDate(users)) {
             disableRecreateModelsButton();
         } else {
             enableRecreateModelsButton();
@@ -509,7 +509,7 @@ public class AudioMenu extends JPanel {
 
         recreateModelsButton.addActionListener(e -> {
             List<User> users = AudioFileManager.getUsers();
-            if (!User.areAllUsersUpToDate(users)) {
+            if (!User.areUpToDate(users)) {
                 disableRecreateModelsButton();
                 ModelManager.recreateModelOfAllUsers();
                 JOptionPane.showMessageDialog(

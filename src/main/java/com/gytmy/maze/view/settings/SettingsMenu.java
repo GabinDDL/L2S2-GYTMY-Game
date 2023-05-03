@@ -156,7 +156,7 @@ public class SettingsMenu extends JPanel {
         List<User> users = playerSelectionPanel.getSelectedUsers();
 
         // Handle model creation prompting
-        if (!User.areAllUsersUpToDate(users)) {
+        if (!User.areUpToDate(users)) {
             promptUserToCreateModelOfAllUsers();
         }
 

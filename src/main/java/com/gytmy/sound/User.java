@@ -73,7 +73,7 @@ public class User {
      * @return If all users are up to date, it will return true;
      *         otherwise, it will return false.
      */
-    public static boolean areAllUsersUpToDate(List<User> users) {
+    public static boolean areUpToDate(List<User> users) {
         for (User user : users) {
             if (!user.getUpToDate()) {
                 return false;
