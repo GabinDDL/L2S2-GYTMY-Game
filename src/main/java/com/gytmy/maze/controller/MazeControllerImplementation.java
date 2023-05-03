@@ -16,8 +16,12 @@ import com.gytmy.maze.model.score.ScoreCalculator;
 import com.gytmy.maze.model.score.ScoreType;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.game.MazeViewFactory;
+import com.gytmy.sound.AudioFileManager;
+import com.gytmy.sound.AudioRecognitionResult;
 import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.RecordObserver;
+import com.gytmy.sound.User;
+import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
 import com.gytmy.sound.whisper.Whisper;
 import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.Coordinates;
@@ -30,7 +34,9 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private MazeView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
-    private boolean comparingAudioWithModel = false;
+    private boolean comparingAudioWithModel = false; // true if the compare function is running
+    private boolean compareWithWhisper = true; // true if the compare function should use Whisper
+
     private static String FILE_NAME = "currentGameAudio";
     private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
     private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
@@ -114,26 +120,73 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         }, "Record Audio In Game");
     }
 
+    /**
+     * Compare the audio with model and move the player in consequence
+     * 
+     * (the direction is determined with whisper or with alize, depends on
+     * compareWithWhisper)
+     */
     private void compareAudioWithModel() {
 
         comparingAudioWithModel = true;
 
-        CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
+        AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
 
-        futureCommand.thenAccept(recognizedCommand -> {
+        if (result == null) {
+            return;
+        }
 
-            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper
-            System.out.println("\nrecognizedCommand: " + recognizedCommand);
-            System.out.println("-----------");
+        User recognizedUser = AudioFileManager.getUser(result.getName());
+        if (recognizedUser == null) {
+            return;
+        }
 
-            new File(AUDIO_GAME_PATH).delete();
-            new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+        if (!compareWithWhisper) {
+            movePlayerWithCompareResult(recognizedUser, result.getWord());
+        } else {
+            CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
 
-            comparingAudioWithModel = false;
+            futureCommand.thenAccept(recognizedCommand -> {
 
-            updateStatus();
-        });
+                System.out.println("------------------------------------");
+                System.out.println("recognizedCommand: " + recognizedCommand);
+                System.out.println("recognizedUser: " + recognizedUser.getUserName());
+                System.out.println("------------------------------------");
 
+                movePlayerWithCompareResult(recognizedUser, recognizedCommand);
+
+                new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+            });
+        }
+
+        new File(AUDIO_GAME_PATH).delete();
+
+        comparingAudioWithModel = false;
+        updateStatus();
+    }
+
+    /**
+     * Move the player if its name is recognized, in the direction of
+     * nameOfDirection
+     * 
+     * @param recognizedUser
+     * @param directionName
+     */
+    private void movePlayerWithCompareResult(User recognizedUser, String directionName) {
+        Player[] players = getPlayers();
+
+        for (Player player : players) {
+
+            if (recognizedUser.getUserName().equals(player.getName())) {
+
+                Direction direction = Direction.stringToDirection(directionName);
+
+                if (direction != null) {
+                    movePlayer(player, direction);
+                }
+                return;
+            }
+        }
     }
 
     @Override
