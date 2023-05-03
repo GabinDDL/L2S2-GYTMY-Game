@@ -30,11 +30,11 @@ public class KeyboardMovementController implements MovementController {
         HotkeyAdder.addHotkey(view, KeyEvent.VK_LEFT, () -> movePlayer(Direction.LEFT), "Move player left");
         HotkeyAdder.addHotkey(view, KeyEvent.VK_RIGHT, () -> movePlayer(Direction.RIGHT), "Move player right");
 
-        int[] player1_keys = { KeyEvent.VK_AMPERSAND, KeyEvent.VK_NUMPAD1, KeyEvent.VK_1 };
-        int[] player2_keys = { KeyEvent.VK_UNDEFINED, KeyEvent.VK_NUMPAD2, KeyEvent.VK_2 };
-        int[] player3_keys = { KeyEvent.VK_QUOTEDBL, KeyEvent.VK_NUMPAD3, KeyEvent.VK_3 };
-        int[] player4_keys = { KeyEvent.VK_QUOTE, KeyEvent.VK_NUMPAD4, KeyEvent.VK_4 };
-        int[] player5_keys = { KeyEvent.VK_LEFT_PARENTHESIS, KeyEvent.VK_NUMPAD5, KeyEvent.VK_5 };
+        int[] player1_keys = { KeyEvent.VK_NUMPAD1, KeyEvent.VK_1, KeyEvent.VK_AMPERSAND };
+        int[] player2_keys = { KeyEvent.VK_NUMPAD2, KeyEvent.VK_2, KeyEvent.VK_UNDEFINED };
+        int[] player3_keys = { KeyEvent.VK_NUMPAD3, KeyEvent.VK_3, KeyEvent.VK_QUOTEDBL };
+        int[] player4_keys = { KeyEvent.VK_NUMPAD4, KeyEvent.VK_4, KeyEvent.VK_QUOTE };
+        int[] player5_keys = { KeyEvent.VK_NUMPAD5, KeyEvent.VK_5, KeyEvent.VK_LEFT_PARENTHESIS };
 
         int[][] players_keys = { player1_keys, player2_keys, player3_keys, player4_keys, player5_keys };
 
