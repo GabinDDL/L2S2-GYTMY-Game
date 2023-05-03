@@ -44,6 +44,8 @@ public class MazeViewImplementation extends MazeView {
     }
 
     private void showPausePanel() {
+        stopTimer();
+
         frame.setContentPane(pausePanel);
         frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
         MenuFrameHandler.frameUpdate("Take a break !");

@@ -19,6 +19,8 @@ public abstract class MazeView extends JPanel {
 
     public abstract boolean isTimerCounting();
 
+    public abstract void startTimer();
+
     public abstract void stopTimer();
 
     public abstract void showGameOverPanel();

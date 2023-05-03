@@ -94,6 +94,8 @@ public class PausePanel extends JPanel {
         frame.setContentPane(mazeView);
 
         MenuFrameHandler.frameUpdate(mazeView.getGameMode().getDisplayName());
+
+        mazeView.startTimer();
     }
 
     public void setMazeView(MazeView mazeView) {
