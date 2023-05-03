@@ -440,15 +440,6 @@ public class AudioMenu extends JPanel {
         parentComponent.add(recordButton);
     }
 
-    public void handleRecreateModelsButtonState() {
-        List<User> users = AudioFileManager.getUsers();
-        if (User.areAllUsersUpToDate(users)) {
-            disableRecreateModelsButton();
-        } else {
-            enableRecreateModelsButton();
-        }
-    }
-
     private void recordAudio() {
         stop();
         mainFrame.setContentPane(
@@ -468,6 +459,15 @@ public class AudioMenu extends JPanel {
         });
         initColors(deleteButton);
         parentComponent.add(deleteButton);
+    }
+
+    public void handleRecreateModelsButtonState() {
+        List<User> users = AudioFileManager.getUsers();
+        if (User.areAllUsersUpToDate(users)) {
+            disableRecreateModelsButton();
+        } else {
+            enableRecreateModelsButton();
+        }
     }
 
     private void deleteWAV() {
