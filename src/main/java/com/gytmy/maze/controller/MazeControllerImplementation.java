@@ -222,7 +222,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private void updateStatus() {
 
         if (!hasCountdownEnded) {
-            view.updateStatus(Color.ORANGE, "COUNTDOWN... BE READY", Color.DARK_GRAY);
+            view.updateStatus(Color.ORANGE, "BE READY", Color.DARK_GRAY);
             return;
         }
 
