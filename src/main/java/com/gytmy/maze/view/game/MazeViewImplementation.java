@@ -1,6 +1,7 @@
 package com.gytmy.maze.view.game;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
@@ -23,6 +24,7 @@ public class MazeViewImplementation extends MazeView {
     protected TimerPanel timerPanel;
     protected PausePanel pausePanel;
     private JFrame frame;
+    private Dimension preferredSize;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
@@ -109,5 +111,15 @@ public class MazeViewImplementation extends MazeView {
     @Override
     public GameMode getGameMode() {
         return null;
+    }
+
+    @Override
+    public Dimension getGamePreferredSize() {
+        return preferredSize;
+    }
+
+    @Override
+    public void setGamePreferredSize(Dimension dimension) {
+        preferredSize = dimension;
     }
 }

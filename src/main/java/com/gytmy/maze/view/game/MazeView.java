@@ -1,5 +1,7 @@
 package com.gytmy.maze.view.game;
 
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 import com.gytmy.maze.model.Direction;
@@ -27,4 +29,8 @@ public abstract class MazeView extends JPanel {
     public abstract void notifyGameOver();
 
     public abstract GameMode getGameMode();
+
+    public abstract Dimension getGamePreferredSize();
+
+    public abstract void setGamePreferredSize(Dimension dimension);
 }
