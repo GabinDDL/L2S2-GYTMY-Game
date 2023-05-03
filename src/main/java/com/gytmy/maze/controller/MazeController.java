@@ -12,8 +12,6 @@ public interface MazeController {
 
     public Player[] getPlayers();
 
-    public void addKeyController(KeyboardMovementController controller);
-
     public void movePlayer(Player player, Direction direction);
 
     public ScoreCalculator getScoreCalculator(ScoreType type, Player player);

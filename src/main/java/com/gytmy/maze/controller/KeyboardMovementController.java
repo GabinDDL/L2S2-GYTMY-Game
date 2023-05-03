@@ -1,12 +1,14 @@
 package com.gytmy.maze.controller;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JComponent;
 
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.player.Player;
+import com.gytmy.utils.HotkeyAdder;
 
-public class KeyboardMovementController extends KeyAdapter implements MovementController {
+public class KeyboardMovementController implements MovementController {
 
     private MazeController controller;
     private Player[] players;
@@ -19,48 +21,34 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                controller.movePlayer(players[selectedPlayer], Direction.UP);
-                break;
-            case KeyEvent.VK_DOWN:
-                controller.movePlayer(players[selectedPlayer], Direction.DOWN);
-                break;
-            case KeyEvent.VK_LEFT:
-                controller.movePlayer(players[selectedPlayer], Direction.LEFT);
-                break;
-            case KeyEvent.VK_RIGHT:
-                controller.movePlayer(players[selectedPlayer], Direction.RIGHT);
-                break;
-            case KeyEvent.VK_AMPERSAND:
-            case KeyEvent.VK_NUMPAD1:
-            case KeyEvent.VK_1:
-                changeSelectedPlayer(0);
-                break;
-            case KeyEvent.VK_UNDEFINED:
-            case KeyEvent.VK_NUMPAD2:
-            case KeyEvent.VK_2:
-                changeSelectedPlayer(1);
-                break;
-            case KeyEvent.VK_QUOTEDBL:
-            case KeyEvent.VK_NUMPAD3:
-            case KeyEvent.VK_3:
-                changeSelectedPlayer(2);
-                break;
-            case KeyEvent.VK_QUOTE:
-            case KeyEvent.VK_NUMPAD4:
-            case KeyEvent.VK_4:
-                changeSelectedPlayer(3);
-                break;
-            case KeyEvent.VK_LEFT_PARENTHESIS:
-            case KeyEvent.VK_NUMPAD5:
-            case KeyEvent.VK_5:
-                changeSelectedPlayer(4);
-                break;
-            default:
-                break;
+    public void setup() {
+
+        JComponent view = controller.getView();
+
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_UP, () -> movePlayer(Direction.UP), "Move player up");
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_DOWN, () -> movePlayer(Direction.DOWN), "Move player down");
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_LEFT, () -> movePlayer(Direction.LEFT), "Move player left");
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_RIGHT, () -> movePlayer(Direction.RIGHT), "Move player right");
+
+        int[] player1_keys = { KeyEvent.VK_AMPERSAND, KeyEvent.VK_NUMPAD1, KeyEvent.VK_1 };
+        int[] player2_keys = { KeyEvent.VK_UNDEFINED, KeyEvent.VK_NUMPAD2, KeyEvent.VK_2 };
+        int[] player3_keys = { KeyEvent.VK_QUOTEDBL, KeyEvent.VK_NUMPAD3, KeyEvent.VK_3 };
+        int[] player4_keys = { KeyEvent.VK_QUOTE, KeyEvent.VK_NUMPAD4, KeyEvent.VK_4 };
+        int[] player5_keys = { KeyEvent.VK_LEFT_PARENTHESIS, KeyEvent.VK_NUMPAD5, KeyEvent.VK_5 };
+
+        int[][] players_keys = { player1_keys, player2_keys, player3_keys, player4_keys, player5_keys };
+
+        for (int index = 0; index < players_keys.length; index++) {
+            for (int key : players_keys[index]) {
+                final int playerId = index;
+                HotkeyAdder.addHotkey(view, key, () -> changeSelectedPlayer(playerId),
+                        "[Key " + key + "] Select player " + (playerId + 1));
+            }
         }
+    }
+
+    private void movePlayer(Direction direction) {
+        controller.movePlayer(players[selectedPlayer], direction);
     }
 
     private void changeSelectedPlayer(int playerId) {
@@ -68,11 +56,6 @@ public class KeyboardMovementController extends KeyAdapter implements MovementCo
             return;
         }
         selectedPlayer = playerId;
-    }
-
-    @Override
-    public void setup() {
-        controller.addKeyController(this);
     }
 
 }
