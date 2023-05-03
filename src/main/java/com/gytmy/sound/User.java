@@ -66,7 +66,7 @@ public class User {
     }
 
     /**
-     * The function checks if all users in a list are up to date and returns a
+     * The function checks if all users in a list are up-to-date and returns a
      * boolean value.
      * 
      * @param users A list of User objects.
