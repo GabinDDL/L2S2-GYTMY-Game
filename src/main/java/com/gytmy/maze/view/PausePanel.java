@@ -18,6 +18,7 @@ public class PausePanel extends JPanel {
     private MazeView mazeView;
     private JLabel title;
     private JButton resumeButton;
+    private JButton stopButton;
     private JButton quitButton;
 
     private static PausePanel instance;
@@ -60,6 +61,7 @@ public class PausePanel extends JPanel {
 
     private void initButtons() {
         initResumeButton();
+        initStopButton();
         initQuitButton();
     }
 
@@ -68,6 +70,7 @@ public class PausePanel extends JPanel {
         resumeButton.addActionListener(e -> resume());
         resumeButton.setBackground(Cell.PATH_COLOR);
         resumeButton.setForeground(Cell.WALL_COLOR);
+        resumeButton.setFont(getFont().deriveFont(20f));
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = 2;
@@ -75,11 +78,25 @@ public class PausePanel extends JPanel {
         add(resumeButton, constraints);
     }
 
+    private void initStopButton() {
+        stopButton = new JButton("New Game");
+        stopButton.addActionListener(e -> MenuFrameHandler.goToSettingsMenu());
+        stopButton.setBackground(Cell.PATH_COLOR);
+        stopButton.setForeground(Cell.EXIT_CELL_COLOR);
+        stopButton.setFont(getFont().deriveFont(20f));
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridy = 2;
+        constraints.gridx = 1;
+        add(stopButton, constraints);
+    }
+
     private void initQuitButton() {
-        quitButton = new JButton("Restart");
-        quitButton.addActionListener(e -> MenuFrameHandler.goToSettingsMenu());
+        quitButton = new JButton("Quit Game");
+        quitButton.addActionListener(e -> MenuFrameHandler.quitGame());
         quitButton.setBackground(Cell.PATH_COLOR);
-        quitButton.setForeground(Cell.EXIT_CELL_COLOR);
+        quitButton.setForeground(Cell.INITIAL_CELL_COLOR);
+        quitButton.setFont(getFont().deriveFont(20f));
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = 2;
