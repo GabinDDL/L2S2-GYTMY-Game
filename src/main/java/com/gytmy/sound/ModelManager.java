@@ -90,7 +90,7 @@ public class ModelManager {
         generateModelDirectoryStructure();
         List<User> users = AudioFileManager.getUsers();
         createModelOfWorld(users);
-        createModelOfAllUsers(users);
+        createModelOfUsers(users);
         resetParameter();
     }
 
@@ -519,7 +519,7 @@ public class ModelManager {
      * 
      * @param users
      */
-    private static void createModelOfAllUsers(List<User> users) {
+    private static void createModelOfUsers(List<User> users) {
         for (User user : users) {
             for (String recordedWord : WordsToRecord.getWordsToRecord()) {
                 if (!doesUserHaveDataOfWord(user, recordedWord) ||
