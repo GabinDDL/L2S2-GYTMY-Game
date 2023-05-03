@@ -229,7 +229,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
             view.stopTimer();
             return false;
         }
-        return hasCountdownEnded;
+        return hasCountdownEnded && isKeyboardMovementEnabled;
     }
 
     /**
