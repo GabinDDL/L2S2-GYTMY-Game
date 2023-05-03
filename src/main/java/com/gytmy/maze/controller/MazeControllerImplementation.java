@@ -33,11 +33,12 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private MazeView view;
     private JFrame frame;
     private boolean hasCountdownEnded = false;
+    private boolean isRecordingEnabled = false;
     private boolean compareWithWhisper = true; // true if the compare function should use Whisper
 
-    private static String FILE_NAME = "currentGameAudio";
-    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
-    private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
+    private static final String FILE_NAME = "currentGameAudio";
+    private static final String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
+    private static final String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
 
     private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
 
@@ -100,7 +101,9 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         AudioRecorder recorder = AudioRecorder.getInstance();
         AudioRecorder.addObserver(this);
         HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
-
+            if (!isRecordingEnabled) {
+                return;
+            }
             if (AudioRecorder.isRecording()) {
                 recorder.finish();
                 return;
@@ -120,15 +123,19 @@ public class MazeControllerImplementation implements MazeController, RecordObser
      * compareWithWhisper)
      */
     private void compareAudioWithModel() {
+        isRecordingEnabled = false;
+
         AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
 
         if (result == null) {
+            isRecordingEnabled = true;
             return;
         }
 
         User recognizedUser = AudioFileManager.getUser(result.getName());
 
         if (recognizedUser == null) {
+            isRecordingEnabled = true;
             return;
         }
 
@@ -151,6 +158,8 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         }
 
         new File(AUDIO_GAME_PATH).delete();
+
+        isRecordingEnabled = true;
     }
 
     /**
@@ -242,6 +251,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     @Override
     public void notifyGameStarted() {
         hasCountdownEnded = true;
+        isRecordingEnabled = true;
         view.notifyGameStarted();
     }
 
