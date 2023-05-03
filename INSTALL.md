@@ -87,7 +87,7 @@ To implement the features of `SPro` and `Alize` in the game, you will have to ge
 - sfbcep (`SPro`)
 
 Which are located inside the respective folders `LIA_RAL/bin` and `SPro` of the programs you just installed.
-Then copy `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and `sfbcep` inside the directory of your game: `src/main/exe/model`, and then copy `ComputeTest` inside the directory also in your game: `src/main/exe/comparaison`
+Then copy `EnergyDetector`, `NormFeat`, `TrainWorld`, `TrainTarget` and `sfbcep` inside the directory of your game: `src/main/exe/model`, and then copy `ComputeTest` inside the directory also in your game: `src/main/exe/comparison`
 
 (You can also replace the paths in the sh files with their positions in your folders: to do this, replace the `EXE_DIR` variables in all .sh files in src/main/exe/model to specify the path.)
 
