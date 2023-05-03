@@ -178,8 +178,8 @@ public class SettingsMenu extends JPanel {
     private void promptUserToCreateModelOfAllUsers() {
         int recreateValue = JOptionPane.showConfirmDialog(
                 this,
-                "At least one selected player's model is not up to date.\nWould you like to recreate all the users' models?",
-                "The models are not up to date",
+                "At least one selected player's model is not up-to-date.\nWould you like to recreate all the users' models?",
+                "The models are not up-to-date",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
