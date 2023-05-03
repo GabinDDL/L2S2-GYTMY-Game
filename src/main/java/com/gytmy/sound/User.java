@@ -1,5 +1,6 @@
 package com.gytmy.sound;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,20 +22,25 @@ public class User {
     private boolean upToDate = true;
 
     public User(User user) {
-        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
+        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(), user.getUpToDate());
     }
 
     public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME);
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, true);
     }
 
     public User(String firstName, String lastName, int studentNumber, String userName) {
+        this(firstName, lastName, studentNumber, userName, true);
+    }
+
+    public User(String firstName, String lastName, int studentNumber, String userName, boolean upToDate) {
         handleInvalidArguments(firstName, lastName, studentNumber, userName);
 
         this.firstName = firstName.toUpperCase().replace(" ", "_");
         this.lastName = lastName.toUpperCase().replace(" ", "_");
         this.studentNumber = studentNumber;
         this.userName = userName.replace(" ", "_");
+        this.upToDate = upToDate;
     }
 
     private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {
@@ -57,6 +63,23 @@ public class User {
 
     private boolean isNameInvalid(String name) {
         return name == null || name.isEmpty() || name.isBlank();
+    }
+
+    /**
+     * The function checks if all users in a list are up-to-date and returns a
+     * boolean value.
+     * 
+     * @param users A list of User objects.
+     * @return If all users are up to date, it will return true;
+     *         otherwise, it will return false.
+     */
+    public static boolean areUpToDate(List<User> users) {
+        for (User user : users) {
+            if (!user.getUpToDate()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getFirstName() {
