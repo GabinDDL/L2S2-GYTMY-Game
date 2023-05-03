@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.MazeModel;
+import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.view.TimerPanel;
 
 public class MazeClassicView extends MazeViewImplementation {
@@ -31,4 +32,8 @@ public class MazeClassicView extends MazeViewImplementation {
         add(mazePanel, c);
     }
 
+    @Override
+    public GameMode getGameMode() {
+        return GameMode.CLASSIC;
+    }
 }

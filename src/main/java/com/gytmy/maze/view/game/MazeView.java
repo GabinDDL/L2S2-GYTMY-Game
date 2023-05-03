@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 import com.gytmy.maze.model.Direction;
+import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.model.player.Player;
 
 public abstract class MazeView extends JPanel {
@@ -38,4 +39,5 @@ public abstract class MazeView extends JPanel {
         });
     }
 
+    public abstract GameMode getGameMode();
 }

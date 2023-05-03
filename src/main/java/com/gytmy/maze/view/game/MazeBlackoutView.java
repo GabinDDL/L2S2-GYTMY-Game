@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.MazeModel;
+import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.TimerPanel;
 
@@ -142,4 +143,8 @@ public class MazeBlackoutView extends MazeViewImplementation {
         super.notifyGameOver();
     }
 
+    @Override
+    public GameMode getGameMode() {
+        return GameMode.BLACKOUT;
+    }
 }
