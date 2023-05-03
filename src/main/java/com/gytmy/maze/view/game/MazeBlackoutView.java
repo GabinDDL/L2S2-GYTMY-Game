@@ -52,6 +52,11 @@ public class MazeBlackoutView extends MazeViewImplementation {
         blackoutPanel = new BlackoutMazePanel(mazePanel);
         blackoutPanel.update(model.getPlayers()[0]);
         gamePanel.add(mazePanel);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(statusFeedbackPanel, c);
     }
 
     @Override
