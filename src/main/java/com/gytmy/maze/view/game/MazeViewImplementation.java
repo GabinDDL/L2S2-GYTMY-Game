@@ -22,7 +22,6 @@ public class MazeViewImplementation extends MazeView {
     private JFrame frame;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
-    private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
 
     protected MazeViewImplementation(MazeModel model, JFrame frame) {
         this.model = model;
@@ -89,18 +88,9 @@ public class MazeViewImplementation extends MazeView {
     }
 
     @Override
-    public void updateStatus(String status) {
-        updateStatus(null, status);
-    }
+    public void updateStatus(GameplayStatus status) {
 
-    @Override
-    public void updateStatus(Color backgroundColor, String status) {
-        statusFeedbackPanel.updateStatus(backgroundColor, status, FOREGROUND_COLOR);
-    }
-
-    @Override
-    public void updateStatus(Color backgroundColor, String status, Color foregroundColor) {
-        statusFeedbackPanel.updateStatus(backgroundColor, status, foregroundColor);
+        statusFeedbackPanel.updateStatus(status);
         repaint();
     }
 }

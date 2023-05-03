@@ -1,6 +1,5 @@
 package com.gytmy.maze.controller;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
@@ -14,6 +13,7 @@ import com.gytmy.maze.model.MazeModelFactory;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.model.score.ScoreCalculator;
 import com.gytmy.maze.model.score.ScoreType;
+import com.gytmy.maze.view.game.GameplayStatus;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.game.MazeViewFactory;
 import com.gytmy.sound.AudioFileManager;
@@ -127,20 +127,19 @@ public class MazeControllerImplementation implements MazeController, RecordObser
      * compareWithWhisper)
      */
     private void compareAudioWithModel() {
-        isRecordingEnabled = false;
 
         AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
 
         if (result == null) {
-            isRecordingEnabled = true;
             return;
         }
 
         User recognizedUser = AudioFileManager.getUser(result.getName());
         if (recognizedUser == null) {
-            isRecordingEnabled = true;
             return;
         }
+
+        isRecordingEnabled = false;
 
         if (!compareWithWhisper) {
             movePlayerWithCompareResult(recognizedUser, result.getWord());
@@ -157,12 +156,12 @@ public class MazeControllerImplementation implements MazeController, RecordObser
                 movePlayerWithCompareResult(recognizedUser, recognizedCommand);
 
                 new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+
+                isRecordingEnabled = true;
             });
         }
 
         new File(AUDIO_GAME_PATH).delete();
-
-        isRecordingEnabled = true;
         updateStatus();
     }
 
@@ -270,23 +269,13 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     @Override
     public void endRecordUpdate() {
         compareAudioWithModel();
-
         updateStatus();
     }
 
     private void updateStatus() {
 
-        if (!hasCountdownEnded) {
-            view.updateStatus(Color.ORANGE, "BE READY", Color.DARK_GRAY);
-            return;
-        }
-
-        if (AudioRecorder.isRecording()) {
-            view.updateStatus(Color.RED, "RECORDING...");
-        } else if (!isRecordingEnabled) {
-            view.updateStatus(Color.BLUE, "COMPARING...");
-        } else {
-            view.updateStatus(null, "PLAYING");
-        }
+        view.updateStatus(
+                GameplayStatus.getStatusAccordingToGameplay(
+                        hasCountdownEnded, AudioRecorder.isRecording(), isRecordingEnabled));
     }
 }

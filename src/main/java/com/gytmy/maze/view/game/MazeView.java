@@ -1,6 +1,5 @@
 package com.gytmy.maze.view.game;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyListener;
 
@@ -39,9 +38,5 @@ public abstract class MazeView extends JPanel {
         });
     }
 
-    public abstract void updateStatus(String status);
-
-    public abstract void updateStatus(Color backgroundColor, String status);
-
-    public abstract void updateStatus(Color backgroundColor, String status, Color foregroundColor);
+    public abstract void updateStatus(GameplayStatus status);
 }

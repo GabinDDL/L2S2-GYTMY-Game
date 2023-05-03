@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.gytmy.maze.view.game.GameplayStatus;
+
 public class StatusFeedbackPanel extends JPanel {
 
     private JLabel statusFeedbackLabel;
@@ -25,9 +27,14 @@ public class StatusFeedbackPanel extends JPanel {
         add(statusFeedbackLabel, BorderLayout.CENTER);
     }
 
-    public void updateStatus(Color backgroundColor, String status, Color foregroundColor) {
+    public void updateStatus(GameplayStatus status) {
+
+        Color backgroundColor = status.getBackgroundColor();
+        String text = status.toString();
+        Color foregroundColor = status.getTextColor();
+
         setBackground(backgroundColor);
-        statusFeedbackLabel.setText(status);
+        statusFeedbackLabel.setText(text);
         statusFeedbackLabel.setForeground(foregroundColor);
     }
 }
