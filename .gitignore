@@ -36,7 +36,11 @@ hs_err_pid*
 # Project
 bin/
 sources.txt
+.DS_Store
+
+# Alize and SPro
 src/resources/audioFiles/client/model/RecognitionResult.txt
+
 src/main/exe/comparaison/ComputeTest
 src/main/exe/comparaison/ndx/Liste.ndx
 
@@ -47,4 +51,3 @@ src/main/exe/model/TrainTarget
 src/main/exe/model/sfbcep
 src/main/exe/model/lst/Liste.lst
 
-.DS_Store
