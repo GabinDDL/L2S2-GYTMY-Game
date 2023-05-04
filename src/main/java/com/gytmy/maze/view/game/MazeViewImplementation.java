@@ -98,4 +98,8 @@ public class MazeViewImplementation extends MazeView {
                 });
     }
 
+    @Override
+    public void toggleKeyboardMovement(boolean enabled) {
+        // For this view, nothing needs to be done.
+    }
 }

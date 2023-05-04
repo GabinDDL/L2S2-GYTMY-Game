@@ -38,4 +38,6 @@ public abstract class MazeView extends JPanel {
         });
     }
 
+    public abstract void toggleKeyboardMovement(boolean enabled);
+
 }

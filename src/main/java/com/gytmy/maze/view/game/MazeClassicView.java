@@ -99,4 +99,9 @@ public class MazeClassicView extends MazeViewImplementation {
 
         topPanel.add(keyboardPanel, c);
     }
+
+    @Override
+    public void toggleKeyboardMovement(boolean enabled) {
+        keyboardMovement.setIcon(enabled ? ENABLED_KEYBOARD_MOVEMENT_ICON : DISABLED_KEYBOARD_MOVEMENT_ICON);
+    }
 }

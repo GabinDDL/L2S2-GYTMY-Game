@@ -88,6 +88,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
     private void toggleKeyboardMovement() {
         isKeyboardMovementEnabled = !isKeyboardMovementEnabled;
+        view.toggleKeyboardMovement(isKeyboardMovementEnabled);
     }
 
     private void initializeMovementController() {
