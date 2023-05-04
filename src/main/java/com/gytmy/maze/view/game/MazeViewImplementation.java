@@ -11,12 +11,14 @@ import com.gytmy.maze.model.MazeModel;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.GameOverPanel;
 import com.gytmy.maze.view.MenuFrameHandler;
+import com.gytmy.maze.view.StatusFeedbackPanel;
 import com.gytmy.maze.view.TimerPanel;
 
 public class MazeViewImplementation extends MazeView {
     protected MazeModel model;
     protected MazePanel mazePanel;
     protected TimerPanel timerPanel;
+    protected StatusFeedbackPanel statusFeedbackPanel;
     private JFrame frame;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
@@ -27,6 +29,7 @@ public class MazeViewImplementation extends MazeView {
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
         mazePanel = new MazePanel(model);
+        statusFeedbackPanel = new StatusFeedbackPanel(getWidth());
     }
 
     public void startTimer() {
@@ -84,4 +87,10 @@ public class MazeViewImplementation extends MazeView {
                 });
     }
 
+    @Override
+    public void updateStatus(GameplayStatus status) {
+
+        statusFeedbackPanel.updateStatus(status);
+        repaint();
+    }
 }

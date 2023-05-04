@@ -38,4 +38,5 @@ public abstract class MazeView extends JPanel {
         });
     }
 
+    public abstract void updateStatus(GameplayStatus status);
 }
