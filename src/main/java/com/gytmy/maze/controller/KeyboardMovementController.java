@@ -30,16 +30,16 @@ public class KeyboardMovementController implements MovementController {
         HotkeyAdder.addHotkey(view, KeyEvent.VK_LEFT, () -> movePlayer(Direction.LEFT), "Move player left");
         HotkeyAdder.addHotkey(view, KeyEvent.VK_RIGHT, () -> movePlayer(Direction.RIGHT), "Move player right");
 
-        int[] player1_keys = { KeyEvent.VK_NUMPAD1, KeyEvent.VK_1, KeyEvent.VK_AMPERSAND };
-        int[] player2_keys = { KeyEvent.VK_NUMPAD2, KeyEvent.VK_2, KeyEvent.VK_UNDEFINED };
-        int[] player3_keys = { KeyEvent.VK_NUMPAD3, KeyEvent.VK_3, KeyEvent.VK_QUOTEDBL };
-        int[] player4_keys = { KeyEvent.VK_NUMPAD4, KeyEvent.VK_4, KeyEvent.VK_QUOTE };
-        int[] player5_keys = { KeyEvent.VK_NUMPAD5, KeyEvent.VK_5, KeyEvent.VK_LEFT_PARENTHESIS };
+        int[] player1Keys = { KeyEvent.VK_NUMPAD1, KeyEvent.VK_1, KeyEvent.VK_AMPERSAND };
+        int[] player2Keys = { KeyEvent.VK_NUMPAD2, KeyEvent.VK_2, KeyEvent.VK_UNDEFINED };
+        int[] player3Keys = { KeyEvent.VK_NUMPAD3, KeyEvent.VK_3, KeyEvent.VK_QUOTEDBL };
+        int[] player4Keys = { KeyEvent.VK_NUMPAD4, KeyEvent.VK_4, KeyEvent.VK_QUOTE };
+        int[] player5Keys = { KeyEvent.VK_NUMPAD5, KeyEvent.VK_5, KeyEvent.VK_LEFT_PARENTHESIS };
 
-        int[][] players_keys = { player1_keys, player2_keys, player3_keys, player4_keys, player5_keys };
+        int[][] playersKeys = { player1Keys, player2Keys, player3Keys, player4Keys, player5Keys };
 
-        for (int index = 0; index < players_keys.length; index++) {
-            for (int key : players_keys[index]) {
+        for (int index = 0; index < playersKeys.length; index++) {
+            for (int key : playersKeys[index]) {
                 final int playerId = index;
                 HotkeyAdder.addHotkey(view, key, () -> changeSelectedPlayer(playerId),
                         "[Key " + key + "] Select player " + (playerId + 1));
