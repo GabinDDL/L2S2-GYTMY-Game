@@ -29,6 +29,10 @@ public class KeyboardMovementController implements MovementController {
         HotkeyAdder.addHotkey(view, KeyEvent.VK_DOWN, () -> movePlayer(Direction.DOWN), "Move player down");
         HotkeyAdder.addHotkey(view, KeyEvent.VK_LEFT, () -> movePlayer(Direction.LEFT), "Move player left");
         HotkeyAdder.addHotkey(view, KeyEvent.VK_RIGHT, () -> movePlayer(Direction.RIGHT), "Move player right");
+        // We use multiple keys for the number because of the different layouts. swing
+        // and awt do not handle different layouts properly, so we need to handle that
+        // manually. In our case, we only use QWERTY and AZERTY, so we only handle those
+        // cases.
 
         int[] player1Keys = { KeyEvent.VK_NUMPAD1, KeyEvent.VK_1, KeyEvent.VK_AMPERSAND };
         int[] player2Keys = { KeyEvent.VK_NUMPAD2, KeyEvent.VK_2, KeyEvent.VK_UNDEFINED };
