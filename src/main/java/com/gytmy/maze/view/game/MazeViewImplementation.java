@@ -1,6 +1,7 @@
 package com.gytmy.maze.view.game;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 
@@ -28,6 +29,7 @@ public class MazeViewImplementation extends MazeView {
     protected static final String DISABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_disabled.png";
     protected static final int ICON_WIDTH = 51;
     protected static final int ICON_HEIGHT = 33;
+    protected static final Dimension ICON_DIMENSION = new Dimension(ICON_WIDTH, ICON_HEIGHT);
     protected static final Icon ENABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
             ENABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
     protected static final Icon DISABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
