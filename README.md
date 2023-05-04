@@ -7,7 +7,6 @@
   - [What is this project about ?](#what-is-this-project-about-)
   - [Game modes](#game-modes)
     - [`"Classic Mode"`](#classic-mode)
-    - [`"One-Dimensional Mode"`](#one-dimensional-mode)
     - [`"Blackout Mode"`](#blackout-mode)
   - [Dependencies](#dependencies)
   - [How to install the dependencies](#how-to-install-the-dependencies)
@@ -44,14 +43,6 @@ The goal of this project is to be able to control the movements of characters in
 A simple single or multi-player mode where you have to reach the end of the maze.
 
 You can also choose the `width` and the `height` of the maze.
-
-### `"One-Dimensional Mode"`
-
-![Image One-Dimensional Mode](images/OneDimensionalMode.png)
-
-An extremely simple single or multi-player mode where you have to reach the end of the corridor.
-
-You can also choose the `length` of the maze.
 
 ### `"Blackout Mode"`
 

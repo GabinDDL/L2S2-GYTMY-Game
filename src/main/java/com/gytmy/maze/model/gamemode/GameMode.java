@@ -24,7 +24,6 @@ package com.gytmy.maze.model.gamemode;
  */
 public enum GameMode {
     CLASSIC("Classic Mode"),
-    ONE_DIMENSION("One-Dimensional Mode"),
     BLACKOUT("Blackout Mode");
 
     private final String displayName;
@@ -45,7 +44,6 @@ public enum GameMode {
     public int getMaxNumberOfPlayers() {
         switch (this) {
             case CLASSIC:
-            case ONE_DIMENSION:
                 return 5;
             case BLACKOUT:
                 return 1;
