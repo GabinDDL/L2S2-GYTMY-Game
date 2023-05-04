@@ -82,7 +82,7 @@ public class PausePanel extends JPanel {
         stopButton = new JButton("New Game");
         stopButton.addActionListener(e -> MenuFrameHandler.goToSettingsMenu());
         stopButton.setBackground(Cell.PATH_COLOR);
-        stopButton.setForeground(Cell.EXIT_CELL_COLOR);
+        stopButton.setForeground(Cell.WALL_COLOR);
         stopButton.setFont(getFont().deriveFont(20f));
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -95,7 +95,7 @@ public class PausePanel extends JPanel {
         quitButton = new JButton("Quit Game");
         quitButton.addActionListener(e -> MenuFrameHandler.quitGame());
         quitButton.setBackground(Cell.PATH_COLOR);
-        quitButton.setForeground(Cell.INITIAL_CELL_COLOR);
+        quitButton.setForeground(Cell.EXIT_CELL_COLOR);
         quitButton.setFont(getFont().deriveFont(20f));
 
         GridBagConstraints constraints = new GridBagConstraints();
