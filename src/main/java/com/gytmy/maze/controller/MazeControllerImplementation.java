@@ -159,12 +159,13 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
                 new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
 
+                new File(AUDIO_GAME_PATH).delete();
+
                 isRecordingEnabled = true;
                 updateStatus();
             });
         }
 
-        new File(AUDIO_GAME_PATH).delete();
         updateStatus();
     }
 
