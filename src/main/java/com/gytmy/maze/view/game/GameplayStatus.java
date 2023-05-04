@@ -25,14 +25,14 @@ public enum GameplayStatus {
         return displayName;
     }
 
-    public static GameplayStatus getStatusAccordingToGameplay(boolean hasCountdownEnded, boolean isAudioRecorded,
+    public static GameplayStatus getStatusAccordingToGameplay(boolean hasCountdownEnded, boolean isAudioRecording,
             boolean isRecordingEnabled) {
 
         if (!hasCountdownEnded) {
             return COUNTDOWN;
         }
 
-        if (isAudioRecorded) {
+        if (isAudioRecording) {
             return RECORDING;
         }
 
