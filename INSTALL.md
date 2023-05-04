@@ -55,7 +55,7 @@ make
 
 [Download LIA_RAL](https://github.com/ALIZE-Speaker-Recognition/LIA_RAL)
 
-Warning: `alize-core` and `SPro` must be in the **same directory** than `LIA_RAL` (you must install them **first**).
+Warning: `alize-core` and `SPro` must be in the **same directory** as `LIA_RAL` (you must install them **first**).
 
 You can also change the installation path doing `./configure`.
 
