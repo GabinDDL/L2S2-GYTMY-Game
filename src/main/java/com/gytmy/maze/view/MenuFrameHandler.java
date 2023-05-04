@@ -45,6 +45,7 @@ public class MenuFrameHandler {
     }
 
     public static void goToAudioMenu() {
+        audioMenu.handleRecreateModelsButtonState();
         changeJPanel(audioMenu, "Audio");
         audioMenu.updateGUI();
     }
