@@ -38,7 +38,7 @@ public class PausePanel extends JPanel {
 
         initTitle();
         initButtons();
-        addConfirmKeyBind();
+        addStopKeyBind();
         addEscapeKeyBind();
 
         updateGUI();
@@ -104,7 +104,7 @@ public class PausePanel extends JPanel {
         add(quitButton, constraints);
     }
 
-    private void addConfirmKeyBind() {
+    private void addStopKeyBind() {
         HotkeyAdder.addHotkey(this, KeyEvent.VK_SPACE, MenuFrameHandler::goToSettingsMenu, "Go to Settings Menu");
     }
 
