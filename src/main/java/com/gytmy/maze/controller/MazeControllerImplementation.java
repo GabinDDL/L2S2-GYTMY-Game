@@ -248,11 +248,6 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     }
 
     @Override
-    public void addKeyController(KeyboardMovementController controller) {
-        view.addKeyController(controller);
-    }
-
-    @Override
     public ScoreCalculator getScoreCalculator(ScoreType scoreType, Player player) {
         return model.getScoreCalculator(scoreType, player);
     }

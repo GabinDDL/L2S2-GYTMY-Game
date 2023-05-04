@@ -172,6 +172,8 @@ public class SettingsMenu extends JPanel {
         frame.setContentPane(mazeView);
 
         MenuFrameHandler.frameUpdate(gameMode.toString());
+
+        mazeView.setGamePreferredSize(frame.getSize());
     }
 
     private void promptUserToCreateModelOfAllUsers() {

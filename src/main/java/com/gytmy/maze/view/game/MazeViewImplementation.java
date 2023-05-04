@@ -1,35 +1,59 @@
 package com.gytmy.maze.view.game;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.MazeModel;
+import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.GameOverPanel;
 import com.gytmy.maze.view.MenuFrameHandler;
+import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.StatusFeedbackPanel;
 import com.gytmy.maze.view.TimerPanel;
+import com.gytmy.utils.HotkeyAdder;
 
 public class MazeViewImplementation extends MazeView {
     protected MazeModel model;
     protected MazePanel mazePanel;
     protected TimerPanel timerPanel;
+    protected PausePanel pausePanel;
     protected StatusFeedbackPanel statusFeedbackPanel;
     private JFrame frame;
+    private Dimension preferredSize;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
     protected MazeViewImplementation(MazeModel model, JFrame frame) {
         this.model = model;
         this.frame = frame;
+
+        this.pausePanel = PausePanel.getInstance();
+        pausePanel.setMazeView(this);
+        addPauseKeyBind();
+
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
         mazePanel = new MazePanel(model);
         statusFeedbackPanel = new StatusFeedbackPanel(getWidth());
+    }
+
+    private void addPauseKeyBind() {
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, this::showPausePanel, "Pause Panel");
+    }
+
+    private void showPausePanel() {
+        stopTimer();
+
+        frame.setContentPane(pausePanel);
+        frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        MenuFrameHandler.frameUpdate("Take a break !");
     }
 
     public void startTimer() {
@@ -88,6 +112,20 @@ public class MazeViewImplementation extends MazeView {
     }
 
     @Override
+    public GameMode getGameMode() {
+        return null;
+    }
+
+    @Override
+    public Dimension getGamePreferredSize() {
+        return preferredSize;
+    }
+
+    @Override
+    public void setGamePreferredSize(Dimension dimension) {
+        preferredSize = dimension;
+    }
+
     public void updateStatus(GameplayStatus status) {
 
         statusFeedbackPanel.updateStatus(status);
