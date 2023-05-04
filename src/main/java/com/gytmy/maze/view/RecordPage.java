@@ -291,6 +291,11 @@ public class RecordPage extends JPanel {
     }
 
     private void goBackToAudioMenu() {
+        // The handling of the state of the recreateModelsButton is done here
+        // because there is a problem when checking for the upToDate variables
+        // of the users after recording. This might be caused by the usage
+        // of a Thread
+        audioMenu.handleRecreateModelsButtonState();
         audioMenu.loadFileNavigator();
         audioMenu.revalidate();
         MenuFrameHandler.goToAudioMenu();

@@ -33,4 +33,6 @@ public abstract class MazeView extends JPanel {
     public abstract Dimension getGamePreferredSize();
 
     public abstract void setGamePreferredSize(Dimension dimension);
+
+    public abstract void updateStatus(GameplayStatus status);
 }
