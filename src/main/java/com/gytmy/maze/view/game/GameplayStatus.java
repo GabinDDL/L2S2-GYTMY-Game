@@ -6,7 +6,7 @@ public enum GameplayStatus {
     COUNTDOWN("BE READY!"),
     PLAYING("PLAYING"),
     RECORDING("RECORDING..."),
-    COMPARING("COMPARING...");
+    RECOGNIZING("RECOGNIZING...");
 
     private final String displayName;
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
@@ -40,7 +40,7 @@ public enum GameplayStatus {
             return PLAYING;
         }
 
-        return COMPARING;
+        return RECOGNIZING;
     }
 
     public Color getBackgroundColor() {
@@ -49,7 +49,7 @@ public enum GameplayStatus {
                 return Color.decode("#FEBE8C");
             case RECORDING:
                 return Color.decode("#F7A4A4");
-            case COMPARING:
+            case RECOGNIZING:
                 return Color.decode("#A6D0DD");
             default:
                 return BACKGROUND_COLOR;
