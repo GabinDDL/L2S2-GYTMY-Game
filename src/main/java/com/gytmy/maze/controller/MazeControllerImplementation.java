@@ -128,18 +128,20 @@ public class MazeControllerImplementation implements MazeController, RecordObser
      */
     private void compareAudioWithModel() {
 
+        isRecordingEnabled = false;
+
         AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
 
         if (result == null) {
+            isRecordingEnabled = true;
             return;
         }
 
         User recognizedUser = AudioFileManager.getUser(result.getName());
         if (recognizedUser == null) {
+            isRecordingEnabled = true;
             return;
         }
-
-        isRecordingEnabled = false;
 
         if (!compareWithWhisper) {
             movePlayerWithCompareResult(recognizedUser, result.getWord());
