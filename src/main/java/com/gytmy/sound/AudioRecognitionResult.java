@@ -14,7 +14,7 @@ public class AudioRecognitionResult {
     private AudioRecognitionResult() {
     }
 
-    public static final String EXE_PATH = "src/main/exe/comparaison/";
+    public static final String EXE_PATH = "src/main/exe/comparison/";
     public static final String COMPUTE_TEST_SH_PATH = EXE_PATH + "ComputeTest.sh";
     public static final String NDX_PATH = EXE_PATH + "ndx/";
     public static final String NDX_LIST_PATH = NDX_PATH + "Liste.ndx";
@@ -26,13 +26,13 @@ public class AudioRecognitionResult {
     public static final String CLIENT_LST_LIST_PATH = CLIENT_MODEL_PATH + "lst/Liste.lst";
 
     /**
-     * @return the result of comparaison
+     * @return the result of comparison
      *         null otherwise
      */
     public static AlizeRecognitionResult getRecognitionResult() {
-        generateComparaisonDirectoryStructure();
+        generateComparisonDirectoryStructure();
 
-        if (!manageComparaison()) {
+        if (!manageComparison()) {
             return null;
         }
         try {
@@ -44,7 +44,7 @@ public class AudioRecognitionResult {
         return null;
     }
 
-    private static void generateComparaisonDirectoryStructure() {
+    private static void generateComparisonDirectoryStructure() {
         ModelManager.createDirectory(NDX_PATH);
     }
 
@@ -54,8 +54,8 @@ public class AudioRecognitionResult {
      * @return true if there is no error during the initialization of the
      *         ComputeTest
      */
-    private static boolean manageComparaison() {
-        if (!initComparaison()) {
+    private static boolean manageComparison() {
+        if (!initComparison()) {
             return false;
         }
 
@@ -69,7 +69,7 @@ public class AudioRecognitionResult {
      * 
      * @return true if the initialization of the comparison went well
      */
-    private static boolean initComparaison() {
+    private static boolean initComparison() {
         if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
             return false;
         }

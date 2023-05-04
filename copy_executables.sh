@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MODEL_DIR="src/main/exe/model"
-COMPARISON_DIR="src/main/exe/comparaison"
+COMPARISON_DIR="src/main/exe/comparison"
 
 installation_correct=true
 
