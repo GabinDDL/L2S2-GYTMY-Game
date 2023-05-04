@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 
+import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.MazeModel;
@@ -12,14 +14,24 @@ import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.GameOverPanel;
 import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.TimerPanel;
+import com.gytmy.utils.ImageManipulator;
 
 public class MazeViewImplementation extends MazeView {
     protected MazeModel model;
     protected MazePanel mazePanel;
     protected TimerPanel timerPanel;
+    protected JPanel topPanel;
     private JFrame frame;
 
-    private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
+    protected static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
+    protected static final String ENABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_enabled.png";
+    protected static final String DISABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_disabled.png";
+    protected static final int ICON_WIDTH = 51;
+    protected static final int ICON_HEIGHT = 33;
+    protected static final Icon ENABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
+            ENABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
+    protected static final Icon DISABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
+            DISABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
 
     protected MazeViewImplementation(MazeModel model, JFrame frame) {
         this.model = model;
