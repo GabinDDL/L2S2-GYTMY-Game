@@ -46,11 +46,11 @@ public enum GameplayStatus {
     public Color getBackgroundColor() {
         switch (this) {
             case COUNTDOWN:
-                return new Color(254, 190, 140);
+                return Color.decode("#FEBE8C");
             case RECORDING:
-                return new Color(247, 164, 164);
+                return Color.decode("#F7A4A4");
             case COMPARING:
-                return new Color(166, 208, 221);
+                return Color.decode("#A6D0DD");
             default:
                 return BACKGROUND_COLOR;
         }
