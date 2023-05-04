@@ -71,7 +71,7 @@ automake
 
 ```bash
 autoconf
-./configure --with-SPro
+./configure --with-spro
 make
 ```
 
