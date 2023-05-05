@@ -143,9 +143,14 @@ public class MazeViewImplementation extends MazeView {
         preferredSize = dimension;
     }
 
+    @Override
     public void updateStatus(GameplayStatus status) {
-
         statusFeedbackPanel.updateStatus(status);
         repaint();
+    }
+
+    @Override
+    public JPanel getKeyboardMovementSwitchPanel() {
+        return null;
     }
 }

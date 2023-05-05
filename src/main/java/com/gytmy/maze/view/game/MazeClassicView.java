@@ -114,4 +114,9 @@ public class MazeClassicView extends MazeViewImplementation {
     public GameMode getGameMode() {
         return GameMode.CLASSIC;
     }
+
+    @Override
+    public JPanel getKeyboardMovementSwitchPanel() {
+        return keyboardPanel;
+    }
 }

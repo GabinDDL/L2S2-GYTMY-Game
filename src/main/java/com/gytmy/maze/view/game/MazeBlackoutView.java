@@ -218,7 +218,13 @@ public class MazeBlackoutView extends MazeViewImplementation {
         keyboardMovement.setIcon(enabled ? ENABLED_KEYBOARD_MOVEMENT_ICON : DISABLED_KEYBOARD_MOVEMENT_ICON);
     }
 
+    @Override
     public GameMode getGameMode() {
         return GameMode.BLACKOUT;
+    }
+
+    @Override
+    public JPanel getKeyboardMovementSwitchPanel() {
+        return keyboardPanel;
     }
 }

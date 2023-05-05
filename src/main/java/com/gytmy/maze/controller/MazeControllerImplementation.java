@@ -1,6 +1,8 @@
 package com.gytmy.maze.controller;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
@@ -86,6 +88,13 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         HotkeyAdder.addHotkey(view, KeyEvent.VK_T, () -> {
             toggleKeyboardMovement();
         }, "Enable / Disable Keyboard Movement");
+
+        view.getKeyboardMovementSwitchPanel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                toggleKeyboardMovement();
+            }
+        });
     }
 
     private void toggleKeyboardMovement() {
