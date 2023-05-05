@@ -18,4 +18,6 @@ public interface MazeController {
 
     public void notifyGameStarted();
 
+    public void updateStatus();
+
 }
