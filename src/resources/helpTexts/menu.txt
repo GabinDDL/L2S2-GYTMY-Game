@@ -7,4 +7,21 @@
 
      HOW TO PLAY
 
+ - Assure playing in a quiet environment, with no background noise.
+   The game will be able to detect your voice more easily.
+
  - Use your voice to move ! Just say "up", "down", "left" or "right" to move your character.
+   You must press the space bar before speaking.
+
+- You can also use the arrow keys on your keyboard to move. 
+  To do so, toggle the "Keyboard Mode" pressing the "T" key on your keyboard.
+
+
+     CREDITS
+
+  - This game was created by the following people:
+    ° Gabin Dudillieu
+    ° Yago Iglesias Vazquez
+    ° Yanis Lacenne
+    ° Tony Ly Soan
+    ° Mathusan Selvakumar
