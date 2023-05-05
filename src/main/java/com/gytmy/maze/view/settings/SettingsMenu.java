@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,6 +27,7 @@ import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
 import com.gytmy.sound.ModelManager;
+import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.ImageManipulator;
 
@@ -145,14 +147,17 @@ public class SettingsMenu extends JPanel {
 
     private void startGame() {
         if (!playerSelectionPanel.arePlayersReady()) {
-            JOptionPane.showMessageDialog(this, "Not all players are ready", "", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Not all players are ready", "Message", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
+        List<User> users = playerSelectionPanel.getSelectedUsers();
 
-        // Create all datas of user's models
-        ModelManager.tryToCreateModels(playerSelectionPanel.getFirstNameUsers());
+        // Handle model creation prompting
+        if (!User.areUpToDate(users)) {
+            promptUserToCreateModelOfAllUsers();
+        }
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
@@ -167,10 +172,36 @@ public class SettingsMenu extends JPanel {
         frame.setContentPane(mazeView);
 
         MenuFrameHandler.frameUpdate(gameMode.toString());
+
+        mazeView.setGamePreferredSize(frame.getSize());
+    }
+
+    private void promptUserToCreateModelOfAllUsers() {
+        int recreateValue = JOptionPane.showConfirmDialog(
+                this,
+                "At least one selected player's model is not up-to-date.\nWould you like to recreate all the users' models?",
+                "The models are not up-to-date",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (recreateValue == JOptionPane.YES_OPTION) {
+            ModelManager.recreateModelOfAllUsers();
+            JOptionPane.showMessageDialog(
+                    this,
+                    "The models have been successfully recreated.",
+                    "Models recreation : Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "The models have not been recreated.",
+                    "Models recreation : Skipped",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void addEscapeKeyBind() {
-        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, MenuFrameHandler::goToStartMenu, "Go to Start Menu");
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_ESCAPE, SettingsMenu::goToStartMenu, "Go to Start Menu");
     }
 
     private void updateGUI() {
@@ -180,5 +211,11 @@ public class SettingsMenu extends JPanel {
 
     private void updateUsers() {
         playerSelectionPanel.updateUsers();
+    }
+
+    private static void goToStartMenu() {
+        SettingsMenu instance = SettingsMenu.getInstance();
+        instance.playerSelectionPanel.setPlayersToUnready();
+        MenuFrameHandler.goToStartMenu();
     }
 }

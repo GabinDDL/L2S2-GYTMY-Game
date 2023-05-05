@@ -13,6 +13,7 @@ import com.gytmy.maze.model.MazeModelFactory;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.model.score.ScoreCalculator;
 import com.gytmy.maze.model.score.ScoreType;
+import com.gytmy.maze.view.game.GameplayStatus;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.game.MazeViewFactory;
 import com.gytmy.sound.AudioFileManager;
@@ -63,6 +64,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         model = MazeModelFactory.createMaze(gameData);
         initPlayersInitialCell(model.getPlayers());
         view = MazeViewFactory.createMazeView(gameData, model, frame, this);
+        updateStatus();
     }
 
     private void initScoreType() {
@@ -114,17 +116,19 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         AudioRecorder recorder = AudioRecorder.getInstance();
         AudioRecorder.addObserver(this);
         HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
+
             if (!isRecordingEnabled) {
                 return;
             }
+
             if (AudioRecorder.isRecording()) {
                 recorder.finish();
                 return;
             }
 
-            new Thread(() -> {
-                recorder.start(AUDIO_GAME_PATH);
-            }).start();
+            recorder.start(AUDIO_GAME_PATH);
+
+            updateStatus();
 
         }, "Record Audio In Game");
     }
@@ -136,6 +140,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
      * compareWithWhisper)
      */
     private void compareAudioWithModel() {
+
         isRecordingEnabled = false;
 
         AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
@@ -146,7 +151,6 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         }
 
         User recognizedUser = AudioFileManager.getUser(result.getName());
-
         if (recognizedUser == null) {
             isRecordingEnabled = true;
             return;
@@ -167,12 +171,15 @@ public class MazeControllerImplementation implements MazeController, RecordObser
                 movePlayerWithCompareResult(recognizedUser, recognizedCommand);
 
                 new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+
+                new File(AUDIO_GAME_PATH).delete();
+
+                isRecordingEnabled = true;
+                updateStatus();
             });
         }
 
-        new File(AUDIO_GAME_PATH).delete();
-
-        isRecordingEnabled = true;
+        updateStatus();
     }
 
     /**
@@ -248,12 +255,9 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         if (model.isGameOver()) {
             view.stopTimer();
             view.notifyGameOver();
-        }
-    }
 
-    @Override
-    public void addKeyController(KeyboardMovementController controller) {
-        view.addKeyController(controller);
+            AudioRecorder.getInstance().finish();
+        }
     }
 
     @Override
@@ -266,10 +270,24 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         hasCountdownEnded = true;
         isRecordingEnabled = true;
         view.notifyGameStarted();
+        updateStatus();
     }
 
     @Override
-    public void update() {
+    public void startRecordUpdate() {
+        updateStatus();
+    }
+
+    @Override
+    public void endRecordUpdate() {
         compareAudioWithModel();
+        updateStatus();
+    }
+
+    private void updateStatus() {
+
+        view.updateStatus(
+                GameplayStatus.getStatusAccordingToGameplay(
+                        hasCountdownEnded, AudioRecorder.isRecording(), isRecordingEnabled));
     }
 }

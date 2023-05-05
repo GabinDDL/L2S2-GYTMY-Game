@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.MazeModel;
+import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.TimerPanel;
 
@@ -60,6 +61,11 @@ public class MazeBlackoutView extends MazeViewImplementation {
         blackoutPanel = new BlackoutMazePanel(mazePanel);
         blackoutPanel.update(model.getPlayers()[0]);
         gamePanel.add(mazePanel);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(statusFeedbackPanel, c);
     }
 
     private void initTopPanel() {
@@ -210,5 +216,9 @@ public class MazeBlackoutView extends MazeViewImplementation {
     @Override
     public void toggleKeyboardMovement(boolean enabled) {
         keyboardMovement.setIcon(enabled ? ENABLED_KEYBOARD_MOVEMENT_ICON : DISABLED_KEYBOARD_MOVEMENT_ICON);
+    }
+
+    public GameMode getGameMode() {
+        return GameMode.BLACKOUT;
     }
 }

@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.MazeModel;
+import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.view.TimerPanel;
 
 public class MazeClassicView extends MazeViewImplementation {
@@ -39,6 +40,11 @@ public class MazeClassicView extends MazeViewImplementation {
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
         add(mazePanel, c);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(statusFeedbackPanel, c);
     }
 
     private void initTopPanel() {
@@ -102,5 +108,10 @@ public class MazeClassicView extends MazeViewImplementation {
     @Override
     public void toggleKeyboardMovement(boolean enabled) {
         keyboardMovement.setIcon(enabled ? ENABLED_KEYBOARD_MOVEMENT_ICON : DISABLED_KEYBOARD_MOVEMENT_ICON);
+    }
+
+    @Override
+    public GameMode getGameMode() {
+        return GameMode.CLASSIC;
     }
 }
