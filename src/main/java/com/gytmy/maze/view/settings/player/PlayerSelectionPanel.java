@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.gytmy.maze.model.player.Player;
+import com.gytmy.sound.User;
 
 /**
  * This class is used to display the player selection panel.
@@ -66,6 +67,17 @@ public class PlayerSelectionPanel extends JPanel {
         }
 
         return players.toArray(new Player[0]);
+    }
+
+    public List<User> getSelectedUsers() {
+        List<User> users = new ArrayList<>();
+        for (int playerPosition = 0; playerPosition < numberOfPlayers; playerPosition++) {
+            User user = playerPanels[playerPosition].getSelectedUser();
+            if (user != null) {
+                users.add(user);
+            }
+        }
+        return users;
     }
 
     public String[] getFirstNameUsers() {

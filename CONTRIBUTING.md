@@ -190,9 +190,11 @@ It should be possible to understand the usefulness and interest of an issue only
 
 ##### Issue Type
 
-- Bug
 - Advancement Status
+- Bug
+- Graphical
 - Implementation
-- Sound
 - Maze
 - Research
+- Resources
+- Sound

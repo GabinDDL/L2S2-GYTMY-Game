@@ -40,7 +40,7 @@ public class ModelManager {
         createDirectory(PRM_PATH);
         createDirectory(LBL_PATH);
         createDirectory(LST_WORLD_PATH);
-        createDirectory(LST_WORLD_PATH);
+        createDirectory(GMM_PATH);
     }
 
     protected static void createDirectory(String path) {
@@ -81,27 +81,17 @@ public class ModelManager {
     }
 
     /**
-     * Create all models for all users if one of the given users is not UpToDate.
-     * Otherwise, do nothing.
+     * Create all models for all users.
+     * Those models are necessary for the voice controlled movements.
      * 
      * @param firstNameOfUsers
      */
-    public static void tryToCreateModels(String[] firstNameOfUsers) {
+    public static void recreateModelOfAllUsers() {
         generateModelDirectoryStructure();
-
-        if (firstNameOfUsers == null) {
-            return;
-        }
-        for (String firstName : firstNameOfUsers) {
-            User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
-            if (!user.getUpToDate()) {
-                List<User> users = AudioFileManager.getUsers();
-                createModelOfWorld(users);
-                createModelOfAllUsers(users);
-                resetParameter();
-                return;
-            }
-        }
+        List<User> users = AudioFileManager.getUsers();
+        createModelOfWorld(users);
+        createModelOfUsers(users);
+        resetParameter();
     }
 
     /**
@@ -529,13 +519,14 @@ public class ModelManager {
      * 
      * @param users
      */
-    private static void createModelOfAllUsers(List<User> users) {
-        for (User u : users) {
+    private static void createModelOfUsers(List<User> users) {
+        for (User user : users) {
             for (String recordedWord : WordsToRecord.getWordsToRecord()) {
-                if (!doesUserHaveDataOfWord(u, recordedWord)) {
+                if (!doesUserHaveDataOfWord(user, recordedWord) ||
+                        !doesAudioFilesHaveAGoodLength(user, recordedWord)) {
                     continue;
                 }
-                trainTarget(u.modelPath() + recordedWord + LIST_NDX_PATH, u.getFirstName(), recordedWord);
+                trainTarget(user.modelPath() + recordedWord + LIST_NDX_PATH, user.getFirstName(), recordedWord);
             }
         }
     }

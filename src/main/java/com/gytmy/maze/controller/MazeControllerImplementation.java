@@ -1,7 +1,8 @@
 package com.gytmy.maze.controller;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,6 +15,7 @@ import com.gytmy.maze.model.MazeModelFactory;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.model.score.ScoreCalculator;
 import com.gytmy.maze.model.score.ScoreType;
+import com.gytmy.maze.view.game.GameplayStatus;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.game.MazeViewFactory;
 import com.gytmy.sound.AudioFileManager;
@@ -33,6 +35,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private MazeModel model;
     private MazeView view;
     private JFrame frame;
+    private boolean isKeyboardMovementEnabled = false;
     private boolean hasCountdownEnded = false;
     private boolean isRecordingEnabled = false;
     private boolean compareWithWhisper = true; // true if the compare function should use Whisper
@@ -53,6 +56,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         this.gameData = gameData;
         this.frame = frame;
         initGame();
+        initToggleKeyboardMovementKeyBind();
         initializeMovementController();
         initializeVoiceRecorder();
     }
@@ -78,6 +82,24 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private void initPlayersInitialCell(Player[] players) {
         Coordinates initialCell = model.getInitialCell();
         Player.initAllPlayersCoordinates(initialCell, players);
+    }
+
+    private void initToggleKeyboardMovementKeyBind() {
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_T, () -> {
+            toggleKeyboardMovement();
+        }, "Enable / Disable Keyboard Movement");
+
+        view.getKeyboardMovementSwitchPanel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                toggleKeyboardMovement();
+            }
+        });
+    }
+
+    private void toggleKeyboardMovement() {
+        isKeyboardMovementEnabled = !isKeyboardMovementEnabled;
+        view.toggleKeyboardMovement(isKeyboardMovementEnabled);
     }
 
     private void initializeMovementController() {
@@ -127,6 +149,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
      * compareWithWhisper)
      */
     private void compareAudioWithModel() {
+
         isRecordingEnabled = false;
 
         AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
@@ -157,12 +180,14 @@ public class MazeControllerImplementation implements MazeController, RecordObser
                 movePlayerWithCompareResult(recognizedUser, recognizedCommand);
 
                 new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+
+                new File(AUDIO_GAME_PATH).delete();
+
+                isRecordingEnabled = true;
+                updateStatus();
             });
         }
 
-        new File(AUDIO_GAME_PATH).delete();
-
-        isRecordingEnabled = true;
         updateStatus();
     }
 
@@ -221,7 +246,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
             view.stopTimer();
             return false;
         }
-        return hasCountdownEnded;
+        return hasCountdownEnded && isKeyboardMovementEnabled;
     }
 
     /**
@@ -245,11 +270,6 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     }
 
     @Override
-    public void addKeyController(KeyboardMovementController controller) {
-        view.addKeyController(controller);
-    }
-
-    @Override
     public ScoreCalculator getScoreCalculator(ScoreType scoreType, Player player) {
         return model.getScoreCalculator(scoreType, player);
     }
@@ -270,23 +290,13 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     @Override
     public void endRecordUpdate() {
         compareAudioWithModel();
-
         updateStatus();
     }
 
     private void updateStatus() {
 
-        if (!hasCountdownEnded) {
-            view.updateStatus(Color.ORANGE, "BE READY", Color.DARK_GRAY);
-            return;
-        }
-
-        if (AudioRecorder.isRecording()) {
-            view.updateStatus(Color.RED, "RECORDING...");
-        } else if (!isRecordingEnabled) {
-            view.updateStatus(Color.BLUE, "COMPARING...");
-        } else {
-            view.updateStatus(null, "PLAYING");
-        }
+        view.updateStatus(
+                GameplayStatus.getStatusAccordingToGameplay(
+                        hasCountdownEnded, AudioRecorder.isRecording(), isRecordingEnabled));
     }
 }

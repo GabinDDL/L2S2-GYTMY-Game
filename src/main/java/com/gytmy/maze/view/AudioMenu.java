@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 import com.gytmy.maze.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioPlayer;
+import com.gytmy.sound.ModelManager;
 import com.gytmy.sound.PlayingTimer;
 import com.gytmy.sound.User;
 import com.gytmy.utils.FileTree;
@@ -60,7 +61,8 @@ public class AudioMenu extends JPanel {
     private JLabel totalOfWords;
     private JLabel totalAudioLength;
     private JButton recordButton;
-    private JButton deleteRecord;
+    private JButton deleteButton;
+    private JButton recreateModelsButton;
 
     private JProgressBar timeProgress;
     private JLabel labelDuration = new JLabel("00:00");
@@ -102,6 +104,14 @@ public class AudioMenu extends JPanel {
 
     private static final ImageIcon goBackIcon = ImageManipulator.resizeImage(
             "src/resources/images/audio_menu/go-back-arrow.png",
+            ICON_WIDTH, ICON_HEIGHT);
+
+    private static final ImageIcon recreateModelEnabledIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/recreate-model.png",
+            ICON_WIDTH, ICON_HEIGHT);
+
+    private static final ImageIcon recreateModelDisabledIcon = ImageManipulator.resizeImage(
+            "src/resources/images/audio_menu/recreate-model-crossed.png",
             ICON_WIDTH, ICON_HEIGHT);
 
     private String audioToLoad = "";
@@ -162,9 +172,8 @@ public class AudioMenu extends JPanel {
     }
 
     private void addUsersToJComboBox(JComboBox<User> userSelector) {
-        List<User> users = AudioFileManager.getUsers();
         userSelector.addItem(ALL_USERS);
-
+        List<User> users = AudioFileManager.getUsers();
         for (User user : users) {
             userSelector.addItem(user);
         }
@@ -305,7 +314,7 @@ public class AudioMenu extends JPanel {
 
         audioToLoad = "";
 
-        if (deleteRecord != null) {
+        if (deleteButton != null) {
             disableDeleteButton();
         }
 
@@ -360,11 +369,11 @@ public class AudioMenu extends JPanel {
     }
 
     private void enableDeleteButton() {
-        changeButtonState(deleteRecord, "Delete", deleteIcon, true);
+        changeButtonState(deleteButton, "Delete", deleteIcon, true);
     }
 
     private void disableDeleteButton() {
-        changeButtonState(deleteRecord, "D̶e̶l̶e̶t̶e̶", null, false);
+        changeButtonState(deleteButton, "D̶e̶l̶e̶t̶e̶", null, false);
     }
 
     /**
@@ -382,8 +391,8 @@ public class AudioMenu extends JPanel {
         initWordSelector(audioPanel);
         initCountOfWords(audioPanel);
         initTotalAudioLength(audioPanel);
-        initDeleteRecordButton(audioPanel);
-        initRecordButton(audioPanel);
+        initDeleteAndRecordButtons(audioPanel);
+        initRecreateModelButton(audioPanel);
         initLabelDuration(audioPanel);
         initProgressBar(audioPanel);
         initMediaPlayer(audioPanel);
@@ -415,6 +424,13 @@ public class AudioMenu extends JPanel {
         parentComponent.add(totalAudioLength);
     }
 
+    private void initDeleteAndRecordButtons(JComponent parentComponent) {
+        JPanel deleteAndRecordPanel = new JPanel(new GridLayout(1, 2));
+        initRecordButton(deleteAndRecordPanel);
+        initDeleteButton(deleteAndRecordPanel);
+        parentComponent.add(deleteAndRecordPanel);
+    }
+
     private void initRecordButton(JComponent parentComponent) {
         recordButton = new JButton("R̶e̶c̶o̶r̶d̶");
         recordButton.setToolTipText("Record a new audio for the selected word");
@@ -431,6 +447,92 @@ public class AudioMenu extends JPanel {
                         (String) wordSelector.getSelectedItem()));
         mainFrame.revalidate();
         mainFrame.setTitle("RECORD STUDIO");
+    }
+
+    private void initDeleteButton(JComponent parentComponent) {
+        deleteButton = new JButton("D̶e̶l̶e̶t̶e̶");
+        deleteButton.setToolTipText("Delete the selected audio");
+        deleteButton.setEnabled(false);
+        deleteButton.addActionListener(e -> {
+            deleteWAV();
+            handleRecreateModelsButtonState();
+        });
+        initColors(deleteButton);
+        parentComponent.add(deleteButton);
+    }
+
+    public void handleRecreateModelsButtonState() {
+        List<User> users = AudioFileManager.getUsers();
+        if (User.areUpToDate(users)) {
+            disableRecreateModelsButton();
+        } else {
+            enableRecreateModelsButton();
+        }
+    }
+
+    private void deleteWAV() {
+        if (audioToLoad != null) {
+
+            String[] path = audioToLoad.split("/");
+            String userFirstName = path[3];
+            String word = path[5];
+
+            String wordIndex = extractNumberFromWord(path[6]);
+
+            int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
+                    userFirstName, word);
+            AudioFileManager.deleteRecording(userFirstName, word, Integer.valueOf(wordIndex));
+
+            AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
+                    totalRecordsBeforeDelete);
+
+            updateGUI();
+
+            playAndStopButton.setEnabled(false);
+        }
+    }
+
+    private String extractNumberFromWord(String string) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < string.length(); i++) {
+            if (Character.isDigit(string.charAt(i))) {
+                builder.append(string.charAt(i));
+            }
+        }
+        return builder.toString();
+    }
+
+    private void initRecreateModelButton(JComponent parentComponent) {
+        recreateModelsButton = new JButton("Recreate Models");
+        recreateModelsButton.setToolTipText("Recreate the models for all the users");
+
+        recreateModelsButton.addActionListener(e -> {
+            List<User> users = AudioFileManager.getUsers();
+            if (!User.areUpToDate(users)) {
+                disableRecreateModelsButton();
+                ModelManager.recreateModelOfAllUsers();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "The Models have been successfully recreated.",
+                        "Models recreation : Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        });
+
+        handleRecreateModelsButtonState();
+
+        initColors(recreateModelsButton);
+        parentComponent.add(recreateModelsButton);
+    }
+
+    private void disableRecreateModelsButton() {
+        changeButtonState(recreateModelsButton, "R̶e̶c̶r̶e̶a̶t̶e̶ M̶o̶d̶e̶l̶s̶", recreateModelDisabledIcon, false);
+    }
+
+    private void enableRecreateModelsButton() {
+        changeButtonState(recreateModelsButton, "Recreate Models", recreateModelEnabledIcon, true);
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
@@ -490,48 +592,6 @@ public class AudioMenu extends JPanel {
             totalForASpecificWord += AudioFileManager.numberOfRecordings(usr.getFirstName(), word);
         }
         return totalForASpecificWord;
-    }
-
-    private void initDeleteRecordButton(JComponent parentComponent) {
-        deleteRecord = new JButton("D̶e̶l̶e̶t̶e̶");
-        deleteRecord.setToolTipText("Delete the selected audio");
-        deleteRecord.setEnabled(false);
-        deleteRecord.addActionListener(e -> deleteWAV());
-        initColors(deleteRecord);
-        parentComponent.add(deleteRecord);
-    }
-
-    private void deleteWAV() {
-        if (audioToLoad != null) {
-
-            String[] path = audioToLoad.split("/");
-            String userFirstName = path[3];
-            String word = path[5];
-
-            String wordIndex = extractNumberFromWord(path[6]);
-
-            int totalRecordsBeforeDelete = AudioFileManager.numberOfRecordings(
-                    userFirstName, word);
-            AudioFileManager.deleteRecording(audioToLoad);
-
-            AudioFileManager.renameAudioFiles(userFirstName, word, Integer.valueOf(wordIndex),
-                    totalRecordsBeforeDelete);
-
-            updateGUI();
-
-            playAndStopButton.setEnabled(false);
-        }
-    }
-
-    private String extractNumberFromWord(String string) {
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < string.length(); i++) {
-            if (Character.isDigit(string.charAt(i))) {
-                builder.append(string.charAt(i));
-            }
-        }
-        return builder.toString();
     }
 
     private void initLabelDuration(JComponent parentComponent) {
