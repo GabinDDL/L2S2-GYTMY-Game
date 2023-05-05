@@ -188,6 +188,10 @@ public class AudioRecorder {
      */
     public void finish() {
 
+        if (stopper == null || channel == null) {
+            return;
+        }
+
         stopper.interrupt();
 
         channel.stop();
