@@ -16,7 +16,6 @@ import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.GameOverPanel;
 import com.gytmy.maze.view.MenuFrameHandler;
-// import com.gytmy.maze.view.StatusFeedbackPanel;
 import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.TimerPanel;
 import com.gytmy.utils.ImageManipulator;
@@ -28,12 +27,10 @@ public class MazeViewImplementation extends MazeView {
     protected TimerPanel timerPanel;
     protected JPanel topPanel;
     protected PausePanel pausePanel;
-    // protected StatusFeedbackPanel statusFeedbackPanel;
     private JFrame frame;
     private Dimension preferredSize;
 
     protected static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
-    // private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
 
     protected static final String ENABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_enabled.png";
     protected static final String DISABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_disabled.png";
@@ -56,7 +53,6 @@ public class MazeViewImplementation extends MazeView {
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
         mazePanel = new MazePanel(model);
-        // statusFeedbackPanel = new StatusFeedbackPanel(getWidth());
     }
 
     private void addPauseKeyBind() {
@@ -147,8 +143,7 @@ public class MazeViewImplementation extends MazeView {
     }
 
     @Override
-    public void updateStatus(GameplayStatus status) {
-        // statusFeedbackPanel.updateStatus(status);
+    public void updateRecordStatus(GameplayStatus status) {
         repaint();
     }
 

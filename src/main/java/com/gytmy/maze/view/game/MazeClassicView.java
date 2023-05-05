@@ -45,7 +45,6 @@ public class MazeClassicView extends MazeViewImplementation {
         c.gridx = 0;
         c.gridy = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
-        // add(statusFeedbackPanel, c);
     }
 
     private void initTopPanel() {
@@ -127,5 +126,11 @@ public class MazeClassicView extends MazeViewImplementation {
     @Override
     public JPanel getKeyboardMovementSwitchPanel() {
         return keyboardPanel;
+    }
+
+    @Override
+    public void updateRecordStatus(GameplayStatus status) {
+        audioRecordStatus.setIcon(status.getIcon());
+        repaint();
     }
 }

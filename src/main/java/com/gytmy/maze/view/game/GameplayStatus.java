@@ -2,6 +2,8 @@ package com.gytmy.maze.view.game;
 
 import java.awt.Color;
 
+import javax.swing.Icon;
+
 public enum GameplayStatus {
     COUNTDOWN("BE READY!"),
     PLAYING("PLAYING"),
@@ -63,5 +65,9 @@ public enum GameplayStatus {
             default:
                 return Color.DARK_GRAY;
         }
+    }
+
+    public Icon getIcon() {
+        return null;
     }
 }

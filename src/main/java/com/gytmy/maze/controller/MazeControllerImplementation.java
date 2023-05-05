@@ -295,7 +295,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
     private void updateStatus() {
 
-        view.updateStatus(
+        view.updateRecordStatus(
                 GameplayStatus.getStatusAccordingToGameplay(
                         hasCountdownEnded, AudioRecorder.isRecording(), isRecordingEnabled));
     }
