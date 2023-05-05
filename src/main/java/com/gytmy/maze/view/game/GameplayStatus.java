@@ -5,20 +5,23 @@ import javax.swing.Icon;
 import com.gytmy.utils.ImageManipulator;
 
 public enum GameplayStatus {
-    // TODO: add audio record icons paths
-    COUNTDOWN("TIMER-ICON"),
-    PLAYING("NO-ICON"),
-    RECORDING("MIC-ENABLED-ICON"),
-    RECOGNIZING("MIC-DISABLED-ICON");
+    COUNTDOWN("src/resources/images/game/timer_on.png", 27, 33),
+    PLAYING("src/resources/images/game/mic_off.png", 21, 33),
+    RECORDING("src/resources/images/game/mic_on.png", 21, 33),
+    RECOGNIZING("src/resources/images/game/computing_on.png", 30, 33);
 
-    private static final int ICON_WIDTH = MazeViewImplementation.ICON_WIDTH;
-    private static final int ICON_HEIGHT = MazeViewImplementation.ICON_HEIGHT;
     private final String iconPath;
     private final Icon icon;
 
-    private GameplayStatus(String iconPath) {
+    private GameplayStatus(String iconPath, int iconWidth, int iconHeight) {
         this.iconPath = iconPath;
-        this.icon = ImageManipulator.resizeImage(iconPath, ICON_WIDTH, ICON_HEIGHT);
+
+        if (iconPath == null) {
+            this.icon = null;
+            return;
+        }
+
+        this.icon = ImageManipulator.resizeImage(iconPath, iconWidth, iconHeight);
     }
 
     public String getIconPath() {

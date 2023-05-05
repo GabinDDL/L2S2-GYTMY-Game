@@ -34,8 +34,8 @@ public class MazeViewImplementation extends MazeView {
 
     protected static final String ENABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_enabled.png";
     protected static final String DISABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_disabled.png";
-    public static final int ICON_WIDTH = 51;
-    public static final int ICON_HEIGHT = 33;
+    protected static final int ICON_WIDTH = 51;
+    protected static final int ICON_HEIGHT = 33;
     protected static final Dimension ICON_DIMENSION = new Dimension(ICON_WIDTH, ICON_HEIGHT);
     protected static final Icon ENABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
             ENABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
