@@ -35,6 +35,28 @@ public class MazeBlackoutView extends MazeViewImplementation {
     }
 
     @Override
+    protected void initComponents() {
+        GridBagConstraints c = new GridBagConstraints();
+
+        initTopPanel();
+        c.gridx = 0;
+        c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(topPanel, c);
+
+        gamePanel = new JPanel();
+        gamePanel.setBackground(BLACKOUT_COLOR);
+        c.gridx = 0;
+        c.gridy = 1;
+        add(gamePanel, c);
+
+        blackoutPanel = new BlackoutMazePanel(mazePanel);
+        blackoutPanel.update(model.getPlayers()[0]);
+        gamePanel.add(mazePanel);
+
+    }
+
+    @Override
     protected void initTimerPanel() {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 1;

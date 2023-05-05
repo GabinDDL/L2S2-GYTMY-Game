@@ -181,13 +181,9 @@ public class MazeViewImplementation extends MazeView {
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
         add(mazePanel, c);
-
-        c.gridx = 0;
-        c.gridy = 2;
-        c.fill = GridBagConstraints.HORIZONTAL;
     }
 
-    private void initTopPanel() {
+    protected void initTopPanel() {
 
         topPanel = new JPanel();
         topPanel.setLayout(new GridBagLayout());
