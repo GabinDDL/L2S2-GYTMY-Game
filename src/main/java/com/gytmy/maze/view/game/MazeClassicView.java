@@ -17,7 +17,8 @@ import com.gytmy.maze.view.TimerPanel;
 public class MazeClassicView extends MazeViewImplementation {
 
     private MazeController controller;
-    private JPanel emptyPanel;
+    private JPanel audioRecordPanel;
+    private JLabel audioRecordStatus;
     private JPanel keyboardPanel;
     private JLabel keyboardMovement;
 
@@ -54,24 +55,32 @@ public class MazeClassicView extends MazeViewImplementation {
         topPanel.setBackground(BACKGROUND_COLOR);
         topPanel.setBorder(new EmptyBorder(20, 20, 0, 20));
 
-        initEmptyPanel();
+        initAudioRecordPanel();
 
         initTimerPanel();
 
         keyboardPanel();
     }
 
-    private void initEmptyPanel() {
+    private void initAudioRecordPanel() {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
 
-        emptyPanel = new JPanel();
-        emptyPanel.setBackground(BACKGROUND_COLOR);
-        emptyPanel.setPreferredSize(ICON_DIMENSION);
-        topPanel.add(emptyPanel, c);
+        audioRecordPanel = new JPanel(new BorderLayout());
+        audioRecordPanel.setBackground(BACKGROUND_COLOR);
+        audioRecordPanel.setPreferredSize(ICON_DIMENSION);
+
+        audioRecordStatus = new JLabel();
+        // TODO: add audio record icon
+        // audioRecordStatus.setIcon(DISABLED_AUDIO_RECORD_ICON);
+        audioRecordStatus.setIcon(DISABLED_KEYBOARD_MOVEMENT_ICON);
+
+        audioRecordPanel.add(audioRecordStatus, BorderLayout.WEST);
+
+        topPanel.add(audioRecordPanel, c);
     }
 
     private void initTimerPanel() {
