@@ -6,7 +6,9 @@ import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.MazeModel;
@@ -17,18 +19,29 @@ import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.StatusFeedbackPanel;
 import com.gytmy.maze.view.TimerPanel;
+import com.gytmy.utils.ImageManipulator;
 import com.gytmy.utils.HotkeyAdder;
 
 public class MazeViewImplementation extends MazeView {
     protected MazeModel model;
     protected MazePanel mazePanel;
     protected TimerPanel timerPanel;
+    protected JPanel topPanel;
     protected PausePanel pausePanel;
     protected StatusFeedbackPanel statusFeedbackPanel;
     private JFrame frame;
     private Dimension preferredSize;
 
-    private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
+    protected static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
+    protected static final String ENABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_enabled.png";
+    protected static final String DISABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_disabled.png";
+    protected static final int ICON_WIDTH = 51;
+    protected static final int ICON_HEIGHT = 33;
+    protected static final Dimension ICON_DIMENSION = new Dimension(ICON_WIDTH, ICON_HEIGHT);
+    protected static final Icon ENABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
+            ENABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
+    protected static final Icon DISABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
+            DISABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
 
     protected MazeViewImplementation(MazeModel model, JFrame frame) {
         this.model = model;
@@ -112,6 +125,10 @@ public class MazeViewImplementation extends MazeView {
     }
 
     @Override
+    public void toggleKeyboardMovement(boolean enabled) {
+        // For this view, nothing needs to be done.
+    }
+
     public GameMode getGameMode() {
         return null;
     }
@@ -126,9 +143,14 @@ public class MazeViewImplementation extends MazeView {
         preferredSize = dimension;
     }
 
+    @Override
     public void updateStatus(GameplayStatus status) {
-
         statusFeedbackPanel.updateStatus(status);
         repaint();
+    }
+
+    @Override
+    public JPanel getKeyboardMovementSwitchPanel() {
+        return null;
     }
 }

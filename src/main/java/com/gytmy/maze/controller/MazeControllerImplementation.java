@@ -1,6 +1,8 @@
 package com.gytmy.maze.controller;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
@@ -33,6 +35,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private MazeModel model;
     private MazeView view;
     private JFrame frame;
+    private boolean isKeyboardMovementEnabled = false;
     private boolean hasCountdownEnded = false;
     private boolean isRecordingEnabled = false;
     private boolean compareWithWhisper = true; // true if the compare function should use Whisper
@@ -53,6 +56,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         this.gameData = gameData;
         this.frame = frame;
         initGame();
+        initToggleKeyboardMovementKeyBind();
         initializeMovementController();
         initializeVoiceRecorder();
     }
@@ -78,6 +82,24 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     private void initPlayersInitialCell(Player[] players) {
         Coordinates initialCell = model.getInitialCell();
         Player.initAllPlayersCoordinates(initialCell, players);
+    }
+
+    private void initToggleKeyboardMovementKeyBind() {
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_T, () -> {
+            toggleKeyboardMovement();
+        }, "Enable / Disable Keyboard Movement");
+
+        view.getKeyboardMovementSwitchPanel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                toggleKeyboardMovement();
+            }
+        });
+    }
+
+    private void toggleKeyboardMovement() {
+        isKeyboardMovementEnabled = !isKeyboardMovementEnabled;
+        view.toggleKeyboardMovement(isKeyboardMovementEnabled);
     }
 
     private void initializeMovementController() {
@@ -224,7 +246,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
             view.stopTimer();
             return false;
         }
-        return hasCountdownEnded;
+        return hasCountdownEnded && isKeyboardMovementEnabled;
     }
 
     /**
