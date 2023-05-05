@@ -41,19 +41,15 @@ public class VoiceMovementController implements RecordObserver {
         AudioRecorder recorder = AudioRecorder.getInstance();
         AudioRecorder.addObserver(this);
         HotkeyAdder.addHotkey(controller.getView(), KeyEvent.VK_SPACE, () -> {
-
             if (!isRecordingEnabled) {
-                System.out.println("Recording is not enabled");
                 return;
             }
 
             if (AudioRecorder.isRecording()) {
-                System.out.println("Already recording");
                 recorder.finish();
                 return;
             }
 
-            System.out.println("Start recording");
             recorder.start(AUDIO_GAME_PATH);
             controller.updateStatus();
         }, "Record Audio In Game");
@@ -66,7 +62,6 @@ public class VoiceMovementController implements RecordObserver {
      * compareWithWhisper)
      */
     private void compareAudioWithModel() {
-
         isRecordingEnabled = false;
 
         AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
@@ -151,5 +146,9 @@ public class VoiceMovementController implements RecordObserver {
 
     public void notifyGameStarted() {
         isRecordingEnabled = true;
+    }
+
+    public void notifyGameEnded() {
+        AudioRecorder.getInstance().finish();
     }
 }

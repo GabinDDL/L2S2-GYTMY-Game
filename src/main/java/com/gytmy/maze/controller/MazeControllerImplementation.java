@@ -12,7 +12,6 @@ import com.gytmy.maze.model.score.ScoreType;
 import com.gytmy.maze.view.game.GameplayStatus;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.game.MazeViewFactory;
-import com.gytmy.sound.AudioRecorder;
 import com.gytmy.utils.Coordinates;
 
 public class MazeControllerImplementation implements MazeController {
@@ -54,6 +53,14 @@ public class MazeControllerImplementation implements MazeController {
     }
 
     @Override
+    public void updateStatus() {
+
+        view.updateStatus(
+                GameplayStatus.getStatusAccordingToGameplay(hasCountdownEnded, voiceMovementController.isRecording(),
+                        voiceMovementController.isRecognizing()));
+    }
+
+    @Override
     public MazeView getView() {
         return view;
     }
@@ -75,16 +82,16 @@ public class MazeControllerImplementation implements MazeController {
         handlePlayersAtExit(player);
     }
 
-    private boolean canPlayerMove(Player player) {
-        return !model.isPlayerAtExit(player);
-    }
-
     private boolean isMovementAllowed() {
         if (model.isGameOver()) {
             view.stopTimer();
             return false;
         }
         return hasCountdownEnded;
+    }
+
+    private boolean canPlayerMove(Player player) {
+        return !model.isPlayerAtExit(player);
     }
 
     /**
@@ -103,7 +110,7 @@ public class MazeControllerImplementation implements MazeController {
             view.stopTimer();
             view.notifyGameOver();
 
-            AudioRecorder.getInstance().finish();
+            voiceMovementController.notifyGameEnded();
         }
     }
 
@@ -120,11 +127,4 @@ public class MazeControllerImplementation implements MazeController {
         updateStatus();
     }
 
-    @Override
-    public void updateStatus() {
-
-        view.updateStatus(
-                GameplayStatus.getStatusAccordingToGameplay(hasCountdownEnded, voiceMovementController.isRecording(),
-                        voiceMovementController.isRecognizing()));
-    }
 }

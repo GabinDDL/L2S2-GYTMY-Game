@@ -57,13 +57,6 @@ public class KeyboardMovementController {
         }
     }
 
-    private void movePlayer(Direction direction) {
-        if (!isKeyboardMovementEnabled) {
-            return;
-        }
-        controller.movePlayer(players[selectedPlayer], direction);
-    }
-
     private void initToggleKeyboardMovementKeyBind() {
         HotkeyAdder.addHotkey(view, KeyEvent.VK_T, this::toggleKeyboardMovement, "Enable / Disable Keyboard Movement");
 
@@ -78,6 +71,13 @@ public class KeyboardMovementController {
     private void toggleKeyboardMovement() {
         isKeyboardMovementEnabled = !isKeyboardMovementEnabled;
         view.toggleKeyboardMovement(isKeyboardMovementEnabled);
+    }
+
+    private void movePlayer(Direction direction) {
+        if (!isKeyboardMovementEnabled) {
+            return;
+        }
+        controller.movePlayer(players[selectedPlayer], direction);
     }
 
     private void changeSelectedPlayer(int playerId) {
