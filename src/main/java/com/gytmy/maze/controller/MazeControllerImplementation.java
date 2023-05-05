@@ -122,24 +122,34 @@ public class MazeControllerImplementation implements MazeController, RecordObser
 
     private void initializeVoiceRecorder() {
 
-        AudioRecorder recorder = AudioRecorder.getInstance();
         AudioRecorder.addObserver(this);
         HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
-
-            if (!isRecordingEnabled) {
-                return;
-            }
-
-            if (AudioRecorder.isRecording()) {
-                recorder.finish();
-                return;
-            }
-
-            recorder.start(AUDIO_GAME_PATH);
-
-            updateStatus();
-
+            startRecord();
         }, "Record Audio In Game");
+
+        view.getRecordStatusPanel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                startRecord();
+            }
+        });
+    }
+
+    private void startRecord() {
+        AudioRecorder recorder = AudioRecorder.getInstance();
+
+        if (!isRecordingEnabled) {
+            return;
+        }
+
+        if (AudioRecorder.isRecording()) {
+            recorder.finish();
+            return;
+        }
+
+        recorder.start(AUDIO_GAME_PATH);
+
+        updateStatus();
     }
 
     /**

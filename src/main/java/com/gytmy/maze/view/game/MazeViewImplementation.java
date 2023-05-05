@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -158,8 +159,13 @@ public class MazeViewImplementation extends MazeView {
     }
 
     @Override
-    public JPanel getKeyboardMovementSwitchPanel() {
+    public JComponent getKeyboardMovementSwitchPanel() {
         return keyboardPanel;
+    }
+
+    @Override
+    public JComponent getRecordStatusPanel() {
+        return audioRecordPanel;
     }
 
     protected void initComponents() {
