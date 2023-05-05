@@ -56,7 +56,6 @@ public class MazeClassicView extends MazeViewImplementation {
     }
 
     private void initEmptyPanel() {
-
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
