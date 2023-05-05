@@ -19,6 +19,11 @@ public class ScoreCalculatorFactory {
                     throw new IllegalArgumentException("Info must be of type SimpleKeyboardScoreInfo");
                 }
                 return new SimpleKeyboardScoreCalculator((SimpleScoreInfo) info);
+            case SIMPLE_VOICE:
+                if (!(info instanceof SimpleScoreInfo)) {
+                    throw new IllegalArgumentException("Info must be of type SimpleVoiceScoreInfo");
+                }
+                return new SimpleVoiceScoreCalculator((SimpleScoreInfo) info);
             default:
                 throw new IllegalArgumentException("Unknown score type");
         }

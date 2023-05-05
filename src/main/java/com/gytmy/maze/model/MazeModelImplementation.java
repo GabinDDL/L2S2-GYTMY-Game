@@ -358,6 +358,9 @@ public class MazeModelImplementation implements MazeModel {
             case SIMPLE_KEYBOARD:
                 info = new SimpleScoreInfo(this, player);
                 break;
+            case SIMPLE_VOICE:
+                info = new SimpleScoreInfo(this, player);
+                break;
             default:
                 throw new IllegalArgumentException("Score type " + type + " is not supported");
         }
