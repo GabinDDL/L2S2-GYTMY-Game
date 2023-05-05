@@ -15,10 +15,10 @@ public class ScoreCalculatorFactory {
     public static ScoreCalculator getScoreCalculator(ScoreType type, ScoreInfo info) {
         switch (type) {
             case SIMPLE_KEYBOARD:
-                if (!(info instanceof SimpleKeyboardScoreInfo)) {
+                if (!(info instanceof SimpleScoreInfo)) {
                     throw new IllegalArgumentException("Info must be of type SimpleKeyboardScoreInfo");
                 }
-                return new SimpleKeyboardScoreCalculator((SimpleKeyboardScoreInfo) info);
+                return new SimpleKeyboardScoreCalculator((SimpleScoreInfo) info);
             default:
                 throw new IllegalArgumentException("Unknown score type");
         }
@@ -31,7 +31,7 @@ public class ScoreCalculatorFactory {
      * @return the score calculator
      */
     public static ScoreCalculator getScoreCalculator(ScoreInfo info) {
-        if (info instanceof SimpleKeyboardScoreInfo) {
+        if (info instanceof SimpleScoreInfo) {
             return getScoreCalculator(ScoreType.SIMPLE_KEYBOARD, info);
         }
         throw new IllegalArgumentException("Unknown score info type");

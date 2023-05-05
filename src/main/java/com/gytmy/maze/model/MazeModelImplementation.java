@@ -9,7 +9,7 @@ import com.gytmy.maze.model.score.ScoreCalculator;
 import com.gytmy.maze.model.score.ScoreCalculatorFactory;
 import com.gytmy.maze.model.score.ScoreInfo;
 import com.gytmy.maze.model.score.ScoreType;
-import com.gytmy.maze.model.score.SimpleKeyboardScoreInfo;
+import com.gytmy.maze.model.score.SimpleScoreInfo;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.CellFinder;
 import com.gytmy.utils.Coordinates;
@@ -356,7 +356,7 @@ public class MazeModelImplementation implements MazeModel {
 
         switch (type) {
             case SIMPLE_KEYBOARD:
-                info = new SimpleKeyboardScoreInfo(this, player);
+                info = new SimpleScoreInfo(this, player);
                 break;
             default:
                 throw new IllegalArgumentException("Score type " + type + " is not supported");
