@@ -33,7 +33,7 @@ public class MazeClassicView extends MazeViewImplementation {
         c.gridx = 0;
         c.gridy = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
-        add(statusFeedbackPanel, c);
+        // add(statusFeedbackPanel, c);
     }
 
 }
