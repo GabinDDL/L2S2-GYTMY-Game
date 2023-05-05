@@ -45,9 +45,7 @@ public class VoiceMovementController implements RecordObserver {
 
         MazeView view = controller.getView();
 
-        HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
-            startRecord();
-        }, "Record Audio In Game");
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, this::startRecord, "Record Audio In Game");
 
         view.getRecordStatusPanel().addMouseListener(new MouseAdapter() {
             @Override
