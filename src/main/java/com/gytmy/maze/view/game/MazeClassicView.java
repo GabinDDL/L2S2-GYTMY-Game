@@ -73,8 +73,6 @@ public class MazeClassicView extends MazeViewImplementation {
         audioRecordPanel.setPreferredSize(ICON_DIMENSION);
 
         audioRecordStatus = new JLabel();
-        // TODO: add audio record icon
-        // audioRecordStatus.setIcon(DISABLED_AUDIO_RECORD_ICON);
         audioRecordStatus.setIcon(DISABLED_KEYBOARD_MOVEMENT_ICON);
 
         audioRecordPanel.add(audioRecordStatus, BorderLayout.WEST);
