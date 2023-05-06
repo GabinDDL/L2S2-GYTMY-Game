@@ -1,28 +1,40 @@
 package com.gytmy.maze.view.game;
 
-import java.awt.Color;
+import javax.swing.Icon;
+
+import com.gytmy.utils.ImageManipulator;
 
 public enum GameplayStatus {
-    COUNTDOWN("BE READY!"),
-    PLAYING("PLAYING"),
-    RECORDING("RECORDING..."),
-    RECOGNIZING("RECOGNIZING...");
+    COUNTDOWN("src/resources/images/game/timer_on.png", 27, 33),
+    PLAYING("src/resources/images/game/mic_off.png", 21, 33),
+    RECORDING("src/resources/images/game/mic_on.png", 21, 33),
+    RECOGNIZING("src/resources/images/game/computing_on.png", 30, 33);
 
-    private final String displayName;
-    private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
-    private static final Color FOREGROUND_COLOR = Color.WHITE;
+    private final String iconPath;
+    private final Icon icon;
 
-    private GameplayStatus(String displayName) {
-        this.displayName = displayName;
+    private GameplayStatus(String iconPath, int iconWidth, int iconHeight) {
+        this.iconPath = iconPath;
+
+        if (iconPath == null) {
+            this.icon = null;
+            return;
+        }
+
+        this.icon = ImageManipulator.resizeImage(iconPath, iconWidth, iconHeight);
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public Icon getIcon() {
+        return icon;
     }
 
     @Override
     public String toString() {
-        return displayName;
+        return this.name().toLowerCase();
     }
 
     public static GameplayStatus getStatusAccordingToGameplay(boolean hasCountdownEnded, boolean isAudioRecording,
@@ -41,27 +53,5 @@ public enum GameplayStatus {
         }
 
         return RECOGNIZING;
-    }
-
-    public Color getBackgroundColor() {
-        switch (this) {
-            case COUNTDOWN:
-                return Color.decode("#FEBE8C");
-            case RECORDING:
-                return Color.decode("#F7A4A4");
-            case RECOGNIZING:
-                return Color.decode("#A6D0DD");
-            default:
-                return BACKGROUND_COLOR;
-        }
-    }
-
-    public Color getTextColor() {
-        switch (this) {
-            case PLAYING:
-                return FOREGROUND_COLOR;
-            default:
-                return Color.DARK_GRAY;
-        }
     }
 }

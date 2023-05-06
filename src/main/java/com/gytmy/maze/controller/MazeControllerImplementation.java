@@ -55,7 +55,7 @@ public class MazeControllerImplementation implements MazeController {
     @Override
     public void updateStatus() {
 
-        view.updateStatus(
+        view.updateRecordStatus(
                 GameplayStatus.getStatusAccordingToGameplay(hasCountdownEnded, voiceMovementController.isRecording(),
                         voiceMovementController.isRecognizing()));
     }
@@ -126,5 +126,4 @@ public class MazeControllerImplementation implements MazeController {
         voiceMovementController.notifyGameStarted();
         updateStatus();
     }
-
 }
