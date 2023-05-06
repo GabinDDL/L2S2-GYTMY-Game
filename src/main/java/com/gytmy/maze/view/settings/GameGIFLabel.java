@@ -28,7 +28,6 @@ public class GameGIFLabel extends JLabel {
             case BLACKOUT:
                 return ANIMATED_BLACKOUT_GIF_PATH;
             case CLASSIC:
-            case ONE_DIMENSION:
             default:
                 return ANIMATED_GAME_GIF_PATH;
         }

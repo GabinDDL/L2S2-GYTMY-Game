@@ -16,7 +16,6 @@ public class MazeViewFactory {
         MazeView view = null;
         switch (gameData.getGameMode()) {
             case CLASSIC:
-            case ONE_DIMENSION:
                 view = new MazeClassicView(model, frame, controller);
                 break;
             case BLACKOUT:

@@ -2,10 +2,8 @@ package com.gytmy.maze.model;
 
 import com.gytmy.maze.model.gamemode.BlackoutGameData;
 import com.gytmy.maze.model.gamemode.ClassicGameModeData;
-import com.gytmy.maze.model.gamemode.OneDimensionGameData;
 import com.gytmy.maze.model.generators.BoardGenerator;
 import com.gytmy.maze.model.generators.DepthFirstGenerator;
-import com.gytmy.maze.model.generators.OneDimensionBoardGenerator;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.model.score.ScoreType;
 import com.gytmy.utils.Coordinates;
@@ -24,8 +22,6 @@ public class MazeModelFactory {
     public static final int MINIMUM_HEIGHT_2D = 5;
     public static final int MAXIMUM_SIZE = 40;
 
-    private static final int ONE_DIMENSION_HEIGHT = 3;
-
     private MazeModelFactory() {
     }
 
@@ -33,8 +29,6 @@ public class MazeModelFactory {
         switch (gameData.getGameMode()) {
             case CLASSIC:
                 return createClassicMaze(gameData);
-            case ONE_DIMENSION:
-                return createOneDimensionMaze(gameData);
             case BLACKOUT:
                 return createBlackoutMaze(gameData);
             default:
@@ -50,13 +44,6 @@ public class MazeModelFactory {
         return createMaze(generator, null, null, gameData.getPlayers(), gameData.getScoreType());
     }
 
-    private static MazeModel createOneDimensionMaze(GameData gameData) {
-        OneDimensionGameData gameModeData = (OneDimensionGameData) gameData.getGameModeData();
-        int width = gameModeData.getWidth();
-        BoardGenerator generator = getBoardGenerator(width, ONE_DIMENSION_HEIGHT, null);
-        return createMaze(generator, null, null, gameData.getPlayers(), gameData.getScoreType());
-    }
-
     private static MazeModel createBlackoutMaze(GameData gameData) {
         BlackoutGameData gameModeData = (BlackoutGameData) gameData.getGameModeData();
         int size = gameModeData.getDifficulty().getSize();
@@ -65,11 +52,7 @@ public class MazeModelFactory {
     }
 
     private static BoardGenerator getBoardGenerator(int width, int height, Coordinates initialCell) {
-        if (height <= ONE_DIMENSION_HEIGHT) {
-            return new OneDimensionBoardGenerator(width);
-        }
         return new DepthFirstGenerator(width, height, initialCell);
-
     }
 
     public static MazeModel createMaze(BoardGenerator generator, Coordinates initialCell, Coordinates endCell,
