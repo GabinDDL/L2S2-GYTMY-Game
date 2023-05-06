@@ -2,7 +2,6 @@ package com.gytmy.maze.view.game;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 
@@ -19,6 +18,7 @@ import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.StatusFeedbackPanel;
 import com.gytmy.maze.view.TimerPanel;
+import com.gytmy.maze.view.game.EndTransition.Transition;
 import com.gytmy.utils.ImageManipulator;
 import com.gytmy.utils.HotkeyAdder;
 
@@ -31,6 +31,8 @@ public class MazeViewImplementation extends MazeView {
     protected StatusFeedbackPanel statusFeedbackPanel;
     private JFrame frame;
     private Dimension preferredSize;
+
+    private GameOverPanel gameOverPanel;
 
     protected static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     protected static final String ENABLED_KEYBOARD_MOVEMENT = "src/resources/images/game/directional_arrows_enabled.png";
@@ -99,7 +101,7 @@ public class MazeViewImplementation extends MazeView {
 
     @Override
     public void showGameOverPanel() {
-        frame.setContentPane(new GameOverPanel(model));
+        frame.setContentPane(gameOverPanel);
         frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
         MenuFrameHandler.frameUpdate("Game Over");
     }
@@ -111,17 +113,9 @@ public class MazeViewImplementation extends MazeView {
 
     @Override
     public void notifyGameOver() {
-        // EventQueue is used to pause the screen a little bit before showing the game
-        // over panel
-        EventQueue.invokeLater(
-                () -> {
-                    try {
-                        Thread.sleep(2000);
-                        showGameOverPanel();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+
+        this.gameOverPanel = new GameOverPanel(model);
+        frame.setContentPane(new Transition(this, gameOverPanel, this::showGameOverPanel).getGlassPane());
     }
 
     @Override
