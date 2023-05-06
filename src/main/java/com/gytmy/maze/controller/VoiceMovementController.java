@@ -1,11 +1,14 @@
 package com.gytmy.maze.controller;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.player.Player;
+import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecognitionResult;
@@ -38,21 +41,35 @@ public class VoiceMovementController implements RecordObserver {
     }
 
     public void setup() {
-        AudioRecorder recorder = AudioRecorder.getInstance();
         AudioRecorder.addObserver(this);
-        HotkeyAdder.addHotkey(controller.getView(), KeyEvent.VK_SPACE, () -> {
-            if (!isRecordingEnabled) {
-                return;
-            }
 
-            if (AudioRecorder.isRecording()) {
-                recorder.finish();
-                return;
-            }
+        MazeView view = controller.getView();
 
-            recorder.start(AUDIO_GAME_PATH);
-            controller.updateStatus();
-        }, "Record Audio In Game");
+        HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, this::startRecord, "Record Audio In Game");
+
+        view.getRecordStatusPanel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                startRecord();
+            }
+        });
+    }
+
+    private void startRecord() {
+        AudioRecorder recorder = AudioRecorder.getInstance();
+
+        if (!isRecordingEnabled) {
+            return;
+        }
+
+        if (AudioRecorder.isRecording()) {
+            recorder.finish();
+            return;
+        }
+
+        recorder.start(AUDIO_GAME_PATH);
+
+        controller.updateStatus();
     }
 
     /**

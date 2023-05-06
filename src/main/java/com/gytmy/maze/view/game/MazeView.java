@@ -2,6 +2,7 @@ package com.gytmy.maze.view.game;
 
 import java.awt.Dimension;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.gytmy.maze.model.Direction;
@@ -36,7 +37,9 @@ public abstract class MazeView extends JPanel {
 
     public abstract void setGamePreferredSize(Dimension dimension);
 
-    public abstract void updateStatus(GameplayStatus status);
+    public abstract void updateRecordStatus(GameplayStatus status);
 
-    public abstract JPanel getKeyboardMovementSwitchPanel();
+    public abstract JComponent getKeyboardMovementSwitchPanel();
+
+    public abstract JComponent getRecordStatusPanel();
 }
