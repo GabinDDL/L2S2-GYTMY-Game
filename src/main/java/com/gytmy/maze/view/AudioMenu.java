@@ -66,7 +66,7 @@ public class AudioMenu extends JPanel {
     private JButton recordButton;
     private JButton deleteButton;
     private JButton recreateModelsButton;
-    private JPanel voiceEnginePanel;
+    private JButton whisperButton;
 
     private JProgressBar timeProgress;
     private JLabel labelDuration = new JLabel("00:00");
@@ -511,6 +511,7 @@ public class AudioMenu extends JPanel {
 
     private void initVoiceOptions(JComponent parentComponent) {
         JPanel voiceOptionsPanel = new JPanel(new GridLayout(1, 2));
+        voiceOptionsPanel.setPreferredSize(new Dimension(240, 100));
         initRecreateModelsButton(voiceOptionsPanel);
         initVoiceEnginePickerPanel(voiceOptionsPanel);
 
@@ -550,44 +551,33 @@ public class AudioMenu extends JPanel {
     }
 
     private void initVoiceEnginePickerPanel(JComponent parentComponent) {
-        voiceEnginePanel = new JPanel(new GridLayout(2, 1));
-        voiceEnginePanel.setToolTipText("Change the voice engine used to compute the audio");
-        JPanel whisperPanel = createVoiceEnginePanel("Whisper", VoiceMovementController.isCompareWithWhisper());
-        JPanel alizePanel = createVoiceEnginePanel("ALIZE", !VoiceMovementController.isCompareWithWhisper());
-        voiceEnginePanel.add(whisperPanel);
-        voiceEnginePanel.add(alizePanel);
+        whisperButton = new JButton("");
 
-        voiceEnginePanel.addMouseListener(
-                new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        VoiceMovementController.toggleCompareWithWhisper();
-                        // TODO: Remove debugging print
-                        System.out.println("Compare with whisper : " + VoiceMovementController.isCompareWithWhisper());
-                        changeColor(whisperPanel, VoiceMovementController.isCompareWithWhisper());
-                        changeColor(alizePanel, !VoiceMovementController.isCompareWithWhisper());
-                    }
-                });
-        parentComponent.add(voiceEnginePanel);
+        whisperButton.addActionListener(e -> {
+            VoiceMovementController.toggleCompareWithWhisper();
+            // TODO: Remove debugging print
+            System.out.println("Compare with whisper : " + VoiceMovementController.isCompareWithWhisper());
+            toggleState(whisperButton, VoiceMovementController.isCompareWithWhisper());
+        });
+
+        toggleState(whisperButton, VoiceMovementController.isCompareWithWhisper());
+        parentComponent.add(whisperButton);
     }
 
-    private JPanel createVoiceEnginePanel(String text, boolean isPicked) {
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel(text);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(label);
+    private void toggleState(JButton button, boolean isPicked) {
+        String action;
 
-        changeColor(panel, isPicked);
-
-        return panel;
-    }
-
-    private void changeColor(JPanel panel, boolean isPicked) {
         if (isPicked) {
-            panel.setBackground(Color.decode("#4F8056")); // Green
+            button.setBackground(Color.decode("#4F8056")); // Green
+            action = "Disable";
+            button.setText("Whisper: ON");
         } else {
-            panel.setBackground(Color.decode("#575157")); // Gray out
+            button.setBackground(Color.decode("#575157")); // Gray out
+            action = "Enable";
+            button.setText("Whisper: OFF");
         }
+
+        whisperButton.setToolTipText(action + " the word-recognition engine with Whisper");
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
