@@ -3,25 +3,25 @@ package com.gytmy.maze.model.score;
 import com.gytmy.maze.model.MazeModel;
 import com.gytmy.maze.model.player.Player;
 
-public class SimpleKeyboardScoreInfo implements ScoreInfo {
+public class SimpleScoreInfo implements ScoreInfo {
 
     private int minMovements;
     private int timePassed;
     private int movements;
 
-    public SimpleKeyboardScoreInfo(int minMovements) {
+    public SimpleScoreInfo(int minMovements) {
         this(minMovements, 0, 0);
     }
 
-    public SimpleKeyboardScoreInfo(MazeModel model, Player player) {
+    public SimpleScoreInfo(MazeModel model, Player player) {
         this(model.getMinimumPathLength(), player);
     }
 
-    public SimpleKeyboardScoreInfo(int minMovements, Player player) {
+    public SimpleScoreInfo(int minMovements, Player player) {
         this(minMovements, player.getNumberOfMovements(), player.getTimePassedInSeconds());
     }
 
-    public SimpleKeyboardScoreInfo(int minMovements, int movements, int timePassed) {
+    public SimpleScoreInfo(int minMovements, int movements, int timePassed) {
         this.minMovements = minMovements;
         this.timePassed = timePassed;
         this.movements = movements;
