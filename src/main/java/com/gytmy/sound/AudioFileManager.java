@@ -147,7 +147,6 @@ public class AudioFileManager {
         try {
             return YamlReader.read(SRC_DIR_PATH + name + "/config.yaml");
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
             return null;
         }
     }

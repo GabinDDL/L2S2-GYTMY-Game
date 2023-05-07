@@ -13,9 +13,6 @@ import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.TimerPanel;
 
 public class MazeBlackoutView extends MazeViewImplementation {
-
-    private MazeController controller;
-
     private JPanel gamePanel;
     private BlackoutMazePanel blackoutPanel;
 
@@ -28,7 +25,7 @@ public class MazeBlackoutView extends MazeViewImplementation {
     private static final int FLASH_DURATION_SECONDS = 3;
 
     public MazeBlackoutView(MazeModel model, JFrame frame, MazeController controller) {
-        super(model, frame);
+        super(model, frame, controller);
         this.controller = controller;
         initComponents();
 

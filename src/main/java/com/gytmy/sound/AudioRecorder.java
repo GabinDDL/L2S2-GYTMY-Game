@@ -99,8 +99,9 @@ public class AudioRecorder {
                 Thread.sleep(durationInSeconds * 1000 + 100);
             } catch (InterruptedException ex) {
             }
-            finish();
-            notifyEndToObservers();
+            if (channel != null && channel.isOpen()) {
+                finish();
+            }
         });
     }
 
@@ -187,15 +188,16 @@ public class AudioRecorder {
      * Closes the target data line to finish capturing and recording
      */
     public void finish() {
-
-        if (stopper == null || channel == null) {
-            return;
+        if (channel != null) {
+            channel.stop();
+            channel.close();
         }
-
-        stopper.interrupt();
-
-        channel.stop();
-        channel.close();
+        if (stopper != null) {
+            stopper.interrupt();
+        }
+        if (channel != null) {
+            notifyEndToObservers();
+        }
     }
 
     public static int getTotalDurationInSeconds() {

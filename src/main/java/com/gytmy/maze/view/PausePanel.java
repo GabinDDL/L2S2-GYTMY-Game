@@ -80,7 +80,10 @@ public class PausePanel extends JPanel {
 
     private void initStopButton() {
         stopButton = new JButton("New Game");
-        stopButton.addActionListener(e -> MenuFrameHandler.goToSettingsMenu());
+        stopButton.addActionListener(e -> {
+            MenuFrameHandler.goToSettingsMenu();
+            mazeView.getController().cleanObservers();
+        });
         stopButton.setBackground(Cell.PATH_COLOR);
         stopButton.setForeground(Cell.WALL_COLOR);
         stopButton.setFont(getFont().deriveFont(20f));

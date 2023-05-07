@@ -126,4 +126,10 @@ public class MazeControllerImplementation implements MazeController {
         voiceMovementController.notifyGameStarted();
         updateStatus();
     }
+
+    @Override
+    public void cleanObservers() {
+        voiceMovementController.cleanObserver();
+    }
+
 }

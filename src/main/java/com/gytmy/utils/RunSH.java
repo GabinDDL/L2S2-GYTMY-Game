@@ -33,7 +33,6 @@ public class RunSH {
             e.printStackTrace();
             return 1;
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
             e.printStackTrace();
             return 1;
         }
