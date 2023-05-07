@@ -511,7 +511,7 @@ public class AudioMenu extends JPanel {
 
     private void initVoiceOptions(JComponent parentComponent) {
         JPanel voiceOptionsPanel = new JPanel(new GridLayout(1, 2));
-        voiceOptionsPanel.setPreferredSize(new Dimension(240, 100));
+        voiceOptionsPanel.setPreferredSize(new Dimension(260, 100));
         initRecreateModelsButton(voiceOptionsPanel);
         initVoiceEnginePickerPanel(voiceOptionsPanel);
 
