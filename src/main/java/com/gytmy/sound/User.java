@@ -14,27 +14,38 @@ public class User {
     public static final String DEFAULT_LAST_NAME = "LAST_NAME";
     public static final int DEFAULT_STUDENT_NUMBER = 22100000;
     public static final String DEFAULT_USER_NAME = "USER_NAME";
+    public static final List<String> UP = List.of("UP");
+    public static final List<String> DOWN = List.of("DOWN");
+    public static final List<String> LEFT = List.of("LEFT");
+    public static final List<String> RIGHT = List.of("RIGHT");
 
     private String firstName;
     private String lastName;
     private int studentNumber;
     private String userName;
     private boolean upToDate = true;
+    private List<String> up = UP;
+    private List<String> down = DOWN;
+    private List<String> left = LEFT;
+    private List<String> right = RIGHT;
 
     public User(User user) {
-        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(), user.getUpToDate());
+        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(), 
+        user.getUp(), user.getDown(), user.getLeft(), user.getRight(), user.getUpToDate());
     }
 
     public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, true);
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, UP, DOWN, LEFT, RIGHT, true);
     }
 
-    public User(String firstName, String lastName, int studentNumber, String userName) {
-        this(firstName, lastName, studentNumber, userName, true);
+    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up, 
+    List<String> down, List<String> left, List<String> right) {
+        this(firstName, lastName, studentNumber, userName, up, down, left, right, true);
     }
 
-    public User(String firstName, String lastName, int studentNumber, String userName, boolean upToDate) {
-        handleInvalidArguments(firstName, lastName, studentNumber, userName);
+    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up, 
+    List<String> down, List<String> left, List<String> right, boolean upToDate) {
+        handleInvalidArguments(firstName, lastName, studentNumber, userName, up, down, left, right);
 
         this.firstName = firstName.toUpperCase().replace(" ", "_");
         this.lastName = lastName.toUpperCase().replace(" ", "_");
@@ -43,7 +54,8 @@ public class User {
         this.upToDate = upToDate;
     }
 
-    private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {
+    private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName, 
+    List<String> up, List<String> down, List<String> left, List<String> right) {
         if (isNameInvalid(firstName)) {
             throw new IllegalArgumentException("Invalid first name");
         }
@@ -59,10 +71,35 @@ public class User {
         if (isNameInvalid(userName)) {
             throw new IllegalArgumentException("Invalid user name");
         }
+
+        if (isAltCmdsValid(up)) {
+            throw new IllegalArgumentException("Invalid up commands");
+        }
+
+        if (isAltCmdsValid(down)) {
+            throw new IllegalArgumentException("Invalid down commands");
+        }
+
+        if (isAltCmdsValid(left)) {
+            throw new IllegalArgumentException("Invalid left commands");
+        }
+
+        if (isAltCmdsValid(right)) {
+            throw new IllegalArgumentException("Invalid right commands");
+        }
     }
 
     private boolean isNameInvalid(String name) {
         return name == null || name.isEmpty() || name.isBlank();
+    }
+
+    private boolean isAltCmdsValid(List<String> altCmds) {
+        for (String altCmd : altCmds) {
+            if (altCmd == null || !altCmd.matches("^[A-Z]*$")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -112,6 +149,29 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName.replace(" ", "_");
+    }
+
+    public List<String> getUp() {
+        return up;
+    }
+
+    public List<String> getDown() {
+        return down;
+    }
+
+    public List<String> getLeft() {
+        return left;
+    }
+
+    public List<String> getRight() {
+        return right;
+    }
+
+    public void addAltCmd(String cmd, List<String> altCmds) {
+        if (altCmds.contains(cmd)) {
+            return;
+        }
+        altCmds.add(cmd);
     }
 
     public boolean getUpToDate() {
@@ -169,7 +229,11 @@ public class User {
         return user.getFirstName().equals(this.getFirstName())
                 && user.getLastName().equals(this.getLastName())
                 && user.getStudentNumber() == this.getStudentNumber()
-                && user.getUserName().equals(this.getUserName());
+                && user.getUserName().equals(this.getUserName())
+                && user.getUp().containsAll(user.getUp())
+                && user.getDown().containsAll(user.getDown())
+                && user.getLeft().containsAll(user.getLeft())
+                && user.getRight().containsAll(user.getRight());
     }
 
     @Override

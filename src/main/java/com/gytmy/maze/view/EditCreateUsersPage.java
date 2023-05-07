@@ -11,6 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import com.gytmy.maze.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
@@ -217,7 +218,7 @@ public class EditCreateUsersPage extends JPanel {
 
     private User createUser() {
         return new User(firstName.getText(), lastName.getText(), Integer.valueOf(studentNumber.getText()),
-                userName.getText());
+                userName.getText(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
     }
 
     private boolean inputsAreValid() {
