@@ -401,8 +401,6 @@ public class AudioMenu extends JPanel {
         initProgressBar(audioPanel);
         initMediaPlayer(audioPanel);
         initBackButton(audioPanel);
-        // TODO: Remove debugging print
-        System.out.println("Compare with whisper : " + VoiceMovementController.isCompareWithWhisper());
 
         add(audioPanel, BorderLayout.EAST);
     }
@@ -555,8 +553,6 @@ public class AudioMenu extends JPanel {
 
         whisperButton.addActionListener(e -> {
             VoiceMovementController.toggleCompareWithWhisper();
-            // TODO: Remove debugging print
-            System.out.println("Compare with whisper : " + VoiceMovementController.isCompareWithWhisper());
             toggleState(whisperButton, VoiceMovementController.isCompareWithWhisper());
         });
 
