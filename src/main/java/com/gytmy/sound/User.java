@@ -155,23 +155,32 @@ public class User {
         return up;
     }
 
+    public void addAltUp(String altUp) {
+        this.up.add(altUp);
+    }
+
     public List<String> getDown() {
         return down;
+    }
+
+    public void addAltDown(String altDown) {
+        this.down.add(altDown);
     }
 
     public List<String> getLeft() {
         return left;
     }
 
+    public void addAltLeft(String altLeft) {
+        this.left.add(altLeft);
+    }
+
     public List<String> getRight() {
         return right;
     }
 
-    public void addAltCmd(String cmd, List<String> altCmds) {
-        if (altCmds.contains(cmd)) {
-            return;
-        }
-        altCmds.add(cmd);
+    public void addAltRight(String altRight) {
+        this.right.add(altRight);
     }
 
     public boolean getUpToDate() {
