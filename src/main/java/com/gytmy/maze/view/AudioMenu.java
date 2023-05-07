@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 
+import com.gytmy.maze.controller.VoiceMovementController;
 import com.gytmy.maze.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioPlayer;
@@ -63,6 +66,7 @@ public class AudioMenu extends JPanel {
     private JButton recordButton;
     private JButton deleteButton;
     private JButton recreateModelsButton;
+    private JPanel voiceEnginePanel;
 
     private JProgressBar timeProgress;
     private JLabel labelDuration = new JLabel("00:00");
@@ -392,11 +396,13 @@ public class AudioMenu extends JPanel {
         initCountOfWords(audioPanel);
         initTotalAudioLength(audioPanel);
         initDeleteAndRecordButtons(audioPanel);
-        initRecreateModelButton(audioPanel);
+        initVoiceOptions(audioPanel);
         initLabelDuration(audioPanel);
         initProgressBar(audioPanel);
         initMediaPlayer(audioPanel);
         initBackButton(audioPanel);
+        // TODO: Remove debugging print
+        System.out.println("Compare with whisper : " + VoiceMovementController.isCompareWithWhisper());
 
         add(audioPanel, BorderLayout.EAST);
     }
@@ -503,8 +509,16 @@ public class AudioMenu extends JPanel {
         return builder.toString();
     }
 
-    private void initRecreateModelButton(JComponent parentComponent) {
-        recreateModelsButton = new JButton("Recreate Models");
+    private void initVoiceOptions(JComponent parentComponent) {
+        JPanel voiceOptionsPanel = new JPanel(new GridLayout(1, 2));
+        initRecreateModelsButton(voiceOptionsPanel);
+        initVoiceEnginePickerPanel(voiceOptionsPanel);
+
+        parentComponent.add(voiceOptionsPanel);
+    }
+
+    private void initRecreateModelsButton(JComponent parentComponent) {
+        recreateModelsButton = new JButton("Re-Model");
         recreateModelsButton.setToolTipText("Recreate the models for all the users");
 
         recreateModelsButton.addActionListener(e -> {
@@ -522,17 +536,57 @@ public class AudioMenu extends JPanel {
         });
 
         handleRecreateModelsButtonState();
-
         initColors(recreateModelsButton);
+
         parentComponent.add(recreateModelsButton);
     }
 
     private void disableRecreateModelsButton() {
-        changeButtonState(recreateModelsButton, "R̶e̶c̶r̶e̶a̶t̶e̶ M̶o̶d̶e̶l̶s̶", recreateModelDisabledIcon, false);
+        changeButtonState(recreateModelsButton, "R̶e̶-M̶o̶d̶e̶l̶", recreateModelDisabledIcon, false);
     }
 
     private void enableRecreateModelsButton() {
-        changeButtonState(recreateModelsButton, "Recreate Models", recreateModelEnabledIcon, true);
+        changeButtonState(recreateModelsButton, "Re-Model", recreateModelEnabledIcon, true);
+    }
+
+    private void initVoiceEnginePickerPanel(JComponent parentComponent) {
+        voiceEnginePanel = new JPanel(new GridLayout(2, 1));
+        JPanel whisperPanel = createVoiceEnginePanel("Whisper", VoiceMovementController.isCompareWithWhisper());
+        JPanel alizePanel = createVoiceEnginePanel("ALIZE", !VoiceMovementController.isCompareWithWhisper());
+        voiceEnginePanel.add(whisperPanel);
+        voiceEnginePanel.add(alizePanel);
+
+        voiceEnginePanel.addMouseListener(
+                new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        VoiceMovementController.toggleCompareWithWhisper();
+                        // TODO: Remove debugging print
+                        System.out.println("Compare with whisper : " + VoiceMovementController.isCompareWithWhisper());
+                        changeColor(whisperPanel, VoiceMovementController.isCompareWithWhisper());
+                        changeColor(alizePanel, !VoiceMovementController.isCompareWithWhisper());
+                    }
+                });
+        parentComponent.add(voiceEnginePanel);
+    }
+
+    private JPanel createVoiceEnginePanel(String text, boolean isPicked) {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel(text);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(label);
+
+        changeColor(panel, isPicked);
+
+        return panel;
+    }
+
+    private void changeColor(JPanel panel, boolean isPicked) {
+        if (isPicked) {
+            panel.setBackground(Color.decode("#4F8056")); // Green
+        } else {
+            panel.setBackground(Color.decode("#575157")); // Gray out
+        }
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {
