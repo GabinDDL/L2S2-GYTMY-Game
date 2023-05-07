@@ -551,6 +551,7 @@ public class AudioMenu extends JPanel {
 
     private void initVoiceEnginePickerPanel(JComponent parentComponent) {
         voiceEnginePanel = new JPanel(new GridLayout(2, 1));
+        voiceEnginePanel.setToolTipText("Change the voice engine used to compute the audio");
         JPanel whisperPanel = createVoiceEnginePanel("Whisper", VoiceMovementController.isCompareWithWhisper());
         JPanel alizePanel = createVoiceEnginePanel("ALIZE", !VoiceMovementController.isCompareWithWhisper());
         voiceEnginePanel.add(whisperPanel);
