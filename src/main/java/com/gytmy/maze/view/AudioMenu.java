@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
 
+import com.gytmy.maze.controller.VoiceMovementController;
 import com.gytmy.maze.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioPlayer;
@@ -63,6 +66,7 @@ public class AudioMenu extends JPanel {
     private JButton recordButton;
     private JButton deleteButton;
     private JButton recreateModelsButton;
+    private JButton whisperButton;
 
     private JProgressBar timeProgress;
     private JLabel labelDuration = new JLabel("00:00");
@@ -392,7 +396,7 @@ public class AudioMenu extends JPanel {
         initCountOfWords(audioPanel);
         initTotalAudioLength(audioPanel);
         initDeleteAndRecordButtons(audioPanel);
-        initRecreateModelButton(audioPanel);
+        initVoiceOptions(audioPanel);
         initLabelDuration(audioPanel);
         initProgressBar(audioPanel);
         initMediaPlayer(audioPanel);
@@ -503,8 +507,17 @@ public class AudioMenu extends JPanel {
         return builder.toString();
     }
 
-    private void initRecreateModelButton(JComponent parentComponent) {
-        recreateModelsButton = new JButton("Recreate Models");
+    private void initVoiceOptions(JComponent parentComponent) {
+        JPanel voiceOptionsPanel = new JPanel(new GridLayout(1, 2));
+        voiceOptionsPanel.setPreferredSize(new Dimension(260, 100));
+        initRecreateModelsButton(voiceOptionsPanel);
+        initVoiceEnginePickerPanel(voiceOptionsPanel);
+
+        parentComponent.add(voiceOptionsPanel);
+    }
+
+    private void initRecreateModelsButton(JComponent parentComponent) {
+        recreateModelsButton = new JButton("Re-Model");
         recreateModelsButton.setToolTipText("Recreate the models for all the users");
 
         recreateModelsButton.addActionListener(e -> {
@@ -522,17 +535,45 @@ public class AudioMenu extends JPanel {
         });
 
         handleRecreateModelsButtonState();
-
         initColors(recreateModelsButton);
+
         parentComponent.add(recreateModelsButton);
     }
 
     private void disableRecreateModelsButton() {
-        changeButtonState(recreateModelsButton, "R̶e̶c̶r̶e̶a̶t̶e̶ M̶o̶d̶e̶l̶s̶", recreateModelDisabledIcon, false);
+        changeButtonState(recreateModelsButton, "R̶e̶-M̶o̶d̶e̶l̶", recreateModelDisabledIcon, false);
     }
 
     private void enableRecreateModelsButton() {
-        changeButtonState(recreateModelsButton, "Recreate Models", recreateModelEnabledIcon, true);
+        changeButtonState(recreateModelsButton, "Re-Model", recreateModelEnabledIcon, true);
+    }
+
+    private void initVoiceEnginePickerPanel(JComponent parentComponent) {
+        whisperButton = new JButton("");
+
+        whisperButton.addActionListener(e -> {
+            VoiceMovementController.toggleCompareWithWhisper();
+            toggleState(whisperButton, VoiceMovementController.isCompareWithWhisper());
+        });
+
+        toggleState(whisperButton, VoiceMovementController.isCompareWithWhisper());
+        parentComponent.add(whisperButton);
+    }
+
+    private void toggleState(JButton button, boolean isPicked) {
+        String action;
+
+        if (isPicked) {
+            button.setBackground(Color.decode("#4F8056")); // Green
+            action = "Disable";
+            button.setText("Whisper: ON");
+        } else {
+            button.setBackground(Color.decode("#575157")); // Gray out
+            action = "Enable";
+            button.setText("Whisper: OFF");
+        }
+
+        whisperButton.setToolTipText(action + " the word-recognition engine with Whisper");
     }
 
     private void addWordsToJComboBox(JComboBox<String> wordSelector) {

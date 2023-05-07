@@ -21,7 +21,7 @@ import com.gytmy.utils.HotkeyAdder;
 
 public class VoiceMovementController implements RecordObserver {
 
-    private boolean compareWithWhisper = true; // true if the compare function should use Whisper
+    private static boolean compareWithWhisper = true; // true if the compare function should use Whisper
     private MazeController controller;
     private Player[] players;
 
@@ -167,5 +167,13 @@ public class VoiceMovementController implements RecordObserver {
 
     public void notifyGameEnded() {
         AudioRecorder.getInstance().finish();
+    }
+
+    public static boolean isCompareWithWhisper() {
+        return compareWithWhisper;
+    }
+
+    public static void toggleCompareWithWhisper() {
+        compareWithWhisper = !compareWithWhisper;
     }
 }
