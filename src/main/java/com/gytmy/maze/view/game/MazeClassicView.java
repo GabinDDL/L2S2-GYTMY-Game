@@ -2,6 +2,7 @@ package com.gytmy.maze.view.game;
 
 import java.awt.GridBagConstraints;
 import javax.swing.JFrame;
+
 import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.MazeModel;
 import com.gytmy.maze.model.gamemode.GameMode;
@@ -9,10 +10,8 @@ import com.gytmy.maze.view.TimerPanel;
 
 public class MazeClassicView extends MazeViewImplementation {
 
-    private MazeController controller;
-
     public MazeClassicView(MazeModel model, JFrame frame, MazeController controller) {
-        super(model, frame);
+        super(model, frame, controller);
         this.controller = controller;
         initComponents();
     }

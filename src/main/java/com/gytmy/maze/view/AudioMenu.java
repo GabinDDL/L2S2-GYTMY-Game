@@ -524,12 +524,12 @@ public class AudioMenu extends JPanel {
             List<User> users = AudioFileManager.getUsers();
             if (!User.areUpToDate(users)) {
                 disableRecreateModelsButton();
-                ModelManager.recreateModelOfAllUsers();
-                JOptionPane.showMessageDialog(
-                        this,
-                        "The Models have been successfully recreated.",
-                        "Models recreation : Success",
-                        JOptionPane.INFORMATION_MESSAGE);
+
+                JPanel queuePanel = new WaitingMenu();
+
+                MenuFrameHandler.getMainFrame().setContentPane(queuePanel);
+
+                ModelManager.recreateModelOfAllUsers(MenuFrameHandler::goToAudioMenu);
             }
 
         });

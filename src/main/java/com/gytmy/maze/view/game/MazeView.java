@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.gamemode.GameMode;
 import com.gytmy.maze.model.player.Player;
@@ -40,6 +41,8 @@ public abstract class MazeView extends JPanel {
     public abstract void updateRecordStatus(GameplayStatus status);
 
     public abstract JComponent getKeyboardMovementSwitchPanel();
+
+    public abstract MazeController getController();
 
     public abstract JComponent getRecordStatusPanel();
 }
