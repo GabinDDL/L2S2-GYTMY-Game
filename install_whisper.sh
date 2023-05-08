@@ -40,14 +40,14 @@ function error() {
 
 function warning() {
     local message="$1"
-    echo_color "" "" "\u26A0 "
-    echo_color "33" "" "${message}" "b"
+    echo_color "33" "underline" "Warning"
+    echo_color "33" "" " : ${message}" "b"
 }
 
 function info() {
     local message="$1"
-    echo_color "1" "underline" "INFO"
-    echo_color "" "" " : ${message}" "b"
+    echo_color "34" "underline" "INFO"
+    echo_color "34" "" " : ${message}" "b"
 }
 
 #------------------------------------------------------------#
