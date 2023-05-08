@@ -32,8 +32,8 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
         add(startC, JLayeredPane.DEFAULT_LAYER);
         add(glassPanel, JLayeredPane.PALETTE_LAYER);
 
-        glassPanel.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
-        glassPanel.setSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        glassPanel.setPreferredSize(MenuFrameHandler.getMainFrame().getPreferredSize());
+        glassPanel.setSize(MenuFrameHandler.getMainFrame().getSize());
 
         setPreferredSize(startC.getPreferredSize());
         setVisible(true);
