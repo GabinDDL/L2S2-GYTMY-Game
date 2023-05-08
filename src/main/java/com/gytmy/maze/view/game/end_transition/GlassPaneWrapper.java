@@ -11,7 +11,7 @@ import com.gytmy.maze.view.MenuFrameHandler;
 public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver {
 
     private DrawShapes glassPanel;
-    private JComponent oppeningComponent;
+    private JComponent openingComponent;
     private JComponent closingComponent;
     private Runnable endFunction;
     private JFrame frame;
@@ -21,7 +21,7 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
 
     public GlassPaneWrapper(JComponent startComponent, JComponent endComponent, Runnable endFunction) {
 
-        this.oppeningComponent = startComponent;
+        this.openingComponent = startComponent;
         this.closingComponent = endComponent;
         this.endFunction = endFunction;
         this.frame = MenuFrameHandler.getMainFrame();
@@ -33,11 +33,11 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
         glassPanel.setVisible(true);
         glassPanel.setFocusable(true);
 
-        oppeningComponent.setSize(oppeningComponent.getPreferredSize());
-        setPreferredSize(oppeningComponent.getPreferredSize());
+        openingComponent.setSize(openingComponent.getPreferredSize());
+        setPreferredSize(openingComponent.getPreferredSize());
         setVisible(true);
 
-        add(oppeningComponent, JLayeredPane.DEFAULT_LAYER);
+        add(openingComponent, JLayeredPane.DEFAULT_LAYER);
         add(glassPanel, JLayeredPane.PALETTE_LAYER);
 
         glassPanel.setPreferredSize(frame.getPreferredSize());
@@ -55,7 +55,7 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
 
         didEndAnimationRan = true;
 
-        remove(oppeningComponent);
+        remove(openingComponent);
         closingComponent.setSize(DEFAULT_DIMENSION);
         closingComponent.setVisible(true);
         add(closingComponent, JLayeredPane.DEFAULT_LAYER);
