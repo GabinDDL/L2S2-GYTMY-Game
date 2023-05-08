@@ -113,7 +113,7 @@ public class VoiceMovementController implements RecordObserver {
 
             futureCommand.thenAccept(recognizedCommand -> {
 
-                recognizedCommand = mapCommand(recognizedUser, recognizedCommand);
+                recognizedCommand = whisper.mapCommand(recognizedUser, recognizedCommand);
 
                 // TODO to remove after tests
                 // System.out.println("------------------------------------");
@@ -134,29 +134,6 @@ public class VoiceMovementController implements RecordObserver {
     private void updateStatus() {
         isRecordingEnabled = true;
         controller.updateStatus();
-    }
-
-    private String mapCommand(User user, String recognizedCommand) {
-        if (isFromCommandList(user.getUp(), user, recognizedCommand)) {
-            return "UP";
-        } else if (isFromCommandList(user.getDown(), user, recognizedCommand)) {
-            return "DOWN";
-        } else if (isFromCommandList(user.getLeft(), user, recognizedCommand)) {
-            return "LEFT";
-        } else if (isFromCommandList(user.getRight(), user, recognizedCommand)) {
-            return "RIGHT";
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isFromCommandList(List<String> commands, User user, String recognizedCommand) {
-        for (String command : commands) {
-            if (recognizedCommand.equals(command)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

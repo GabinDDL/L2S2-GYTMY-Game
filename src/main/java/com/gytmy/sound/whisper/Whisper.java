@@ -1,9 +1,10 @@
 package com.gytmy.sound.whisper;
 
+import com.gytmy.sound.User;
 import com.gytmy.utils.JsonParser;
 import com.gytmy.utils.RunSH;
 
-
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class Whisper {
@@ -97,5 +98,28 @@ public class Whisper {
 
     private String formatCommand(String text) {
         return text.toUpperCase().replaceAll("[^A-Z]", "");
+    }
+
+    public String mapCommand(User user, String recognizedCommand) {
+        if (isFromCommandList(user.getUp(), user, recognizedCommand)) {
+            return "UP";
+        } else if (isFromCommandList(user.getDown(), user, recognizedCommand)) {
+            return "DOWN";
+        } else if (isFromCommandList(user.getLeft(), user, recognizedCommand)) {
+            return "LEFT";
+        } else if (isFromCommandList(user.getRight(), user, recognizedCommand)) {
+            return "RIGHT";
+        } else {
+            return "NO_COMMAND";
+        }
+    }
+
+    private boolean isFromCommandList(List<String> commands, User user, String recognizedCommand) {
+        for (String command : commands) {
+            if (recognizedCommand.equals(command)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
