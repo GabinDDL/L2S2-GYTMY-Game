@@ -1,6 +1,7 @@
 package com.gytmy.sound.whisper;
 
 import com.gytmy.sound.User;
+import com.gytmy.sound.YamlReader;
 import com.gytmy.utils.JsonParser;
 import com.gytmy.utils.RunSH;
 
@@ -100,7 +101,10 @@ public class Whisper {
         return text.toUpperCase().replaceAll("[^A-Z]", "");
     }
 
-    public String mapCommand(User user, String recognizedCommand) {
+    public String mapCommand(User currUser, String recognizedCommand) {
+
+        User user = YamlReader.read(currUser.yamlConfigPath());
+
         if (isFromCommandList(user.getUp(), user, recognizedCommand)) {
             return "UP";
         } else if (isFromCommandList(user.getDown(), user, recognizedCommand)) {

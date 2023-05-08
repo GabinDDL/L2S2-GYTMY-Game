@@ -35,9 +35,7 @@ public class ModelManager {
     public static final String LIST_NDX_PATH = NDX_PATH + "ListNDX.ndx";
     public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
 
-
     public static Whisper whisper = new Whisper(Model.TINY_EN);
-
 
     /**
      * If the folders of model do not exist,
@@ -569,7 +567,7 @@ public class ModelManager {
             return;
         }
         List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
-        
+
         for (File file : list) {
 
             String JSON_OUTPUT_PATH = file.getPath().substring(0, file.getPath().lastIndexOf("/"));
@@ -577,7 +575,7 @@ public class ModelManager {
             String AUDIO_GAME_PATH = file.getPath();
 
             CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
-            
+
             futureCommand.thenAccept(recognizedCommand -> {
 
                 add(user, recordedWord, recognizedCommand);
