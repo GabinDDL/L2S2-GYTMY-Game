@@ -578,6 +578,10 @@ public class ModelManager {
 
             futureCommand.thenAccept(recognizedCommand -> {
 
+                if (isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
+                    return;
+                }
+
                 add(user, recordedWord, recognizedCommand);
                 user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
@@ -585,6 +589,11 @@ public class ModelManager {
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
             });
         }
+    }
+
+    private static boolean isRecognizedCommandAlreadyAdded(User user, String recognizedCommand) {
+        return user.getUp().contains(recognizedCommand) || user.getDown().contains(recognizedCommand)
+                        || user.getLeft().contains(recognizedCommand) || user.getRight().contains(recognizedCommand);
     }
 
     private static void add(User user, String recordedWord, String recognizedCommand) {

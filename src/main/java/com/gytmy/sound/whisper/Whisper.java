@@ -105,20 +105,20 @@ public class Whisper {
 
         User user = YamlReader.read(currUser.yamlConfigPath());
 
-        if (isFromCommandList(user.getUp(), user, recognizedCommand)) {
+        if (isFromCommandList(user.getUp(), recognizedCommand)) {
             return "UP";
-        } else if (isFromCommandList(user.getDown(), user, recognizedCommand)) {
+        } else if (isFromCommandList(user.getDown(), recognizedCommand)) {
             return "DOWN";
-        } else if (isFromCommandList(user.getLeft(), user, recognizedCommand)) {
+        } else if (isFromCommandList(user.getLeft(), recognizedCommand)) {
             return "LEFT";
-        } else if (isFromCommandList(user.getRight(), user, recognizedCommand)) {
+        } else if (isFromCommandList(user.getRight(), recognizedCommand)) {
             return "RIGHT";
         } else {
             return "NO_COMMAND";
         }
     }
 
-    private boolean isFromCommandList(List<String> commands, User user, String recognizedCommand) {
+    private boolean isFromCommandList(List<String> commands, String recognizedCommand) {
         for (String command : commands) {
             if (recognizedCommand.equals(command)) {
                 return true;
