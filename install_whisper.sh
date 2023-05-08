@@ -28,34 +28,26 @@ function echo_color() {
 
 function success() {
     local message="$1"
+    echo_color "" "" "\u2705 "
     echo_color "32" "underline" "${message}" "b"
 }
 
 function error() {
     local message="$1"
-    echo_color "31" "bold" "ERROR: "
+    echo_color "" "" "\u274C "
     echo_color "31" "" "${message}" "b"
 }
 
 function warning() {
     local message="$1"
-    echo_color "33" "bold" "WARNING: "
+    echo_color "" "" "\u26A0 "
     echo_color "33" "" "${message}" "b"
 }
 
 function info() {
     local message="$1"
-    echo_color "" "" "${message}" "b"
-}
-
-function confirm() {
-    local message="$1"
-    echo_color "36" "bold" "${message}" "b"
-}
-
-function confirmed() {
-    local message="$1"
-    echo_color "32" "bold" "${message}" "b"
+    echo_color "1" "underline" "INFO"
+    echo_color "" "" " : ${message}" "b"
 }
 
 #------------------------------------------------------------#
@@ -101,7 +93,7 @@ function make_python_ready() {
     fi
 
     
-    confirmed "Virtual environment $ENV_NAME with Python$VERSION activated successfully."
+    success "Virtual environment $ENV_NAME with Python$VERSION activated successfully."
     
     # check if virtualenv is installed
     if ! command -v virtualenv &>/dev/null; then
@@ -112,7 +104,7 @@ function make_python_ready() {
         
         # Check if virtualenv is installed
         if command -v virtualenv &>/dev/null; then
-            confirmed "virtualenv installed successfully."
+            success "virtualenv installed successfully."
         else
             error "Failed to install virtualenv."
             exit 1
@@ -157,7 +149,7 @@ function make_pytorch_ready() {
         
         # Check if PyTorch is installed
         if python3 -c "import torch" &>/dev/null; then
-            confirmed "PyTorch installed successfully."
+            success "PyTorch installed successfully."
         else
             error "Failed to install PyTorch."
             exit 1
@@ -195,7 +187,7 @@ function make_ffmpeg_ready() {
         
         # Check if ffmpeg is installed
         if command -v ffmpeg &>/dev/null; then
-            confirmed "ffmpeg installed successfully."
+            success "ffmpeg installed successfully."
         else
             error "Failed to install ffmpeg."
             exit 1
@@ -218,7 +210,7 @@ function make_whisper_ready() {
         
         # Check if whisper is installed
         if command -v whisper-ctranslate2 &>/dev/null; then
-            confirmed "Whisper installed successfully."
+            success "Whisper installed successfully."
         else
             error "Failed to install whisper."
             exit 1
@@ -242,3 +234,5 @@ make_python_ready
 make_pytorch_ready
 make_ffmpeg_ready
 make_whisper_ready
+
+success "Installation completed successfully."
