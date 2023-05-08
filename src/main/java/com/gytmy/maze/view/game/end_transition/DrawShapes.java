@@ -23,8 +23,8 @@ class DrawShapes extends JPanel {
     private static final Color COLOR_TRANSITION = Color.BLACK;
     private static final Color COLOR_DISAPPEARING = Cell.WALL_COLOR;
 
-    private static final int REMOVE_TIMER_DELAY = 25;
-    private static final int APPARITION_TIMER_DELAY = 30;
+    private static final int REMOVE_TIMER_DELAY = 25; // ms
+    private static final int APPARITION_TIMER_DELAY = 30; // ms
 
     private static final int DISAPPEARING_STEP_SPEED = 3;
 
