@@ -36,7 +36,7 @@ public class ModelManager {
      * If the folders of model do not exist,
      * create their and its arborescence
      */
-    private static void generateModelDirectoryStructure() {
+    protected static void generateModelDirectoryStructure() {
         createDirectory(PRM_PATH);
         createDirectory(LBL_PATH);
         createDirectory(LST_WORLD_PATH);
@@ -86,12 +86,20 @@ public class ModelManager {
      * 
      * @param firstNameOfUsers
      */
-    public static void recreateModelOfAllUsers() {
+    public static void recreateModelOfAllUsers(Runnable run) {
         generateModelDirectoryStructure();
         List<User> users = AudioFileManager.getUsers();
-        createModelOfWorld(users);
-        createModelOfUsers(users);
-        resetParameter();
+
+        new Thread(() -> {
+            try {
+                createModelOfWorld(users);
+                createModelOfUsers(users);
+                resetParameter();
+            } catch (Exception e) {
+                resetParameter();
+            }
+            run.run();
+        }).start();
     }
 
     /**
@@ -129,6 +137,7 @@ public class ModelManager {
      * @param recordedWord
      */
     private static void createParametersOfRecordedWord(User user, String recordedWord) {
+        tryToCreateModelDirectoriesOfWord(user, recordedWord);
         if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitParameterization(user, recordedWord)) {
             return;
         }
@@ -194,6 +203,7 @@ public class ModelManager {
      * @return false if there is an error with the initialisation.
      */
     public static boolean tryToInitLstFilesOfUserWord(User user, String recordedWord) {
+        createDirectory(user.modelPath() + recordedWord + LST_PATH);
         if (!WordsToRecord.exists(recordedWord)) {
             return false;
         }
@@ -219,6 +229,7 @@ public class ModelManager {
      * @return false if there is an error with the initialisation.
      */
     public static boolean tryToInitNdxFilesOfUserWord(User user, String recordedWord) {
+        createDirectory(user.modelPath() + recordedWord + NDX_PATH);
         if (!WordsToRecord.exists(recordedWord)) {
             return false;
         }
@@ -477,6 +488,7 @@ public class ModelManager {
      * @return false if there is a problem with the file of the user's word
      */
     private static boolean tryToUpdateWorldLstFile() {
+        createDirectory(LST_WORLD_PATH);
         File dataDirectory = new File(PRM_PATH + "/");
         if (!dataDirectory.exists()) {
             return false;

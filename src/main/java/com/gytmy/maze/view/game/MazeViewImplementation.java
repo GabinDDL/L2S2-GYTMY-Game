@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.MazeModel;
 import com.gytmy.maze.model.gamemode.GameMode;
@@ -27,6 +28,7 @@ import com.gytmy.utils.ImageManipulator;
 import com.gytmy.utils.HotkeyAdder;
 
 public class MazeViewImplementation extends MazeView {
+    protected MazeController controller;
     protected MazeModel model;
     protected MazePanel mazePanel;
     protected TimerPanel timerPanel;
@@ -53,9 +55,10 @@ public class MazeViewImplementation extends MazeView {
     protected static final Icon DISABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
             DISABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
 
-    protected MazeViewImplementation(MazeModel model, JFrame frame) {
+    protected MazeViewImplementation(MazeModel model, JFrame frame, MazeController controller) {
         this.model = model;
         this.frame = frame;
+        this.controller = controller;
 
         this.pausePanel = PausePanel.getInstance();
         pausePanel.setMazeView(this);
@@ -239,5 +242,10 @@ public class MazeViewImplementation extends MazeView {
         keyboardPanel.add(keyboardMovement, BorderLayout.EAST);
 
         topPanel.add(keyboardPanel, c);
+    }
+
+    @Override
+    public MazeController getController() {
+        return controller;
     }
 }

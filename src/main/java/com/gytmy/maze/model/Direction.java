@@ -22,6 +22,8 @@ public enum Direction {
      * @return the direction if the name of the parameter is recognized
      */
     public static Direction stringToDirection(String directionName) {
+        directionName = directionName.toUpperCase();
+
         if (directionName.equals("UP")) {
             return UP;
         }

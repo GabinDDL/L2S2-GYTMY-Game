@@ -39,7 +39,7 @@ public class MazeControllerImplementation implements MazeController {
     }
 
     private void initScoreType() {
-        gameData.setScoreType(ScoreType.SIMPLE_KEYBOARD);
+        gameData.setScoreType(ScoreType.SIMPLE_VOICE);
     }
 
     private void initPlayersInitialCell(Player[] players) {
@@ -126,4 +126,10 @@ public class MazeControllerImplementation implements MazeController {
         voiceMovementController.notifyGameStarted();
         updateStatus();
     }
+
+    @Override
+    public void cleanObservers() {
+        voiceMovementController.cleanObserver();
+    }
+
 }

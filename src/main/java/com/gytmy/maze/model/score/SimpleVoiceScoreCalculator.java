@@ -1,6 +1,6 @@
 package com.gytmy.maze.model.score;
 
-public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
+public class SimpleVoiceScoreCalculator implements ScoreCalculator {
     private static final SimpleScoreCalculator.SimpleScoreCalculatorParameters DEFAULT_PARAMETERS = new SimpleScoreCalculator.SimpleScoreCalculatorParameters() {
         @Override
         public double getMovementPenalty() {
@@ -9,7 +9,7 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
 
         @Override
         public double getTimePenalty() {
-            return 1.;
+            return 1;
         }
 
         @Override
@@ -29,18 +29,18 @@ public class SimpleKeyboardScoreCalculator implements ScoreCalculator {
 
         @Override
         public double getIdealMovementTimeUpper() {
-            return 0.2;
+            return 8;
         }
 
         @Override
         public double getIdealMovementTimeLower() {
-            return 0.1;
+            return 7;
         }
     };
 
     private SimpleScoreCalculator calculator;
 
-    public SimpleKeyboardScoreCalculator(SimpleScoreInfo info) {
+    public SimpleVoiceScoreCalculator(SimpleScoreInfo info) {
         calculator = new SimpleScoreCalculator(info, DEFAULT_PARAMETERS);
 
     }

@@ -12,7 +12,7 @@ public class MazeClassicView extends MazeViewImplementation {
     private MazeController controller;
 
     public MazeClassicView(MazeModel model, JFrame frame, MazeController controller) {
-        super(model, frame);
+        super(model, frame, controller);
         this.controller = controller;
         initComponents();
     }

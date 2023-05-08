@@ -20,4 +20,6 @@ public interface MazeController {
 
     public void updateStatus();
 
+    public void cleanObservers();
+
 }

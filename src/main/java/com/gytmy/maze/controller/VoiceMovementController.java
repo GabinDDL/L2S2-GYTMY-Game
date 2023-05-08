@@ -21,7 +21,7 @@ import com.gytmy.utils.HotkeyAdder;
 
 public class VoiceMovementController implements RecordObserver {
 
-    private boolean compareWithWhisper = true; // true if the compare function should use Whisper
+    private static boolean compareWithWhisper = true; // true if the compare function should use Whisper
     private MazeController controller;
     private Player[] players;
 
@@ -80,43 +80,55 @@ public class VoiceMovementController implements RecordObserver {
      */
     private void compareAudioWithModel() {
         isRecordingEnabled = false;
+        controller.updateStatus();
 
-        AlizeRecognitionResult result = AudioRecognitionResult.getRecognitionResult();
+        CompletableFuture<AlizeRecognitionResult> futureRecognitionResult = AudioRecognitionResult
+                .askRecognitionResult();
+        futureRecognitionResult.thenAccept(recognitionResult -> {
 
-        if (result == null) {
-            isRecordingEnabled = true;
-            return;
-        }
+            if (recognitionResult == null) {
+                updateStatus();
+            }
+            // TODO to remove after tests
+            // System.out.println(recognitionResult);
 
-        User recognizedUser = AudioFileManager.getUser(result.getName());
-        if (recognizedUser == null) {
-            isRecordingEnabled = true;
-            return;
-        }
+            User recognizedUser = AudioFileManager.getUser(recognitionResult.getName());
 
-        if (!compareWithWhisper) {
-            movePlayerWithCompareResult(recognizedUser, result.getWord());
-        } else {
-            CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
+            if (recognizedUser == null) {
+                updateStatus();
+            }
+            if (!compareWithWhisper) {
+                movePlayerWithCompareResult(recognizedUser, recognitionResult.getWord());
+                updateStatus();
+            } else {
+                continueComparaisonWithWhisper(recognizedUser);
+            }
+        });
+    }
 
-            futureCommand.thenAccept(recognizedCommand -> {
+    private void continueComparaisonWithWhisper(User recognizedUser) {
+        CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
 
-                System.out.println("------------------------------------");
-                System.out.println("recognizedCommand: " + recognizedCommand);
-                System.out.println("recognizedUser: " + recognizedUser.getUserName());
-                System.out.println("------------------------------------");
+        futureCommand.thenAccept(recognizedCommand -> {
+            // TODO to remove after tests
+            /*
+             * System.out.println("------------------------------------");
+             * System.out.println("recognizedCommand: " + recognizedCommand);
+             * System.out.println("recognizedUser: " + recognizedUser.getUserName());
+             * System.out.println("------------------------------------");
+             */
+            movePlayerWithCompareResult(recognizedUser, recognizedCommand);
 
-                movePlayerWithCompareResult(recognizedUser, recognizedCommand);
+            new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
 
-                new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
+            new File(AUDIO_GAME_PATH).delete();
 
-                new File(AUDIO_GAME_PATH).delete();
+            updateStatus();
+        });
+    }
 
-                isRecordingEnabled = true;
-                controller.updateStatus();
-            });
-        }
-
+    private void updateStatus() {
+        isRecordingEnabled = true;
         controller.updateStatus();
     }
 
@@ -166,6 +178,19 @@ public class VoiceMovementController implements RecordObserver {
     }
 
     public void notifyGameEnded() {
+        cleanObserver();
         AudioRecorder.getInstance().finish();
+    }
+
+    public void cleanObserver() {
+        AudioRecorder.removeObserver(this);
+    }
+
+    public static boolean isCompareWithWhisper() {
+        return compareWithWhisper;
+    }
+
+    public static void toggleCompareWithWhisper() {
+        compareWithWhisper = !compareWithWhisper;
     }
 }
