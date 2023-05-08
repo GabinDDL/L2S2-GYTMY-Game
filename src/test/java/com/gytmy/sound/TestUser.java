@@ -20,10 +20,10 @@ public class TestUser {
 				user.getLastName().equals(User.DEFAULT_LAST_NAME) &&
 				user.getStudentNumber() == User.DEFAULT_STUDENT_NUMBER &&
 				user.getUserName() == User.DEFAULT_USER_NAME &&
-				user.getUp().equals(User.UP) &&
-				user.getDown().equals(User.DOWN) &&
-				user.getLeft().equals(User.LEFT) &&
-				user.getRight().equals(User.RIGHT);
+				user.getUp().equals(User.DEFAULT_UP) &&
+				user.getDown().equals(User.DEFAULT_DOWN) &&
+				user.getLeft().equals(User.DEFAULT_LEFT) &&
+				user.getRight().equals(User.DEFAULT_RIGHT);
 	}
 
 	@Test
@@ -31,17 +31,17 @@ public class TestUser {
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(null, User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER, User.DEFAULT_USER_NAME,
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid first name");
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User("", User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER, User.DEFAULT_USER_NAME,
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid first name");
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User("      ", User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER, User.DEFAULT_USER_NAME,
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid first name");
 	}
 
@@ -50,17 +50,17 @@ public class TestUser {
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(User.DEFAULT_FIRST_NAME, null, User.DEFAULT_STUDENT_NUMBER, User.DEFAULT_USER_NAME,
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid last name");
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(User.DEFAULT_FIRST_NAME, "", User.DEFAULT_STUDENT_NUMBER, User.DEFAULT_USER_NAME,
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid last name");
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(User.DEFAULT_FIRST_NAME, "      ", User.DEFAULT_STUDENT_NUMBER, User.DEFAULT_USER_NAME, 
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid last name");
 	}
 
@@ -69,7 +69,7 @@ public class TestUser {
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(User.DEFAULT_FIRST_NAME, User.DEFAULT_LAST_NAME, -1, User.DEFAULT_USER_NAME,
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid student number");
 	}
 
@@ -78,17 +78,17 @@ public class TestUser {
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(User.DEFAULT_FIRST_NAME, User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER, null,
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid user name");
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(User.DEFAULT_FIRST_NAME, User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER, "",
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid user name");
 
 		TestingUtils.assertArgumentExceptionMessage(
 				() -> new User(User.DEFAULT_FIRST_NAME, User.DEFAULT_LAST_NAME, User.DEFAULT_STUDENT_NUMBER, "      ",
-				User.UP, User.DOWN, User.LEFT, User.RIGHT),
+				User.DEFAULT_UP, User.DEFAULT_DOWN, User.DEFAULT_LEFT, User.DEFAULT_RIGHT),
 				"Invalid user name");
 	}
 }
