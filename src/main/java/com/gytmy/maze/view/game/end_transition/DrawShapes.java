@@ -60,7 +60,6 @@ class DrawShapes extends JPanel {
                 if (y >= defaultDimension.height) {
                     ((Timer) evt.getSource()).stop();
                     notifyObservers();
-                    return;
                 }
             }
         }).start();
@@ -98,7 +97,6 @@ class DrawShapes extends JPanel {
                 if (actualColor.getAlpha() - DISAPPEARING_STEP_SPEED < 0) {
                     ((Timer) evt.getSource()).stop();
                     notifyObservers();
-                    return;
                 }
 
                 if (actualColor.getAlpha() > 0) {
