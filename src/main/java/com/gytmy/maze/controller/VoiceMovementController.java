@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import com.gytmy.maze.model.Direction;
@@ -109,15 +111,17 @@ public class VoiceMovementController implements RecordObserver {
     private void continueComparaisonWithWhisper(User recognizedUser) {
         CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
 
-        futureCommand.thenAccept(recognizedCommand -> {
-            // TODO to remove after tests
-            /*
-             * System.out.println("------------------------------------");
-             * System.out.println("recognizedCommand: " + recognizedCommand);
-             * System.out.println("recognizedUser: " + recognizedUser.getUserName());
-             * System.out.println("------------------------------------");
-             */
-            movePlayerWithCompareResult(recognizedUser, recognizedCommand);
+            futureCommand.thenAccept(recognizedCommand -> {
+
+                recognizedCommand = mapCommand(recognizedUser, recognizedCommand);
+
+                // TODO to remove after tests
+                // System.out.println("------------------------------------");
+                // System.out.println("recognizedCommand: " + recognizedCommand);
+                // System.out.println("recognizedUser: " + recognizedUser.getUserName());
+                // System.out.println("------------------------------------");
+
+                movePlayerWithCompareResult(recognizedUser, recognizedCommand);
 
             new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
 
@@ -130,6 +134,29 @@ public class VoiceMovementController implements RecordObserver {
     private void updateStatus() {
         isRecordingEnabled = true;
         controller.updateStatus();
+    }
+
+    private String mapCommand(User user, String recognizedCommand) {
+        if (isFromCommandList(user.getUp(), user, recognizedCommand)) {
+            return "UP";
+        } else if (isFromCommandList(user.getDown(), user, recognizedCommand)) {
+            return "DOWN";
+        } else if (isFromCommandList(user.getLeft(), user, recognizedCommand)) {
+            return "LEFT";
+        } else if (isFromCommandList(user.getRight(), user, recognizedCommand)) {
+            return "RIGHT";
+        } else {
+            return null;
+        }
+    }
+
+    private boolean isFromCommandList(List<String> commands, User user, String recognizedCommand) {
+        for (String command : commands) {
+            if (recognizedCommand.equals(command)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
