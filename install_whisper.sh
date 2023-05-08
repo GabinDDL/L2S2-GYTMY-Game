@@ -69,10 +69,6 @@ set +x
 # Define the name of the virtual environment
 ENV_NAME=amaze
 
-# Define the window of the needed python version
-MIN_PYTHON_VERSION=3.8
-MAX_PYTHON_VERSION=3.10
-
 # Check if the user has administrative privileges
 if [[ $EUID -ne 0 ]]; then
     SUDO="sudo"
@@ -84,63 +80,28 @@ fi
 #------------------------- FUNCTIONS ------------------------#
 #------------------------------------------------------------#
 
-# Installs Python 3.10 based on Linux (only Debian or Fedora)
-function install_python() {
-    
-    confirm "Are you okay with installing Python $MAX_PYTHON_VERSION? (y/n)"
-    read -r choice
-    
-    # Check user's response
-    case "$choice" in
-        y | Y)
-            confirmed "Okay, proceeding with installation of Python $MAX_PYTHON_VERSION."
-        ;;
-        n | N)
-            confirmed "Python $MAX_PYTHON_VERSION will not be installed."
-            info "Packages may behave in unintended ways."
-            return
-        ;;
-        *)
-            error "Invalid choice, please enter 'y' or 'n'."
-            return
-        ;;
-    esac
-    
-    # Install Python 3.10
-    if [ -f /etc/debian_version ]; then
-        # Debian-based system
-        info "Detected Debian-based system."
-        $SUDO apt-get update
-        $SUDO apt-get install python3 -y
-        $SUDO apt-get install python3-pip
-        
-        elif [ -f /etc/fedora-release ]; then
-        # Fedora system
-        info "Detected Fedora system."
-        $SUDO dnf update
-        $SUDO dnf install python3 -y
-        $SUDO dnf install python3-pip
-        
-        elif [ -f /etc/arch-release ]; then
-        # Arch-based system
-        info "Detected Arch-based system."
-        $SUDO pacman -Syu
-        $SUDO pacman -S python3 -y
-        $SUDO pacman -S python-pip
-    else
-        # Unsupported system
-        error "Unsupported operating system."
-        exit 1
-    fi
-    
-    success "Python 3.10 installed successfully."
-    
-    return
-}
-
 function make_python_ready() {
-    # Install Python 3.10
-    install_python
+
+    VERSION=$(python3 --version);
+    # Check if Python 3.8, 3.9 or 3.10 is installed
+    for VERSION in 3.8 3.9 3.10; do
+        if (which "python"$VERSION) &>/dev/null; then
+            PYTHON3=$(which "python"$VERSION)
+            break
+        fi
+    done
+
+    # Check if PYTHON3 is set
+    if [ -z "$PYTHON3" ]; then
+        error "Python 3.8, 3.9 or 3.10 is required."
+        info "Follow install.md for installing Python 3.8, 3.9 or 3.10."
+        exit 1
+    else
+        info "Python 3.8, 3.9 or 3.10 is installed."
+    fi
+
+    
+    confirmed "Virtual environment $ENV_NAME with Python$VERSION activated successfully."
     
     # check if virtualenv is installed
     if ! command -v virtualenv &>/dev/null; then
@@ -164,30 +125,20 @@ function make_python_ready() {
     if [ -d $ENV_NAME ]; then
         warning "Virtual environment $ENV_NAME already exists."
     else
-        PYTHON3_10_PATH=$(which python3.10)
-        # Create a virtual environment using Python 3.10
-        virtualenv -p "$PYTHON3_10_PATH" $ENV_NAME &>/dev/null
+        
+        # Create a virtual environment using $PYTHON3
+        virtualenv -p "$PYTHON3" $ENV_NAME &>/dev/null
     fi
     
     source $ENV_NAME/bin/activate &>/dev/null
     
-    # Check if virtual environment is activated
+    # Check if virtual environment is activated ($VIRTUAL_ENV is set by virtualenv/bin/activate)
     if [ "$VIRTUAL_ENV" = "$PWD/$ENV_NAME" ]; then
         info "Virtual environment $ENV_NAME is activated."
     else
         warning "Virtual environment $ENV_NAME is not activated."
         exit 1
     fi
-    
-    # Check if Python version in virtual environment is within the specified range
-    if python3 -c "import sys; exit(not (sys.version_info >= (3, 8) and sys.version_info < (3, 11)))"; then
-        info "Python version in the virtual environment is between $MIN_PYTHON_VERSION and $MAX_PYTHON_VERSION."
-    else
-        error "Failed to install Python 3.10 in virtual environment."
-        exit 1
-    fi
-    
-    confirmed "Virtual environment $ENV_NAME with Python 3.10 activated successfully."
 }
 
 function make_pytorch_ready() {
@@ -231,6 +182,10 @@ function make_ffmpeg_ready() {
             $SUDO dnf -y install "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
             $SUDO dnf -y install "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
             $SUDO dnf install ffmpeg -y
+
+            elif [ -f /etc/arch-release ]; then
+            # Arch-based system
+            $SUDO pacman -S ffmpeg -y
             
         else
             # Unsupported system
