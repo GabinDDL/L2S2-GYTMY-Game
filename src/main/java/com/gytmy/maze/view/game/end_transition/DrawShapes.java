@@ -7,8 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,25 +40,21 @@ class DrawShapes extends JPanel {
 
         int square_height = defaultDimension.height / 6;
 
-        new Timer(APPARITION_TIMER_DELAY, new ActionListener() {
+        new Timer(APPARITION_TIMER_DELAY, evt -> {
 
-            @Override
-            public void actionPerformed(ActionEvent evt) {
+            shapeList.add(
+                    new AnimationMazePanel(new Rectangle(x, y, square_height, square_height), COLOR_TRANSITION));
+            repaint();
 
-                shapeList.add(
-                        new AnimationMazePanel(new Rectangle(x, y, square_height, square_height), COLOR_TRANSITION));
-                repaint();
+            x += square_height;
+            if (x > defaultDimension.width) {
+                x = 0;
+                y += square_height;
+            }
 
-                x += square_height;
-                if (x > defaultDimension.width) {
-                    x = 0;
-                    y += square_height;
-                }
-
-                if (y >= defaultDimension.height) {
-                    ((Timer) evt.getSource()).stop();
-                    notifyObservers();
-                }
+            if (y >= defaultDimension.height) {
+                ((Timer) evt.getSource()).stop();
+                notifyObservers();
             }
         }).start();
     }
@@ -87,28 +81,23 @@ class DrawShapes extends JPanel {
     }
 
     private void removeAnimation() {
-        new Timer(REMOVE_TIMER_DELAY, new ActionListener() {
+        new Timer(REMOVE_TIMER_DELAY, evt -> {
 
-            @Override
-            public void actionPerformed(ActionEvent evt) {
+            Color actualColor = shapeList.get(0).getColor();
 
-                Color actualColor = shapeList.get(0).getColor();
-
-                if (actualColor.getAlpha() - DISAPPEARING_STEP_SPEED < 0) {
-                    ((Timer) evt.getSource()).stop();
-                    notifyObservers();
-                }
-
-                if (actualColor.getAlpha() > 0) {
-                    Color newColor = new Color(actualColor.getRed(), actualColor.getGreen(), actualColor.getBlue(),
-                            actualColor.getAlpha() - DISAPPEARING_STEP_SPEED);
-                    shapeList.clear();
-                    shapeList.add(new AnimationMazePanel(new Rectangle(new Point(0, 0), MAX_DIMENSION), newColor));
-
-                    repaint();
-                }
+            if (actualColor.getAlpha() - DISAPPEARING_STEP_SPEED < 0) {
+                ((Timer) evt.getSource()).stop();
+                notifyObservers();
             }
 
+            if (actualColor.getAlpha() > 0) {
+                Color newColor = new Color(actualColor.getRed(), actualColor.getGreen(), actualColor.getBlue(),
+                        actualColor.getAlpha() - DISAPPEARING_STEP_SPEED);
+                shapeList.clear();
+                shapeList.add(new AnimationMazePanel(new Rectangle(new Point(0, 0), MAX_DIMENSION), newColor));
+
+                repaint();
+            }
         }).start();
     }
 
