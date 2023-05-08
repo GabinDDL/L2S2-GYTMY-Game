@@ -105,9 +105,9 @@ The order matters, so you have to pass the path of `LIA_RAL` first and then the 
 
 ## Install Whisper and dependencies
 
-### How to install `python3` (3.8 < 3.x < 3.11)
+### How to install `python3` (3.8 <= 3.x < 3.11)
 
-- [Download a python stable source release <span style="color:red">(between 3.8 and 3.11 strictly)</span>](https://www.python.org/downloads/source/) (The downloaded folder would be erased later so wherever you want !)
+- [Download a python stable source release <span style="color:red">(between 3.8 included and 3.11 excluded))</span>](https://www.python.org/downloads/source/) (The downloaded folder would be erased later so wherever you want !)
 - Decompress the installed file
 - Open `Terminal` in the decompressed folder and execute the given commands one at a time in the order :
 ```bash
