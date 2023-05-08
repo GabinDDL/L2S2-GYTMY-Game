@@ -177,7 +177,7 @@ function make_ffmpeg_ready() {
 
             elif [ -f /etc/arch-release ]; then
             # Arch-based system
-            $SUDO pacman -S ffmpeg -y
+            $SUDO pacman -Syu --needed -y ffmpeg
             
         else
             # Unsupported system
