@@ -38,18 +38,18 @@ class DrawShapes extends JPanel {
         setPreferredSize(defaultDimension);
         setSize(defaultDimension);
 
-        int square_height = defaultDimension.height / 6;
+        int squareHeight = defaultDimension.height / 6;
 
         new Timer(APPARITION_TIMER_DELAY, evt -> {
 
             shapeList.add(
-                    new AnimationMazePanel(new Rectangle(x, y, square_height, square_height), COLOR_TRANSITION));
+                    new AnimationMazePanel(new Rectangle(x, y, squareHeight, squareHeight), COLOR_TRANSITION));
             repaint();
 
-            x += square_height;
+            x += squareHeight;
             if (x > defaultDimension.width) {
                 x = 0;
-                y += square_height;
+                y += squareHeight;
             }
 
             if (y >= defaultDimension.height) {
