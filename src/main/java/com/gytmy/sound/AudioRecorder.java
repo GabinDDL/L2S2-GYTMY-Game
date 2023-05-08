@@ -99,8 +99,9 @@ public class AudioRecorder {
                 Thread.sleep(durationInSeconds * 1000 + 100);
             } catch (InterruptedException ex) {
             }
-            finish();
-            notifyObservers();
+            if (channel != null && channel.isOpen()) {
+                finish();
+            }
         });
     }
 
@@ -180,26 +181,35 @@ public class AudioRecorder {
 
     public static boolean isRecording() {
         AudioRecorder instance = getInstance();
-        return instance.stopper != null && instance.stopper.isAlive();
+        return instance.stopper != null && instance.stopper.getState() == Thread.State.TIMED_WAITING;
     }
 
     /**
      * Closes the target data line to finish capturing and recording
      */
     public void finish() {
-
-        stopper.interrupt();
-
-        channel.stop();
-        channel.close();
+        if (channel != null) {
+            channel.stop();
+            channel.close();
+        }
+        if (stopper != null) {
+            stopper.interrupt();
+        }
+        if (channel != null) {
+            notifyEndToObservers();
+        }
     }
 
     public static int getTotalDurationInSeconds() {
         return (int) ((DEFAULT_MAX_RECORD_DURATION_MILLISECONDS - 100) / 1000);
     }
 
-    public static void notifyObservers() {
-        observers.forEach(RecordObserver::update);
+    public static void notifyStartToObservers() {
+        observers.forEach(RecordObserver::startRecordUpdate);
+    }
+
+    public static void notifyEndToObservers() {
+        observers.forEach(RecordObserver::endRecordUpdate);
     }
 
     public static void addObserver(RecordObserver observer) {

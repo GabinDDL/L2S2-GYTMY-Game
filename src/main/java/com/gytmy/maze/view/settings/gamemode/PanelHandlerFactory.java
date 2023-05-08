@@ -15,8 +15,6 @@ public class PanelHandlerFactory {
         switch (gameMode) {
             case CLASSIC:
                 return ClassicPanelHandler.getInstance();
-            case ONE_DIMENSION:
-                return OneDimensionPanelHandler.getInstance();
             case BLACKOUT:
                 return BlackoutPanelHandler.getInstance();
             default:
