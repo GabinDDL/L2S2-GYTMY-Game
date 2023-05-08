@@ -1,6 +1,9 @@
 package com.gytmy.maze.view.game.EndTransition;
 
+import java.awt.Dimension;
+
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 import com.gytmy.maze.view.MenuFrameHandler;
@@ -8,17 +11,20 @@ import com.gytmy.maze.view.MenuFrameHandler;
 public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver {
 
     private DrawShapes glassPanel;
-    private JComponent startC;
-    private JComponent endC;
+    private JComponent oppeningComponent;
+    private JComponent closingComponent;
     private Runnable endFunction;
+    private JFrame frame;
+    private static final Dimension DEFAULT_DIMENSION = MenuFrameHandler.DEFAULT_DIMENSION;
 
-    private boolean isEndAnimationRunned = false;
+    private boolean didEndAnimationRunned = false;
 
     public GlassPaneWrapper(JComponent startComponent, JComponent endComponent, Runnable endFunction) {
 
-        this.startC = startComponent;
-        this.endC = endComponent;
+        this.oppeningComponent = startComponent;
+        this.closingComponent = endComponent;
         this.endFunction = endFunction;
+        this.frame = MenuFrameHandler.getMainFrame();
 
         glassPanel = new DrawShapes(startComponent.getPreferredSize());
         glassPanel.addAnimationObserver(this);
@@ -27,38 +33,38 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
         glassPanel.setVisible(true);
         glassPanel.setFocusable(true);
 
-        startC.setSize(startC.getPreferredSize());
+        oppeningComponent.setSize(oppeningComponent.getPreferredSize());
+        setPreferredSize(oppeningComponent.getPreferredSize());
+        setVisible(true);
 
-        add(startC, JLayeredPane.DEFAULT_LAYER);
+        add(oppeningComponent, JLayeredPane.DEFAULT_LAYER);
         add(glassPanel, JLayeredPane.PALETTE_LAYER);
 
-        glassPanel.setPreferredSize(MenuFrameHandler.getMainFrame().getPreferredSize());
-        glassPanel.setSize(MenuFrameHandler.getMainFrame().getSize());
+        glassPanel.setPreferredSize(frame.getPreferredSize());
+        glassPanel.setSize(glassPanel.getPreferredSize());
 
-        setPreferredSize(startC.getPreferredSize());
-        setVisible(true);
     }
 
     @Override
     public void endAnimationUpdate() {
 
-        if (isEndAnimationRunned) {
+        if (didEndAnimationRunned) {
             endFunction.run();
             return;
         }
 
-        isEndAnimationRunned = true;
+        didEndAnimationRunned = true;
 
-        remove(startC);
-        endC.setSize(MenuFrameHandler.DEFAULT_DIMENSION);
-        endC.setVisible(true);
-        add(endC, JLayeredPane.DEFAULT_LAYER);
+        remove(oppeningComponent);
+        closingComponent.setSize(DEFAULT_DIMENSION);
+        closingComponent.setVisible(true);
+        add(closingComponent, JLayeredPane.DEFAULT_LAYER);
 
-        glassPanel.setSize(MenuFrameHandler.DEFAULT_DIMENSION);
-        glassPanel.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        glassPanel.setSize(DEFAULT_DIMENSION);
+        glassPanel.setPreferredSize(DEFAULT_DIMENSION);
 
-        MenuFrameHandler.getMainFrame().setSize(MenuFrameHandler.DEFAULT_DIMENSION);
-        MenuFrameHandler.getMainFrame().setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        frame.setSize(DEFAULT_DIMENSION);
+        frame.setPreferredSize(DEFAULT_DIMENSION);
 
         glassPanel.clearAnimation();
     }

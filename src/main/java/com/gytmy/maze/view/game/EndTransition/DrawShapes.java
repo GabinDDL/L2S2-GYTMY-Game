@@ -22,7 +22,8 @@ class DrawShapes extends JPanel {
 
     private static final Dimension MAX_DIMENSION = MenuFrameHandler.DEFAULT_DIMENSION;
 
-    private static final Color COLOR_TRANSITION = Color.BLACK; // Cell.WALL_COLOR;
+    private static final Color COLOR_TRANSITION = Color.BLACK;
+    private static final Color COLOR_DISAPPEARING = Cell.WALL_COLOR;
 
     private static final int REMOVE_TIMER_DELAY = 25;
     private static final int APPARITION_TIMER_DELAY = 30;
@@ -30,7 +31,6 @@ class DrawShapes extends JPanel {
     private static final int DISAPPEARING_STEP_SPEED = 3;
 
     private List<AnimationMazePanel> shapeList = new ArrayList<>();
-
     private List<AnimationObserver> observers = new ArrayList<>();
 
     private int x = 0;
@@ -41,7 +41,6 @@ class DrawShapes extends JPanel {
         setSize(defaultDimension);
 
         int square_height = defaultDimension.height / 6;
-        int square_width = square_height;
 
         new Timer(APPARITION_TIMER_DELAY, new ActionListener() {
 
@@ -49,10 +48,10 @@ class DrawShapes extends JPanel {
             public void actionPerformed(ActionEvent evt) {
 
                 shapeList.add(
-                        new AnimationMazePanel(new Rectangle(x, y, square_width, square_height), COLOR_TRANSITION));
+                        new AnimationMazePanel(new Rectangle(x, y, square_height, square_height), COLOR_TRANSITION));
                 repaint();
 
-                x += square_width;
+                x += square_height;
                 if (x > defaultDimension.width) {
                     x = 0;
                     y += square_height;
@@ -64,9 +63,7 @@ class DrawShapes extends JPanel {
                     return;
                 }
             }
-
         }).start();
-
     }
 
     @Override
@@ -86,7 +83,7 @@ class DrawShapes extends JPanel {
         shapeList.clear();
         shapeList.add(
                 new AnimationMazePanel(new Rectangle(0, 0, MAX_DIMENSION.width, MAX_DIMENSION.height),
-                        Cell.WALL_COLOR));
+                        COLOR_DISAPPEARING));
         removeAnimation();
     }
 
