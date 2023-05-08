@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import com.gytmy.sound.whisper.Whisper;
+import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
 import com.gytmy.utils.WordsToRecord;
@@ -31,6 +34,10 @@ public class ModelManager {
     public static final String NDX_PATH = "/ndx/";
     public static final String LIST_NDX_PATH = NDX_PATH + "ListNDX.ndx";
     public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
+
+
+    public static Whisper whisper = new Whisper(Model.TINY_EN);
+
 
     /**
      * If the folders of model do not exist,
@@ -149,6 +156,7 @@ public class ModelManager {
         parametrize(listPathOfUser, audioPathOfUser, user.getFirstName(), recordedWord);
         energyDetector(listPathOfUser, user.getFirstName(), recordedWord);
         normFeat(listPathOfUser, user.getFirstName(), recordedWord);
+        generateAltCmdsofUser(user, recordedWord);
     }
 
     /**
@@ -327,6 +335,7 @@ public class ModelManager {
             return false;
         }
         List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+
         return tryToAddAudiosToNdxFilesOfUserWord(user, recordedWord, list)
                 && tryToAddAudiosToLstFilesOfUserWord(user, recordedWord, list);
     }
@@ -552,6 +561,49 @@ public class ModelManager {
         String[] argsNormFeat = { listPath };
         int exitValue = RunSH.run(TRAIN_TARGET_SH_PATH, argsNormFeat);
         handleErrorProgram("trainTarget", exitValue, name, word);
+    }
+
+    private static void generateAltCmdsofUser(User user, String recordedWord) {
+        File dataDirectory = new File(user.audioPath() + recordedWord + "/");
+        if (!dataDirectory.exists()) {
+            return;
+        }
+        List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+        
+        for (File file : list) {
+
+            String JSON_OUTPUT_PATH = file.getPath().substring(0, file.getPath().lastIndexOf("/"));
+            String FILE_NAME = file.getName().substring(0, file.getName().lastIndexOf("."));
+            String AUDIO_GAME_PATH = file.getPath();
+
+            CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
+            
+            futureCommand.thenAccept(recognizedCommand -> {
+
+                add(user, recordedWord, recognizedCommand);
+                user.setUpToDate(true);
+                YamlReader.write(user.yamlConfigPath(), user);
+
+                new File(JSON_OUTPUT_PATH + "/" + FILE_NAME + ".json").delete();
+            });
+        }
+    }
+
+    private static void add(User user, String recordedWord, String recognizedCommand) {
+        switch (recordedWord) {
+            case "UP":
+                user.addAltUp(recognizedCommand);
+                break;
+            case "DOWN":
+                user.addAltDown(recognizedCommand);
+                break;
+            case "LEFT":
+                user.addAltLeft(recognizedCommand);
+                break;
+            case "RIGHT":
+                user.addAltRight(recognizedCommand);
+                break;
+        }
     }
 
     protected static void resetParameter() {

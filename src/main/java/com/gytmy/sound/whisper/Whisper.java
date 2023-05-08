@@ -52,7 +52,6 @@ public class Whisper {
                 if (exitCode == 0) {
                     recognizedCommand = parseJson(outputPath, fileName);
                     recognizedCommand = formatCommand(recognizedCommand);
-                    recognizedCommand = mapCommand(recognizedCommand);
                     futureCommand.complete(recognizedCommand);
                 } else {
                     futureCommand.completeExceptionally(new Exception("Whisper failed to recognize command"));
@@ -97,20 +96,6 @@ public class Whisper {
     }
 
     private String formatCommand(String text) {
-        return text.replaceAll("[^a-zA-Z]", "");
-    }
-
-    private String mapCommand(String text) {
-        if (text.equalsIgnoreCase("UP")) {
-            return "UP";
-        } else if (text.equalsIgnoreCase("DOWN")) {
-            return "DOWN";
-        } else if (text.equalsIgnoreCase("LEFT")) {
-            return "LEFT";
-        } else if (text.equalsIgnoreCase("RIGHT")) {
-            return "RIGHT";
-        } else {
-            return "NO_COMMAND";
-        }
+        return text.toUpperCase().replaceAll("[^A-Z]", "");
     }
 }
