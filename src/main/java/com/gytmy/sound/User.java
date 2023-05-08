@@ -239,10 +239,10 @@ public class User {
                 && user.getLastName().equals(this.getLastName())
                 && user.getStudentNumber() == this.getStudentNumber()
                 && user.getUserName().equals(this.getUserName())
-                && user.getUp().containsAll(user.getUp())
-                && user.getDown().containsAll(user.getDown())
-                && user.getLeft().containsAll(user.getLeft())
-                && user.getRight().containsAll(user.getRight());
+                && user.getUp().containsAll(this.getUp())
+                && user.getDown().containsAll(this.getDown())
+                && user.getLeft().containsAll(this.getLeft())
+                && user.getRight().containsAll(this.getRight());
     }
 
     @Override
