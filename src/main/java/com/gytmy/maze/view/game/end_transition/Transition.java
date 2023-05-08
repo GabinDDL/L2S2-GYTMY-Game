@@ -1,4 +1,4 @@
-package com.gytmy.maze.view.game.EndTransition;
+package com.gytmy.maze.view.game.end_transition;
 
 import javax.swing.JComponent;
 

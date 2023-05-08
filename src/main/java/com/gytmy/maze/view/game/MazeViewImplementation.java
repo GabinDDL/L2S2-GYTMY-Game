@@ -23,7 +23,7 @@ import com.gytmy.maze.view.GameOverPanel;
 import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.TimerPanel;
-import com.gytmy.maze.view.game.EndTransition.Transition;
+import com.gytmy.maze.view.game.end_transition.Transition;
 import com.gytmy.utils.ImageManipulator;
 import com.gytmy.utils.HotkeyAdder;
 
