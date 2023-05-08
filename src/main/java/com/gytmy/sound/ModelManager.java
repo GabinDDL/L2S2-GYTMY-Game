@@ -570,11 +570,11 @@ public class ModelManager {
 
         for (File file : list) {
 
-            String JSON_OUTPUT_PATH = file.getPath().substring(0, file.getPath().lastIndexOf("/"));
-            String FILE_NAME = file.getName().substring(0, file.getName().lastIndexOf("."));
-            String AUDIO_GAME_PATH = file.getPath();
+            String jsonOutputPath = file.getPath().substring(0, file.getPath().lastIndexOf("/"));
+            String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
+            String audioGamePath = file.getPath();
 
-            CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
+            CompletableFuture<String> futureCommand = whisper.ask(audioGamePath, fileName, jsonOutputPath);
 
             futureCommand.thenAccept(recognizedCommand -> {
 
@@ -582,7 +582,7 @@ public class ModelManager {
                 user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
 
-                new File(JSON_OUTPUT_PATH + "/" + FILE_NAME + ".json").delete();
+                new File(jsonOutputPath + "/" + fileName + ".json").delete();
             });
         }
     }
