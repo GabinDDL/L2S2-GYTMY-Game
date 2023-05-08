@@ -14,20 +14,20 @@ public class User {
     public static final String DEFAULT_LAST_NAME = "LAST_NAME";
     public static final int DEFAULT_STUDENT_NUMBER = 22100000;
     public static final String DEFAULT_USER_NAME = "USER_NAME";
-    public static final List<String> UP = List.of("UP");
-    public static final List<String> DOWN = List.of("DOWN");
-    public static final List<String> LEFT = List.of("LEFT");
-    public static final List<String> RIGHT = List.of("RIGHT");
+    public static final List<String> DEFAULT_UP = List.of("UP");
+    public static final List<String> DEFAULT_DOWN = List.of("DOWN");
+    public static final List<String> DEFAULT_LEFT = List.of("LEFT");
+    public static final List<String> DEFAULT_RIGHT = List.of("RIGHT");
 
     private String firstName;
     private String lastName;
     private int studentNumber;
     private String userName;
     private boolean upToDate = true;
-    private List<String> up = UP;
-    private List<String> down = DOWN;
-    private List<String> left = LEFT;
-    private List<String> right = RIGHT;
+    private List<String> up = DEFAULT_UP;
+    private List<String> down = DEFAULT_DOWN;
+    private List<String> left = DEFAULT_LEFT;
+    private List<String> right = DEFAULT_RIGHT;
 
     public User(User user) {
         this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(), 
@@ -35,7 +35,8 @@ public class User {
     }
 
     public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, UP, DOWN, LEFT, RIGHT, true);
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, DEFAULT_UP, 
+        DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT, true);
     }
 
     public User(String firstName, String lastName, int studentNumber, String userName, List<String> up, 

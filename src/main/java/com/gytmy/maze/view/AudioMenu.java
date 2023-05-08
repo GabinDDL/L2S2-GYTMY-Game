@@ -10,8 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sound.sampled.LineUnavailableException;
