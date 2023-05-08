@@ -17,7 +17,7 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
     private JFrame frame;
     private static final Dimension DEFAULT_DIMENSION = MenuFrameHandler.DEFAULT_DIMENSION;
 
-    private boolean didEndAnimationRunned = false;
+    private boolean didEndAnimationRan = false;
 
     public GlassPaneWrapper(JComponent startComponent, JComponent endComponent, Runnable endFunction) {
 
@@ -48,12 +48,12 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
     @Override
     public void endAnimationUpdate() {
 
-        if (didEndAnimationRunned) {
+        if (didEndAnimationRan) {
             endFunction.run();
             return;
         }
 
-        didEndAnimationRunned = true;
+        didEndAnimationRan = true;
 
         remove(oppeningComponent);
         closingComponent.setSize(DEFAULT_DIMENSION);
