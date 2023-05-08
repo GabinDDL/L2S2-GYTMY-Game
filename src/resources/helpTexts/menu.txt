@@ -1,27 +1,70 @@
-     RULES     
- 
- - If you never played this game before, you probably want to create your character first.
-   Please, head to the "Character Creation" section in the Settings.
+    ,-----------,
+    |   RULES   | 
+    '-----------'
+                                         
+ - If you never played this game before, you should 
+     > create your character first
+     > record some (a lot of) words in the audio menu
+     > generate the associated models
 
- - Else, you can start playing right away. Just click on the "Start Game" button. Have Fun!
+   The more records there are, the more accurately the game will be able to recognize your voice.
+   
+   Please, head to the "Character Creation" section in the Settings by clicking on the cogwheel.
+   Then click on the "Create Character" button and fill the form.
 
-     HOW TO PLAY
+ - The goal of the game is to reach the end of the maze.
 
- - Assure playing in a quiet environment, with no background noise.
-   The game will be able to detect your voice more easily.
+ - You can start playing right away. Just click on the "Start Game" button. Have Fun!
 
- - Use your voice to move ! Just say "up", "down", "left" or "right" to move your character.
-   You must press the space bar before speaking.
+    ,----------,
+    |   HELP   |
+    '----------'
+
+    - If you need help in the audio menu, please refer to the tooltips by hovering over the buttons.
+
+    ,-----------------,
+    |   HOW TO PLAY   |
+    '-----------------'
+
+ - For optimal voice recognition, make sure to play the game in a quiet environment with minimal background noise.
+
+ - Use your voice to move ! To make a move, follow these steps:
+   > Press the space bar to start recording your voice.
+      ° A single word must be recorded at a time.
+   > Just say "up", "down", "left" or "right" to move your character.
+   > Press the space bar again to end the voice recording and begin the voice recognition.
+   > If the voice recognition is successful (it may take some time), your character will move in the direction you said.
+   > Otherwise, your character will stay in place.
+   > Repeat these steps to move again.
 
 - You can also use the arrow keys on your keyboard to move. 
-  To do so, toggle the "Keyboard Mode" pressing the "T" key on your keyboard.
+  To do so, toggle the "Keyboard Mode" by pressing the "T" key on your keyboard or by clicking on the "Keyboard Mode" button.
 
+  $$\   $$\                               
+  $$ |  $$ |                              
+  $$ |  $$ | $$$$$$\ $$\    $$\  $$$$$$\  
+  $$$$$$$$ | \____$$\\$$\  $$  |$$  __$$\ 
+  $$  __$$ | $$$$$$$ |\$$\$$  / $$$$$$$$ |
+  $$ |  $$ |$$  __$$ | \$$$  /  $$   ____|
+  $$ |  $$ |\$$$$$$$ |  \$  /   \$$$$$$$\ 
+  \__|  \__| \_______|   \_/     \_______|
+  
+    $$$$$$$$\                        $$\ 
+    $$  _____|                       $$ |
+    $$ |   $$\   $$\ $$$$$$$\        $$ |
+    $$$$$\ $$ |  $$ |$$  __$$\       $$ |
+    $$  __|$$ |  $$ |$$ |  $$ |      \__|
+    $$ |   $$ |  $$ |$$ |  $$ |          
+    $$ |   \$$$$$$  |$$ |  $$ |      $$\ 
+    \__|    \______/ \__|  \__|      \__|
 
-     CREDITS
+    ,-------------,
+    |   CREDITS   |
+    '-------------'
 
-  - This game was created by the following people:
-    ° Gabin Dudillieu
-    ° Yago Iglesias Vazquez
-    ° Yanis Lacenne
-    ° Tony Ly Soan
-    ° Mathusan Selvakumar
+  - This game was developped by :
+    ° DUDILLIEU Gabin
+    ° IGLESIAS VAZQUEZ Yago
+    ° LACENNE Yanis
+    ° SOAN Tony Ly
+    ° SELVAKUMAR Mathusan
