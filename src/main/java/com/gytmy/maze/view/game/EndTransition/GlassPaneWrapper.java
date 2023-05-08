@@ -47,21 +47,19 @@ public class GlassPaneWrapper extends JLayeredPane implements AnimationObserver 
             return;
         }
 
-        // removeAll();
-
         isEndAnimationRunned = true;
 
         remove(startC);
-
-        // endC.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
         endC.setSize(MenuFrameHandler.DEFAULT_DIMENSION);
         endC.setVisible(true);
         add(endC, JLayeredPane.DEFAULT_LAYER);
 
-        glassPanel.clearAnimation();
+        glassPanel.setSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        glassPanel.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
 
-        // MenuFrameHandler.getMainFrame().setContentPane(endC);
-        // MenuFrameHandler.getMainFrame().setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
-        // MenuFrameHandler.frameUpdate("Game Over");
+        MenuFrameHandler.getMainFrame().setSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        MenuFrameHandler.getMainFrame().setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+
+        glassPanel.clearAnimation();
     }
 }

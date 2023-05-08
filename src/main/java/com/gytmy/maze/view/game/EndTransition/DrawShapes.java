@@ -22,7 +22,7 @@ class DrawShapes extends JPanel {
 
     private static final Dimension MAX_DIMENSION = MenuFrameHandler.DEFAULT_DIMENSION;
 
-    private static final Color COLOR_TRANSITION = Cell.WALL_COLOR;
+    private static final Color COLOR_TRANSITION = Color.BLACK; // Cell.WALL_COLOR;
 
     private static final int REMOVE_TIMER_DELAY = 25;
     private static final int APPARITION_TIMER_DELAY = 30;
@@ -38,6 +38,7 @@ class DrawShapes extends JPanel {
 
     DrawShapes(Dimension defaultDimension) {
         setPreferredSize(defaultDimension);
+        setSize(defaultDimension);
 
         int square_height = defaultDimension.height / 6;
         int square_width = square_height;
@@ -82,40 +83,11 @@ class DrawShapes extends JPanel {
     }
 
     public void clearAnimation() {
-        resizeWindow();
-    }
-
-    private void resizeWindow() {
-        new Timer(5, new ActionListener() {
-
-            private Dimension goalFrameDimension = MenuFrameHandler.DEFAULT_DIMENSION;
-            private int wantedWitdth = goalFrameDimension.width;
-            private int wantedHeight = goalFrameDimension.height;
-
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                Dimension frameDimension = MenuFrameHandler.getMainFrame().getSize();
-
-                if (wantedWitdth <= frameDimension.width && wantedHeight <= frameDimension.height) {
-                    ((Timer) evt.getSource()).stop();
-                    removeAnimation();
-                    return;
-                }
-
-                int newWidth = Math.min(frameDimension.width + 5, wantedWitdth);
-
-                int newHeight = Math.min(frameDimension.height + 5, wantedHeight);
-
-                shapeList.clear();
-                shapeList.add(
-                        new AnimationMazePanel(new Rectangle(0, 0, newWidth, newHeight), COLOR_TRANSITION));
-                repaint();
-
-                MenuFrameHandler.getMainFrame().setSize(newWidth, newHeight);
-                MenuFrameHandler.getMainFrame().repaint();
-            }
-
-        }).start();
+        shapeList.clear();
+        shapeList.add(
+                new AnimationMazePanel(new Rectangle(0, 0, MAX_DIMENSION.width, MAX_DIMENSION.height),
+                        Cell.WALL_COLOR));
+        removeAnimation();
     }
 
     private void removeAnimation() {

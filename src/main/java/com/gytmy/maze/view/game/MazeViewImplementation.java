@@ -109,7 +109,6 @@ public class MazeViewImplementation extends MazeView {
     @Override
     public void showGameOverPanel() {
         frame.setContentPane(gameOverPanel);
-        frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
         MenuFrameHandler.frameUpdate("Game Over");
     }
 

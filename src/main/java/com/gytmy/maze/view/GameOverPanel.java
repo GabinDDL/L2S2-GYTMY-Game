@@ -58,7 +58,6 @@ public class GameOverPanel extends JPanel {
     }
 
     private void initButtons() {
-        System.out.println("yeah");
         buttonsPanel = new JPanel();
         GridLayout buttonsLayout = new GridLayout(1, 3, 5, 5);
         buttonsPanel.setLayout(buttonsLayout);
