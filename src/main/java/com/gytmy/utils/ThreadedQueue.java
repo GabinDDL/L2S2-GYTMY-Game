@@ -31,7 +31,19 @@ public class ThreadedQueue {
 
     public static void executeTask(Runnable task) {
         synchronized (lock) {
-            executor.execute(task);
+            Runnable wrappedTask = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        task.run();
+                    } finally {
+                        synchronized (lock) {
+                            taskCount--;
+                        }
+                    }
+                }
+            };
+            executor.execute(wrappedTask);
             taskCount++;
         }
     }
