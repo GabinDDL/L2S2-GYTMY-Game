@@ -5,9 +5,9 @@ import java.util.concurrent.*;
 public class ThreadedQueue {
     private static final int MAX_THREADS = 10;
     private static final int MAX_QUEUE_SIZE = 1000;
-    private static final int DELAY_MS = 100;
     private static final ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
     private static final BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(MAX_QUEUE_SIZE);
+    private static Boolean isRunning = false;
 
     public static void add(Runnable runnable) {
         try {
@@ -18,15 +18,20 @@ public class ThreadedQueue {
     }
 
     public static void start() {
-        while (true) {
+        isRunning = true;
+
+        while (isRunning) {
             try {
                 Runnable task = queue.take();
                 executor.execute(task);
-                Thread.sleep(DELAY_MS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void stop() {
+        isRunning = false;
     }
 }
 

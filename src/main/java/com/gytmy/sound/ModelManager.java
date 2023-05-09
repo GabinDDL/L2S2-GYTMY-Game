@@ -10,6 +10,7 @@ import com.gytmy.sound.whisper.Whisper;
 import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 import com.gytmy.utils.WordsToRecord;
 
 public class ModelManager {
@@ -105,6 +106,8 @@ public class ModelManager {
             }
             run.run();
         }).start();
+
+        ThreadedQueue.start();
     }
 
     /**
@@ -589,6 +592,8 @@ public class ModelManager {
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
             });
         }
+
+        ThreadedQueue.stop();
     }
 
     private static boolean isRecognizedCommandAlreadyAdded(User user, String recognizedCommand) {

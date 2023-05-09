@@ -18,7 +18,6 @@ import com.gytmy.sound.User;
 import com.gytmy.sound.whisper.Whisper;
 import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.HotkeyAdder;
-import com.gytmy.utils.ThreadedQueue;
 
 public class VoiceMovementController implements RecordObserver {
 
@@ -54,8 +53,6 @@ public class VoiceMovementController implements RecordObserver {
                 startRecord();
             }
         });
-
-        ThreadedQueue.start();
     }
 
     private void startRecord() {
