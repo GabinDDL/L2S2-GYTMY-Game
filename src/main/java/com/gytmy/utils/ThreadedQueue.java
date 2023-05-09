@@ -20,7 +20,7 @@ public class ThreadedQueue {
     private static int taskCount = 0;
 
     public static void initialize() {
-
+        taskCount = 0;
     }
 
     public static void executeTask(Runnable task) {

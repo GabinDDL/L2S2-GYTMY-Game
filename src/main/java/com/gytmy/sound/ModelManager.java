@@ -133,7 +133,6 @@ public class ModelManager {
                 generateAltCmdsOfUser(user, word);
             }
         }
-        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     /**
