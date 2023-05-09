@@ -10,6 +10,7 @@ import com.gytmy.sound.whisper.Whisper;
 import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 import com.gytmy.utils.WordsToRecord;
 
 public class ModelManager {
@@ -103,6 +104,15 @@ public class ModelManager {
             } catch (Exception e) {
                 resetParameter();
             }
+            
+            while (ThreadedQueue.isThereATaskRunning()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             run.run();
         }).start();
     }

@@ -23,6 +23,12 @@ public class ThreadedQueue {
         taskCount = 0;
     }
 
+    public static boolean isThereATaskRunning() {
+        synchronized (lock) {
+            return taskCount > 0;
+        }
+    }
+
     public static void executeTask(Runnable task) {
         synchronized (lock) {
             executor.execute(task);
