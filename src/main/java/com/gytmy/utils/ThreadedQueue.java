@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadedQueue {
-    private static final int MAX_THREADS = 15;
+    private static final int MAX_THREADS = 12;
     private static final ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS, new ThreadFactory() {
         private final AtomicInteger threadCount = new AtomicInteger(0);
 

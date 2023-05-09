@@ -11,7 +11,6 @@ import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
 import com.gytmy.utils.WordsToRecord;
-import com.gytmy.sound.AudioFileManager;
 
 public class ModelManager {
 
@@ -130,7 +129,9 @@ public class ModelManager {
     private static void createAllParametersOfRecordedWord(User user) {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
-            generateAltCmdsofUser(user, word);
+            if (!word.equals("OTHER")) {
+                generateAltCmdsofUser(user, word);
+            }
         }
         user.setUpToDate(true);
         YamlReader.write(user.yamlConfigPath(), user);
@@ -579,23 +580,26 @@ public class ModelManager {
 
             futureCommand.thenAccept(recognizedCommand -> {
 
-                if (isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
+                System.out.println("recognizedCommand : " + recognizedCommand);
+
+                if (recognizedCommand == null || recognizedCommand.isEmpty()
+                || isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
                     return;
                 }
 
                 add(user, recordedWord, recognizedCommand);
 
+                user.setUpToDate(false);
+                YamlReader.write(user.yamlConfigPath(), user);
+
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
             });
         }
-
-        user.setUpToDate(true);
-        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     private static boolean isRecognizedCommandAlreadyAdded(User user, String recognizedCommand) {
         return user.getUp().contains(recognizedCommand) || user.getDown().contains(recognizedCommand)
-                        || user.getLeft().contains(recognizedCommand) || user.getRight().contains(recognizedCommand);
+                || user.getLeft().contains(recognizedCommand) || user.getRight().contains(recognizedCommand);
     }
 
     private static void add(User user, String recordedWord, String recognizedCommand) {

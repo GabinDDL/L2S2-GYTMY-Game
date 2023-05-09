@@ -51,7 +51,7 @@ public class Whisper {
                 String recognizedCommand = "";
         
                 int exitCode = run(audioPath, fileName, outputPath);
-        
+                
                 if (exitCode == 0) {
                     recognizedCommand = parseJson(outputPath, fileName);
                     recognizedCommand = formatCommand(recognizedCommand);
