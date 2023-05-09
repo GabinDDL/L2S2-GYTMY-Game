@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
 import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 
 public class AudioRecognitionResult {
 
@@ -35,15 +36,14 @@ public class AudioRecognitionResult {
 
         CompletableFuture<AlizeRecognitionResult> futureRecognitionResult = new CompletableFuture<>();
 
-        new Thread(() -> {
+        ThreadedQueue.executeTask(() -> {
             try {
                 manageComparison();
 
                 AlizeRecognitionResult result;
 
                 try {
-                    result = AlizeRecognitionResultParser
-                            .parseFile(new File(CLIENT_RESULT_PATH));
+                    result = AlizeRecognitionResultParser.parseFile(new File(CLIENT_RESULT_PATH));
                     futureRecognitionResult.complete(result);
                 } catch (IncorrectFileFormatException e) {
                     futureRecognitionResult.completeExceptionally(e);
@@ -52,7 +52,7 @@ public class AudioRecognitionResult {
             } catch (Exception e) {
                 futureRecognitionResult.completeExceptionally(e);
             }
-        }).start();
+        });
 
         return futureRecognitionResult;
     }

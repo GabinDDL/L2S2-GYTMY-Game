@@ -4,3 +4,25 @@ lastName: "SELVAKUMAR"
 studentNumber: 22112498
 userName: "JoyBoy"
 upToDate: true
+up:
+- "UP"
+- "OF"
+- "LETSGO"
+- "OH"
+- "I"
+- "UH"
+- "A"
+down:
+- "DOWN"
+- "DOW"
+- "DALLIE"
+left:
+- "LEFT"
+- "LETS"
+- "LESS"
+- "LIFE"
+- "THELEFT"
+- "BLWEST"
+right:
+- "RIGHT"
+- "BREAK"

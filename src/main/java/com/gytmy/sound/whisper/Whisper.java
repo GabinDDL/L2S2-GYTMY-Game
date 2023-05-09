@@ -1,9 +1,12 @@
 package com.gytmy.sound.whisper;
 
+import com.gytmy.sound.User;
+import com.gytmy.sound.YamlReader;
 import com.gytmy.utils.JsonParser;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 
-
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class Whisper {
@@ -43,27 +46,25 @@ public class Whisper {
     public CompletableFuture<String> ask(String audioPath, String fileName, String outputPath) {
         CompletableFuture<String> futureCommand = new CompletableFuture<>();
 
-        new Thread(() -> {
+        ThreadedQueue.executeTask(() -> {
             try {
                 String recognizedCommand = "";
-                
+        
                 int exitCode = run(audioPath, fileName, outputPath);
                 
                 if (exitCode == 0) {
                     recognizedCommand = parseJson(outputPath, fileName);
                     recognizedCommand = formatCommand(recognizedCommand);
-                    recognizedCommand = mapCommand(recognizedCommand);
                     futureCommand.complete(recognizedCommand);
                 } else {
                     futureCommand.completeExceptionally(new Exception("Whisper failed to recognize command"));
                 }
-
+        
             } catch (Exception e) {
                 futureCommand.completeExceptionally(e);
             }
-
-        }).start();
-
+        });
+        
         return futureCommand;
     }
     
@@ -97,20 +98,32 @@ public class Whisper {
     }
 
     private String formatCommand(String text) {
-        return text.replaceAll("[^a-zA-Z]", "");
+        return text.toUpperCase().replaceAll("[^A-Z]", "");
     }
 
-    private String mapCommand(String text) {
-        if (text.equalsIgnoreCase("UP")) {
+    public String mapCommand(User currUser, String recognizedCommand) {
+
+        User user = YamlReader.read(currUser.yamlConfigPath());
+
+        if (isFromCommandList(user.getUp(), recognizedCommand)) {
             return "UP";
-        } else if (text.equalsIgnoreCase("DOWN")) {
+        } else if (isFromCommandList(user.getDown(), recognizedCommand)) {
             return "DOWN";
-        } else if (text.equalsIgnoreCase("LEFT")) {
+        } else if (isFromCommandList(user.getLeft(), recognizedCommand)) {
             return "LEFT";
-        } else if (text.equalsIgnoreCase("RIGHT")) {
+        } else if (isFromCommandList(user.getRight(), recognizedCommand)) {
             return "RIGHT";
         } else {
             return "NO_COMMAND";
         }
+    }
+
+    private boolean isFromCommandList(List<String> commands, String recognizedCommand) {
+        for (String command : commands) {
+            if (recognizedCommand.equals(command)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

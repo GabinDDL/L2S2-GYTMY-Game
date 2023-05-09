@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import com.gytmy.sound.whisper.Whisper;
+import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 import com.gytmy.utils.WordsToRecord;
 
 public class ModelManager {
@@ -31,6 +35,8 @@ public class ModelManager {
     public static final String NDX_PATH = "/ndx/";
     public static final String LIST_NDX_PATH = NDX_PATH + "ListNDX.ndx";
     public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
+
+    public static Whisper whisper = new Whisper(Model.TINY_EN);
 
     /**
      * If the folders of model do not exist,
@@ -98,6 +104,15 @@ public class ModelManager {
             } catch (Exception e) {
                 resetParameter();
             }
+
+            while (ThreadedQueue.isThereATaskRunning()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             run.run();
         }).start();
     }
@@ -124,9 +139,10 @@ public class ModelManager {
     private static void createAllParametersOfRecordedWord(User user) {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
+            if (!word.equals("OTHER")) {
+                generateAltCmdsOfUser(user, word);
+            }
         }
-        user.setUpToDate(true);
-        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     /**
@@ -149,6 +165,9 @@ public class ModelManager {
         parametrize(listPathOfUser, audioPathOfUser, user.getFirstName(), recordedWord);
         energyDetector(listPathOfUser, user.getFirstName(), recordedWord);
         normFeat(listPathOfUser, user.getFirstName(), recordedWord);
+
+        user.setUpToDate(true);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     /**
@@ -327,6 +346,7 @@ public class ModelManager {
             return false;
         }
         List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+
         return tryToAddAudiosToNdxFilesOfUserWord(user, recordedWord, list)
                 && tryToAddAudiosToLstFilesOfUserWord(user, recordedWord, list);
     }
@@ -552,6 +572,61 @@ public class ModelManager {
         String[] argsNormFeat = { listPath };
         int exitValue = RunSH.run(TRAIN_TARGET_SH_PATH, argsNormFeat);
         handleErrorProgram("trainTarget", exitValue, name, word);
+    }
+
+    private static void generateAltCmdsOfUser(User user, String recordedWord) {
+        File dataDirectory = new File(user.audioPath() + recordedWord + "/");
+        if (!dataDirectory.exists()) {
+            return;
+        }
+        List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+
+        for (File file : list) {
+
+            String jsonOutputPath = file.getPath().substring(0, file.getPath().lastIndexOf("/"));
+            String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
+            String audioGamePath = file.getPath();
+
+            CompletableFuture<String> futureCommand = whisper.ask(audioGamePath, fileName, jsonOutputPath);
+
+            futureCommand.thenAccept(recognizedCommand -> {
+
+                if (recognizedCommand == null || recognizedCommand.isEmpty()
+                        || isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
+                    new File(jsonOutputPath + "/" + fileName + ".json").delete();
+                    return;
+                }
+
+                add(user, recordedWord, recognizedCommand);
+                
+                user.setUpToDate(true);
+                YamlReader.write(user.yamlConfigPath(), user);
+
+                new File(jsonOutputPath + "/" + fileName + ".json").delete();
+            });
+        }
+    }
+
+    private static boolean isRecognizedCommandAlreadyAdded(User user, String recognizedCommand) {
+        return user.getUp().contains(recognizedCommand) || user.getDown().contains(recognizedCommand)
+                || user.getLeft().contains(recognizedCommand) || user.getRight().contains(recognizedCommand);
+    }
+
+    private static void add(User user, String recordedWord, String recognizedCommand) {
+        switch (recordedWord) {
+            case "UP":
+                user.addAltUp(recognizedCommand);
+                break;
+            case "DOWN":
+                user.addAltDown(recognizedCommand);
+                break;
+            case "LEFT":
+                user.addAltLeft(recognizedCommand);
+                break;
+            case "RIGHT":
+                user.addAltRight(recognizedCommand);
+                break;
+        }
     }
 
     protected static void resetParameter() {
