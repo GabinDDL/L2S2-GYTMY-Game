@@ -20,7 +20,7 @@
     |   HELP   |
     '----------'
 
-    - If you need help in the audio menu, please refer to the tooltips by hovering over the buttons.
+ - If you need help in the audio menu, please refer to the tooltips by hovering over the buttons.
 
     ,-----------------,
     |   HOW TO PLAY   |
