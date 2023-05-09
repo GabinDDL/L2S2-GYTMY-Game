@@ -46,7 +46,7 @@ public class Whisper {
     public CompletableFuture<String> ask(String audioPath, String fileName, String outputPath) {
         CompletableFuture<String> futureCommand = new CompletableFuture<>();
 
-        ThreadedQueue.add(() -> {
+        ThreadedQueue.executeTask(() -> {
             try {
                 String recognizedCommand = "";
         

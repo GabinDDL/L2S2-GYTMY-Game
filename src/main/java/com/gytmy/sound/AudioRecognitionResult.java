@@ -36,7 +36,7 @@ public class AudioRecognitionResult {
 
         CompletableFuture<AlizeRecognitionResult> futureRecognitionResult = new CompletableFuture<>();
 
-        ThreadedQueue.add(() -> {
+        ThreadedQueue.executeTask(() -> {
             try {
                 manageComparison();
         

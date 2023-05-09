@@ -10,7 +10,6 @@ import com.gytmy.sound.whisper.Whisper;
 import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
-import com.gytmy.utils.ThreadedQueue;
 import com.gytmy.utils.WordsToRecord;
 
 public class ModelManager {
@@ -106,8 +105,6 @@ public class ModelManager {
             }
             run.run();
         }).start();
-
-        ThreadedQueue.start();
     }
 
     /**
@@ -132,6 +129,7 @@ public class ModelManager {
     private static void createAllParametersOfRecordedWord(User user) {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
+            generateAltCmdsofUser(user, word);
         }
         user.setUpToDate(true);
         YamlReader.write(user.yamlConfigPath(), user);
@@ -157,7 +155,6 @@ public class ModelManager {
         parametrize(listPathOfUser, audioPathOfUser, user.getFirstName(), recordedWord);
         energyDetector(listPathOfUser, user.getFirstName(), recordedWord);
         normFeat(listPathOfUser, user.getFirstName(), recordedWord);
-        generateAltCmdsofUser(user, recordedWord);
     }
 
     /**
@@ -586,6 +583,7 @@ public class ModelManager {
                 }
 
                 add(user, recordedWord, recognizedCommand);
+
                 user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
 
