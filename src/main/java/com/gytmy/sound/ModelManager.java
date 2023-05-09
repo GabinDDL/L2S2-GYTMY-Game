@@ -130,9 +130,10 @@ public class ModelManager {
     private static void createAllParametersOfRecordedWord(User user) {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
-            generateAltCmdsofUser(user, word);
+            //TODO: generateAltCmdsofUser(user, word)
         }
-        AudioFileManager.writeYamlConfig(user);
+        user.setUpToDate(true);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     /**
