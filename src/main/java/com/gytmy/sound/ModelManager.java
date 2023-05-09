@@ -130,7 +130,7 @@ public class ModelManager {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
             if (!word.equals("OTHER")) {
-                generateAltCmdsofUser(user, word);
+                generateAltCmdsOfUser(user, word);
             }
         }
         user.setUpToDate(true);
@@ -563,7 +563,7 @@ public class ModelManager {
         handleErrorProgram("trainTarget", exitValue, name, word);
     }
 
-    private static void generateAltCmdsofUser(User user, String recordedWord) {
+    private static void generateAltCmdsOfUser(User user, String recordedWord) {
         File dataDirectory = new File(user.audioPath() + recordedWord + "/");
         if (!dataDirectory.exists()) {
             return;

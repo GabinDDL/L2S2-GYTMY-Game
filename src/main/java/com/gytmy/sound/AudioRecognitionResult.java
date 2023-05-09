@@ -39,21 +39,21 @@ public class AudioRecognitionResult {
         ThreadedQueue.executeTask(() -> {
             try {
                 manageComparison();
-        
+
                 AlizeRecognitionResult result;
-        
+
                 try {
                     result = AlizeRecognitionResultParser.parseFile(new File(CLIENT_RESULT_PATH));
                     futureRecognitionResult.complete(result);
                 } catch (IncorrectFileFormatException e) {
                     futureRecognitionResult.completeExceptionally(e);
                 }
-        
+
             } catch (Exception e) {
                 futureRecognitionResult.completeExceptionally(e);
             }
         });
-        
+
         return futureRecognitionResult;
     }
 
