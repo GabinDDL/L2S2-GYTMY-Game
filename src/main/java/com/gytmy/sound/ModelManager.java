@@ -587,7 +587,7 @@ public class ModelManager {
 
                 add(user, recordedWord, recognizedCommand);
 
-                user.setUpToDate(false);
+                user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
 
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
