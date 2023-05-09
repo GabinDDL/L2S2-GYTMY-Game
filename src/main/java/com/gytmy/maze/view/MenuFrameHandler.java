@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.gytmy.maze.view.settings.SettingsMenu;
+import com.gytmy.utils.ThreadedQueue;
 
 public class MenuFrameHandler {
 
@@ -76,5 +77,6 @@ public class MenuFrameHandler {
 
     public static void quitGame() {
         mainFrame.dispose();
+        ThreadedQueue.shutdown();
     }
 }
