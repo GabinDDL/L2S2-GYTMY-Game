@@ -9,7 +9,7 @@
 
    The more records there are, the more accurately the game will be able to recognize your voice.
    
-   Please, head to the "Character Creation" section in the Settings by clicking on the cogwheel.
+   Please, head to the "Character Creation" section in the Settings by clicking on the gear icon.
    Then click on the "Create Character" button and fill the form.
 
  - The goal of the game is to reach the end of the maze.
