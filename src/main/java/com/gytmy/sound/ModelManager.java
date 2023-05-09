@@ -155,6 +155,8 @@ public class ModelManager {
         parametrize(listPathOfUser, audioPathOfUser, user.getFirstName(), recordedWord);
         energyDetector(listPathOfUser, user.getFirstName(), recordedWord);
         normFeat(listPathOfUser, user.getFirstName(), recordedWord);
+
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     /**
