@@ -36,7 +36,7 @@ public class ModelManager {
     public static final String LIST_NDX_PATH = NDX_PATH + "ListNDX.ndx";
     public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
 
-    public static Whisper whisper = new Whisper(Model.TINY_EN);
+    public static final Whisper whisper = new Whisper(Model.TINY_EN);
 
     /**
      * If the folders of model do not exist,
