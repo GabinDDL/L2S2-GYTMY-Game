@@ -592,8 +592,6 @@ public class ModelManager {
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
             });
         }
-
-        ThreadedQueue.stop();
     }
 
     private static boolean isRecognizedCommandAlreadyAdded(User user, String recognizedCommand) {
