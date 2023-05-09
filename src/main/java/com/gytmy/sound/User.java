@@ -30,22 +30,26 @@ public class User {
     private List<String> right = DEFAULT_RIGHT;
 
     public User(User user) {
-        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(), 
-        user.getUp(), user.getDown(), user.getLeft(), user.getRight(), user.getUpToDate());
+        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(),
+                user.getUp(), user.getDown(), user.getLeft(), user.getRight(), user.getUpToDate());
     }
 
     public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, DEFAULT_UP, 
-        DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT, true);
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, DEFAULT_UP,
+                DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT, true);
     }
 
-    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up, 
-    List<String> down, List<String> left, List<String> right) {
+    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up,
+            List<String> down, List<String> left, List<String> right) {
         this(firstName, lastName, studentNumber, userName, up, down, left, right, true);
     }
 
-    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up, 
-    List<String> down, List<String> left, List<String> right, boolean upToDate) {
+    public User(String fisrtName, String lastName, int studentNumber, String userName) {
+        this(fisrtName, lastName, studentNumber, userName, DEFAULT_UP, DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT);
+    }
+
+    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up,
+            List<String> down, List<String> left, List<String> right, boolean upToDate) {
         handleInvalidArguments(firstName, lastName, studentNumber, userName, up, down, left, right);
 
         this.firstName = firstName.toUpperCase().replace(" ", "_");
@@ -55,8 +59,8 @@ public class User {
         this.upToDate = upToDate;
     }
 
-    private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName, 
-    List<String> up, List<String> down, List<String> left, List<String> right) {
+    private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName,
+            List<String> up, List<String> down, List<String> left, List<String> right) {
         if (isNameInvalid(firstName)) {
             throw new IllegalArgumentException("Invalid first name");
         }

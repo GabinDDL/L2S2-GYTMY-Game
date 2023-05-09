@@ -218,7 +218,7 @@ public class EditCreateUsersPage extends JPanel {
 
     private User createUser() {
         return new User(firstName.getText(), lastName.getText(), Integer.valueOf(studentNumber.getText()),
-                userName.getText(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
+                userName.getText());
     }
 
     private boolean inputsAreValid() {

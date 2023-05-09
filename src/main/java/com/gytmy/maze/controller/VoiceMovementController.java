@@ -109,17 +109,17 @@ public class VoiceMovementController implements RecordObserver {
     private void continueComparaisonWithWhisper(User recognizedUser) {
         CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
 
-            futureCommand.thenAccept(recognizedCommand -> {
+        futureCommand.thenAccept(recognizedCommand -> {
 
-                recognizedCommand = whisper.mapCommand(recognizedUser, recognizedCommand);
+            recognizedCommand = whisper.mapCommand(recognizedUser, recognizedCommand);
 
-                // TODO to remove after tests
-                // System.out.println("------------------------------------");
-                // System.out.println("recognizedCommand: " + recognizedCommand);
-                // System.out.println("recognizedUser: " + recognizedUser.getUserName());
-                // System.out.println("------------------------------------");
+            // TODO to remove after tests
+            // System.out.println("------------------------------------");
+            // System.out.println("recognizedCommand: " + recognizedCommand);
+            // System.out.println("recognizedUser: " + recognizedUser.getUserName());
+            // System.out.println("------------------------------------");
 
-                movePlayerWithCompareResult(recognizedUser, recognizedCommand);
+            movePlayerWithCompareResult(recognizedUser, recognizedCommand);
 
             new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
 
