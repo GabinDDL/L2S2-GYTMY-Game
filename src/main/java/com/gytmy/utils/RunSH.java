@@ -29,10 +29,7 @@ public class RunSH {
             reader.close();
             return process.waitFor(); // Exit code
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return 1;
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return 1;
         }
