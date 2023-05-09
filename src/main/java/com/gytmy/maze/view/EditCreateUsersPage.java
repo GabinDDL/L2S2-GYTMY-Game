@@ -11,7 +11,6 @@ import java.awt.GridBagConstraints;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import com.gytmy.maze.view.game.Cell;
 import com.gytmy.sound.AudioFileManager;
