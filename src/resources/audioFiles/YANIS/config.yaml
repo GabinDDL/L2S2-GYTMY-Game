@@ -4,3 +4,27 @@ lastName: "LACENNE"
 studentNumber: 22103173
 userName: "waken_"
 upToDate: true
+up:
+- "UP"
+- "OH"
+- "UH"
+- "LOVE"
+- "YEP"
+- "BEEP"
+down:
+- "DOWN"
+- "DONE"
+- "THOUGH"
+- "THAT"
+- "THATWOULD"
+- "GOTHIM"
+- "TIMMY"
+left:
+- "LEFT"
+- "LIFT"
+- "LETS"
+- "TOTHELEFT"
+- "THELEFT"
+right:
+- "RIGHT"
+- "ALRIGHT"

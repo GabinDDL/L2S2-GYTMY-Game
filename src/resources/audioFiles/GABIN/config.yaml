@@ -3,4 +3,27 @@ firstName: "GABIN"
 lastName: "DUDILLIEU"
 studentNumber: 22103458
 userName: "Barebeku"
-upToDate: true
+upToDate: false
+up:
+- "UP"
+- "OH"
+- "UH"
+- "EARTH"
+- "HUH"
+- "YOU"
+down:
+- "DOWN"
+- "DONE"
+- "DUH"
+- "DON"
+- "DONT"
+left:
+- "LEFT"
+- "LETS"
+- "LAST"
+right:
+- "RIGHT"
+- "ALRIGHT"
+- "ALLRIGHT"
+- "WHITE"
+- "WAIT"

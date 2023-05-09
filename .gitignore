@@ -39,6 +39,8 @@ sources.txt
 .DS_Store
 
 # Alize and SPro
+src/resources/audioFiles/client/audio/currentGameAudio.wav
+src/resources/audioFiles/client/audio/model/json/currentGameAudio.json
 src/resources/audioFiles/client/model/RecognitionResult.txt
 
 src/main/exe/comparison/ComputeTest

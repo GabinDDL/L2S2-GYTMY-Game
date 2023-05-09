@@ -3,4 +3,23 @@ firstName: "YAGO"
 lastName: "IGLESIAS"
 studentNumber: 22101699
 userName: "Grep"
-upToDate: true
+upToDate: false
+up:
+- "UP"
+- "UH"
+- "BUP"
+down:
+- "DOWN"
+- "THATONE"
+- "DONE"
+- "DOU"
+- "THATWAS"
+- "DOWING"
+- "DOWLING"
+- "DWU"
+left:
+- "LEFT"
+- "ALEF"
+- "LIKE"
+right:
+- "RIGHT"
