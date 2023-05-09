@@ -104,7 +104,7 @@ public class ModelManager {
             } catch (Exception e) {
                 resetParameter();
             }
-            
+
             while (ThreadedQueue.isThereATaskRunning()) {
                 try {
                     Thread.sleep(100);
@@ -166,6 +166,7 @@ public class ModelManager {
         energyDetector(listPathOfUser, user.getFirstName(), recordedWord);
         normFeat(listPathOfUser, user.getFirstName(), recordedWord);
 
+        user.setUpToDate(true);
         YamlReader.write(user.yamlConfigPath(), user);
     }
 
@@ -597,7 +598,8 @@ public class ModelManager {
                 }
 
                 add(user, recordedWord, recognizedCommand);
-
+                
+                user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
 
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
