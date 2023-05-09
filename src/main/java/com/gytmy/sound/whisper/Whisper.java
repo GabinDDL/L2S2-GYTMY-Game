@@ -4,6 +4,7 @@ import com.gytmy.sound.User;
 import com.gytmy.sound.YamlReader;
 import com.gytmy.utils.JsonParser;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -45,12 +46,12 @@ public class Whisper {
     public CompletableFuture<String> ask(String audioPath, String fileName, String outputPath) {
         CompletableFuture<String> futureCommand = new CompletableFuture<>();
 
-        new Thread(() -> {
+        ThreadedQueue.add(() -> {
             try {
                 String recognizedCommand = "";
-                
+        
                 int exitCode = run(audioPath, fileName, outputPath);
-                
+        
                 if (exitCode == 0) {
                     recognizedCommand = parseJson(outputPath, fileName);
                     recognizedCommand = formatCommand(recognizedCommand);
@@ -58,13 +59,12 @@ public class Whisper {
                 } else {
                     futureCommand.completeExceptionally(new Exception("Whisper failed to recognize command"));
                 }
-
+        
             } catch (Exception e) {
                 futureCommand.completeExceptionally(e);
             }
-
-        }).start();
-
+        });
+        
         return futureCommand;
     }
     
