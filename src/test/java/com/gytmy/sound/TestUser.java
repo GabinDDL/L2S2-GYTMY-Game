@@ -19,7 +19,7 @@ public class TestUser {
 		return user.getFirstName().equals(User.DEFAULT_FIRST_NAME) &&
 				user.getLastName().equals(User.DEFAULT_LAST_NAME) &&
 				user.getStudentNumber() == User.DEFAULT_STUDENT_NUMBER &&
-				user.getUserName() == User.DEFAULT_USER_NAME &&
+				user.getUserName().equals(User.DEFAULT_USER_NAME) &&
 				user.getUp().equals(User.DEFAULT_UP) &&
 				user.getDown().equals(User.DEFAULT_DOWN) &&
 				user.getLeft().equals(User.DEFAULT_LEFT) &&
