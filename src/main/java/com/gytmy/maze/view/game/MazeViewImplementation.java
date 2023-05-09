@@ -3,7 +3,6 @@ package com.gytmy.maze.view.game;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
@@ -24,6 +23,7 @@ import com.gytmy.maze.view.GameOverPanel;
 import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.TimerPanel;
+import com.gytmy.maze.view.game.end_transition.Transition;
 import com.gytmy.utils.ImageManipulator;
 import com.gytmy.utils.HotkeyAdder;
 
@@ -37,6 +37,7 @@ public class MazeViewImplementation extends MazeView {
     private JFrame frame;
     private Dimension preferredSize;
 
+    private GameOverPanel gameOverPanel;
     protected JPanel audioRecordPanel;
     protected JLabel audioRecordStatus;
     protected JPanel keyboardPanel;
@@ -110,8 +111,7 @@ public class MazeViewImplementation extends MazeView {
 
     @Override
     public void showGameOverPanel() {
-        frame.setContentPane(new GameOverPanel(model));
-        frame.setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        frame.setContentPane(gameOverPanel);
         MenuFrameHandler.frameUpdate("Game Over");
     }
 
@@ -122,17 +122,9 @@ public class MazeViewImplementation extends MazeView {
 
     @Override
     public void notifyGameOver() {
-        // EventQueue is used to pause the screen a little bit before showing the game
-        // over panel
-        EventQueue.invokeLater(
-                () -> {
-                    try {
-                        Thread.sleep(2000);
-                        showGameOverPanel();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+
+        this.gameOverPanel = new GameOverPanel(model);
+        frame.setContentPane(new Transition(this, gameOverPanel, this::showGameOverPanel).getGlassPane());
     }
 
     @Override

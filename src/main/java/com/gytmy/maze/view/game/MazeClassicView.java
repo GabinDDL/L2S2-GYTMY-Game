@@ -2,7 +2,6 @@ package com.gytmy.maze.view.game;
 
 import java.awt.GridBagConstraints;
 import javax.swing.JFrame;
-
 import com.gytmy.maze.controller.MazeController;
 import com.gytmy.maze.model.MazeModel;
 import com.gytmy.maze.model.gamemode.GameMode;
