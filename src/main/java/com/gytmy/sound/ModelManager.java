@@ -11,6 +11,7 @@ import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
 import com.gytmy.utils.WordsToRecord;
+import com.gytmy.sound.AudioFileManager;
 
 public class ModelManager {
 
@@ -131,8 +132,7 @@ public class ModelManager {
             createParametersOfRecordedWord(user, word);
             generateAltCmdsofUser(user, word);
         }
-        user.setUpToDate(true);
-        YamlReader.write(user.yamlConfigPath(), user);
+        AudioFileManager.writeYamlConfig(user);
     }
 
     /**
@@ -584,8 +584,7 @@ public class ModelManager {
 
                 add(user, recordedWord, recognizedCommand);
 
-                user.setUpToDate(true);
-                YamlReader.write(user.yamlConfigPath(), user);
+                AudioFileManager.writeYamlConfig(user);
 
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
             });
