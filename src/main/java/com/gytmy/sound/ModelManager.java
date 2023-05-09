@@ -580,8 +580,6 @@ public class ModelManager {
 
             futureCommand.thenAccept(recognizedCommand -> {
 
-                System.out.println("recognizedCommand : " + recognizedCommand);
-
                 if (recognizedCommand == null || recognizedCommand.isEmpty()
                 || isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
                     return;
