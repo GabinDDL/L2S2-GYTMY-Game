@@ -107,14 +107,16 @@ The order matters, so you have to pass the path of `LIA_RAL` first and then the 
 
 ### How to install `python3` (3.8 <= 3.x < 3.11)
 
-- [Download a python stable source release <span style="color:red">(between 3.8 and 3.10, both included))</span>](https://www.python.org/downloads/source/) (The downloaded folder would be erased later so wherever you want !)
+- [Download a python stable source release <span style="color:red">(between 3.8 and 3.10, both included)</span>](https://www.python.org/downloads/source/) (The downloaded folder would be erased later so wherever you want !)
 - Decompress the installed file
 - Open `Terminal` in the decompressed folder and execute the given commands one at a time in the order :
+
 ```bash
 ./configure
 make
 sudo make install
 ```
+
 - You can erase the `folder` and the `tar` file after the installation
 
 ### Time to run the script `install_whisper.sh`
