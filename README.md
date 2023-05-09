@@ -66,7 +66,13 @@ Check the [INSTALL.md](INSTALL.md)
 
 ## How to run the game
 
-After installing the dependencies, you can run the game by executing the following command in the root directory of the project:
+After installing the dependencies, you will need to compile the game. To do so, you can execute the following command in the root directory of the project, you will to do this only once:
+
+```bash
+./run.sh --compile
+```
+
+You can then run the game by executing the following command in the root directory of the project:
 
 ```bash
 ./run.sh
