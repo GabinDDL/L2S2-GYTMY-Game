@@ -133,7 +133,6 @@ public class ModelManager {
                 generateAltCmdsOfUser(user, word);
             }
         }
-        user.setUpToDate(true);
         YamlReader.write(user.yamlConfigPath(), user);
     }
 
@@ -581,13 +580,13 @@ public class ModelManager {
             futureCommand.thenAccept(recognizedCommand -> {
 
                 if (recognizedCommand == null || recognizedCommand.isEmpty()
-                || isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
+                        || isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
+                    new File(jsonOutputPath + "/" + fileName + ".json").delete();
                     return;
                 }
 
                 add(user, recordedWord, recognizedCommand);
 
-                user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
 
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
