@@ -43,6 +43,13 @@ public class PlayerSelectionPanel extends JPanel {
         }
     }
 
+    /**
+     * Changes the maximum number of players. This is used to allow game modes to
+     * have a different amount of players. For example the ClassicGameMode has 5
+     * players, but the Blackout mode has only 1 player.
+     * 
+     * @param numberOfPlayers the new number of players
+     */
     public void changeNumberOfPlayers(int numberOfPlayers) {
         removeAll();
 

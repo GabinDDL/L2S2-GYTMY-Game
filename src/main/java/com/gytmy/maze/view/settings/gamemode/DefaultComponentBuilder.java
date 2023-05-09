@@ -14,7 +14,8 @@ import com.gytmy.utils.input.UserInputFieldNumberInBounds;
 
 /**
  * This class is used to build default components for the GameModeHandlers. It
- * is used to avoid code duplication.
+ * is used to avoid code duplication and to ensure that all components have the
+ * same appearance.
  */
 public class DefaultComponentBuilder {
 
