@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadedQueue {
-    private static final int MAX_THREADS = 10;
+    private static final int MAX_THREADS = 15;
     private static final ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS, new ThreadFactory() {
         private final AtomicInteger threadCount = new AtomicInteger(0);
 
@@ -16,12 +16,18 @@ public class ThreadedQueue {
         }
     });
 
+    private static final Object lock = new Object();
+    private static int taskCount = 0;
+
     public static void initialize() {
-        
+
     }
 
     public static void executeTask(Runnable task) {
-        executor.execute(task);
+        synchronized (lock) {
+            executor.execute(task);
+            taskCount++;
+        }
     }
 
     public static void shutdown() {
@@ -33,5 +39,25 @@ public class ThreadedQueue {
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+    }
+
+    public static void shutdownWhenIdle() {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                synchronized (lock) {
+                    if (taskCount == 0) {
+                        shutdown();
+                        break;
+                    }
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "ThreadedQueue-ShutdownThread");
+        thread.setDaemon(true);
+        thread.start();
     }
 }
