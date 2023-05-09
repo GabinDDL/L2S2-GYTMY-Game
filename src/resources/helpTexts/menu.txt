@@ -7,7 +7,7 @@
      > record some (a lot of) words in the audio menu
      > generate the associated models
 
-   The more records there are, the more accurately the game will be able to recognize your voice.
+   The more recordings there are, the more accurately the game will be able to recognize your voice.
    
    Please, head to the "Character Creation" section in the Settings by clicking on the gear icon.
    Then click on the "Create Character" button and fill the form.
