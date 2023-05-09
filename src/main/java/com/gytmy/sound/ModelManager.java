@@ -130,7 +130,7 @@ public class ModelManager {
     private static void createAllParametersOfRecordedWord(User user) {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
-            //TODO: generateAltCmdsofUser(user, word)
+            generateAltCmdsofUser(user, word);
         }
         user.setUpToDate(true);
         YamlReader.write(user.yamlConfigPath(), user);
@@ -585,11 +585,12 @@ public class ModelManager {
 
                 add(user, recordedWord, recognizedCommand);
 
-                AudioFileManager.writeYamlConfig(user);
-
                 new File(jsonOutputPath + "/" + fileName + ".json").delete();
             });
         }
+
+        user.setUpToDate(true);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     private static boolean isRecognizedCommandAlreadyAdded(User user, String recognizedCommand) {
