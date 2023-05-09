@@ -598,7 +598,7 @@ public class ModelManager {
                 }
 
                 add(user, recordedWord, recognizedCommand);
-                
+
                 user.setUpToDate(true);
                 YamlReader.write(user.yamlConfigPath(), user);
 
@@ -625,6 +625,8 @@ public class ModelManager {
                 break;
             case "RIGHT":
                 user.addAltRight(recognizedCommand);
+                break;
+            default:
                 break;
         }
     }
