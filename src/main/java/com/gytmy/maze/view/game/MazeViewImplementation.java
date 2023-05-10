@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.gytmy.maze.controller.MazeController;
@@ -100,7 +101,19 @@ public class MazeViewImplementation extends MazeView {
     @Override
     public void update(Player player, Direction direction) {
         mazePanel.update(player, direction);
-        updatePlayerInfoPanel(player);
+        updatePlayerInfoPanel(controller.getCurrentPlayer());
+    }
+
+    private void updatePlayerInfoPanel(Player player) {
+        playerInfoPanel.removeAll();
+
+        JLabel name = new JLabel(player.getName(), SwingConstants.CENTER);
+        name.setForeground(Cell.PATH_COLOR);
+        playerInfoPanel.add(name);
+
+        JPanel colorPanel = new JPanel();
+        colorPanel.setBackground(player.getColor());
+        playerInfoPanel.add(colorPanel);
     }
 
     @Override
@@ -255,19 +268,6 @@ public class MazeViewImplementation extends MazeView {
         keyboardPanel.add(keyboardMovement, BorderLayout.EAST);
 
         topPanel.add(keyboardPanel, c);
-    }
-
-    private void updatePlayerInfoPanel(Player player) {
-        playerInfoPanel.removeAll();
-
-        JLabel name = new JLabel(player.getName());
-
-        playerInfoPanel.add(name);
-
-        JPanel colorPanel = new JPanel();
-        colorPanel.setBackground(player.getColor());
-        playerInfoPanel.add(colorPanel);
-
     }
 
     @Override

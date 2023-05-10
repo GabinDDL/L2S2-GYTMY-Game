@@ -93,6 +93,7 @@ public class MazeControllerImplementation implements MazeController {
 
     @Override
     public Player getCurrentPlayer() {
+        // TODO: Improve this
         Player player = playerOrder[currentPlayerIndex];
         while (!isPlayerAllowedToMove(player)) {
             currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
