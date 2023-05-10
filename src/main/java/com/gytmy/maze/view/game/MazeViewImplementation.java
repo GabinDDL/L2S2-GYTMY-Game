@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 
 import javax.swing.Icon;
@@ -26,8 +25,8 @@ import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.TimerPanel;
 import com.gytmy.maze.view.game.end_transition.Transition;
-import com.gytmy.utils.ImageManipulator;
 import com.gytmy.utils.HotkeyAdder;
+import com.gytmy.utils.ImageManipulator;
 
 public class MazeViewImplementation extends MazeView {
     protected MazeController controller;
@@ -44,7 +43,7 @@ public class MazeViewImplementation extends MazeView {
     protected JLabel audioRecordStatus;
     protected JPanel keyboardPanel;
     protected JLabel keyboardMovement;
-    protected JPanel playerInfoPanel; // TODO: Custom class for this
+    protected PlayerInfoPanel playerInfoPanel;
 
     protected static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
@@ -53,7 +52,6 @@ public class MazeViewImplementation extends MazeView {
     protected static final int ICON_WIDTH = 51;
     protected static final int ICON_HEIGHT = 33;
     protected static final Dimension ICON_DIMENSION = new Dimension(ICON_WIDTH, ICON_HEIGHT);
-    protected static final Dimension PLAYER_INFO_PANEL_DIMENSION = new Dimension(50, 50);
     protected static final Icon ENABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
             ENABLED_KEYBOARD_MOVEMENT, ICON_WIDTH, ICON_HEIGHT);
     protected static final Icon DISABLED_KEYBOARD_MOVEMENT_ICON = ImageManipulator.resizeImage(
@@ -126,7 +124,6 @@ public class MazeViewImplementation extends MazeView {
 
     @Override
     public void notifyGameOver() {
-
         this.gameOverPanel = new GameOverPanel(model);
         frame.setContentPane(new Transition(this, gameOverPanel, this::showGameOverPanel).getGlassPane());
     }
@@ -185,10 +182,7 @@ public class MazeViewImplementation extends MazeView {
         c.gridy = 2;
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
-        playerInfoPanel = new JPanel(new GridLayout(1, 2));
-        playerInfoPanel.setBackground(BACKGROUND_COLOR);
-        playerInfoPanel.setPreferredSize(PLAYER_INFO_PANEL_DIMENSION);
-        updatePlayerInfoPanel(controller.getCurrentPlayer());
+        playerInfoPanel = new PlayerInfoPanel(controller.getCurrentPlayer());
         add(playerInfoPanel, c);
     }
 
@@ -259,15 +253,7 @@ public class MazeViewImplementation extends MazeView {
 
     @Override
     public void updatePlayerInfoPanel(Player player) {
-        playerInfoPanel.removeAll();
-
-        JLabel name = new JLabel(player.getName(), SwingConstants.CENTER);
-        name.setForeground(Cell.PATH_COLOR);
-        playerInfoPanel.add(name);
-
-        JPanel colorPanel = new JPanel();
-        colorPanel.setBackground(player.getColor());
-        playerInfoPanel.add(colorPanel);
+        playerInfoPanel.update(player);
     }
 
     @Override
