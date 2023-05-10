@@ -305,15 +305,9 @@ public class MazeModelImplementation implements MazeModel {
         return isWall(coordinates.getX(), coordinates.getY());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gytmy.maze.MazeModel#isGameOver()
-     * 
-     * Here, the game is considered over when
-     * all the players have made it to the exit
-     * 
-     * May be modified to fit the definition of a game
+    /**
+     * Returns {@code true} if the game is over.
+     * We consider that the game is over when all players are at the exit cell.
      */
     @Override
     public boolean isGameOver() {

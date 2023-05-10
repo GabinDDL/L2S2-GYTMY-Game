@@ -89,7 +89,7 @@ public class VoiceMovementController implements RecordObserver {
             if (recognitionResult == null) {
                 updateStatus();
             }
-            // TODO to remove after tests
+            // TODO: to remove after tests
             // System.out.println(recognitionResult);
 
             User recognizedUser = AudioFileManager.getUser(recognitionResult.getName());
@@ -113,7 +113,7 @@ public class VoiceMovementController implements RecordObserver {
 
             recognizedCommand = whisper.mapCommand(recognizedUser, recognizedCommand);
 
-            // TODO to remove after tests
+            // TODO: to remove after tests
             // System.out.println("------------------------------------");
             // System.out.println("recognizedCommand: " + recognizedCommand);
             // System.out.println("recognizedUser: " + recognizedUser.getUserName());

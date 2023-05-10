@@ -10,7 +10,6 @@ public class TestPlayerImplementation {
 
     @Test
     public void testConstructor() {
-
         Player player = new PlayerImplementation(0, 0);
         assertTrue(player.getX() == 0 && player.getY() == 0);
     }

@@ -18,7 +18,6 @@ public class TestBoolean2DArraysOperations {
 
     private void assertCorrectExceptionMessage(Runnable runner) {
         TestingUtils.assertArgumentExceptionMessage(runner, "Array cannot be null");
-
     }
 
     @Test

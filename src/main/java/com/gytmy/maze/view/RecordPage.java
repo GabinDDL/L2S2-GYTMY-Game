@@ -134,9 +134,7 @@ public class RecordPage extends JPanel {
         constraints.gridy = 1;
         constraints.weightx = 0.75;
         constraints.weighty = 0.2;
-        recordButton.addActionListener(e -> {
-            recordOrStop();
-        });
+        recordButton.addActionListener(e -> recordOrStop());
         add(recordButton, constraints);
     }
 

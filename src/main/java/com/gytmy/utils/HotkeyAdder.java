@@ -12,6 +12,15 @@ public class HotkeyAdder {
     private HotkeyAdder() {
     }
 
+    /**
+     * Adds a hotkey to a component. You should give it an unique name that is not
+     * used anywhere ond the component, if not it will override the previous hotkey.
+     * 
+     * @param component
+     * @param key
+     * @param actionPerformed
+     * @param name
+     */
     public static void addHotkey(JComponent component, int key, Runnable actionPerformed, String name) {
         // Define the action to be performed when the shortcut is pressed
         Action action = new AbstractAction() {

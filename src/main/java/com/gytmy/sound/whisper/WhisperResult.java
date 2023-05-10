@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WhisperResult {
 
-
     @JsonProperty("text")
     private String text;
 
@@ -47,7 +46,6 @@ public class WhisperResult {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Segment {
-
 
         @JsonProperty("start")
         private double start;
