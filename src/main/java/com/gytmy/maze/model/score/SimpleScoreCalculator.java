@@ -116,24 +116,14 @@ public class SimpleScoreCalculator implements ScoreCalculator {
         int movements = info.getMovements();
         int timePassed = info.getTimePassed();
         int minMovements = info.getMinMovements();
-        System.out.println("--------------------");
-        System.out.println("Best time: " + bestTime);
-        System.out.println("Movements: " + movements);
-        System.out.println("Time passed: " + timePassed);
-        System.out.println("Min movements: " + minMovements);
 
         double scoreTimePenalty = computeTimePenalty(timePassed);
         double scoreMovementPenalty = computeMovementPenalty(movements, minMovements);
 
-        System.out.println("Time penalty: " + scoreTimePenalty);
-        System.out.println("Movement penalty: " + scoreMovementPenalty);
-
         double totalPenalty = (timePenalty * scoreTimePenalty + movementPenalty * scoreMovementPenalty)
                 / (timePenalty + movementPenalty);
 
-        System.out.println("Total penalty: " + totalPenalty);
         score -= totalPenalty * MAX_SCORE;
-        System.out.println("Score: " + score);
         return score;
     }
 
