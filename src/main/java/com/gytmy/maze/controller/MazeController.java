@@ -22,4 +22,6 @@ public interface MazeController {
 
     public void cleanObservers();
 
+    public Player getCurrentPlayer();
+
 }

@@ -76,15 +76,10 @@ public class MazeControllerImplementation implements MazeController {
 
     @Override
     public void movePlayer(Direction direction) {
-        Player player = playerOrder[currentPlayerIndex];
+        Player player = getCurrentPlayer();
 
         if (!isMovementAllowed()) {
             return;
-        }
-
-        while (!isPlayerAllowedToMove(player)) {
-            currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
-            player = playerOrder[currentPlayerIndex];
         }
 
         currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
@@ -94,6 +89,16 @@ public class MazeControllerImplementation implements MazeController {
         }
 
         handlePlayersAtExit(player);
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        Player player = playerOrder[currentPlayerIndex];
+        while (!isPlayerAllowedToMove(player)) {
+            currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
+            player = playerOrder[currentPlayerIndex];
+        }
+        return player;
     }
 
     private boolean isPlayerAllowedToMove(Player player) {
