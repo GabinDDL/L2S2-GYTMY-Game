@@ -45,4 +45,6 @@ public abstract class MazeView extends JPanel {
     public abstract MazeController getController();
 
     public abstract JComponent getRecordStatusPanel();
+
+    public abstract void updatePlayerInfoPanel(Player player);
 }

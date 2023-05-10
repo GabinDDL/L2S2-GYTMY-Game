@@ -29,6 +29,8 @@ public class TimerPanel extends JPanel implements ActionListener {
     public static final int DEFAULT_COUNTDOWN_TIME_SECONDS = 3;
     public static final int DEFAULT_STARTING_TIME_SECONDS = 0;
 
+    public static final Font FONT = new Font("Arial", Font.BOLD, 20);
+
     // Flag to know if the timer is counting or not, it is used to avoid
     // starting the timer twice or starting it before the countdown is over.
     private boolean isCounting = false;
@@ -58,8 +60,7 @@ public class TimerPanel extends JPanel implements ActionListener {
         setBackground(BACKGROUND_COLOR);
 
         timerLabel = new JLabel(getStringTime(countdownInSeconds));
-        Font font = new Font("Arial", Font.BOLD, 20);
-        timerLabel.setFont(font);
+        timerLabel.setFont(FONT);
         timerLabel.setForeground(COUNTDOWN_COLOR);
         add(timerLabel);
 
