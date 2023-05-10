@@ -197,6 +197,7 @@ public class SettingsMenu extends JPanel {
         RecognizeUserPage recognizeUserPage = RecognizeUserPage.getInstance();
 
         recognizeUserPage.recognizeUser(user);
+        // TODO: Set contentPane to recognizeUserPage
     }
 
     private void promptUserToCreateModelOfAllUsers() {
