@@ -77,16 +77,27 @@ public class MazeControllerImplementation implements MazeController {
     @Override
     public void movePlayer(Direction direction) {
         Player player = playerOrder[currentPlayerIndex];
-        currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
 
-        if (!isMovementAllowed() || !canPlayerMove(player)) {
+        if (!isMovementAllowed()) {
             return;
         }
+
+        while (!isPlayerAllowedToMove(player)) {
+            currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
+            player = playerOrder[currentPlayerIndex];
+        }
+
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
+
         if (model.movePlayer(player, direction)) {
             view.update(player, direction);
         }
 
         handlePlayersAtExit(player);
+    }
+
+    private boolean isPlayerAllowedToMove(Player player) {
+        return !model.isPlayerAtExit(player);
     }
 
     private boolean isMovementAllowed() {
@@ -97,10 +108,6 @@ public class MazeControllerImplementation implements MazeController {
         return hasCountdownEnded;
     }
 
-    private boolean canPlayerMove(Player player) {
-        return !model.isPlayerAtExit(player);
-    }
-
     /**
      * Takes care of the players that have reached the exit cell. If the player has
      * reached the exit cell, the player's time is saved. If all players have
@@ -109,7 +116,7 @@ public class MazeControllerImplementation implements MazeController {
      * @param player
      */
     private void handlePlayersAtExit(Player player) {
-        if (!canPlayerMove(player)) {
+        if (!isPlayerAllowedToMove(player)) {
             player.setTimePassedInSeconds(view.getTimerCounterInSeconds());
         }
 
