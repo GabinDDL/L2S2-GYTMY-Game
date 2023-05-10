@@ -37,7 +37,7 @@ public class ScoreCalculatorFactory {
      */
     public static ScoreCalculator getScoreCalculator(ScoreInfo info) {
         if (info instanceof SimpleScoreInfo) {
-            return getScoreCalculator(ScoreType.SIMPLE_KEYBOARD, info);
+            return getScoreCalculator(ScoreType.SIMPLE_VOICE, info);
         }
         throw new IllegalArgumentException("Unknown score info type");
     }

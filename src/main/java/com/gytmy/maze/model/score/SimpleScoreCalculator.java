@@ -74,9 +74,19 @@ public class SimpleScoreCalculator implements ScoreCalculator {
             throw new IllegalArgumentException("Info must not be null");
         }
         this.info = info;
-        int minMovement = info.getMinMovements();
-        this.bestTime = computeBestTime(minMovement);
         getParameters(parameters);
+        int minMovements = info.getMinMovements();
+        this.bestTime = computeBestTime(minMovements);
+    }
+
+    private void getParameters(SimpleScoreCalculatorParameters parameters) {
+        this.movementsFactor = parameters.getMovementsFactor();
+        this.timeFactor = parameters.getTimeFactor();
+        this.movementPenalty = parameters.getMovementPenalty();
+        this.timePenalty = parameters.getTimePenalty();
+        this.firstChangingPoint = parameters.getFirstChangingPoint();
+        this.idealMovementTimeUpper = parameters.getIdealMovementTimeUpper();
+        this.idealMovementTimeLower = parameters.getIdealMovementTimeLower();
     }
 
     /**
@@ -100,30 +110,30 @@ public class SimpleScoreCalculator implements ScoreCalculator {
         }
     }
 
-    private void getParameters(SimpleScoreCalculatorParameters parameters) {
-        this.movementsFactor = parameters.getMovementsFactor();
-        this.timeFactor = parameters.getTimeFactor();
-        this.movementPenalty = parameters.getMovementPenalty();
-        this.timePenalty = parameters.getTimePenalty();
-        this.firstChangingPoint = parameters.getFirstChangingPoint();
-        this.idealMovementTimeUpper = parameters.getIdealMovementTimeUpper();
-        this.idealMovementTimeLower = parameters.getIdealMovementTimeLower();
-    }
-
     @Override
     public int getScore() {
         int score = MAX_SCORE;
         int movements = info.getMovements();
         int timePassed = info.getTimePassed();
         int minMovements = info.getMinMovements();
+        System.out.println("--------------------");
+        System.out.println("Best time: " + bestTime);
+        System.out.println("Movements: " + movements);
+        System.out.println("Time passed: " + timePassed);
+        System.out.println("Min movements: " + minMovements);
 
         double scoreTimePenalty = computeTimePenalty(timePassed);
         double scoreMovementPenalty = computeMovementPenalty(movements, minMovements);
 
+        System.out.println("Time penalty: " + scoreTimePenalty);
+        System.out.println("Movement penalty: " + scoreMovementPenalty);
+
         double totalPenalty = (timePenalty * scoreTimePenalty + movementPenalty * scoreMovementPenalty)
                 / (timePenalty + movementPenalty);
 
+        System.out.println("Total penalty: " + totalPenalty);
         score -= totalPenalty * MAX_SCORE;
+        System.out.println("Score: " + score);
         return score;
     }
 
@@ -151,7 +161,7 @@ public class SimpleScoreCalculator implements ScoreCalculator {
     @Override
     public void updateInfo(ScoreInfo info) {
         if (!(info instanceof SimpleScoreInfo)) {
-            throw new IllegalArgumentException("Info must be of type SimpleKeyboardScoreInfo");
+            throw new IllegalArgumentException("Info must be of type SimpleScoreInfo");
         }
         this.info = (SimpleScoreInfo) info;
     }
