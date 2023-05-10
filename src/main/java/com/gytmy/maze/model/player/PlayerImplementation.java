@@ -17,29 +17,26 @@ public class PlayerImplementation implements Player {
     public PlayerImplementation(Coordinates coordinates) {
         this(coordinates.copy(),
                 Player.UNNAMED_PLAYER,
-                Player.UNINITIALIZED_COLOR,
-                false);
+                Player.UNINITIALIZED_COLOR);
     }
 
     public PlayerImplementation(int x, int y) {
         this(new Coordinates(x, y),
                 Player.UNNAMED_PLAYER,
-                Player.UNINITIALIZED_COLOR,
-                false);
+                Player.UNINITIALIZED_COLOR);
     }
 
     public PlayerImplementation() {
         this(Coordinates.UNINITIALIZED_COORDINATES,
                 Player.UNNAMED_PLAYER,
-                Player.UNINITIALIZED_COLOR,
-                false);
+                Player.UNINITIALIZED_COLOR);
     }
 
     public PlayerImplementation(String name, Color color) {
-        this(Coordinates.UNINITIALIZED_COORDINATES, name, color, true);
+        this(Coordinates.UNINITIALIZED_COORDINATES, name, color);
     }
 
-    public PlayerImplementation(Coordinates coordinates, String name, Color color, boolean ready) {
+    public PlayerImplementation(Coordinates coordinates, String name, Color color) {
         this.coordinates = coordinates;
         this.name = name;
         this.color = color;

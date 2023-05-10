@@ -196,7 +196,7 @@ public class MazeViewImplementation extends MazeView {
 
         initTimerPanel();
 
-        keyboardPanel();
+        initKeyboardPanel();
     }
 
     private void initAudioRecordPanel() {
@@ -232,7 +232,7 @@ public class MazeViewImplementation extends MazeView {
         topPanel.add(timerPanel, c);
     }
 
-    private void keyboardPanel() {
+    private void initKeyboardPanel() {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 2;
         c.gridy = 0;

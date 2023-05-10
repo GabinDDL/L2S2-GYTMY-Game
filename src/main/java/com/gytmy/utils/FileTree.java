@@ -9,7 +9,6 @@ import javax.swing.tree.TreeCellRenderer;
 import com.gytmy.maze.view.game.Cell;
 
 /**
- * 
  * The FileTree class is a subclass of JTree, used to display a file system as a
  * tree structure.
  * It extends JTree and implements TreeCellRenderer to customize the appearance

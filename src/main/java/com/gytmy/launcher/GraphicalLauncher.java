@@ -19,9 +19,9 @@ public class GraphicalLauncher implements Runnable {
         MenuFrameHandler.setMainFrame(frame);
 
         MenuFrameHandler.goToStartMenu();
-        // We need to init the menus after the frame is set, if not, the menus will be
-        // not be initialized properly. In particular, the frame size would be either
-        // null our (0,0).
+        // We need to init the menus after the frame is set, if not, the menus will not
+        // be initialized properly. In particular, the frame size would be either null
+        // or (0,0).
         MenuFrameHandler.initMenus();
 
         try {
