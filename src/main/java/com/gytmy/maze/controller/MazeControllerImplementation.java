@@ -1,5 +1,9 @@
 package com.gytmy.maze.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.JFrame;
 
 import com.gytmy.maze.model.Direction;
@@ -21,7 +25,7 @@ public class MazeControllerImplementation implements MazeController {
     private MazeView view;
     private boolean hasCountdownEnded = false;
 
-    private Player[] playerOrder;
+    private List<Player> playerOrder;
     private int currentPlayerIndex = 0;
 
     private KeyboardMovementController keyboardMovementController;
@@ -37,7 +41,7 @@ public class MazeControllerImplementation implements MazeController {
     private void initGame(JFrame frame) {
         initScoreType();
         model = MazeModelFactory.createMaze(gameData);
-        playerOrder = model.getPlayers();
+        playerOrder = new ArrayList<>(Arrays.asList(model.getPlayers()));
         initPlayersInitialCell();
         view = MazeViewFactory.createMazeView(gameData, model, frame, this);
     }
@@ -48,7 +52,7 @@ public class MazeControllerImplementation implements MazeController {
 
     private void initPlayersInitialCell() {
         Coordinates initialCell = model.getInitialCell();
-        Player.initAllPlayersCoordinates(initialCell, playerOrder);
+        Player.initAllPlayersCoordinates(initialCell, model.getPlayers());
     }
 
     private void initializeMovementControllers() {
@@ -58,7 +62,6 @@ public class MazeControllerImplementation implements MazeController {
 
     @Override
     public void updateStatus() {
-
         view.updateRecordStatus(
                 GameplayStatus.getStatusAccordingToGameplay(hasCountdownEnded, voiceMovementController.isRecording(),
                         voiceMovementController.isRecognizing()));
@@ -76,6 +79,10 @@ public class MazeControllerImplementation implements MazeController {
 
     @Override
     public void movePlayer(Direction direction) {
+        if (playerOrder.isEmpty()) {
+            return;
+        }
+
         Player player = getCurrentPlayer();
 
         if (!isMovementAllowed()) {
@@ -83,25 +90,24 @@ public class MazeControllerImplementation implements MazeController {
         }
 
         // Update player on view
-        currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
-        view.updatePlayerInfoPanel(getCurrentPlayer());
 
         if (model.movePlayer(player, direction)) {
             view.update(player, direction);
         }
 
-        handlePlayersAtExit(player);
+        handlePlayerAtExit(player);
+
+        if (playerOrder.isEmpty()) {
+            return;
+        }
+
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.size();
+        view.updatePlayerInfoPanel(getCurrentPlayer());
     }
 
     @Override
     public Player getCurrentPlayer() {
-        // TODO: Improve this
-        Player player = playerOrder[currentPlayerIndex];
-        while (!isPlayerAllowedToMove(player)) {
-            currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
-            player = playerOrder[currentPlayerIndex];
-        }
-        return player;
+        return playerOrder.get(currentPlayerIndex);
     }
 
     private boolean isPlayerAllowedToMove(Player player) {
@@ -123,9 +129,11 @@ public class MazeControllerImplementation implements MazeController {
      * 
      * @param player
      */
-    private void handlePlayersAtExit(Player player) {
+    private void handlePlayerAtExit(Player player) {
         if (!isPlayerAllowedToMove(player)) {
             player.setTimePassedInSeconds(view.getTimerCounterInSeconds());
+
+            playerOrder.remove(currentPlayerIndex);
         }
 
         if (model.isGameOver()) {
