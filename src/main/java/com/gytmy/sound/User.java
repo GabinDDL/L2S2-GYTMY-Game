@@ -243,11 +243,7 @@ public class User {
         return user.getFirstName().equals(this.getFirstName())
                 && user.getLastName().equals(this.getLastName())
                 && user.getStudentNumber() == this.getStudentNumber()
-                && user.getUserName().equals(this.getUserName())
-                && user.getUp().equals(this.getUp())
-                && user.getDown().equals(this.getDown())
-                && user.getLeft().equals(this.getLeft())
-                && user.getRight().equals(this.getRight());
+                && user.getUserName().equals(this.getUserName());
     }
 
     @Override
