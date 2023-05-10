@@ -149,7 +149,7 @@ public class VoiceMovementController implements RecordObserver {
                 Direction direction = Direction.stringToDirection(directionName);
 
                 if (direction != null) {
-                    controller.movePlayer(player, direction);
+                    controller.movePlayer(direction);
                 }
                 return;
             }

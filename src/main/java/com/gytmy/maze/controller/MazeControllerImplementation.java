@@ -21,6 +21,9 @@ public class MazeControllerImplementation implements MazeController {
     private MazeView view;
     private boolean hasCountdownEnded = false;
 
+    private Player[] playerOrder;
+    private int currentPlayerIndex = 0;
+
     private KeyboardMovementController keyboardMovementController;
     private VoiceMovementController voiceMovementController;
 
@@ -34,7 +37,8 @@ public class MazeControllerImplementation implements MazeController {
     private void initGame(JFrame frame) {
         initScoreType();
         model = MazeModelFactory.createMaze(gameData);
-        initPlayersInitialCell(model.getPlayers());
+        playerOrder = model.getPlayers();
+        initPlayersInitialCell();
         view = MazeViewFactory.createMazeView(gameData, model, frame, this);
     }
 
@@ -42,9 +46,9 @@ public class MazeControllerImplementation implements MazeController {
         gameData.setScoreType(ScoreType.SIMPLE_VOICE);
     }
 
-    private void initPlayersInitialCell(Player[] players) {
+    private void initPlayersInitialCell() {
         Coordinates initialCell = model.getInitialCell();
-        Player.initAllPlayersCoordinates(initialCell, players);
+        Player.initAllPlayersCoordinates(initialCell, playerOrder);
     }
 
     private void initializeMovementControllers() {
@@ -71,7 +75,10 @@ public class MazeControllerImplementation implements MazeController {
     }
 
     @Override
-    public void movePlayer(Player player, Direction direction) {
+    public void movePlayer(Direction direction) {
+        Player player = playerOrder[currentPlayerIndex];
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
+
         if (!isMovementAllowed() || !canPlayerMove(player)) {
             return;
         }
