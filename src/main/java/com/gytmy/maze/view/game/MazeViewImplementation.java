@@ -44,7 +44,7 @@ public class MazeViewImplementation extends MazeView {
     protected JLabel audioRecordStatus;
     protected JPanel keyboardPanel;
     protected JLabel keyboardMovement;
-    protected JPanel playerInfoPanel;
+    protected JPanel playerInfoPanel; // TODO: Custom class for this
 
     protected static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
@@ -101,19 +101,6 @@ public class MazeViewImplementation extends MazeView {
     @Override
     public void update(Player player, Direction direction) {
         mazePanel.update(player, direction);
-        updatePlayerInfoPanel(controller.getCurrentPlayer());
-    }
-
-    private void updatePlayerInfoPanel(Player player) {
-        playerInfoPanel.removeAll();
-
-        JLabel name = new JLabel(player.getName(), SwingConstants.CENTER);
-        name.setForeground(Cell.PATH_COLOR);
-        playerInfoPanel.add(name);
-
-        JPanel colorPanel = new JPanel();
-        colorPanel.setBackground(player.getColor());
-        playerInfoPanel.add(colorPanel);
     }
 
     @Override
@@ -268,6 +255,19 @@ public class MazeViewImplementation extends MazeView {
         keyboardPanel.add(keyboardMovement, BorderLayout.EAST);
 
         topPanel.add(keyboardPanel, c);
+    }
+
+    @Override
+    public void updatePlayerInfoPanel(Player player) {
+        playerInfoPanel.removeAll();
+
+        JLabel name = new JLabel(player.getName(), SwingConstants.CENTER);
+        name.setForeground(Cell.PATH_COLOR);
+        playerInfoPanel.add(name);
+
+        JPanel colorPanel = new JPanel();
+        colorPanel.setBackground(player.getColor());
+        playerInfoPanel.add(colorPanel);
     }
 
     @Override

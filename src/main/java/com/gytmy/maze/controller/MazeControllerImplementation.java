@@ -82,7 +82,9 @@ public class MazeControllerImplementation implements MazeController {
             return;
         }
 
+        // Update player on view
         currentPlayerIndex = (currentPlayerIndex + 1) % playerOrder.length;
+        view.updatePlayerInfoPanel(getCurrentPlayer());
 
         if (model.movePlayer(player, direction)) {
             view.update(player, direction);
