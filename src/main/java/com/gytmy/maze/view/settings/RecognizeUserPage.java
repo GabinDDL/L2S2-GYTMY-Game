@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.gytmy.maze.view.game.Cell;
+import com.gytmy.sound.User;
 
 public class RecognizeUserPage extends JPanel {
 
@@ -30,7 +31,24 @@ public class RecognizeUserPage extends JPanel {
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
 
+        initPlayerPanel();
+        initRecordStatus();
+
         updateGUI();
+    }
+
+    private void initPlayerPanel() {
+        // TODO: Add colored square {Size : 2x2}
+        // TODO: Add in the center of square playerName label
+    }
+
+    private void initRecordStatus() {
+        // TODO: Same principle as in-game mic indicator
+    }
+
+    public void recognizeUser(User user) {
+        // TODO: Set playerPanel color to user color
+        // TODO: Set playerName to user name
     }
 
     private void updateGUI() {

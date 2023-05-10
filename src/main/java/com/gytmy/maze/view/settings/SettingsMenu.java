@@ -196,7 +196,7 @@ public class SettingsMenu extends JPanel {
     private void recognize(User user) {
         RecognizeUserPage recognizeUserPage = RecognizeUserPage.getInstance();
 
-        // recognizeUserPage.recognizeUser(user);
+        recognizeUserPage.recognizeUser(user);
     }
 
     private void promptUserToCreateModelOfAllUsers() {
