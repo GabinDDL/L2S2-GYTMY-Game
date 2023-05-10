@@ -143,6 +143,14 @@ public class AudioFileManager {
         }
     }
 
+    public static User getUser(String name) {
+        try {
+            return YamlReader.read(SRC_DIR_PATH + name + "/config.yaml");
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     /**
      * Delete the user directory and all the files in it.
      */

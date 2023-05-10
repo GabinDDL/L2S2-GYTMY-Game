@@ -95,7 +95,7 @@ public class StartMenu extends JPanel {
     }
 
     private void showHelp() {
-        HelpWindow.showHelp(menu, HELP_TEXT_FILE);
+        HelpWindow.showHelp(menu, HELP_TEXT_FILE, true);
     }
 
     private boolean isOnAClickableArea(int x, int y) {

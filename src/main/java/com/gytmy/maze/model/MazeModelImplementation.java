@@ -9,7 +9,7 @@ import com.gytmy.maze.model.score.ScoreCalculator;
 import com.gytmy.maze.model.score.ScoreCalculatorFactory;
 import com.gytmy.maze.model.score.ScoreInfo;
 import com.gytmy.maze.model.score.ScoreType;
-import com.gytmy.maze.model.score.SimpleKeyboardScoreInfo;
+import com.gytmy.maze.model.score.SimpleScoreInfo;
 import com.gytmy.utils.Boolean2DArraysOperations;
 import com.gytmy.utils.CellFinder;
 import com.gytmy.utils.Coordinates;
@@ -305,15 +305,9 @@ public class MazeModelImplementation implements MazeModel {
         return isWall(coordinates.getX(), coordinates.getY());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gytmy.maze.MazeModel#isGameOver()
-     * 
-     * Here, the game is considered over when
-     * all the players have made it to the exit
-     * 
-     * May be modified to fit the definition of a game
+    /**
+     * Returns {@code true} if the game is over.
+     * We consider that the game is over when all players are at the exit cell.
      */
     @Override
     public boolean isGameOver() {
@@ -356,7 +350,10 @@ public class MazeModelImplementation implements MazeModel {
 
         switch (type) {
             case SIMPLE_KEYBOARD:
-                info = new SimpleKeyboardScoreInfo(this, player);
+                info = new SimpleScoreInfo(this, player);
+                break;
+            case SIMPLE_VOICE:
+                info = new SimpleScoreInfo(this, player);
                 break;
             default:
                 throw new IllegalArgumentException("Score type " + type + " is not supported");

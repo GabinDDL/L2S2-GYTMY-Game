@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import com.gytmy.sound.whisper.Whisper;
+import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.FileInformationFinder;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 import com.gytmy.utils.WordsToRecord;
 
 public class ModelManager {
@@ -25,11 +29,32 @@ public class ModelManager {
     public static final String PRM_PATH = EXE_PATH + "prm/";
     public static final String LBL_PATH = EXE_PATH + "lbl/";
     public static final String GMM_PATH = EXE_PATH + "gmm/";
-    public static final String LST_WORLD_PATH = EXE_PATH + "lst/Liste.lst";
+    public static final String LST_WORLD_PATH = EXE_PATH + "lst/";
+    public static final String LIST_LST_WORLD_PATH = LST_WORLD_PATH + "Liste.lst";
     public static final String LST_PATH = "/lst/";
     public static final String NDX_PATH = "/ndx/";
     public static final String LIST_NDX_PATH = NDX_PATH + "ListNDX.ndx";
     public static final String LIST_LST_PATH = LST_PATH + "ListLST.lst";
+
+    public static final Whisper whisper = new Whisper(Model.TINY_EN);
+
+    /**
+     * If the folders of model do not exist,
+     * create their and its arborescence
+     */
+    protected static void generateModelDirectoryStructure() {
+        createDirectory(PRM_PATH);
+        createDirectory(LBL_PATH);
+        createDirectory(LST_WORLD_PATH);
+        createDirectory(GMM_PATH);
+    }
+
+    protected static void createDirectory(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+    }
 
     /**
      * @param user
@@ -45,7 +70,7 @@ public class ModelManager {
      * 
      *         and these are created in the user's directory in AudioFiles.
      */
-    public static boolean tryToCreateModelDirectoriesOfWord(User user, String word) {
+    protected static boolean tryToCreateModelDirectoriesOfWord(User user, String word) {
         File userModelDirectory = new File(user.modelPath());
         if (!userModelDirectory.exists()) {
             userModelDirectory.mkdir();
@@ -62,25 +87,34 @@ public class ModelManager {
     }
 
     /**
-     * Create all models for all users if one of the given users is not UpToDate.
-     * Otherwise, do nothing.
+     * Create all models for all users.
+     * Those models are necessary for the voice controlled movements.
      * 
      * @param firstNameOfUsers
      */
-    public static void tryToCreateModels(String[] firstNameOfUsers) {
-        if (firstNameOfUsers == null) {
-            return;
-        }
-        for (String firstName : firstNameOfUsers) {
-            User user = YamlReader.read(AUDIO_FILES_PATH + firstName + "/config.yaml");
-            if (!user.getUpToDate()) {
-                List<User> users = AudioFileManager.getUsers();
+    public static void recreateModelOfAllUsers(Runnable run) {
+        generateModelDirectoryStructure();
+        List<User> users = AudioFileManager.getUsers();
+
+        new Thread(() -> {
+            try {
                 createModelOfWorld(users);
-                createModelOfAllUsers(users);
+                createModelOfUsers(users);
                 resetParameter();
-                return;
+            } catch (Exception e) {
+                resetParameter();
             }
-        }
+
+            while (ThreadedQueue.isThereATaskRunning()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            run.run();
+        }).start();
     }
 
     /**
@@ -88,7 +122,7 @@ public class ModelManager {
      * 
      * @param users
      */
-    public static void createModelOfWorld(List<User> users) {
+    private static void createModelOfWorld(List<User> users) {
         for (User user : users) {
             createAllParametersOfRecordedWord(user);
         }
@@ -102,12 +136,13 @@ public class ModelManager {
      * 
      * @param user
      */
-    public static void createAllParametersOfRecordedWord(User user) {
+    private static void createAllParametersOfRecordedWord(User user) {
         for (String word : WordsToRecord.getWordsToRecord()) {
             createParametersOfRecordedWord(user, word);
+            if (!word.equals("OTHER")) {
+                generateAltCmdsOfUser(user, word);
+            }
         }
-        user.setUpToDate(true);
-        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     /**
@@ -117,7 +152,8 @@ public class ModelManager {
      * @param user
      * @param recordedWord
      */
-    public static void createParametersOfRecordedWord(User user, String recordedWord) {
+    private static void createParametersOfRecordedWord(User user, String recordedWord) {
+        tryToCreateModelDirectoriesOfWord(user, recordedWord);
         if (!doesUserHaveDataOfWord(user, recordedWord) || !tryToInitParameterization(user, recordedWord)) {
             return;
         }
@@ -129,6 +165,9 @@ public class ModelManager {
         parametrize(listPathOfUser, audioPathOfUser, user.getFirstName(), recordedWord);
         energyDetector(listPathOfUser, user.getFirstName(), recordedWord);
         normFeat(listPathOfUser, user.getFirstName(), recordedWord);
+
+        user.setUpToDate(true);
+        YamlReader.write(user.yamlConfigPath(), user);
     }
 
     /**
@@ -183,6 +222,7 @@ public class ModelManager {
      * @return false if there is an error with the initialisation.
      */
     public static boolean tryToInitLstFilesOfUserWord(User user, String recordedWord) {
+        createDirectory(user.modelPath() + recordedWord + LST_PATH);
         if (!WordsToRecord.exists(recordedWord)) {
             return false;
         }
@@ -208,6 +248,7 @@ public class ModelManager {
      * @return false if there is an error with the initialisation.
      */
     public static boolean tryToInitNdxFilesOfUserWord(User user, String recordedWord) {
+        createDirectory(user.modelPath() + recordedWord + NDX_PATH);
         if (!WordsToRecord.exists(recordedWord)) {
             return false;
         }
@@ -235,7 +276,7 @@ public class ModelManager {
      * @return false if there is a problem while handling the user's word file.
      * 
      */
-    public static boolean tryToResetLstFilesOfUserWord(User user, String recordedWord) {
+    private static boolean tryToResetLstFilesOfUserWord(User user, String recordedWord) {
         return tryToResetLstFile(user.modelPath() + recordedWord + LIST_LST_PATH);
     }
 
@@ -247,7 +288,7 @@ public class ModelManager {
      * @param lstPath
      * @return false if there is a problem while handling the file.
      */
-    public static boolean tryToResetLstFile(String lstPath) {
+    private static boolean tryToResetLstFile(String lstPath) {
         try (FileWriter writer = new FileWriter(lstPath, false);) {
             writer.append("");
             return true;
@@ -266,7 +307,7 @@ public class ModelManager {
      * @return false if there is a problem while handling the user's word file.
      * 
      */
-    public static boolean tryToResetNdxFilesOfUserWord(User user, String recordedWord) {
+    private static boolean tryToResetNdxFilesOfUserWord(User user, String recordedWord) {
         return tryToResetNdxFile(user.modelPath() + recordedWord + LIST_NDX_PATH,
                 user.getFirstName() + "_" + recordedWord);
     }
@@ -279,7 +320,7 @@ public class ModelManager {
      * @param startWord
      * @return false if there is a problem while handling the file
      */
-    public static boolean tryToResetNdxFile(String path, String startWord) {
+    protected static boolean tryToResetNdxFile(String path, String startWord) {
         try (FileWriter writer = new FileWriter(path, false);) {
             writer.append(startWord);
             return true;
@@ -299,12 +340,13 @@ public class ModelManager {
      * @param recordedWord
      * @return false if there is a problem with the file of the user's word.
      */
-    public static boolean tryToUpdateNdxAndLstFileOfUserWord(User user, String recordedWord) {
+    private static boolean tryToUpdateNdxAndLstFileOfUserWord(User user, String recordedWord) {
         File dataDirectory = new File(user.audioPath() + recordedWord + "/");
         if (!dataDirectory.exists()) {
             return false;
         }
         List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+
         return tryToAddAudiosToNdxFilesOfUserWord(user, recordedWord, list)
                 && tryToAddAudiosToLstFilesOfUserWord(user, recordedWord, list);
     }
@@ -331,7 +373,7 @@ public class ModelManager {
      * @param audioList    List of audio files
      * @return false if there is a problem with the file of the user's word
      */
-    public static boolean tryToAddAudiosToLstFilesOfUserWord(User user, String recordedWord, List<File> audioList) {
+    private static boolean tryToAddAudiosToLstFilesOfUserWord(User user, String recordedWord, List<File> audioList) {
         return tryToAddListToLstFile(audioList, user.modelPath() + recordedWord + LIST_LST_PATH);
     }
 
@@ -342,7 +384,7 @@ public class ModelManager {
      * @param lstPath
      * @return false if there is a problem with the file
      */
-    public static boolean tryToAddListToLstFile(List<File> list, String lstPath) {
+    private static boolean tryToAddListToLstFile(List<File> list, String lstPath) {
         try (FileWriter writer = new FileWriter(lstPath, true);) {
             for (File file : list) {
                 writer.append(getFileBasename(file) + "\n");
@@ -363,7 +405,7 @@ public class ModelManager {
      * @param audioList    List of audio files
      * @return false if there is a problem with the file of the user's word
      */
-    public static boolean tryToAddAudiosToNdxFilesOfUserWord(User user, String recordedWord,
+    private static boolean tryToAddAudiosToNdxFilesOfUserWord(User user, String recordedWord,
             List<File> audioList) {
         return tryToAddListToNdxFile(audioList, user.modelPath() + recordedWord + LIST_NDX_PATH);
     }
@@ -375,7 +417,7 @@ public class ModelManager {
      * @param ndxPath
      * @return false if there is a problem with the file
      */
-    public static boolean tryToAddListToNdxFile(List<File> list, String ndxPath) {
+    protected static boolean tryToAddListToNdxFile(List<File> list, String ndxPath) {
         try (FileWriter writer = new FileWriter(ndxPath, true);) {
             for (File file : list) {
                 writer.append(" " + getFileBasename(file));
@@ -454,7 +496,7 @@ public class ModelManager {
      * @return false if there is a problem while handling the lst file
      */
     private static boolean tryToResetWorldLstFile() {
-        return tryToResetLstFile(LST_WORLD_PATH);
+        return tryToResetLstFile(LIST_LST_WORLD_PATH);
     }
 
     /**
@@ -466,6 +508,7 @@ public class ModelManager {
      * @return false if there is a problem with the file of the user's word
      */
     private static boolean tryToUpdateWorldLstFile() {
+        createDirectory(LST_WORLD_PATH);
         File dataDirectory = new File(PRM_PATH + "/");
         if (!dataDirectory.exists()) {
             return false;
@@ -493,8 +536,8 @@ public class ModelManager {
      * @param normPRMList List of normPRM files
      * @return false if there is a problem with the file of the user's word.
      */
-    public static boolean tryToAddWorldLstFile(List<File> normPRMList) {
-        return tryToAddListToLstFile(normPRMList, LST_WORLD_PATH);
+    private static boolean tryToAddWorldLstFile(List<File> normPRMList) {
+        return tryToAddListToLstFile(normPRMList, LIST_LST_WORLD_PATH);
     }
 
     private static void trainWorld() {
@@ -508,13 +551,14 @@ public class ModelManager {
      * 
      * @param users
      */
-    public static void createModelOfAllUsers(List<User> users) {
-        for (User u : users) {
+    private static void createModelOfUsers(List<User> users) {
+        for (User user : users) {
             for (String recordedWord : WordsToRecord.getWordsToRecord()) {
-                if (!doesUserHaveDataOfWord(u, recordedWord)) {
+                if (!doesUserHaveDataOfWord(user, recordedWord) ||
+                        !doesAudioFilesHaveAGoodLength(user, recordedWord)) {
                     continue;
                 }
-                trainTarget(u.modelPath() + recordedWord + LIST_NDX_PATH, u.getFirstName(), recordedWord);
+                trainTarget(user.modelPath() + recordedWord + LIST_NDX_PATH, user.getFirstName(), recordedWord);
             }
         }
     }
@@ -528,6 +572,63 @@ public class ModelManager {
         String[] argsNormFeat = { listPath };
         int exitValue = RunSH.run(TRAIN_TARGET_SH_PATH, argsNormFeat);
         handleErrorProgram("trainTarget", exitValue, name, word);
+    }
+
+    private static void generateAltCmdsOfUser(User user, String recordedWord) {
+        File dataDirectory = new File(user.audioPath() + recordedWord + "/");
+        if (!dataDirectory.exists()) {
+            return;
+        }
+        List<File> list = AudioFileManager.getFilesVerifyingPredicate(dataDirectory, ModelManager::isAudioFile);
+
+        for (File file : list) {
+
+            String jsonOutputPath = file.getPath().substring(0, file.getPath().lastIndexOf("/"));
+            String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
+            String audioGamePath = file.getPath();
+
+            CompletableFuture<String> futureCommand = whisper.ask(audioGamePath, fileName, jsonOutputPath);
+
+            futureCommand.thenAccept(recognizedCommand -> {
+
+                if (recognizedCommand == null || recognizedCommand.isEmpty()
+                        || isRecognizedCommandAlreadyAdded(user, recognizedCommand)) {
+                    new File(jsonOutputPath + "/" + fileName + ".json").delete();
+                    return;
+                }
+
+                add(user, recordedWord, recognizedCommand);
+
+                user.setUpToDate(true);
+                YamlReader.write(user.yamlConfigPath(), user);
+
+                new File(jsonOutputPath + "/" + fileName + ".json").delete();
+            });
+        }
+    }
+
+    private static boolean isRecognizedCommandAlreadyAdded(User user, String recognizedCommand) {
+        return user.getUp().contains(recognizedCommand) || user.getDown().contains(recognizedCommand)
+                || user.getLeft().contains(recognizedCommand) || user.getRight().contains(recognizedCommand);
+    }
+
+    private static void add(User user, String recordedWord, String recognizedCommand) {
+        switch (recordedWord) {
+            case "UP":
+                user.addAltUp(recognizedCommand);
+                break;
+            case "DOWN":
+                user.addAltDown(recognizedCommand);
+                break;
+            case "LEFT":
+                user.addAltLeft(recognizedCommand);
+                break;
+            case "RIGHT":
+                user.addAltRight(recognizedCommand);
+                break;
+            default:
+                break;
+        }
     }
 
     protected static void resetParameter() {

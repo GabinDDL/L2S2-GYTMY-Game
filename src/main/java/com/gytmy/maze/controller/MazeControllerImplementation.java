@@ -1,9 +1,5 @@
 package com.gytmy.maze.controller;
 
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.util.concurrent.CompletableFuture;
-
 import javax.swing.JFrame;
 
 import com.gytmy.maze.model.Direction;
@@ -13,43 +9,29 @@ import com.gytmy.maze.model.MazeModelFactory;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.model.score.ScoreCalculator;
 import com.gytmy.maze.model.score.ScoreType;
+import com.gytmy.maze.view.game.GameplayStatus;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.game.MazeViewFactory;
-import com.gytmy.sound.AudioRecorder;
-import com.gytmy.sound.RecordObserver;
-import com.gytmy.sound.whisper.Whisper;
-import com.gytmy.sound.whisper.Whisper.Model;
 import com.gytmy.utils.Coordinates;
-import com.gytmy.utils.HotkeyAdder;
 
-public class MazeControllerImplementation implements MazeController, RecordObserver {
+public class MazeControllerImplementation implements MazeController {
 
     private GameData gameData;
     private MazeModel model;
     private MazeView view;
-    private JFrame frame;
     private boolean hasCountdownEnded = false;
-    private static String FILE_NAME = "currentGameAudio";
-    private static String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/"+ FILE_NAME + ".wav";
-    private static String JSON_OUTPUT_PATH = "src/resources/audioFiles/client/audio/model/json/";
 
-    private MovementControllerType selectedMovementControllerType = MovementControllerType.KEYBOARD;
-
-    private Whisper whisper = new Whisper(Model.TINY_EN);
-
-    public enum MovementControllerType {
-        KEYBOARD
-    }
+    private KeyboardMovementController keyboardMovementController;
+    private VoiceMovementController voiceMovementController;
 
     public MazeControllerImplementation(GameData gameData, JFrame frame) {
         this.gameData = gameData;
-        this.frame = frame;
-        initGame();
-        initializeMovementController();
-        initializeVoiceRecorder();
+        initGame(frame);
+        initializeMovementControllers();
+        updateStatus();
     }
 
-    private void initGame() {
+    private void initGame(JFrame frame) {
         initScoreType();
         model = MazeModelFactory.createMaze(gameData);
         initPlayersInitialCell(model.getPlayers());
@@ -57,13 +39,7 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     }
 
     private void initScoreType() {
-        switch (selectedMovementControllerType) {
-            case KEYBOARD:
-                gameData.setScoreType(ScoreType.SIMPLE_KEYBOARD);
-                break;
-            default:
-                break;
-        }
+        gameData.setScoreType(ScoreType.SIMPLE_VOICE);
     }
 
     private void initPlayersInitialCell(Player[] players) {
@@ -71,56 +47,17 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         Player.initAllPlayersCoordinates(initialCell, players);
     }
 
-    private void initializeMovementController() {
-        // Switch statement used in place of an if-then-else statement because it is
-        // more readable and allows for more than two conditions (future implementations
-        // of different controllers)
-        switch (selectedMovementControllerType) {
-            case KEYBOARD:
-                initializeKeyboardMovementController();
-                break;
-            default:
-                break;
-        }
+    private void initializeMovementControllers() {
+        keyboardMovementController = new KeyboardMovementController(this);
+        voiceMovementController = new VoiceMovementController(this);
     }
 
-    private void initializeKeyboardMovementController() {
-        MovementController movementController = new KeyboardMovementController(this);
-        movementController.setup();
-    }
+    @Override
+    public void updateStatus() {
 
-    private void initializeVoiceRecorder() {
-
-        AudioRecorder recorder = AudioRecorder.getInstance();
-        AudioRecorder.addObserver(this);
-        HotkeyAdder.addHotkey(view, KeyEvent.VK_SPACE, () -> {
-
-            if (AudioRecorder.isRecording()) {
-                recorder.finish();
-                return;
-            }
-
-            new Thread(() -> {
-                recorder.start(AUDIO_GAME_PATH);
-            }).start();
-
-        }, "Record Audio In Game");
-    }
-
-    private void compareAudioWithModel() {
-
-        CompletableFuture<String> futureCommand = whisper.ask(AUDIO_GAME_PATH, FILE_NAME, JSON_OUTPUT_PATH);
-
-        futureCommand.thenAccept(recognizedCommand -> {
-
-            // TODO : @gdudilli - Ici pour recuperer la commande reconnue par Whisper 
-            System.out.println("\nrecognizedCommand: " + recognizedCommand);
-            System.out.println("-----------");
-
-            new File(AUDIO_GAME_PATH).delete();
-            new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
-        });
-        
+        view.updateRecordStatus(
+                GameplayStatus.getStatusAccordingToGameplay(hasCountdownEnded, voiceMovementController.isRecording(),
+                        voiceMovementController.isRecognizing()));
     }
 
     @Override
@@ -145,16 +82,16 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         handlePlayersAtExit(player);
     }
 
-    private boolean canPlayerMove(Player player) {
-        return !model.isPlayerAtExit(player);
-    }
-
     private boolean isMovementAllowed() {
         if (model.isGameOver()) {
             view.stopTimer();
             return false;
         }
         return hasCountdownEnded;
+    }
+
+    private boolean canPlayerMove(Player player) {
+        return !model.isPlayerAtExit(player);
     }
 
     /**
@@ -172,12 +109,9 @@ public class MazeControllerImplementation implements MazeController, RecordObser
         if (model.isGameOver()) {
             view.stopTimer();
             view.notifyGameOver();
-        }
-    }
 
-    @Override
-    public void addKeyController(KeyboardMovementController controller) {
-        view.addKeyController(controller);
+            voiceMovementController.notifyGameEnded();
+        }
     }
 
     @Override
@@ -189,10 +123,13 @@ public class MazeControllerImplementation implements MazeController, RecordObser
     public void notifyGameStarted() {
         hasCountdownEnded = true;
         view.notifyGameStarted();
+        voiceMovementController.notifyGameStarted();
+        updateStatus();
     }
 
     @Override
-    public void update() {
-        compareAudioWithModel();
+    public void cleanObservers() {
+        voiceMovementController.cleanObserver();
     }
+
 }

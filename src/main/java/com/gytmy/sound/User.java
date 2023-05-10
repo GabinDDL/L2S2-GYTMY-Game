@@ -1,5 +1,6 @@
 package com.gytmy.sound;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,31 +14,53 @@ public class User {
     public static final String DEFAULT_LAST_NAME = "LAST_NAME";
     public static final int DEFAULT_STUDENT_NUMBER = 22100000;
     public static final String DEFAULT_USER_NAME = "USER_NAME";
+    public static final List<String> DEFAULT_UP = List.of("UP");
+    public static final List<String> DEFAULT_DOWN = List.of("DOWN");
+    public static final List<String> DEFAULT_LEFT = List.of("LEFT");
+    public static final List<String> DEFAULT_RIGHT = List.of("RIGHT");
 
     private String firstName;
     private String lastName;
     private int studentNumber;
     private String userName;
     private boolean upToDate = true;
+    private List<String> up = DEFAULT_UP;
+    private List<String> down = DEFAULT_DOWN;
+    private List<String> left = DEFAULT_LEFT;
+    private List<String> right = DEFAULT_RIGHT;
 
     public User(User user) {
-        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName());
+        this(user.getFirstName(), user.getLastName(), user.getStudentNumber(), user.getUserName(),
+                user.getUp(), user.getDown(), user.getLeft(), user.getRight(), user.getUpToDate());
     }
 
     public User() {
-        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME);
+        this(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_STUDENT_NUMBER, DEFAULT_USER_NAME, DEFAULT_UP,
+                DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT, true);
+    }
+
+    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up,
+            List<String> down, List<String> left, List<String> right) {
+        this(firstName, lastName, studentNumber, userName, up, down, left, right, true);
     }
 
     public User(String firstName, String lastName, int studentNumber, String userName) {
-        handleInvalidArguments(firstName, lastName, studentNumber, userName);
+        this(firstName, lastName, studentNumber, userName, DEFAULT_UP, DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT);
+    }
+
+    public User(String firstName, String lastName, int studentNumber, String userName, List<String> up,
+            List<String> down, List<String> left, List<String> right, boolean upToDate) {
+        handleInvalidArguments(firstName, lastName, studentNumber, userName, up, down, left, right);
 
         this.firstName = firstName.toUpperCase().replace(" ", "_");
         this.lastName = lastName.toUpperCase().replace(" ", "_");
         this.studentNumber = studentNumber;
         this.userName = userName.replace(" ", "_");
+        this.upToDate = upToDate;
     }
 
-    private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName) {
+    private void handleInvalidArguments(String firstName, String lastName, int studentNumber, String userName,
+            List<String> up, List<String> down, List<String> left, List<String> right) {
         if (isNameInvalid(firstName)) {
             throw new IllegalArgumentException("Invalid first name");
         }
@@ -53,10 +76,52 @@ public class User {
         if (isNameInvalid(userName)) {
             throw new IllegalArgumentException("Invalid user name");
         }
+
+        if (isAltCmdsValid(up)) {
+            throw new IllegalArgumentException("Invalid up commands");
+        }
+
+        if (isAltCmdsValid(down)) {
+            throw new IllegalArgumentException("Invalid down commands");
+        }
+
+        if (isAltCmdsValid(left)) {
+            throw new IllegalArgumentException("Invalid left commands");
+        }
+
+        if (isAltCmdsValid(right)) {
+            throw new IllegalArgumentException("Invalid right commands");
+        }
     }
 
     private boolean isNameInvalid(String name) {
         return name == null || name.isEmpty() || name.isBlank();
+    }
+
+    private boolean isAltCmdsValid(List<String> altCmds) {
+        for (String altCmd : altCmds) {
+            if (altCmd == null || !altCmd.matches("^[A-Z]*$")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * The function checks if all users in a list are up-to-date and returns a
+     * boolean value.
+     * 
+     * @param users A list of User objects.
+     * @return If all users are up to date, it will return true;
+     *         otherwise, it will return false.
+     */
+    public static boolean areUpToDate(List<User> users) {
+        for (User user : users) {
+            if (!user.getUpToDate()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getFirstName() {
@@ -89,6 +154,38 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName.replace(" ", "_");
+    }
+
+    public List<String> getUp() {
+        return up;
+    }
+
+    public void addAltUp(String altUp) {
+        this.up.add(altUp);
+    }
+
+    public List<String> getDown() {
+        return down;
+    }
+
+    public void addAltDown(String altDown) {
+        this.down.add(altDown);
+    }
+
+    public List<String> getLeft() {
+        return left;
+    }
+
+    public void addAltLeft(String altLeft) {
+        this.left.add(altLeft);
+    }
+
+    public List<String> getRight() {
+        return right;
+    }
+
+    public void addAltRight(String altRight) {
+        this.right.add(altRight);
     }
 
     public boolean getUpToDate() {

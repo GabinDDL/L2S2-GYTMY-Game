@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class TestAudioRecorder {
 
-    @Ignore
+    @Ignore // As the CI server does not have a microphone
     @Test
     public void testAudioRecorderConstructor() {
 

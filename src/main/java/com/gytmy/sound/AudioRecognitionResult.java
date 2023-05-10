@@ -4,19 +4,22 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
+import com.gytmy.sound.AlizeRecognitionResultParser.IncorrectFileFormatException;
 import com.gytmy.utils.RunSH;
+import com.gytmy.utils.ThreadedQueue;
 
 public class AudioRecognitionResult {
 
     private AudioRecognitionResult() {
     }
 
-    public static final String EXE_PATH = "src/main/exe/comparaison/";
+    public static final String EXE_PATH = "src/main/exe/comparison/";
     public static final String COMPUTE_TEST_SH_PATH = EXE_PATH + "ComputeTest.sh";
-    public static final String NDX_LIST_PATH = EXE_PATH + "ndx/Liste.ndx";
+    public static final String NDX_PATH = EXE_PATH + "ndx/";
+    public static final String NDX_LIST_PATH = NDX_PATH + "Liste.ndx";
 
     public static final String CLIENT_PATH = "src/resources/audioFiles/client/";
     public static final String CLIENT_AUDIO_PATH = CLIENT_PATH + "audio/";
@@ -25,20 +28,38 @@ public class AudioRecognitionResult {
     public static final String CLIENT_LST_LIST_PATH = CLIENT_MODEL_PATH + "lst/Liste.lst";
 
     /**
-     * @return the result of comparaison
+     * @return the result of comparison
      *         null otherwise
      */
-    public static AlizeRecognitionResult getRecognitionResult() {
-        if (!manageComparaison()) {
-            return null;
-        }
-        try {
-            return AlizeRecognitionResultParser
-                    .parseFile(new File(CLIENT_RESULT_PATH));
-        } catch (IncorrectFileFormatException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static CompletableFuture<AlizeRecognitionResult> askRecognitionResult() {
+        generateComparisonDirectoryStructure();
+
+        CompletableFuture<AlizeRecognitionResult> futureRecognitionResult = new CompletableFuture<>();
+
+        ThreadedQueue.executeTask(() -> {
+            try {
+                manageComparison();
+
+                AlizeRecognitionResult result;
+
+                try {
+                    result = AlizeRecognitionResultParser.parseFile(new File(CLIENT_RESULT_PATH));
+                    futureRecognitionResult.complete(result);
+                } catch (IncorrectFileFormatException e) {
+                    futureRecognitionResult.completeExceptionally(e);
+                }
+
+            } catch (Exception e) {
+                futureRecognitionResult.completeExceptionally(e);
+            }
+        });
+
+        return futureRecognitionResult;
+    }
+
+    private static void generateComparisonDirectoryStructure() {
+        ModelManager.createDirectory(NDX_PATH);
+        ModelManager.generateModelDirectoryStructure();
     }
 
     /**
@@ -47,8 +68,8 @@ public class AudioRecognitionResult {
      * @return true if there is no error during the initialization of the
      *         ComputeTest
      */
-    private static boolean manageComparaison() {
-        if (!initComparaison()) {
+    private static boolean manageComparison() {
+        if (!initComparison()) {
             return false;
         }
 
@@ -62,7 +83,7 @@ public class AudioRecognitionResult {
      * 
      * @return true if the initialization of the comparison went well
      */
-    public static boolean initComparaison() {
+    private static boolean initComparison() {
         if (!(tryToResetComputeTestNdxFile() && tryToUpdateComputeTestNdxFile())) {
             return false;
         }

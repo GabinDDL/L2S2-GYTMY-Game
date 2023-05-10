@@ -4,3 +4,32 @@ lastName: "SOAN"
 studentNumber: 22107803
 userName: "YellOw"
 upToDate: true
+up:
+- "UP"
+- "GOOD"
+- "OH"
+- "YOU"
+- "UH"
+- "OKAY"
+- "BYE"
+- "NOPE"
+down:
+- "DOWN"
+- "DUMB"
+- "DONT"
+- "NO"
+- "DONE"
+- "NOW"
+- "DOH"
+- "DOUBT"
+left:
+- "LEFT"
+- "LETS"
+- "PISSED"
+- "LESSON"
+- "BLESS"
+- "LAST"
+- "LIVE"
+- "LIST"
+right:
+- "RIGHT"

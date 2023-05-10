@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import com.gytmy.maze.model.player.Player;
+import com.gytmy.sound.User;
 
 /**
  * This class is used to display the player selection panel.
@@ -42,6 +43,13 @@ public class PlayerSelectionPanel extends JPanel {
         }
     }
 
+    /**
+     * Changes the maximum number of players. This is used to allow game modes to
+     * have a different amount of players. For example the ClassicGameMode has 5
+     * players, but the Blackout mode has only 1 player.
+     * 
+     * @param numberOfPlayers the new number of players
+     */
     public void changeNumberOfPlayers(int numberOfPlayers) {
         removeAll();
 
@@ -66,6 +74,17 @@ public class PlayerSelectionPanel extends JPanel {
         }
 
         return players.toArray(new Player[0]);
+    }
+
+    public List<User> getSelectedUsers() {
+        List<User> users = new ArrayList<>();
+        for (int playerPosition = 0; playerPosition < numberOfPlayers; playerPosition++) {
+            User user = playerPanels[playerPosition].getSelectedUser();
+            if (user != null) {
+                users.add(user);
+            }
+        }
+        return users;
     }
 
     public String[] getFirstNameUsers() {
@@ -111,6 +130,10 @@ public class PlayerSelectionPanel extends JPanel {
         for (PlayerPanel playerPanel : playerPanels) {
             playerPanel.setPlayersToUnready();
         }
+    }
+
+    public void updateUsers() {
+        UserSelector.AvailableUsers.getInstance().updateUsers();
     }
 
 }

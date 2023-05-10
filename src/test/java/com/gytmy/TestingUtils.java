@@ -3,7 +3,7 @@ package com.gytmy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-public class TestingUtils<T> {
+public class TestingUtils {
 
     private TestingUtils() {
     }
