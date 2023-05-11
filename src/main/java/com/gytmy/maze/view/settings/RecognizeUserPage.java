@@ -3,6 +3,7 @@ package com.gytmy.maze.view.settings;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.gytmy.maze.model.player.Player;
+import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.TimerPanel;
 import com.gytmy.maze.view.game.Cell;
 import com.gytmy.maze.view.game.GameplayStatus;
@@ -41,7 +43,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private static final String TRIES_STATUS_TEXT = "Tries left: ";
     private int maximumRecognitionTries = 3;
 
-    private boolean isRecordingEnabled = false;
+    private boolean isRecordingEnabled = true;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
@@ -65,6 +67,8 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
         setVisible(true);
+        setPreferredSize(MenuFrameHandler.DEFAULT_DIMENSION);
+        setSize(getPreferredSize());
 
         AudioRecorder.addObserver(this);
 
@@ -73,8 +77,11 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         initRecordStatus();
         initTimerPanel();
         initKeyBindRecord();
-        placeComp(Box.createVerticalBox(), this, 3, 1, 1, 1);
-        placeComp(Box.createHorizontalBox(), this, 1, 5, 1, 1);
+        placeComp(Box.createVerticalBox(), this, 3, 0, 1, 7, 1.0, 1.0, GridBagConstraints.BOTH);
+        placeComp(Box.createHorizontalBox(), this, 0, 1, 1, 6, 1.0, 1.0, GridBagConstraints.BOTH);
+        placeComp(Box.createHorizontalBox(), this, 1, 0, 2, 1, 1.0, 1.0, GridBagConstraints.BOTH);
+        placeComp(Box.createHorizontalBox(), this, 1, 4, 2, 1, 1.0, 1.0, GridBagConstraints.BOTH);
+        placeComp(Box.createHorizontalBox(), this, 1, 6, 2, 1, 1.0, 1.0, GridBagConstraints.BOTH);
 
         updateStatus();
         updateGUI();
@@ -84,12 +91,14 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         triesStatus = new JLabel(TRIES_STATUS_TEXT + maximumRecognitionTries);
         triesStatus.setForeground(FOREGROUND_COLOR);
         triesStatus.setHorizontalAlignment(JLabel.CENTER);
-        placeComp(triesStatus, this, 0, 0, 1, 1);
+        placeComp(triesStatus, this, 0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NONE);
     }
 
     private void initPlayerPanel() {
         playerPanel = new JPanel(new BorderLayout());
-        placeComp(playerPanel, this, 1, 1, 2, 2);
+        playerPanel.setPreferredSize(new Dimension(400, 200));
+        playerPanel.setSize(getPreferredSize());
+        placeComp(playerPanel, this, 1, 1, 2, 3, 3.0, 4.0, GridBagConstraints.BOTH);
 
         playerName = new JLabel();
         playerName.setForeground(FOREGROUND_COLOR);
@@ -98,7 +107,9 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     }
 
     private void initRecordStatus() {
-        recordStatus = new JLabel();
+        recordStatus = new JLabel("RECORD");
+        recordStatus.setForeground(FOREGROUND_COLOR);
+        updateStatus();
         recordStatus.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -106,7 +117,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
             }
         });
 
-        placeComp(recordStatus, this, 2, 4, 1, 1);
+        placeComp(recordStatus, this, 1, 5, 1, 1, 1.0, 1.0, GridBagConstraints.NONE);
     }
 
     private void initKeyBindRecord() {
@@ -115,7 +126,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
     private void initTimerPanel() {
         timerPanel = new TimerPanel(RECORD_DURATION_SENTENCE_IN_SECONDS);
-        placeComp(timerPanel, this, 1, 4, 1, 1);
+        placeComp(timerPanel, this, 2, 5, 1, 1, 1.0, 1.0, GridBagConstraints.BOTH);
     }
 
     public void recognizePlayer(Player player, User user) {
@@ -202,12 +213,15 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         updateStatus();
     }
 
-    private static void placeComp(Component comp, JPanel panel, int x, int y, int w, int h) {
+    private static void placeComp(Component comp, JPanel panel, int x, int y, int w, int h,
+            double wx, double wh, int fill) {
         GridBagConstraints cons = new GridBagConstraints();
         cons.gridx = x;
         cons.gridy = y;
         cons.gridwidth = w;
         cons.gridheight = h;
+        cons.weightx = wx;
+        cons.weighty = wh;
         panel.add(comp, cons);
     }
 
