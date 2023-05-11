@@ -39,8 +39,10 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private TimerPanel timerPanel;
     private JLabel triesStatus;
 
-    private Player choosenPlayer;
-    private User choosenUser;
+    private Player[] players;
+
+    private int indexCurrentPlayer = 0;
+    private Player currentPlayer;
 
     private static final String TRIES_STATUS_TEXT = "Tries left: ";
     private int recognitionTriesLeft = 3;
@@ -56,17 +58,15 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private static final String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
     private static final int MAX_RECOGNITION_TRIES = 3;
 
-    private static RecognizeUserPage instance = null;
+    public RecognizeUserPage(Player[] players) {
 
-    public static RecognizeUserPage getInstance() {
-        if (instance == null) {
-            instance = new RecognizeUserPage();
+        if (players.length == 0) {
+            throw new IllegalArgumentException("The array of players must not be empty");
         }
 
-        return instance;
-    }
+        this.players = players;
+        currentPlayer = players[indexCurrentPlayer];
 
-    private RecognizeUserPage() {
         setLayout(new GridBagLayout());
         setBackground(BACKGROUND_COLOR);
         setVisible(true);
@@ -101,9 +101,11 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         playerPanel = new JPanel(new BorderLayout());
         playerPanel.setPreferredSize(new Dimension(400, 200));
         playerPanel.setSize(getPreferredSize());
+        playerPanel.setBackground(currentPlayer.getColor());
         placeComp(playerPanel, this, 1, 1, 2, 3, 3.0, 4.0, GridBagConstraints.BOTH);
 
         playerName = new JLabel();
+        playerName.setText(currentPlayer.getName());
         playerName.setForeground(FOREGROUND_COLOR);
         playerName.setHorizontalAlignment(JLabel.CENTER);
         playerPanel.add(playerName, BorderLayout.CENTER);
@@ -134,15 +136,6 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private void initTimerPanel() {
         timerPanel = new TimerPanel(RECORD_DURATION_SENTENCE_IN_SECONDS);
         placeComp(timerPanel, this, 2, 5, 1, 1, 1.0, 1.0, GridBagConstraints.BOTH);
-    }
-
-    public void recognizePlayer(Player player, User user) {
-
-        choosenPlayer = player;
-        choosenUser = user;
-
-        playerPanel.setBackground(player.getColor());
-        playerName.setText(user.getUserName());
     }
 
     private void startRecord() {
@@ -213,12 +206,12 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
     private void isThatYou(User recognizedUser) {
 
-        if (recognizedUser.equals(choosenUser)) {
+        if (recognizedUser.equals(SettingsMenu.getSelectedUser(currentPlayer))) {
             JOptionPane.showMessageDialog(this, "That's you!\nYou were successfully recognized.", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            SettingsMenu.getInstance().updateRecognized(choosenPlayer, true);
-            resetToDefault();
+            SettingsMenu.getInstance().updateRecognized(currentPlayer, true);
+            changeToNextPlayer();
             return;
         }
 
@@ -229,21 +222,30 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
             JOptionPane.showMessageDialog(this, "You have no more tries.\nYou were not recognized.", "Failure",
                     JOptionPane.ERROR_MESSAGE);
 
-            SettingsMenu.getInstance().updateRecognized(choosenPlayer, false);
-            resetToDefault();
+            SettingsMenu.getInstance().updateRecognized(currentPlayer, false);
+            changeToNextPlayer();
             return;
         }
 
         JOptionPane.showMessageDialog(this, "That's not you!\nTry again.", "Failure",
                 JOptionPane.ERROR_MESSAGE);
+    }
 
+    private void changeToNextPlayer() {
+        resetToDefault();
+        indexCurrentPlayer++;
+
+        if (indexCurrentPlayer < players.length) {
+            currentPlayer = players[indexCurrentPlayer];
+
+            playerName.setText(currentPlayer.getName());
+            playerPanel.setBackground(currentPlayer.getColor());
+        }
     }
 
     private void resetToDefault() {
         recognitionTriesLeft = MAX_RECOGNITION_TRIES;
         triesStatus.setText(TRIES_STATUS_TEXT + recognitionTriesLeft);
-
-        SettingsMenu.getInstance().updateRecognized(choosenPlayer, false);
     }
 
     private void updateStatus() {

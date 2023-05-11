@@ -27,7 +27,6 @@ import com.gytmy.maze.view.game.Cell;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
-import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.ModelManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
@@ -173,20 +172,6 @@ public class SettingsMenu extends JPanel {
         recognizePlayers(players);
     }
 
-    public void updateRecognized(Player player, boolean recognized) {
-        if (recognized) {
-            recognizedPlayerCount++;
-        } else {
-            playerSelectionPanel.remove(player);
-            playerCount--;
-        }
-
-        if (recognizedPlayerCount == playerCount) {
-            AudioRecorder.removeObserver(RecognizeUserPage.getInstance());
-            launchGame();
-        }
-    }
-
     private void launchGame() {
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
@@ -208,19 +193,26 @@ public class SettingsMenu extends JPanel {
         mazeView.setGamePreferredSize(frame.getSize());
     }
 
-    private void recognizePlayers(Player[] players) {
-        for (Player player : players) {
-            recognize(player);
+    public void updateRecognized(Player player, boolean recognized) {
+        if (recognized) {
+            recognizedPlayerCount++;
+        } else {
+            playerSelectionPanel.remove(player);
+            playerCount--;
+        }
+
+        if (recognizedPlayerCount == playerCount) {
+            launchGame();
         }
     }
 
-    private void recognize(Player player) {
-        RecognizeUserPage recognizeUserPage = RecognizeUserPage.getInstance();
+    private void recognizePlayers(Player[] players) {
+        RecognizeUserPage recognizeUserPage = new RecognizeUserPage(players);
 
-        recognizeUserPage.recognizePlayer(player, playerSelectionPanel.getSelectedUser(player));
         recognizeUserPage.setPreferredSize(MenuFrameHandler.getMainFrame().getSize());
         MenuFrameHandler.getMainFrame().setContentPane(recognizeUserPage);
-        MenuFrameHandler.frameUpdate("Recognize player : " + player.getName());
+        MenuFrameHandler.frameUpdate("Recognize Players");
+
     }
 
     private void promptUserToCreateModelOfAllUsers() {
@@ -271,5 +263,9 @@ public class SettingsMenu extends JPanel {
         SettingsMenu instance = SettingsMenu.getInstance();
         instance.playerSelectionPanel.setPlayersToUnready();
         MenuFrameHandler.goToStartMenu();
+    }
+
+    public static Object getSelectedUser(Player currentPlayer) {
+        return instance.playerSelectionPanel.getSelectedUser(currentPlayer);
     }
 }
