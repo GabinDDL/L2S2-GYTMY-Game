@@ -54,6 +54,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
     private static final String FILE_NAME = "currentGameAudio";
     private static final String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
+    private static final int MAX_RECOGNITION_TRIES = 3;
 
     private static RecognizeUserPage instance = null;
 
@@ -226,11 +227,20 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         if (recognitionTriesLeft == 0) {
             JOptionPane.showMessageDialog(this, "You have no more tries.\nYou were not recognized.", "Failure",
                     JOptionPane.ERROR_MESSAGE);
+
+            resetToDefault();
             return;
         }
 
         JOptionPane.showMessageDialog(this, "That's not you!\nTry again.", "Failure",
                 JOptionPane.ERROR_MESSAGE);
+
+        SettingsMenu.getInstance().updateRecognized(choosenPlayer, false);
+    }
+
+    private void resetToDefault() {
+        recognitionTriesLeft = MAX_RECOGNITION_TRIES;
+        triesStatus.setText(TRIES_STATUS_TEXT + recognitionTriesLeft);
 
         SettingsMenu.getInstance().updateRecognized(choosenPlayer, false);
     }
