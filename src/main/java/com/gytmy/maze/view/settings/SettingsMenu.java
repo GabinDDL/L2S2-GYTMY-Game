@@ -201,6 +201,12 @@ public class SettingsMenu extends JPanel {
             playerCount--;
         }
 
+        if (recognizedPlayerCount == 0) {
+            MenuFrameHandler.goToSettingsMenu();
+            JOptionPane.showMessageDialog(this, "No players recognized", "Message", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         if (recognizedPlayerCount == playerCount) {
             launchGame();
         }
