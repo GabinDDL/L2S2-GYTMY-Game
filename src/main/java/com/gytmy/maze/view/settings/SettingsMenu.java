@@ -44,6 +44,7 @@ public class SettingsMenu extends JPanel {
     private JLabel startGameButton;
 
     private int playerCount;
+    private int comparedPlayerCount = 0;
     private int recognizedPlayerCount = 0;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
@@ -183,7 +184,6 @@ public class SettingsMenu extends JPanel {
     }
 
     private void launchGame() {
-        AudioRecorder.removeObserver(recognizeUserPage);
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
 
@@ -205,20 +205,25 @@ public class SettingsMenu extends JPanel {
     }
 
     public void updateRecognized(Player player, boolean recognized) {
+        comparedPlayerCount++;
         if (recognized) {
             recognizedPlayerCount++;
         } else {
             playerSelectionPanel.remove(player);
-            playerCount--;
         }
 
-        if (recognizedPlayerCount == 0) {
-            MenuFrameHandler.goToSettingsMenu();
-            JOptionPane.showMessageDialog(this, "No players recognized", "Message", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        System.out.println("comparedPlayerCount: " + comparedPlayerCount);
+        System.out.println("playerCount: " + playerCount);
+        if (comparedPlayerCount == playerCount) {
+            AudioRecorder.removeObserver(recognizeUserPage);
 
-        if (recognizedPlayerCount == playerCount) {
+            if (recognizedPlayerCount == 0) {
+                MenuFrameHandler.goToSettingsMenu();
+                JOptionPane.showMessageDialog(this, "No players recognized", "Message", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            comparedPlayerCount = 0;
             recognizedPlayerCount = 0;
             launchGame();
         }
