@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.game.MazeView;
+import com.gytmy.maze.view.settings.SettingsMenu;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecognitionResult;
@@ -89,19 +90,13 @@ public class VoiceMovementController implements RecordObserver {
             if (recognitionResult == null) {
                 updateStatus();
             }
-            // TODO: to remove after tests
-            // System.out.println(recognitionResult);
 
-            User recognizedUser = AudioFileManager.getUser(recognitionResult.getName());
-
-            if (recognizedUser == null) {
-                updateStatus();
-            }
             if (!compareWithWhisper) {
-                movePlayerWithCompareResult(recognizedUser, recognitionResult.getWord());
+
+                movePlayerWithCompareResult(recognitionResult.getWord());
                 updateStatus();
             } else {
-                continueComparaisonWithWhisper(recognizedUser);
+                continueComparaisonWithWhisper((User) SettingsMenu.getSelectedUser(controller.getCurrentPlayer()));
             }
         });
     }
@@ -119,7 +114,7 @@ public class VoiceMovementController implements RecordObserver {
             // System.out.println("recognizedUser: " + recognizedUser.getUserName());
             // System.out.println("------------------------------------");
 
-            movePlayerWithCompareResult(recognizedUser, recognizedCommand);
+            movePlayerWithCompareResult(recognizedCommand);
 
             new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
 
@@ -141,19 +136,14 @@ public class VoiceMovementController implements RecordObserver {
      * @param recognizedUser
      * @param directionName
      */
-    private void movePlayerWithCompareResult(User recognizedUser, String directionName) {
-        for (Player player : players) {
+    private void movePlayerWithCompareResult(String directionName) {
 
-            if (recognizedUser.getUserName().equals(player.getName())) {
+        Direction direction = Direction.stringToDirection(directionName);
 
-                Direction direction = Direction.stringToDirection(directionName);
-
-                if (direction != null) {
-                    controller.movePlayer(direction);
-                }
-                return;
-            }
+        if (direction != null) {
+            controller.movePlayer(direction);
         }
+
     }
 
     @Override
