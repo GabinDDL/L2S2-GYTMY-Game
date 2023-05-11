@@ -97,7 +97,7 @@ public class VoiceMovementController implements RecordObserver {
             });
         } else {
             for (User user : AudioFileManager.getUsers()) {
-                if (user.getUserName().equals(controller.getCurrentPlayer())) {
+                if (user.getUserName().equals(controller.getCurrentPlayer().getName())) {
                     continueComparaisonWithWhisper(user);
                     return;
                 }
