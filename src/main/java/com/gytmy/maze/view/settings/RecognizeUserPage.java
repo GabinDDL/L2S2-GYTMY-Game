@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.concurrent.CompletableFuture;
 
 import javax.swing.Box;
@@ -22,6 +25,7 @@ import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.RecordObserver;
 import com.gytmy.sound.User;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
+import com.gytmy.utils.HotkeyAdder;
 import com.gytmy.utils.ImageManipulator;
 
 public class RecognizeUserPage extends JPanel implements RecordObserver {
@@ -75,6 +79,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         initPlayerPanel();
         initRecordStatus();
         initTimerPanel();
+        initKeyBindRecord();
         placeComp(Box.createVerticalBox(), this, 3, 1, 1, 1);
         placeComp(Box.createHorizontalBox(), this, 1, 5, 1, 1);
 
@@ -101,8 +106,18 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private void initRecordStatus() {
         recordStatus = new JLabel();
         recordStatus.setIcon(DISABLED_MIC_ICON);
+        recordStatus.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                startRecord();
+            }
+        });
 
         placeComp(recordStatus, this, 2, 4, 1, 1);
+    }
+
+    private void initKeyBindRecord() {
+        HotkeyAdder.addHotkey(this, KeyEvent.VK_SPACE, this::startRecord, "Record Sentence");
     }
 
     private void initTimerPanel() {
