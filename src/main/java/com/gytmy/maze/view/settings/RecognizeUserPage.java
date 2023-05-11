@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.TimerPanel;
 import com.gytmy.maze.view.game.Cell;
+import com.gytmy.maze.view.game.GameplayStatus;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecognitionResult;
 import com.gytmy.sound.AudioRecorder;
@@ -26,7 +27,6 @@ import com.gytmy.sound.RecordObserver;
 import com.gytmy.sound.User;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
 import com.gytmy.utils.HotkeyAdder;
-import com.gytmy.utils.ImageManipulator;
 
 public class RecognizeUserPage extends JPanel implements RecordObserver {
 
@@ -50,13 +50,6 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
     private static final String FILE_NAME = "currentGameAudio";
     private static final String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
-
-    private static final Icon ENABLED_MIC_ICON = ImageManipulator.resizeImage(
-            "src/resources/images/game/mic_on.png", 50, 50);
-    private static final Icon DISABLED_MIC_ICON = ImageManipulator.resizeImage(
-            "src/resources/images/game/mic_off.png", 50, 50);
-    private static final Icon RECOGNIZING_ICON = ImageManipulator.resizeImage(
-            "src/resources/images/game/computing_on.png", 50, 50);
 
     private static RecognizeUserPage instance = null;
 
@@ -83,6 +76,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         placeComp(Box.createVerticalBox(), this, 3, 1, 1, 1);
         placeComp(Box.createHorizontalBox(), this, 1, 5, 1, 1);
 
+        updateStatus();
         updateGUI();
     }
 
@@ -105,7 +99,6 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
     private void initRecordStatus() {
         recordStatus = new JLabel();
-        recordStatus.setIcon(DISABLED_MIC_ICON);
         recordStatus.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -193,7 +186,9 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     }
 
     private void updateStatus() {
-        // TODO: Update recordStatus label according to recording status
+        Icon iconToSet = GameplayStatus.getStatusAccordingToGameplay(true, AudioRecorder.isRecording(),
+                isRecordingEnabled).getIcon();
+        recordStatus.setIcon(iconToSet);
     }
 
     @Override
