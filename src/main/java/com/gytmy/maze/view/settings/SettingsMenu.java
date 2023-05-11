@@ -164,9 +164,9 @@ public class SettingsMenu extends JPanel {
 
     private void launchGame() {
 
-        recognizePlayers();
-
         Player[] players = playerSelectionPanel.getSelectedPlayers();
+
+        recognizePlayers(players);
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
@@ -185,18 +185,16 @@ public class SettingsMenu extends JPanel {
         mazeView.setGamePreferredSize(frame.getSize());
     }
 
-    private void recognizePlayers() {
-        List<User> users = playerSelectionPanel.getSelectedUsers();
-        for (User user : users) {
-
-            recognize(user);
+    private void recognizePlayers(Player[] players) {
+        for (Player player : players) {
+            recognize(player);
         }
     }
 
-    private void recognize(User user) {
+    private void recognize(Player player) {
         RecognizeUserPage recognizeUserPage = RecognizeUserPage.getInstance();
 
-        recognizeUserPage.recognizeUser(user);
+        recognizeUserPage.recognizePlayer(player, playerSelectionPanel.getSelectedUser(player));
         // TODO: Set contentPane to recognizeUserPage
     }
 
