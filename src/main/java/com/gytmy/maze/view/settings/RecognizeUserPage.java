@@ -46,6 +46,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private int recognitionTriesLeft = 3;
 
     private boolean isRecordingEnabled = true;
+    private boolean audioRunning = false;
 
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
@@ -157,27 +158,26 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         }
 
         timerPanel.start();
+        audioRunning = true;
         recorder.start(AUDIO_GAME_PATH);
 
         updateStatus();
 
-        new Thread() {
-            @Override
-            public void run() {
-                while (!timerPanel.isCounting()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        new Thread(() -> {
+            while (audioRunning && !timerPanel.isCounting()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                stopRecord();
             }
-        }.start();
+            stopRecord();
+        }).start();
     }
 
     private void stopRecord() {
 
+        audioRunning = false;
         timerPanel.stop();
 
         try {
