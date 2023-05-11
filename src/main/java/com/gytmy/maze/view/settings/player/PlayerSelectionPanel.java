@@ -125,6 +125,15 @@ public class PlayerSelectionPanel extends JPanel {
         }
     }
 
+    public User getSelectedUser(Player player) {
+        for (PlayerPanel playerPanel : playerPanels) {
+            if (playerPanel.getPlayer() == player) {
+                return playerPanel.getSelectedUser();
+            }
+        }
+        return null;
+    }
+
     public void updateUsers() {
         UserSelector.AvailableUsers.getInstance().updateUsers();
     }
