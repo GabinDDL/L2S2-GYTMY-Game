@@ -25,6 +25,7 @@ import com.gytmy.maze.view.game.GameplayStatus;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecognitionResult;
 import com.gytmy.sound.AudioRecorder;
+import com.gytmy.sound.AudioToFile;
 import com.gytmy.sound.RecordObserver;
 import com.gytmy.sound.User;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
@@ -48,7 +49,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final Color FOREGROUND_COLOR = Cell.PATH_COLOR;
 
-    private static final int RECORD_DURATION_SENTENCE_IN_SECONDS = 5;
+    private static final int RECORD_DURATION_SENTENCE_IN_SECONDS = 30;
 
     private static final String FILE_NAME = "currentGameAudio";
     private static final String AUDIO_GAME_PATH = "src/resources/audioFiles/client/audio/" + FILE_NAME + ".wav";
@@ -113,7 +114,11 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         recordStatus.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                startRecord();
+                if (AudioRecorder.isRecording()) {
+                    stopRecord();
+                } else {
+                    startRecord();
+                }
             }
         });
 
@@ -149,9 +154,38 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
             return;
         }
 
+        timerPanel.start();
         recorder.start(AUDIO_GAME_PATH);
 
         updateStatus();
+
+        new Thread() {
+            @Override
+            public void run() {
+                while (!timerPanel.isCounting()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                stopRecord();
+            }
+        }.start();
+    }
+
+    private void stopRecord() {
+
+        timerPanel.stop();
+
+        try {
+            AudioToFile.stop();
+        } catch (Exception e) {
+        }
+
+        this.remove(timerPanel);
+        initTimerPanel();
+        updateUI();
     }
 
     private void compareAudioWithModel() {
