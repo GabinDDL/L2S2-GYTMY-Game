@@ -85,6 +85,17 @@ public class PlayerPanel extends JPanel {
         return new Dimension(size, size);
     }
 
+    public void suppressPlayer() {
+        if (userSelector == null) {
+            return;
+        }
+        remove(userSelector);
+        userSelector.unlockChoice();
+        userSelector.cleanData();
+
+        initEmpty();
+    }
+
     private class PanelMouseListener extends MouseInputAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -93,7 +104,7 @@ public class PlayerPanel extends JPanel {
                     handleLeftClick();
                     break;
                 case MouseEvent.BUTTON3:
-                    handleRightClick();
+                    suppressPlayer();
                     break;
                 default:
                     break;
@@ -107,17 +118,6 @@ public class PlayerPanel extends JPanel {
             } else {
                 updateReadyStatus();
             }
-        }
-
-        private void handleRightClick() {
-            if (userSelector == null) {
-                return;
-            }
-            remove(userSelector);
-            userSelector.unlockChoice();
-            userSelector.cleanData();
-
-            initEmpty();
         }
 
         private void initNonEmpty() {

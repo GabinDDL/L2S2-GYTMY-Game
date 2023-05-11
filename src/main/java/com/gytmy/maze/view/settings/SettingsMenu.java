@@ -176,7 +176,7 @@ public class SettingsMenu extends JPanel {
         if (recognized) {
             recognizedPlayerCount++;
         } else {
-            // TODO : Remove user
+            playerSelectionPanel.remove(player);
             playerCount--;
         }
 

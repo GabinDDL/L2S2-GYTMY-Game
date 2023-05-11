@@ -137,6 +137,17 @@ public class PlayerSelectionPanel extends JPanel {
         return null;
     }
 
+    public void remove(Player player) {
+        for (PlayerPanel playerPanel : playerPanels) {
+            if (playerPanel == null || playerPanel.getPlayer() == null) {
+                continue;
+            }
+            if (playerPanel.getPlayer().equals(player)) {
+                playerPanel.suppressPlayer();
+            }
+        }
+    }
+
     public void updateUsers() {
         UserSelector.AvailableUsers.getInstance().updateUsers();
     }
