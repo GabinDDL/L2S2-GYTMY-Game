@@ -8,6 +8,7 @@
      > generate the associated models
 
    The more recordings there are, the more accurately the game will be able to recognize your voice.
+   It is recommended to record at least 30 to 40 minutes of recordings.
    
    Please, head to the "Character Creation" section in the Settings by clicking on the gear icon.
    Then click on the "Create Character" button and fill the form.

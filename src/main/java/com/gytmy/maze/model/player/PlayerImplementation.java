@@ -131,4 +131,31 @@ public class PlayerImplementation implements Player {
     public void setTimePassedInSeconds(int timePassedInSeconds) {
         this.timePassedInSeconds = timePassedInSeconds;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerImplementation [coordinates=" + coordinates + ", name=" + name + ", color=" + color + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Player)) {
+            return false;
+        }
+
+        Player player = (Player) obj;
+        return player.getName().equals(getName())
+                && player.getColor().equals(getColor());
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode() + getColor().hashCode();
+    }
 }

@@ -27,6 +27,7 @@ import com.gytmy.maze.view.game.Cell;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
+import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.ModelManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
@@ -42,9 +43,14 @@ public class SettingsMenu extends JPanel {
     private GameGIFLabel gameGifLabel;
     private JLabel startGameButton;
 
+    private int playerCount;
+    private int comparedPlayerCount = 0;
+    private int recognizedPlayerCount = 0;
+
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final String START_GAME_BUTTON_IMAGE_PATH = "src/resources/images/settings_menu/StartButton.png";
 
+    private RecognizeUserPage recognizeUserPage;
     private static SettingsMenu instance = null;
 
     public static SettingsMenu getInstance() {
@@ -152,17 +158,33 @@ public class SettingsMenu extends JPanel {
             return;
         }
 
+        playerCount = playerSelectionPanel.getSelectedPlayers().length;
+
         List<User> users = playerSelectionPanel.getSelectedUsers();
 
         // Handle model creation prompting
         if (!User.areUpToDate(users)) {
             promptUserToCreateModelOfAllUsers();
         } else {
-            launchGame();
+            launchRecognition();
         }
     }
 
+    private void launchRecognition() {
+        Player[] players = playerSelectionPanel.getSelectedPlayers();
+        recognizePlayers(players);
+    }
+
+    private void recognizePlayers(Player[] players) {
+        recognizeUserPage = new RecognizeUserPage(players);
+
+        recognizeUserPage.setPreferredSize(MenuFrameHandler.getMainFrame().getSize());
+        MenuFrameHandler.getMainFrame().setContentPane(recognizeUserPage);
+        MenuFrameHandler.frameUpdate("Recognize Players");
+    }
+
     private void launchGame() {
+
         Player[] players = playerSelectionPanel.getSelectedPlayers();
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
@@ -180,6 +202,29 @@ public class SettingsMenu extends JPanel {
         MenuFrameHandler.frameUpdate(gameMode.toString());
 
         mazeView.setGamePreferredSize(frame.getSize());
+    }
+
+    public void updateRecognized(Player player, boolean recognized) {
+        comparedPlayerCount++;
+        if (recognized) {
+            recognizedPlayerCount++;
+        } else {
+            playerSelectionPanel.remove(player);
+        }
+
+        if (comparedPlayerCount == playerCount) {
+            AudioRecorder.removeObserver(recognizeUserPage);
+
+            if (recognizedPlayerCount == 0) {
+                MenuFrameHandler.goToSettingsMenu();
+                JOptionPane.showMessageDialog(this, "No players recognized", "Message", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            comparedPlayerCount = 0;
+            recognizedPlayerCount = 0;
+            launchGame();
+        }
     }
 
     private void promptUserToCreateModelOfAllUsers() {
@@ -230,5 +275,9 @@ public class SettingsMenu extends JPanel {
         SettingsMenu instance = SettingsMenu.getInstance();
         instance.playerSelectionPanel.setPlayersToUnready();
         MenuFrameHandler.goToStartMenu();
+    }
+
+    public static Object getSelectedUser(Player currentPlayer) {
+        return instance.playerSelectionPanel.getSelectedUser(currentPlayer);
     }
 }

@@ -50,7 +50,7 @@ public class RecordPage extends JPanel {
     private int totalRecordedAudio = 0;
 
     private static final int RECORD_DURATION_COMMANDS_IN_SECONDS = 5;
-    private static final int RECORD_DURATION_FOR_OTHER_IN_SECONDS = 10 * 60; // 10 minutes
+    private static final int RECORD_DURATION_FOR_OTHER_IN_SECONDS = 10;
 
     private int recordDurationInSeconds;
 
