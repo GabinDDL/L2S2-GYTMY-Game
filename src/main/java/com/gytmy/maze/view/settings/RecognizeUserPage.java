@@ -86,7 +86,6 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         placeComp(Box.createHorizontalBox(), this, 1, 4, 2, 1, 1.0, 1.0, GridBagConstraints.BOTH);
         placeComp(Box.createHorizontalBox(), this, 1, 6, 2, 1, 1.0, 1.0, GridBagConstraints.BOTH);
 
-        updateStatus();
         updateGUI();
     }
 
@@ -178,7 +177,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
         this.remove(timerPanel);
         initTimerPanel();
-        updateUI();
+        updateGUI();
     }
 
     private void compareAudioWithModel() {
@@ -199,8 +198,9 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
                 updateStatus();
             }
 
-            isThatYou(recognizedUser);
             isRecordingEnabled = true;
+            updateStatus();
+            isThatYou(recognizedUser);
         });
     }
 
@@ -229,6 +229,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
         JOptionPane.showMessageDialog(this, "That's not you!\nTry again.", "Failure",
                 JOptionPane.ERROR_MESSAGE);
+        updateStatus();
     }
 
     private void changeToNextPlayer() {
@@ -244,6 +245,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     }
 
     private void resetToDefault() {
+        isRecordingEnabled = true;
         recognitionTriesLeft = MAX_RECOGNITION_TRIES;
         triesStatus.setText(TRIES_STATUS_TEXT + recognitionTriesLeft);
     }
