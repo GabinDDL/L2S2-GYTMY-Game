@@ -44,8 +44,8 @@ public class User {
         this(firstName, lastName, studentNumber, userName, up, down, left, right, true);
     }
 
-    public User(String fisrtName, String lastName, int studentNumber, String userName) {
-        this(fisrtName, lastName, studentNumber, userName, DEFAULT_UP, DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT);
+    public User(String firstName, String lastName, int studentNumber, String userName) {
+        this(firstName, lastName, studentNumber, userName, DEFAULT_UP, DEFAULT_DOWN, DEFAULT_LEFT, DEFAULT_RIGHT);
     }
 
     public User(String firstName, String lastName, int studentNumber, String userName, List<String> up,
@@ -243,11 +243,7 @@ public class User {
         return user.getFirstName().equals(this.getFirstName())
                 && user.getLastName().equals(this.getLastName())
                 && user.getStudentNumber() == this.getStudentNumber()
-                && user.getUserName().equals(this.getUserName())
-                && user.getUp().equals(this.getUp())
-                && user.getDown().equals(this.getDown())
-                && user.getLeft().equals(this.getLeft())
-                && user.getRight().equals(this.getRight());
+                && user.getUserName().equals(this.getUserName());
     }
 
     @Override

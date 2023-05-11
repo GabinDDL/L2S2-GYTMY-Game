@@ -255,6 +255,11 @@ public class SettingsMenu extends JPanel {
         repaint();
     }
 
+    /**
+     * Updates the users in the player selection panel. Ths is used when a new user
+     * is created or when the state of a user is changed, for example when a user is
+     * deleted or they change their name.
+     */
     public void updateUsers() {
         playerSelectionPanel.updateUsers();
     }

@@ -14,6 +14,7 @@ public class JsonParser<T> {
 
     /**
      * Parses a JSON file into a Java object
+     * 
      * @param filePath The path to the JSON file
      * @param type     The type of the Java object to parse the JSON file into
      * @return The Java object

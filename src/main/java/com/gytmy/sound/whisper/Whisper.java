@@ -28,13 +28,13 @@ public class Whisper {
                     return "tiny.en";
             }
         }
-    };
+    }
 
     public static final String WHISPER_PATH = "src/main/exe/whisper/whisper.sh";
 
     private JsonParser<WhisperResult> whisperJsonParser = new JsonParser<>();
 
-    private Model model;                // The whisper model to use
+    private Model model; // The whisper model to use
 
     public Whisper(Model model) {
         this.model = model;
@@ -49,9 +49,9 @@ public class Whisper {
         ThreadedQueue.executeTask(() -> {
             try {
                 String recognizedCommand = "";
-        
-                int exitCode = run(audioPath, fileName, outputPath);
-                
+
+                int exitCode = run(audioPath, outputPath);
+
                 if (exitCode == 0) {
                     recognizedCommand = parseJson(outputPath, fileName);
                     recognizedCommand = formatCommand(recognizedCommand);
@@ -59,24 +59,25 @@ public class Whisper {
                 } else {
                     futureCommand.completeExceptionally(new Exception("Whisper failed to recognize command"));
                 }
-        
+
             } catch (Exception e) {
                 futureCommand.completeExceptionally(e);
             }
         });
-        
+
         return futureCommand;
     }
-    
+
     /**
      * Runs the whisper command
+     * 
      * @return the exit code of the command
      */
-    private int run(String filePathWithFileName, String fileName, String outputPath) {
-        String[] args = {"-m", model.getModelName(), "-a", filePathWithFileName, "-o", outputPath};
-        
+    private int run(String filePathWithFileName, String outputPath) {
+        String[] args = { "-m", model.getModelName(), "-a", filePathWithFileName, "-o", outputPath };
+
         int exitCode = RunSH.run(WHISPER_PATH, args);
-        
+
         return exitCode;
     }
 
@@ -86,7 +87,7 @@ public class Whisper {
     private String parseJson(String jsonDirectoryPath, String fileName) {
         try {
             WhisperResult whisperResult = (WhisperResult) whisperJsonParser.parseJsonFromFile(
-                jsonDirectoryPath + "/" + fileName + ".json", WhisperResult.class);
+                    jsonDirectoryPath + "/" + fileName + ".json", WhisperResult.class);
 
             return whisperResult.getText();
 

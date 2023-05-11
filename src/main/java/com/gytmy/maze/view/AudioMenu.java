@@ -7,8 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -58,7 +56,8 @@ public class AudioMenu extends JPanel {
     private JTree fileNavigator;
     private static final String JTREE_ROOT_PATH = "src/resources/audioFiles/";
     private String actualJTreeRootPath = JTREE_ROOT_PATH;
-    private static final User ALL_USERS = new User("ALL", "USERS", 0, "EVERYONE", List.of("UP"), List.of("DOWN"), List.of("LEFT"), List.of("RIGHT"));
+    private static final User ALL_USERS = new User("ALL", "USERS", 0, "EVERYONE", List.of("UP"), List.of("DOWN"),
+            List.of("LEFT"), List.of("RIGHT"));
 
     // Word Panel Components
     private JLabel totalOfWords;

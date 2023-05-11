@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.gytmy.maze.controller.MazeController;
@@ -24,8 +25,8 @@ import com.gytmy.maze.view.MenuFrameHandler;
 import com.gytmy.maze.view.PausePanel;
 import com.gytmy.maze.view.TimerPanel;
 import com.gytmy.maze.view.game.end_transition.Transition;
-import com.gytmy.utils.ImageManipulator;
 import com.gytmy.utils.HotkeyAdder;
+import com.gytmy.utils.ImageManipulator;
 
 public class MazeViewImplementation extends MazeView {
     protected MazeController controller;
@@ -42,6 +43,7 @@ public class MazeViewImplementation extends MazeView {
     protected JLabel audioRecordStatus;
     protected JPanel keyboardPanel;
     protected JLabel keyboardMovement;
+    protected PlayerInfoPanel playerInfoPanel;
 
     protected static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
 
@@ -122,7 +124,6 @@ public class MazeViewImplementation extends MazeView {
 
     @Override
     public void notifyGameOver() {
-
         this.gameOverPanel = new GameOverPanel(model);
         frame.setContentPane(new Transition(this, gameOverPanel, this::showGameOverPanel).getGlassPane());
     }
@@ -176,10 +177,16 @@ public class MazeViewImplementation extends MazeView {
         c.gridy = 1;
         c.fill = GridBagConstraints.NONE;
         add(mazePanel, c);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.weightx = 1.0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        playerInfoPanel = new PlayerInfoPanel(controller.getCurrentPlayer());
+        add(playerInfoPanel, c);
     }
 
     protected void initTopPanel() {
-
         topPanel = new JPanel();
         topPanel.setLayout(new GridBagLayout());
         topPanel.setBackground(BACKGROUND_COLOR);
@@ -189,7 +196,7 @@ public class MazeViewImplementation extends MazeView {
 
         initTimerPanel();
 
-        keyboardPanel();
+        initKeyboardPanel();
     }
 
     private void initAudioRecordPanel() {
@@ -225,7 +232,7 @@ public class MazeViewImplementation extends MazeView {
         topPanel.add(timerPanel, c);
     }
 
-    private void keyboardPanel() {
+    private void initKeyboardPanel() {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 2;
         c.gridy = 0;
@@ -242,6 +249,11 @@ public class MazeViewImplementation extends MazeView {
         keyboardPanel.add(keyboardMovement, BorderLayout.EAST);
 
         topPanel.add(keyboardPanel, c);
+    }
+
+    @Override
+    public void updatePlayerInfoPanel(Player player) {
+        playerInfoPanel.update(player);
     }
 
     @Override
