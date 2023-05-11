@@ -116,7 +116,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (AudioRecorder.isRecording()) {
-                    stopRecord();
+                    stopTimer();
                 } else {
                     startRecord();
                 }
@@ -169,11 +169,11 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
                     e.printStackTrace();
                 }
             }
-            stopRecord();
+            stopTimer();
         }).start();
     }
 
-    private void stopRecord() {
+    private void stopTimer() {
 
         timerPanel.stop();
 
