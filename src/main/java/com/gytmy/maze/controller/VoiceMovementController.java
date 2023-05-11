@@ -113,12 +113,6 @@ public class VoiceMovementController implements RecordObserver {
 
             recognizedCommand = whisper.mapCommand(recognizedUser, recognizedCommand);
 
-            // TODO: to remove after tests
-            // System.out.println("------------------------------------");
-            // System.out.println("recognizedCommand: " + recognizedCommand);
-            // System.out.println("recognizedUser: " + recognizedUser.getUserName());
-            // System.out.println("------------------------------------");
-
             movePlayerWithCompareResult(recognizedCommand);
 
             new File(JSON_OUTPUT_PATH + FILE_NAME + ".json").delete();
