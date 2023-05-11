@@ -127,7 +127,10 @@ public class PlayerSelectionPanel extends JPanel {
 
     public User getSelectedUser(Player player) {
         for (PlayerPanel playerPanel : playerPanels) {
-            if (playerPanel.getPlayer() == player) {
+            if (playerPanel == null || playerPanel.getPlayer() == null) {
+                continue;
+            }
+            if (playerPanel.getPlayer().equals(player)) {
                 return playerPanel.getSelectedUser();
             }
         }
