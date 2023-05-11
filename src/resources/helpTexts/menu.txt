@@ -4,7 +4,7 @@
                                          
  - If you never played this game before, you should 
      > create your character first
-     > record some (a lot of) words in the audio menu (over than 30 minutes)
+     > record some (a lot of) words in the audio menu
      > generate the associated models
 
    The more recordings there are, the more accurately the game will be able to recognize your voice.
