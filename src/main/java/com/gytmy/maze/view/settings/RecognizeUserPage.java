@@ -151,7 +151,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         }
 
         timerPanel.start();
-        recorder.start(AUDIO_GAME_PATH);
+        recorder.start(AUDIO_GAME_PATH, RECORD_DURATION_SENTENCE_IN_SECONDS);
 
         updateStatus();
 
