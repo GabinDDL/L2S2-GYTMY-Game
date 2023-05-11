@@ -200,19 +200,26 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
             isRecordingEnabled = true;
             updateStatus();
-            isThatYou(recognizedUser);
+            if (isThatYou(recognizedUser)) {
+                changeToNextPlayer();
+            }
         });
     }
 
-    private void isThatYou(User recognizedUser) {
+    /**
+     * Returns true if we change to the next player, false otherwise
+     * 
+     * @param recognizedUser
+     * @return
+     */
+    private boolean isThatYou(User recognizedUser) {
 
         if (recognizedUser.equals(SettingsMenu.getSelectedUser(currentPlayer))) {
             JOptionPane.showMessageDialog(this, "That's you!\nYou were successfully recognized.", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
 
             SettingsMenu.getInstance().updateRecognized(currentPlayer, true);
-            changeToNextPlayer();
-            return;
+            return true;
         }
 
         recognitionTriesLeft--;
@@ -223,13 +230,13 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
                     JOptionPane.ERROR_MESSAGE);
 
             SettingsMenu.getInstance().updateRecognized(currentPlayer, false);
-            changeToNextPlayer();
-            return;
+            return true;
         }
 
         JOptionPane.showMessageDialog(this, "That's not you!\nTry again.", "Failure",
                 JOptionPane.ERROR_MESSAGE);
         updateStatus();
+        return false;
     }
 
     private void changeToNextPlayer() {
