@@ -223,6 +223,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         }
 
         recognitionTriesLeft--;
+        triesStatus.setText(TRIES_STATUS_TEXT + recognitionTriesLeft);
 
         if (recognitionTriesLeft == 0) {
             JOptionPane.showMessageDialog(this, "You have no more tries.\nYou were not recognized.", "Failure",
