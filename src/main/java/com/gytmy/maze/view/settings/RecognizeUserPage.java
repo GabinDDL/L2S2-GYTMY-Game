@@ -251,6 +251,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     @Override
     public void endRecordUpdate() {
         compareAudioWithModel();
+        audioRunning = false;
         updateStatus();
     }
 
