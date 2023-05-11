@@ -1,6 +1,7 @@
 package com.gytmy.maze.view;
 
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -77,6 +78,7 @@ public class MenuFrameHandler {
     }
 
     public static void quitGame() {
+        mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
         mainFrame.dispose();
         ThreadedQueue.shutdown();
     }
