@@ -42,6 +42,9 @@ public class SettingsMenu extends JPanel {
     private GameGIFLabel gameGifLabel;
     private JLabel startGameButton;
 
+    private int playerCount;
+    private int recognizedPlayerCount = 0;
+
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final String START_GAME_BUTTON_IMAGE_PATH = "src/resources/images/settings_menu/StartButton.png";
 
@@ -158,6 +161,26 @@ public class SettingsMenu extends JPanel {
         if (!User.areUpToDate(users)) {
             promptUserToCreateModelOfAllUsers();
         } else {
+            launchRecognition();
+        }
+    }
+
+    private void launchRecognition() {
+        Player[] players = playerSelectionPanel.getSelectedPlayers();
+
+        playerCount = players.length;
+        recognizePlayers(players);
+    }
+
+    private void updateRecognized(Player player, boolean recognized) {
+        if (recognized) {
+            recognizedPlayerCount++;
+        } else {
+            // TODO : Remove user
+            playerCount--;
+        }
+
+        if (recognizedPlayerCount == playerCount) {
             launchGame();
         }
     }
@@ -165,8 +188,6 @@ public class SettingsMenu extends JPanel {
     private void launchGame() {
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
-
-        recognizePlayers(players);
 
         GameModeData gameModeSettings = gameModeSelectionPanel.getGameModeData();
         GameMode gameMode = gameModeSelectionPanel.getSelectedGameMode();
@@ -195,7 +216,9 @@ public class SettingsMenu extends JPanel {
         RecognizeUserPage recognizeUserPage = RecognizeUserPage.getInstance();
 
         recognizeUserPage.recognizePlayer(player, playerSelectionPanel.getSelectedUser(player));
-        // TODO: Set contentPane to recognizeUserPage
+        recognizeUserPage.setPreferredSize(MenuFrameHandler.getMainFrame().getSize());
+        MenuFrameHandler.getMainFrame().setContentPane(recognizeUserPage);
+        MenuFrameHandler.frameUpdate("Recognize player : " + player.getName());
     }
 
     private void promptUserToCreateModelOfAllUsers() {
