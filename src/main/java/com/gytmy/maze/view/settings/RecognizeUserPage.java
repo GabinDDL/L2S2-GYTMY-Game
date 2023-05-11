@@ -218,6 +218,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
                     JOptionPane.INFORMATION_MESSAGE);
 
             SettingsMenu.getInstance().updateRecognized(choosenPlayer, true);
+            resetToDefault();
             return;
         }
 
@@ -228,6 +229,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
             JOptionPane.showMessageDialog(this, "You have no more tries.\nYou were not recognized.", "Failure",
                     JOptionPane.ERROR_MESSAGE);
 
+            SettingsMenu.getInstance().updateRecognized(choosenPlayer, false);
             resetToDefault();
             return;
         }
@@ -235,7 +237,6 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         JOptionPane.showMessageDialog(this, "That's not you!\nTry again.", "Failure",
                 JOptionPane.ERROR_MESSAGE);
 
-        SettingsMenu.getInstance().updateRecognized(choosenPlayer, false);
     }
 
     private void resetToDefault() {
