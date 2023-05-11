@@ -9,7 +9,6 @@ import java.util.concurrent.CompletableFuture;
 import com.gytmy.maze.model.Direction;
 import com.gytmy.maze.model.player.Player;
 import com.gytmy.maze.view.game.MazeView;
-import com.gytmy.maze.view.settings.SettingsMenu;
 import com.gytmy.sound.AlizeRecognitionResultParser.AlizeRecognitionResult;
 import com.gytmy.sound.AudioFileManager;
 import com.gytmy.sound.AudioRecognitionResult;
@@ -83,22 +82,28 @@ public class VoiceMovementController implements RecordObserver {
         isRecordingEnabled = false;
         controller.updateStatus();
 
-        CompletableFuture<AlizeRecognitionResult> futureRecognitionResult = AudioRecognitionResult
-                .askRecognitionResult();
-        futureRecognitionResult.thenAccept(recognitionResult -> {
+        if (!compareWithWhisper) {
+            CompletableFuture<AlizeRecognitionResult> futureRecognitionResult = AudioRecognitionResult
+                    .askRecognitionResult();
+            futureRecognitionResult.thenAccept(recognitionResult -> {
 
-            if (recognitionResult == null) {
-                updateStatus();
-            }
-
-            if (!compareWithWhisper) {
+                if (recognitionResult == null) {
+                    updateStatus();
+                }
 
                 movePlayerWithCompareResult(recognitionResult.getWord());
                 updateStatus();
-            } else {
-                continueComparaisonWithWhisper((User) SettingsMenu.getSelectedUser(controller.getCurrentPlayer()));
+
+            });
+        } else {
+            for (User user : AudioFileManager.getUsers()) {
+                if (user.getUserName().equals(controller.getCurrentPlayer())) {
+                    continueComparaisonWithWhisper(user);
+                    return;
+                }
             }
-        });
+        }
+
     }
 
     private void continueComparaisonWithWhisper(User recognizedUser) {
