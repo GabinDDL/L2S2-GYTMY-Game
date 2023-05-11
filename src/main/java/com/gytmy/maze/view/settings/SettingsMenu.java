@@ -27,6 +27,7 @@ import com.gytmy.maze.view.game.Cell;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
+import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.ModelManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
@@ -48,6 +49,7 @@ public class SettingsMenu extends JPanel {
     private static final Color BACKGROUND_COLOR = Cell.WALL_COLOR;
     private static final String START_GAME_BUTTON_IMAGE_PATH = "src/resources/images/settings_menu/StartButton.png";
 
+    private RecognizeUserPage recognizeUserPage;
     private static SettingsMenu instance = null;
 
     public static SettingsMenu getInstance() {
@@ -155,6 +157,8 @@ public class SettingsMenu extends JPanel {
             return;
         }
 
+        playerCount = playerSelectionPanel.getSelectedPlayers().length;
+
         List<User> users = playerSelectionPanel.getSelectedUsers();
 
         // Handle model creation prompting
@@ -167,12 +171,19 @@ public class SettingsMenu extends JPanel {
 
     private void launchRecognition() {
         Player[] players = playerSelectionPanel.getSelectedPlayers();
-
-        playerCount = players.length;
         recognizePlayers(players);
     }
 
+    private void recognizePlayers(Player[] players) {
+        recognizeUserPage = new RecognizeUserPage(players);
+
+        recognizeUserPage.setPreferredSize(MenuFrameHandler.getMainFrame().getSize());
+        MenuFrameHandler.getMainFrame().setContentPane(recognizeUserPage);
+        MenuFrameHandler.frameUpdate("Recognize Players");
+    }
+
     private void launchGame() {
+        AudioRecorder.removeObserver(recognizeUserPage);
 
         Player[] players = playerSelectionPanel.getSelectedPlayers();
 
@@ -208,17 +219,9 @@ public class SettingsMenu extends JPanel {
         }
 
         if (recognizedPlayerCount == playerCount) {
+            recognizedPlayerCount = 0;
             launchGame();
         }
-    }
-
-    private void recognizePlayers(Player[] players) {
-        RecognizeUserPage recognizeUserPage = new RecognizeUserPage(players);
-
-        recognizeUserPage.setPreferredSize(MenuFrameHandler.getMainFrame().getSize());
-        MenuFrameHandler.getMainFrame().setContentPane(recognizeUserPage);
-        MenuFrameHandler.frameUpdate("Recognize Players");
-
     }
 
     private void promptUserToCreateModelOfAllUsers() {
