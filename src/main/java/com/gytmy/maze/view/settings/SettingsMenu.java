@@ -27,6 +27,7 @@ import com.gytmy.maze.view.game.Cell;
 import com.gytmy.maze.view.game.MazeView;
 import com.gytmy.maze.view.settings.gamemode.SelectionPanel;
 import com.gytmy.maze.view.settings.player.PlayerSelectionPanel;
+import com.gytmy.sound.AudioRecorder;
 import com.gytmy.sound.ModelManager;
 import com.gytmy.sound.User;
 import com.gytmy.utils.HotkeyAdder;
@@ -172,7 +173,7 @@ public class SettingsMenu extends JPanel {
         recognizePlayers(players);
     }
 
-    private void updateRecognized(Player player, boolean recognized) {
+    public void updateRecognized(Player player, boolean recognized) {
         if (recognized) {
             recognizedPlayerCount++;
         } else {
@@ -181,6 +182,7 @@ public class SettingsMenu extends JPanel {
         }
 
         if (recognizedPlayerCount == playerCount) {
+            AudioRecorder.removeObserver(RecognizeUserPage.getInstance());
             launchGame();
         }
     }

@@ -39,10 +39,11 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     private TimerPanel timerPanel;
     private JLabel triesStatus;
 
+    private Player choosenPlayer;
     private User choosenUser;
 
     private static final String TRIES_STATUS_TEXT = "Tries left: ";
-    private int maximumRecognitionTries = 3;
+    private int recognitionTriesLeft = 3;
 
     private boolean isRecordingEnabled = true;
 
@@ -89,7 +90,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
     }
 
     private void initTriesStatus() {
-        triesStatus = new JLabel(TRIES_STATUS_TEXT + maximumRecognitionTries);
+        triesStatus = new JLabel(TRIES_STATUS_TEXT + recognitionTriesLeft);
         triesStatus.setForeground(FOREGROUND_COLOR);
         triesStatus.setHorizontalAlignment(JLabel.CENTER);
         placeComp(triesStatus, this, 0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NONE);
@@ -136,6 +137,7 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
     public void recognizePlayer(Player player, User user) {
 
+        choosenPlayer = player;
         choosenUser = user;
 
         playerPanel.setBackground(player.getColor());
@@ -215,12 +217,14 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
         if (recognizedUser.equals(choosenUser)) {
             JOptionPane.showMessageDialog(this, "That's you!\nYou were successfully recognized.", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
+
+            SettingsMenu.getInstance().updateRecognized(choosenPlayer, true);
             return;
         }
 
-        maximumRecognitionTries--;
+        recognitionTriesLeft--;
 
-        if (maximumRecognitionTries == 0) {
+        if (recognitionTriesLeft == 0) {
             JOptionPane.showMessageDialog(this, "You have no more tries.\nYou were not recognized.", "Failure",
                     JOptionPane.ERROR_MESSAGE);
             return;
@@ -228,6 +232,8 @@ public class RecognizeUserPage extends JPanel implements RecordObserver {
 
         JOptionPane.showMessageDialog(this, "That's not you!\nTry again.", "Failure",
                 JOptionPane.ERROR_MESSAGE);
+
+        SettingsMenu.getInstance().updateRecognized(choosenPlayer, false);
     }
 
     private void updateStatus() {
