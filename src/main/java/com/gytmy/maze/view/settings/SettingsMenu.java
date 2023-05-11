@@ -212,8 +212,6 @@ public class SettingsMenu extends JPanel {
             playerSelectionPanel.remove(player);
         }
 
-        System.out.println("comparedPlayerCount: " + comparedPlayerCount);
-        System.out.println("playerCount: " + playerCount);
         if (comparedPlayerCount == playerCount) {
             AudioRecorder.removeObserver(recognizeUserPage);
 
