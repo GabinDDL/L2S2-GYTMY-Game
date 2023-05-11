@@ -7,14 +7,17 @@
      > record some (a lot of) words in the audio menu
      > generate the associated models
 
-   The more recordings there are, the more accurately the game will be able to recognize your voice.
+   The more recordings there are, the more accurately the game will be able to recognize you in the menu.
+   It is recommended to record at least 30 to 40 minutes of audio.
    
    Please, head to the "Character Creation" section in the Settings by clicking on the gear icon.
    Then click on the "Create Character" button and fill the form.
 
  - The goal of the game is to reach the end of the maze.
 
- - You can start playing right away. Just click on the "Start Game" button. Have Fun!
+ - You can start playing right away. Just click on the "Start Game" button, and try to recognize your user.
+ 
+ - Then, play and have fun!
 
     ,----------,
     |   HELP   |
@@ -27,7 +30,7 @@
     '-----------------'
 
  - For optimal voice recognition, make sure to play the game in a quiet environment with minimal background noise.
-
+ - The game is turn based. At the bottom of the frame, there is an indication of the player's turn.
  - Use your voice to move ! To make a move, follow these steps:
    > Press the space bar to start recording your voice.
       ° A single word must be recorded at a time.

@@ -74,9 +74,19 @@ public class SimpleScoreCalculator implements ScoreCalculator {
             throw new IllegalArgumentException("Info must not be null");
         }
         this.info = info;
-        int minMovement = info.getMinMovements();
-        this.bestTime = computeBestTime(minMovement);
         getParameters(parameters);
+        int minMovements = info.getMinMovements();
+        this.bestTime = computeBestTime(minMovements);
+    }
+
+    private void getParameters(SimpleScoreCalculatorParameters parameters) {
+        this.movementsFactor = parameters.getMovementsFactor();
+        this.timeFactor = parameters.getTimeFactor();
+        this.movementPenalty = parameters.getMovementPenalty();
+        this.timePenalty = parameters.getTimePenalty();
+        this.firstChangingPoint = parameters.getFirstChangingPoint();
+        this.idealMovementTimeUpper = parameters.getIdealMovementTimeUpper();
+        this.idealMovementTimeLower = parameters.getIdealMovementTimeLower();
     }
 
     /**
@@ -98,16 +108,6 @@ public class SimpleScoreCalculator implements ScoreCalculator {
         } else {
             return (int) (idealMovementTimeUpper * minMovement);
         }
-    }
-
-    private void getParameters(SimpleScoreCalculatorParameters parameters) {
-        this.movementsFactor = parameters.getMovementsFactor();
-        this.timeFactor = parameters.getTimeFactor();
-        this.movementPenalty = parameters.getMovementPenalty();
-        this.timePenalty = parameters.getTimePenalty();
-        this.firstChangingPoint = parameters.getFirstChangingPoint();
-        this.idealMovementTimeUpper = parameters.getIdealMovementTimeUpper();
-        this.idealMovementTimeLower = parameters.getIdealMovementTimeLower();
     }
 
     @Override
@@ -151,7 +151,7 @@ public class SimpleScoreCalculator implements ScoreCalculator {
     @Override
     public void updateInfo(ScoreInfo info) {
         if (!(info instanceof SimpleScoreInfo)) {
-            throw new IllegalArgumentException("Info must be of type SimpleKeyboardScoreInfo");
+            throw new IllegalArgumentException("Info must be of type SimpleScoreInfo");
         }
         this.info = (SimpleScoreInfo) info;
     }

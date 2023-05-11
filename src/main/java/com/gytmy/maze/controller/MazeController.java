@@ -12,7 +12,7 @@ public interface MazeController {
 
     public Player[] getPlayers();
 
-    public void movePlayer(Player player, Direction direction);
+    public void movePlayer(Direction direction);
 
     public ScoreCalculator getScoreCalculator(ScoreType type, Player player);
 
@@ -21,5 +21,7 @@ public interface MazeController {
     public void updateStatus();
 
     public void cleanObservers();
+
+    public Player getCurrentPlayer();
 
 }
