@@ -1,0 +1,45 @@
+name: Java
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: openjdk:11
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: ./run.sh compile
+
+
+  compile-tests:
+    runs-on: ubuntu-latest
+    container: openjdk:11
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile tests
+        run: ./run.sh compileTests
+
+  test:
+    runs-on: ubuntu-latest
+    container: openjdk:11
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test
+        run: ./run.sh test
+
+
+
